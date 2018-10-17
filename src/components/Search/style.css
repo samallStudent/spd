@@ -1,0 +1,34 @@
+.seachWrapper {
+  padding: 0px 12px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+.seachWrapper:hover {
+  background: #e6f7ff;
+  cursor: pointer;
+}
+@keyframes antSlideRightIn {
+  0% {
+    opacity: 0;
+    -webkit-transform-origin: 100% 0%;
+            transform-origin: 100% 0%;
+    -webkit-transform: scaleX(0.8);
+            transform: scaleX(0.8);
+  }
+  100% {
+    opacity: 1;
+    -webkit-transform-origin: 100% 0%;
+            transform-origin: 100% 0%;
+    -webkit-transform: scaleX(1);
+            transform: scaleX(1);
+  }
+}
+.ysy_slide_right_in{
+  -webkit-animation-duration: 0.4s;
+          animation-duration: 0.4s;
+  -webkit-animation-name: antSlideRightIn;
+          animation-name: antSlideRightIn;
+  -webkit-animation-play-state: running;
+          animation-play-state: running;
+}

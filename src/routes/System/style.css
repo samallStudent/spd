@@ -1,0 +1,125 @@
+.container{
+  min-height: calc(100vh);
+  width: 100%;
+}
+.header{
+  height: 56px;
+  line-height: 56px;
+  font-size: 16px;
+  text-align: right;
+  padding: 0 45px 0 0;
+  color: #888;
+}
+.content{
+  width: 100%;
+  background-color: #f8fafb;
+  min-height: calc(100vh - 56px);
+}
+.contentHeader{
+  height: 106px;
+  line-height: 106px;
+  font-size: 32px;
+  text-align: center;
+  letter-spacing: 5px;
+  color: #333;
+}
+.cardContent{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+.cardList{
+  display: flex;
+  width: 820px;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+}
+.cardItem{
+  width: 260px;
+  height: 270px;
+  border-radius: 10px;
+  cursor: pointer;
+  margin: 0 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,.09);
+  background: #fff url('../../assets/img/subSystem1.png') no-repeat;
+}
+.cardItemTwo{
+  width: 260px;
+  height: 270px;
+  border-radius: 10px;
+  cursor: pointer;
+  margin: 0 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,.09);
+  background: #fff url('../../assets/img/subSystem2.png') no-repeat;
+}
+.purchaseCard{
+  width: 260px;
+  height: 270px;
+  border-radius: 10px;
+  cursor: pointer;
+  margin: 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,.09);
+  background: #fff url('../../assets/img/Purchase_and_settlement.png') no-repeat;
+}
+.systemMgtCard{
+  width: 260px;
+  height: 270px;
+  border-radius: 10px;
+  cursor: pointer;
+  margin: 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,.09);
+  background: #fff url('../../assets/img/system_management.png') no-repeat;
+}
+.upperCon{
+  width: 100%;
+  height: 120px;
+  position: relative;
+}
+.cardBackground{
+  width: 120px;
+  height: 120px;
+  background: #fff url('../../assets/background.svg') no-repeat;
+  background-size: cover;
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin: auto;
+}
+.icon{
+  width: 70px;
+  height: 70px;
+  background: url('../../assets//central_storeroom.svg') no-repeat;
+  background-size: cover;
+  z-index: 999;
+  position: absolute;
+  top: 20px;
+  right: 0;
+  left: 0;
+  margin: auto;
+}
+.main{
+  text-align: center;
+}
+.mainTitle{
+  font-size: 16px;
+  letter-spacing: 3px;
+  font-weight: bold;
+}
+.subTitle{
+  font-size: 14px;
+  color: #888;
+  margin-top: 14px;
+}
+.enterBtn{
+  color: #fff;
+  display: block;
+  width: 98px;
+  height: 30px;
+  line-height: 30px;
+  border-radius: 15px;
+  margin: 25px auto 0;
+  background-color: #1890ff;
+}
+.enterBtn:hover{
+  color: #ffffff;
+}

@@ -1,0 +1,9 @@
+.add_btn {
+  position: fixed;
+  bottom: 50px;
+  right: 50px;
+}
+
+.add_icon:hover {
+  cursor: pointer;
+}

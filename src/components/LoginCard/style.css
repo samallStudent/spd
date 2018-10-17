@@ -1,0 +1,50 @@
+.cardItemWrapper{
+  display: flex;
+  flex-wrap: wrap;
+  width: 1200px;
+  justify-content: center;
+  padding: 0 50px;
+}
+.cardWrapper{
+  width: 320px;
+  height: 200px;
+  display: flex;
+  justify-content: center;
+  padding-top: 38px;
+  margin: 0 10px 20px;
+  background: #fff;
+  border: solid 1px #e4e5e7;
+  border-bottom: solid 3px #b9ddff;
+  box-shadow: 0px -2px 10px #e4e5e7;
+  cursor: pointer;
+}
+.cardWrapper:hover{
+  box-shadow: 0px -2px 10px #b9ddff;
+}
+.cardInfo{
+  padding-top: 14px;
+  margin-left: 20px;
+}
+.title{
+  font-size: 16px;
+}
+.subTitle{
+  font-size: 12px;
+  margin-top: 10px;
+}
+.button{
+  display: inline-block;
+  text-align: center;
+  font-size: 14px;
+  width: 96px;
+  height: 24px;
+  margin-top: 10px;
+  color: #bfbfbf;
+  user-select: none;
+  border: solid 1px #d9d9d9;
+  border-radius: 3px;
+}
+.button:hover{
+  background: #1890ff;
+  color: #fff;
+}

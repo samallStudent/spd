@@ -1,0 +1,46 @@
+.container{
+  display: flex;
+  width: 100%;
+  min-height: calc(100vh);
+  position: absolute;
+  top: 0;
+  bottom: 0;
+}
+.ysy-Login-bg{
+  background: url('../../assets/img/loginBg2.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+.ysy-Login-form{
+  width: 40%;
+  height: 100%;
+}
+.ysy-Login-form-top{
+  display: flex;
+  justify-content: center;
+  padding-top: 170px;
+  padding-bottom: 36px;
+}
+.ysy-orgName{
+  font-size: 32px;
+  letter-spacing: 3px;
+  color: #919296;
+}
+.ysy-lgo{
+  width: 200px;
+  height: 58px;
+  /* margin-right: 20px; */
+  display: inline-block;
+  background: url('../../assets/img/logo3.png');
+  background-size: 100% 100%
+}
+.ysy-login-logo{
+  width: 120px;
+  height: 45px;
+  display: inline-block;
+  background: url('../../assets/xiehe.png');
+  background-size: 100% 100%;
+}
+.login-form-button {
+  width: 100%;
+}
