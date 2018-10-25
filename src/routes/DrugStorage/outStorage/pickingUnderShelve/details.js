@@ -189,8 +189,8 @@ class DetailsPickSoldOut extends PureComponent{
         fixed: 'right',
         dataIndex: 'amount',
         render:(text,record,index)=>{
-          let type = this.props.match.params.pickingType;
-          return type === '9' ? 
+          const {pickingType} = this.props.match.params;
+          return pickingType === '1' || pickingType === '9' ? 
                  <span>{record.allocationNum ? record.allocationNum: 1}</span> :
                  <InputNumber
                   min={0}

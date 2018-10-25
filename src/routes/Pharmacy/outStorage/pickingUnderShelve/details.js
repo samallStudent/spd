@@ -153,7 +153,11 @@ class DetailsPickSoldOut extends PureComponent{
         width: 168,
         dataIndex: 'amount',
         render:(text,record,index)=>{
-          return <InputNumber
+          const {pickingType} = this.props.match.params;
+          if(pickingType === '1') {
+            return <span>{text}</span>
+          }else {
+            return <InputNumber
                     min={1}
                     max={record.allocationNum}
                     precision={0}
@@ -162,6 +166,7 @@ class DetailsPickSoldOut extends PureComponent{
                       record.amount = value;
                     }}
                   />
+          }
         }
       },
     ];

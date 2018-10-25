@@ -962,7 +962,7 @@ export const getNavData = app => [
     {
       name: "拣货下架-详情",
       icon: 'setting',
-      path: '/pharmacy/outStorage/pickingUnderShelve/details/:pickingOrderNo/:pickingStatus',
+      path: '/pharmacy/outStorage/pickingUnderShelve/details/:pickingOrderNo/:pickingType',
       component: dynamicWrapper(app, ['drugStorage/outStorage'], () => import('../routes/Pharmacy/outStorage/pickingUnderShelve/details')),
     },
     // 药房-出库-退库下架
@@ -1107,6 +1107,18 @@ export const getNavData = app => [
       icon: 'setting',
       path: '/sys/deptDrugControl/directory/drugStorageEdit/:id/:deptCode',
       component: dynamicWrapper(app, ['drugStorage/configMgt'], () => import('../routes/SystemMgt/deptDrugControl/drugStorageEdit')),
+    },
+    {
+      name: "系统管理 - 供应商药品",
+      icon: 'setting',
+      path: '/sys/drugDirectory/supplierDrugs',
+      component: dynamicWrapper(app, [], () => import('../routes/SystemMgt/supplierDrugs')),
+    },
+    {
+      name: "系统管理 - 供应商药品 - 编辑",
+      icon: 'setting',
+      path: '/sys/drugDirectory/supplierDrugs/edit/:id',
+      component: dynamicWrapper(app, [], () => import('../routes/SystemMgt/supplierDrugs/edit')),
     },
     /* ******************   组织机构     *********************** */
     {
