@@ -115,3 +115,28 @@ export function baseapplySave(options) {
     body: options
   })
 }
+
+export function makeDetail(options) {
+  return request(`${_local}/a/bill/balance/make/detail`, {
+    method: 'GET',
+    type: 'formData',
+    body: options
+  })
+}
+
+//部门
+export function getDeptByParam(options) {
+  return request(`${_local}/a/sys/sysdept/getDeptByParam`, {
+    method: 'POST',
+    type: 'formData',
+    body: options
+  })
+}
+//批量发送
+export function batchSend(options) {
+  return request(`${_local}/a/bill/balance/pushBadFlow2Hrp`, {
+    method: 'POST',
+    type: 'json',
+    body: options
+  })
+}

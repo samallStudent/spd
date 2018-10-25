@@ -157,8 +157,6 @@ class BasicLayout extends PureComponent {
     }
     window.sessionStorage.setItem('key', e.key);
     window.sessionStorage.setItem('deptName', e.item.props.children);
-    console.log(e);
-    
     dispatch({
       type: 'users/setCurrentDept',
       payload: { id: e.key, deptName: e.item.props.children },
@@ -168,6 +166,11 @@ class BasicLayout extends PureComponent {
           payload: { menu : menu }
         });
         if(menu.children[0].children[0].href !== this.props.location.pathname) {
+          let pathnameArr = window.location.href.split('#');
+          pathnameArr[1] = menu.children[0].children[0].href;
+          console.log(1);
+          
+          // window.open(pathnameArr.join('#'), '_blank');
           history.push({ pathname: menu.children[0].children[0].href });
         }else {
           this.setState({

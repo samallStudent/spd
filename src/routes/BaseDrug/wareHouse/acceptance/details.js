@@ -20,7 +20,7 @@ const columns = [
   {
     title: '单位',
     width: 60,
-    dataIndex: '单位'
+    dataIndex: 'replanUnit'
   },
   {
     title: '通用名',

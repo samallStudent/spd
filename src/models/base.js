@@ -244,7 +244,27 @@ export default {
       }
       if(callback) callback(data.data)
     },
-
+    //补登 - 新建异常入库单
+    *addAbnormalDataSource({ payload,callback },{ call }) {
+      const data = yield call(base.addAbnormalDataSource, payload);
+      if(callback && typeof callback === 'function'){
+        callback(data);
+      };
+    },
+    //补登 - 新建异常入库单 - 确认
+    *confrimList({ payload,callback },{ call }) {
+      const data = yield call(base.confrimList, payload);
+      if(callback && typeof callback === 'function'){
+        callback(data);
+      };
+    },
+    //补登 - 新建异常出库单 - 确认
+    *submitBadFlowList({ payload,callback },{ call }) {
+      const data = yield call(base.submitBadFlowList, payload);
+      if(callback && typeof callback === 'function'){
+        callback(data);
+      };
+    },
     // 状态 类型 字典
     *orderStatusOrorderType({ payload,callback },{ call }){
       const data = yield call(replenishment.orderStatus, payload);

@@ -127,7 +127,7 @@ class Detail extends PureComponent{
   state = {
     detailsData: {},
     query: {
-      checkBillNo: this.props.match.params.id
+      checkBillNo: this.props.match.params.checkBillNo
     }
   }
   componentDidMount = () => {

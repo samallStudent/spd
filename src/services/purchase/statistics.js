@@ -120,8 +120,74 @@ export function getStatics(options) {
 export function supplierReturnExport(options) {
   return request(`${_local}/a/statics/supplierReturn/export`, {
     method: 'POST',
-    type: 'formData',
+    type: 'json',
     export: true,
     body: options
+  })
+}
+
+//订单执行情况详情头部
+export function orderExecuteDetail(options) {
+  return request(`${_local}/a/orderexecute/detail`, {
+    method: 'GET',
+    type: 'formData',
+    body: options
+  })
+}
+
+//订单执行情况导出
+export function orderExecuteExport(options) {
+  return request(`${_local}/a/orderexecute/export`, {
+    method: 'POST',
+    type: 'json',
+    export: true,
+    body: options
+  })
+}
+
+//供应商供货分析表格页脚
+export function countSupplierOrder(options) {
+  return request(`${_local}/a/orderexecute/countSupplierOrder`, {
+    method: 'POST',
+    type: 'formData',
+    body: options
+  })
+}
+
+//订单追溯详情头部
+export function traceDetail(options) {
+  return request(`${_local}/a/orderexecute/traceDetail`, {
+    method: 'POST',
+    type: 'formData',
+    body: options
+  })
+}
+
+//订单追溯导出
+export function exportTrace(options) {
+  return request(`${_local}/a/orderexecute/exportTrace`, {
+    method: 'POST',
+    type: 'json',
+    body: options,
+    export: true
+  })
+}
+
+//供应商供货分析footer
+export function supplierAnalyze(options) {
+  return request(`${_local}/a/orderexecute/totals`, {
+    method: 'POST',
+    type: 'json',
+    body: options
+  })
+}
+
+//供应商供货分析导出
+export function exportSupplierAnalyze(options) {
+  return request(`${_local}/a/orderexecute/exportsupplierAnalyze`, {
+    method: 'POST',
+    type: 'json',
+    body: options,
+    export: true
   })
 }

@@ -22,6 +22,9 @@ class SpplementDocList extends PureComponent{
     selectedRows: [],
     loading: false,
     dataSource: [],
+    query: {
+      type: 2
+    }
   }
   _tableChange = values => {
     this.props.dispatch({
@@ -56,7 +59,7 @@ class SpplementDocList extends PureComponent{
 
   render(){
     let query = this.props.base.queryConditons;
-    query = {...query};
+    query = {...query, ...this.state.query};
     delete query.key;
     delete query.Time;
     delete query.reviewTime;
@@ -90,6 +93,11 @@ class SpplementDocList extends PureComponent{
         title: '类型',
         width: 112,
         dataIndex: 'makeupTypeName',
+      },
+      {
+        title: '补登原因',
+        width: 224,
+        dataIndex: 'makeupCause',
       },
       {
         title: '补登人',
@@ -129,13 +137,16 @@ class SpplementDocList extends PureComponent{
           style={{marginTop: 20}}
           columns={columns}
           loading={this.state.loading}
-          scroll={{ x: 1624 }}
+          scroll={{ x: 1848 }}
           url={supplementDoc.list}
           rowSelection={{
             selectedRowKeys: this.state.selected, 
             onChange: (selectedRowKeys, selectedRows) => {
               this.setState({selected: selectedRowKeys, selectedRows: selectedRows})
-            }
+            },
+            getCheckboxProps: record => ({
+              disabled: record.makeupStatus !== 1,
+            }),
           }}
           rowKey='id'
         />

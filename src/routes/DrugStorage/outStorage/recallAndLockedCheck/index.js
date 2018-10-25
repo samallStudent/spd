@@ -274,7 +274,10 @@ class RecallAndLockedCheck extends PureComponent{
             selectedRowKeys: this.state.selected,
             onChange: (selectedRowKeys, selectedRows) => {
               this.setState({selected: selectedRowKeys, selectedRows: selectedRows})
-            }
+            },
+            getCheckboxProps: record => ({
+              disabled: record.recallStatus !== '1',
+            })
           }}
         /> 
       </div>

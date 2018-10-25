@@ -10,7 +10,9 @@ class RemoteTable extends Component {
     
     this.state = {
       data: [],
-      pagination: {},
+      pagination: {
+        size: 'small'
+      },
       loading: false,
       searchParams: {}
     }
@@ -135,8 +137,24 @@ class RemoteTable extends Component {
     }
   }
   render () {
-    const { columns, rowKey, rowClassName, 
-            rowSelection, scroll, footer,showHeader,title } = this.props; 
+    let { 
+      columns, 
+      rowKey, 
+      rowClassName, 
+      rowSelection, 
+      scroll, 
+      footer, 
+      showHeader, 
+      title, 
+      query 
+    } = this.props; 
+    columns = [...columns];
+    columns = columns.map((item, i) => {
+      if(item.dataIndex === query.sortField) {
+        item.defaultSortOrder = query.sortOrder;
+      };
+      return item;
+    });
     return (
       <Table 
         {...this.props}
@@ -145,7 +163,7 @@ class RemoteTable extends Component {
         columns={columns || null}
         rowKey={rowKey}
         bordered={true}
-        size={this.props.size || 'small'}
+        size={this.props.size || 'default'}
         dataSource={this.props.data || this.state.data}
         loading={this.props.loading || this.state.loading}
         pagination={this.state.pagination}

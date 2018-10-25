@@ -95,7 +95,8 @@ class DetailsOutput extends PureComponent{
       info: {},
       loading: false,
       id: info.id,
-      status: null
+      status: null,
+      checkLoading: false
     }
   }
   componentDidMount() {
@@ -143,6 +144,9 @@ class DetailsOutput extends PureComponent{
         drugCode: item.drugCode
       }
     });
+    this.setState({
+      checkLoading: true
+    });
     this.props.dispatch({
       type: 'outStorage/checkOutStore',
       payload: {
@@ -152,6 +156,9 @@ class DetailsOutput extends PureComponent{
       },
       callback: (data) => {
         message.success('操作成功');
+        this.setState({
+          checkLoading: false
+        });
         this.getDatail();
       }
     })
@@ -163,7 +170,7 @@ class DetailsOutput extends PureComponent{
   }
 
   render(){
-    let {info, loading, status} = this.state;
+    let {info, loading, status, checkLoading} = this.state;
     let {detailVo} = info;
     return (
       <div className='fullCol fadeIn'>
@@ -177,7 +184,7 @@ class DetailsOutput extends PureComponent{
               <Col style={{textAlign:'right', float: 'right'}} span={6}>
                 {
                   status === 1 ? (
-                    [<Button type='primary' key="1" className='button-gap' onClick={()=>this.onSubmit()}>复核通过</Button>,
+                    [<Button type='primary' key="1" loading={checkLoading} className='button-gap' onClick={()=>this.onSubmit()}>复核通过</Button>,
                     <Button style={{margin: '0 8px'}} key="2" onClick={()=>this.onBan()} >不通过</Button>]
                   ) : null
                 }

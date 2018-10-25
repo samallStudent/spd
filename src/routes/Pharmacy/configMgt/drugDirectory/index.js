@@ -230,15 +230,16 @@ class DrugDirectory extends PureComponent{
           })
           return item 
         })
-        this.setState({ loading: true });
         console.log(postData,'postData');
         this.props.dispatch({
           type:'drugStorageConfigMgt/OperDeptDrug',
           payload:{"info":postData},
-          callback:(data)=>{
-          this.setState({ loading: false, visible: false, selected:[],selectedRows: [] })
-            message.success('操作成功');
-            this.refs.table.fetch();
+          callback:({data, code, msg})=>{
+            if(code === 200) {
+              this.setState({ loading: false, visible: false, selected:[],selectedRows: [] })
+              message.success('操作成功');
+              this.refs.table.fetch();
+            }
           }
         })
       }
@@ -361,7 +362,7 @@ class DrugDirectory extends PureComponent{
         title: '操作',
         dataIndex: 'action',
         fixed: 'right',
-        width: 60,
+        width: 68,
         render: (text,record)=>{
           return  <span>
             <Link to={{pathname: `/pharmacy/configMgt/drugDirectory/edit/${record.detailId}`}}>{'编辑'}</Link>

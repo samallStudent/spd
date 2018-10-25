@@ -129,7 +129,7 @@ class SearchFormWrapper extends PureComponent {
               {getFieldDecorator('applyOrderNo',{
                 initialValue: ''
               })(
-               <Input placeholder='拣货单/申领单'/>
+               <Input placeholder='拣货单/退库单'/>
               )}
             </FormItem>
           </Col>

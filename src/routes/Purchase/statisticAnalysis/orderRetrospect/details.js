@@ -8,29 +8,34 @@
   @file 损益分析 详情
 */
 import React, { PureComponent } from 'react';
-import { Table, Row, Col, message } from 'antd';
+import { Row, Col, message } from 'antd';
 import { connect } from 'dva';
+import {statisticAnalysis} from '../../../../api/purchase/purchase';
+import RemoteTable from '../../../../components/TableGrid';
 const columns = [
   {
     title: '配送单号',
     width: 168,
-    dataIndex: 'ctmmGenericName'
+    dataIndex: 'distributeCode'
   },
   {
     title: '配送日期',
     width: 168,
-    dataIndex: 'goodsName'
+    dataIndex: 'createDate'
   },
   {
     title: '上架日期',
     width: 168,
-    dataIndex: 'goodsSpec',
+    dataIndex: 'upUserDate',
   },
 ];
 
 class Detail extends PureComponent{
   state = {
-    detailsData: {}
+    detailsData: {},
+    query: {
+      orderCode: this.props.match.params.id
+    }
   }
   componentDidMount = () => {
     this.getDetail();
@@ -40,9 +45,9 @@ class Detail extends PureComponent{
     if (this.props.match.params.id) {
       let { id } = this.props.match.params;
       this.props.dispatch({
-        type: 'statistics/invoiceDetail',
+        type: 'statistics/traceDetail',
         payload: {
-          invoiceNo: id
+          orderCode: id
         },
         callback: (data) => {
           if(data.code === 200 && data.msg === 'success') {
@@ -58,7 +63,7 @@ class Detail extends PureComponent{
     }
   }
   render(){
-    const { detailsData } = this.state;
+    const { detailsData, query } = this.state;
     return (
       <div className='fullCol fadeIn'>
         <div className='fullCol-fullChild'>
@@ -78,7 +83,7 @@ class Detail extends PureComponent{
               <label>订单单号</label>
             </div>
             <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-17">
-              <div className='ant-form-item-control'>{detailsData.invoiceCode}</div>
+              <div className='ant-form-item-control'>{detailsData.orderCode}</div>
             </div>
             </Col>
           </Row>
@@ -88,7 +93,7 @@ class Detail extends PureComponent{
                   <label>订单状态</label>
               </div>
               <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-17">
-                <div className='ant-form-item-control'>{detailsData.settleDate}</div>
+                <div className='ant-form-item-control'>{detailsData.orderStatusName}</div>
               </div>
             </Col>
             <Col span={8}>
@@ -96,20 +101,20 @@ class Detail extends PureComponent{
                   <label>下单日期</label>
               </div>
               <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-17">
-                <div className='ant-form-item-control'>{detailsData.settleDate}</div>
+                <div className='ant-form-item-control'>{detailsData.orderDate}</div>
               </div>
             </Col>
           </Row>
         </div>
         <div className='detailCard'>
-          <Table
+          <RemoteTable
             title={()=>'订单信息'}
             scroll={{x: '100%'}}
+            isJson
             columns={columns}
             rowKey={'id'}
-            bordered
-            dataSource={detailsData.billdetaillist ? detailsData.billdetaillist : []}
-            pagination={false}
+            query={query}
+            url={statisticAnalysis.ORDER_DETAIL_TRACE}
           />
         </div>
       </div>

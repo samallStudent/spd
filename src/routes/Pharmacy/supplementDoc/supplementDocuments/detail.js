@@ -134,12 +134,12 @@ class ReplenishmentDetail extends PureComponent{
               </div>
             </Col>
             <Col span={8}>
-            <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
-              <label>{outOrGoName}</label>
-            </div>
-            <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18">
-              <div className='ant-form-item-control'>{baseInfo?baseInfo.storeCode:''}</div>
-            </div>
+              <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
+                <label>{outOrGoName}</label>
+              </div>
+              <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18">
+                <div className='ant-form-item-control'>{baseInfo?baseInfo.storeCode:''}</div>
+              </div>
             </Col>
             <Col span={8}>
               <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
@@ -149,6 +149,8 @@ class ReplenishmentDetail extends PureComponent{
                 <div className='ant-form-item-control'>{baseInfo?baseInfo.makeupTypeName:''}</div>
               </div>
             </Col>
+          </Row>
+          <Row>
             <Col span={8}>
               <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
                   <label>状态</label>
@@ -174,6 +176,8 @@ class ReplenishmentDetail extends PureComponent{
                 <div className='ant-form-item-control'>{baseInfo?baseInfo.createDate:''}</div>
               </div>
             </Col>
+          </Row>
+          <Row>
             <Col span={8}>
               <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
                   <label>审核人</label>
@@ -201,6 +205,7 @@ class ReplenishmentDetail extends PureComponent{
             scroll={{ x: 1572 }}
             rowKey='drugCode'
             dataSource={baseInfo?baseInfo.list:[]}
+            pagination={false}
           />
         </div>
       </div>

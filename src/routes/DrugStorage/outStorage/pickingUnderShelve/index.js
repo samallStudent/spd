@@ -257,7 +257,7 @@ class PickSoldOut extends PureComponent{
       },
       {
         title: '操作',
-        width: 60,
+        width: 68,
         fixed: 'right',
         dataIndex: 'RN',
         render: (text, record) => <a onClick={this.print.bind(this, record)}>打印</a>

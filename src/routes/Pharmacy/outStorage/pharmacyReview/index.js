@@ -149,7 +149,7 @@ class SearchFormWrapper extends PureComponent {
   handleSearch = (e) => {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
-      let {time} = values;
+      let time = values.time ? values.time : '';
       if(time.length > 0) {
         values.startTime = time[0].format('YYYY-MM-DD');
         values.endTime = time[1].format('YYYY-MM-DD');

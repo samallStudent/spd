@@ -4,16 +4,13 @@
 * @Last Modified time: 2018-07-24 10:58:49 
  */
 import React, { PureComponent } from 'react';
-import { Form, Row, Col} from 'antd';
+import { Form, Row, Col, Table} from 'antd';
 import { connect } from 'dva';
 class EditDrugDirectory extends PureComponent{
   constructor(props){
     super(props)
     this.state = {
       baseData: {},
-      minUnit: '',
-      packUnit: '',
-      fullUnit: ''
     }
   }
   componentDidMount = () =>{
@@ -22,24 +19,8 @@ class EditDrugDirectory extends PureComponent{
       type: 'drugDirectory/getMedicineInfo',
       payload: { bigDrugCode , medDrugType },
       callback: (data) =>{
-        let {minUnit, packUnit, fullUnit} = this.state;
-        let {listTransforsVo} = data;
-        listTransforsVo.forEach(item => {
-          if(item.sort === 1) {
-            fullUnit = this.getMaPInfo(listTransforsVo, item.sort);
-          };
-          if(item.sort === 2) {
-            packUnit = this.getMaPInfo(listTransforsVo, item.sort);
-          };
-          if(item.sort === 3) {
-            minUnit = this.getMaPInfo(listTransforsVo, item.sort);
-          };
-        });
         this.setState({ 
           baseData: data,
-          minUnit,
-          packUnit,
-          fullUnit
         })
       }
     })
@@ -56,19 +37,38 @@ class EditDrugDirectory extends PureComponent{
       </div>
     </Col>
   )
-  //获取使用单位
-  getMaPInfo = (List,ind)=>{
-    if(List && List.length){
-      let ret =  List.filter(item=>item.sort===ind);
-      if (ret.length){
-        return `${ret[0].bigUnit||''}  =  ${ret[0].conversionRate||''}${ret[0].smallUit||''}`
-      }else{
-        return null
-      }
-    }
-  }
   render(){
-    const { baseData, minUnit, packUnit, fullUnit } = this.state;
+    const { baseData, } = this.state;
+    const columns = [
+      {
+        title: '单位属性',
+        dataIndex: 'sort',
+        render: (text) => {
+          switch (text) {
+            case 1:
+              return <span>整包装单位</span>;
+            case 2:
+              return <span>包装规格</span>;
+            case 3:
+              return <span>最小发药单位</span>;
+            default:
+              return "";
+          }
+        }
+      },
+      {
+        title: '单位名称',
+        dataIndex: 'bigUnit',
+      },
+      {
+        title: '转化系数',
+        dataIndex: 'conversionRate',
+      },
+      {
+        title: '基础单位',
+        dataIndex: 'smallUit',
+      },
+    ]
     return (
       <div className='fullCol fadeIn'>
         <div className='fullCol-fullChild'>
@@ -165,32 +165,13 @@ class EditDrugDirectory extends PureComponent{
         <div className='detailCard'>
             <h3>单位信息</h3>
             <hr className='hr'/>
-            <Row>
-              <Col span={10}>
-                <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
-                  <label>最小发药单位</label>
-                </div>
-                <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18">
-                  <div className='ant-form-item-control'> {minUnit}</div>
-                </div>
-              </Col>
-              <Col span={10}>
-              <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
-                <label>包装规格</label>
-              </div>
-              <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18">
-                <div className='ant-form-item-control'>{packUnit}</div>
-              </div>
-              </Col>
-              <Col span={10}>
-                <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
-                  <label>整包装单位</label>
-                </div>
-                <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18">
-                  <div className='ant-form-item-control'>{fullUnit}</div>
-                </div>
-              </Col>
-            </Row>
+            <Table
+              columns={columns}
+              dataSource={baseData.listTransforsVo}
+              bordered
+              rowKey={'sort'}
+              pagination={false}
+            />
           </div>
           <div className='detailCard'>
             <h3>药品信息</h3>

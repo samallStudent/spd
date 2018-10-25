@@ -9,7 +9,7 @@
  * @file 采购计划 - 补货管理--补货计划
  */
 import React, { PureComponent } from 'react';
-import { Form, Row, Col, Button, DatePicker, Select } from 'antd';
+import { Form, Row, Col, Button, DatePicker, Select, message } from 'antd';
 import RemoteTable from '../../../../components/TableGrid';
 import { connect } from 'dva';
 import {statisticAnalysis} from '../../../../api/purchase/purchase';
@@ -32,6 +32,34 @@ const dateFormat = 'YYYY-MM-DD';
 
 
 class SearchForm extends PureComponent{
+  state = {
+    supplierList: []
+  }
+  componentDidMount() {
+    let { queryConditons } = this.props.formProps.base;
+    const { dispatch } = this.props.formProps;
+    //找出表单的name 然后set
+    let values = this.props.form.getFieldsValue();
+    values = Object.getOwnPropertyNames(values);
+    let value = {};
+    values.map(keyItem => {
+      value[keyItem] = queryConditons[keyItem];
+      return keyItem;
+    });
+    this.props.form.setFieldsValue(value);
+    dispatch({
+      type: 'statistics/supplierAll',
+      callback: ({code, msg, data}) => {
+        if(code === 200) {
+          this.setState({
+            supplierList: data
+          });
+        }else {
+          message.error(msg);
+        }
+      }
+    });
+  }
   handleSearch = e => {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
@@ -44,13 +72,19 @@ class SearchForm extends PureComponent{
           values.invoiceStartTime = '';
           values.invoiceEndTime = '';
         };
-        this.props._handlQuery(values);
+        this.props.formProps.dispatch({
+          type:'base/updateConditions',
+          payload: values
+        });
       }
     })
   }
   //重置
   handleReset = () => {
     this.props.form.resetFields();
+    this.props.formProps.dispatch({
+      type:'base/clearQueryConditions'
+    });
   }
   render(){
     const { getFieldDecorator } = this.props.form;

@@ -12,7 +12,7 @@ import {_local} from '../local';
   findHisDept:`${_local}/a/sys/sysdept/findHisDept`,//组织机构-部门管理-新增部门-获取医院科室table
   getGoodsList:`${_local}/a/sys/goods/list`,//部门管理 - 新增部门 - 基数药 - 货位table 
   goodsAllocation:`${_local}/a/dept/getLocationPageInfo`,//部门-货位
-  getGoodsLocationInfo:`${_local}/a/dept/getLocationInfo`,//部门- 新增部门 - 基数药 货位table -正在使用ing
+  getGoodsLocationInfo:`${_local}/a/dept/getBaseRoomLocation`,//部门- 新增部门 - 基数药 货位table -正在使用ing
   
   // 组织机构--用户管理
   FINDUSERLIST:`${_local}/a/his/findUserList`,  //用户管理列表

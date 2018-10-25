@@ -271,10 +271,6 @@ class PlanOrder extends PureComponent{
           </span>  
         }
       },{
-        title: '计划单号',
-        dataIndex: 'planCode',
-        width: 168,
-      },{
         title: '订单状态',
         dataIndex: 'orderStatusName',
         width: 112,
@@ -325,7 +321,7 @@ class PlanOrder extends PureComponent{
             isJson={true}
             query={query}
             ref='table'
-            scroll={{ x: 1500 }}
+            scroll={{ x: 1332 }}
             rowKey={'id'}
             url={replenishmentPlan.PURCHASEORDERLIST}
             rowSelection={{

@@ -170,14 +170,10 @@ class RecallAndLocked extends PureComponent {
   delete = () =>{
     const { selectedRows, query } = this.state;
     if (selectedRows.length === 0) {
-      return message.warn('请选择一条数据')
+      return message.warn('请选择一条数据');
     }
     if(selectedRows.length > 1){
       return message.warning('只能选择一条数据');
-    }
-    let { recallStatus } = selectedRows[0]
-    if(recallStatus !== '3') {
-      return message.warning('只能删除已驳回状态的单据，请重新选择');
     }
     this.setState({ loading: true });
     this.props.dispatch({
@@ -276,7 +272,10 @@ class RecallAndLocked extends PureComponent {
             selectedRowKeys: this.state.selected,
             onChange: (selectedRowKeys, selectedRows) => {
               this.setState({selected: selectedRowKeys, selectedRows: selectedRows})
-            }
+            },
+            getCheckboxProps: record => ({
+              disabled: record.recallStatus !== '3'
+            }),
           }}
         />
       </div>

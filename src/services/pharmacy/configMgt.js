@@ -45,3 +45,11 @@ export function getHisMedicineBound(options) {
 }
 
 /*-- end --*/
+
+export function findAllCardinalMedicineDeptList(options) {
+  return request(`${_local}/a/basemedicinedetail/findAllCardinalMedicineDeptList`, {
+    method: 'POST',
+    type: 'json',
+    body: options
+  })
+}

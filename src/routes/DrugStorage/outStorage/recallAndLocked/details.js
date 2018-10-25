@@ -57,11 +57,6 @@ class RecallDetail extends PureComponent {
 			const { recallStatus } = this.props.match.params;
         const columns = [
 					{
-						title: '部门',
-						width: 168,
-						dataIndex: 'deptName',
-					},
-					{
 						title: '库存数量',
 						width: 112,
 						dataIndex: 'recallNum',

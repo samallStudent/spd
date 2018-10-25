@@ -6,10 +6,10 @@
  */
 
 /**
- * @file 采购计划 - 统计分析--损益分析
+ * @file 采购计划 - 统计分析--订单执行情况
  */
 import React, { PureComponent } from 'react';
-import { Form, Row, Col, Button, Input, Icon, Select } from 'antd';
+import { Form, Row, Col, Button, Input, Icon, Select, message } from 'antd';
 import { Link } from 'react-router-dom';
 import RemoteTable from '../../../../components/TableGrid';
 import { connect } from 'dva';
@@ -29,6 +29,11 @@ const formItemLayout = {
 
 
 class SearchForm extends PureComponent{
+  state = {
+    supplierList: [],
+    orderStatusList: [],
+    storeHouseList: []
+  }
   toggle = () => {
     this.props.formProps.dispatch({
       type:'base/setShowHide'
@@ -36,9 +41,10 @@ class SearchForm extends PureComponent{
   }
   componentDidMount() {
     let { queryConditons } = this.props.formProps.base;
+    queryConditons = {...queryConditons};
+    queryConditons.supplierCodeList = queryConditons.supplierCodeList ? queryConditons.supplierCodeList[0] : "";
+    const { dispatch } = this.props.formProps;
     //找出表单的name 然后set
-    console.log(queryConditons);
-    
     let values = this.props.form.getFieldsValue();
     values = Object.getOwnPropertyNames(values);
     let value = {};
@@ -47,11 +53,50 @@ class SearchForm extends PureComponent{
       return keyItem;
     });
     this.props.form.setFieldsValue(value);
+    dispatch({
+      type: 'statistics/supplierAll',
+      callback: ({code, msg, data}) => {
+        if(code === 200) {
+          this.setState({
+            supplierList: data
+          });
+        }else {
+          message.error(msg);
+        }
+      }
+    });
+    dispatch({
+      type: 'base/orderStatusOrorderType',
+      payload: {
+        type: 'order_status'
+      },
+      callback: (data) => {
+        this.setState({
+          orderStatusList: data
+        });
+      }
+    });
+    dispatch({
+      type: 'statistics/getDeptByParam',
+      payload: {
+        deptType: 3
+      },
+      callback: ({data, code ,msg}) => {
+        if(code === 200) {
+          this.setState({
+            storeHouseList: data
+          });
+        }else {
+          message.error(msg);
+        };
+      }
+    })
   }
   handleSearch = e => {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
+        values.supplierCodeList = values.supplierCodeList ? [values.supplierCodeList] : [];
         this.props.formProps.dispatch({
           type:'base/updateConditions',
           payload: values
@@ -70,14 +115,27 @@ class SearchForm extends PureComponent{
     const { getFieldDecorator } = this.props.form;
     const {display} = this.props.formProps.base;
     const expand = display === 'block';
+    const { supplierList, orderStatusList, storeHouseList } = this.state;
     return (
       <Form className="ant-advanced-search-form" onSubmit={this.handleSearch}>
         <Row gutter={30}>
           <Col span={8}>
             <FormItem {...formItemLayout} label={`供应商`}>
               {
-                getFieldDecorator(`supplierName`)(
-                  <Input placeholder='请输入' />
+                getFieldDecorator(`supplierCodeList`)(
+                  <Select
+                    placeholder="请选择"
+                    style={{
+                      width: '100%'
+                    }}
+                  >
+                    <Option key="全部" value="">全部</Option>
+                    {
+                      supplierList.map(item => (
+                        <Option key={item.ctmaSupplierCode} value={item.ctmaSupplierCode}>{item.ctmaSupplierName}</Option>
+                      ))
+                    }
+                  </Select>
                 )
               }
             </FormItem>
@@ -85,7 +143,7 @@ class SearchForm extends PureComponent{
           <Col span={8}>
             <FormItem {...formItemLayout} label={`订单单号`}>
               {
-                getFieldDecorator(`settleBillNo`)(
+                getFieldDecorator(`orderCode`)(
                   <Input placeholder='请输入' />
                 )
               }
@@ -94,16 +152,18 @@ class SearchForm extends PureComponent{
           <Col span={8} style={{ display: display }}>
             <FormItem {...formItemLayout} label={`订单状态`}>
               {
-                getFieldDecorator(`invoiceParam`)(
+                getFieldDecorator(`orderStatus`)(
                   <Select
                     placeholder="请选择"
                     style={{
                       width: '100%'
                     }}
                   >
-                    <Option key="全部" value="">全部</Option>
-                    <Option key="0" value="0">损</Option>
-                    <Option key="1" value="1">益</Option>
+                    {
+                      orderStatusList.map(item => (
+                        <Option key={item.value} value={item.value}>{item.label}</Option>
+                      ))
+                    }
                   </Select>
                 )
               }
@@ -112,7 +172,7 @@ class SearchForm extends PureComponent{
           <Col span={8} style={{ display: display }}>
             <FormItem {...formItemLayout} label={`补货库房`}>
               {
-                getFieldDecorator(`closeDate`)(
+                getFieldDecorator(`deptCode`)(
                   <Select
                     placeholder="请选择"
                     style={{
@@ -120,8 +180,11 @@ class SearchForm extends PureComponent{
                     }}
                   >
                     <Option key="全部" value="">全部</Option>
-                    <Option key="0" value="0">损</Option>
-                    <Option key="1" value="1">益</Option>
+                    {
+                      storeHouseList.map(item => (
+                        <Option key={item.id} value={item.id}>{item.deptName}</Option>
+                      ))
+                    }
                   </Select>
                 )
               }
@@ -142,9 +205,6 @@ class SearchForm extends PureComponent{
 const WrapperForm = Form.create()(SearchForm);
 
 class OrderFulfillment extends PureComponent {
-  state = {
-    query: {},
-  }
   _tableChange = values => {
     this.props.dispatch({
       type:'base/setQueryConditions',
@@ -152,14 +212,24 @@ class OrderFulfillment extends PureComponent {
     });
   }
   exort = () => {
-    
+    let {queryConditons} = this.props.base;
+    queryConditons = {...queryConditons};
+    delete queryConditons.key;
+    delete queryConditons.pageNo;
+    delete queryConditons.pageSize;
+    delete queryConditons.sortField;
+    delete queryConditons.sortOrder;
+    this.props.dispatch({
+      type: 'statistics/orderExecuteExport',
+      payload: queryConditons
+    });
   }
   render() {
     const {match} = this.props;
     const columns = [
       {
         title: '订单单号',
-        dataIndex: 'invoiceNo',
+        dataIndex: 'orderCode',
         width: 168,
         render: (text, record) => {
           return <span>
@@ -172,27 +242,27 @@ class OrderFulfillment extends PureComponent {
         width: 168,
       }, {
         title: '补货库房',
-        dataIndex: 'settleBillNo',
+        dataIndex: 'deptName',
         width: 112,
       }, {
         title: '订单状态',
-        dataIndex: 'invoiceTime',
+        dataIndex: 'orderStatusName',
         width: 112,
       }, {
         title: '采购品种数',
-        dataIndex: 'invoiceAmount',
+        dataIndex: 'purchaseTypeNum',
         width: 112
       }, {
         title: '实到品种数',
-        dataIndex: 'sdpzs',
+        dataIndex: 'actualTypeNum',
         width: 112,
       }, {
         title: '采购数量',
-        dataIndex: 'cgsl',
+        dataIndex: 'purchaseCount',
         width: 112,
       }, {
         title: '实际到货数量',
-        dataIndex: 'sjdhsl',
+        dataIndex: 'actualCount',
         width: 168,
       }
     ];
@@ -200,8 +270,6 @@ class OrderFulfillment extends PureComponent {
     query = {
       ...query,
     }
-    delete query.invoiceDate;
-    delete query.closeDate;
     delete query.key;
     return (
       <div className='ysynet-main-content'>
@@ -219,8 +287,8 @@ class OrderFulfillment extends PureComponent {
           columns={columns}
           style={{marginTop: 20}}
           ref='table'
-          rowKey={'id'}
-          url={statisticAnalysis.INVOICE_LIST}
+          rowKey={'orderCode'}
+          url={statisticAnalysis.ORDER_EXECUTE}
         />
       </div>
     )

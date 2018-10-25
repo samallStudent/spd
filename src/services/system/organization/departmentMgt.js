@@ -9,7 +9,7 @@ import { _local } from '../../../api/local';
 
 //操作部门信息（添加、修改）
 export function OperSysDept(options){
-  return request(`${_local}/a/sys/sysdept/operSysDept`,{ 
+  return request(`${_local}/a/sys/sysdept/saveOrUpdateDept`,{ 
     method: 'POST',
     type: 'json',
     body: options
@@ -18,7 +18,7 @@ export function OperSysDept(options){
 
 //部门管理 - 详情
 export function DepartmentDetails(options){
-  return request(`${_local}/a/sys/sysdept/deptInfo`,{ 
+  return request(`${_local}/a/sys/sysdept/detail`,{ 
     method: 'GET',
     type: 'formData',
     body: options

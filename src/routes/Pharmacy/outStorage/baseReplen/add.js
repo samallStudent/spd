@@ -132,7 +132,7 @@ class AddOutput extends PureComponent{
         this.setState({
           submitLoading: false
         });
-        this.props.history.push('/pharmacy/outStorage/newOut');
+        this.props.history.push('/pharmacy/outStorage/baseReplen');
       }
     })
   }

@@ -15,6 +15,14 @@ export default {
       }else {
         message.error(data.msg);
       }
+    },
+    //打印
+    *stockInquiryExport({payload, callback}, {call}) {
+      const data = yield call(stockInquiry.stockInquiryExport, payload);
+      console.log(data, '详情');
+      if(callback && typeof callback === 'function') {
+        callback(data);
+      };
     }
   },
   reducers: {

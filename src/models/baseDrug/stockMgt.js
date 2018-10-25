@@ -27,6 +27,13 @@ export default {
       }else {
         message.error(data.msg);
       }
+    },
+    //导出
+    *exportBaseDrug({payload, callback}, {call}) {
+      const data = yield call(stockMgt.exportBaseDrug, payload);
+      if(callback && typeof callback === 'function') {
+        callback(data);
+      };
     }
     /*-- end --*/
   },

@@ -243,10 +243,12 @@ class SearchFormWrapper extends PureComponent {
               {getFieldDecorator('deptCode', {})(
                 <Select 
                   showSearch
+                  allowClear
                   placeholder={'请选择'}
                   optionFilterProp="children"
                   filterOption={(input, option) => option.props.children.indexOf(input) >= 0}
-                  >
+                >
+                  <Option value="" key="">全部</Option>
                   {dept}
                 </Select>
               )}

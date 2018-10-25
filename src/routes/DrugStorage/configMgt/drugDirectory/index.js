@@ -255,9 +255,13 @@ class DrugDirectory extends PureComponent{
         this.props.dispatch({
           type:'drugStorageConfigMgt/DeleteDeptDrug',
           payload:{drugCode:selected.join(",")},
-          callback:(data)=>{
-            message.success('操作成功');
-            this.refs.table.fetch();
+          callback:({data, code, msg})=>{
+            if(code === 200) {
+              message.success('操作成功');
+              this.refs.table.fetch();
+            }else {
+              message.error(msg);
+            };
           }
         })
       },
@@ -351,10 +355,10 @@ class DrugDirectory extends PureComponent{
         title: '操作',
         dataIndex: 'action',
         fixed: 'right',
-        width: 60,
+        width: 68,
         render: (text,record)=>{
           return  <span>
-            <Link to={{pathname: `/drugStorage/configMgt/drugDirectory/edit/${record.detailId}`}}>{'编辑'}</Link>
+            <Link to={{pathname: `/drugStorage/configMgt/drugDirectory/edit/${record.detailId}/${record.deptCode}`}}>{'编辑'}</Link>
           </span>
         }
       },
@@ -468,7 +472,7 @@ class DrugDirectory extends PureComponent{
         query={query}
         style={{marginTop: 20}}
         columns={IndexColumns}
-        scroll={{ x: 1564 }}
+        scroll={{ x: 2032 }}
         url={configMgt.findDepotlist}
         rowSelection={{
           selectedRowKeys: this.state.selected,

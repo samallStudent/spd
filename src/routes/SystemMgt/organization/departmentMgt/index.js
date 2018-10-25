@@ -7,7 +7,7 @@
  * @file 系统管理--组织机构--部门管理
  */
 import React, { PureComponent } from 'react';
-import { Form, Row, Col, Input, Button,Icon,Modal,Select} from 'antd';
+import { Form, Row, Col, Input, Button, Icon, Modal, Select, Checkbox, message} from 'antd';
 import { formItemLayout } from '../../../../utils/commonStyles';
 import RemoteTable from '../../../../components/TableGrid';
 import { systemMgt } from '../../../../api/systemMgt';
@@ -16,6 +16,7 @@ import { Link } from 'dva/router';
 import { connect } from 'dva';
 const FormItem = Form.Item;
 const Option = Select.Option;
+const {Search} = Input;
 const singleFormItemLayout = {
   labelCol: {
     xs: { span: 24 },
@@ -23,9 +24,10 @@ const singleFormItemLayout = {
   },
   wrapperCol: {
     xs: { span: 24 },
-    sm: { span: 17 },
+    sm: { span: 19 },
   },
-}
+};
+const CheckboxGroup = Checkbox.Group;
 
 class SearchForm extends PureComponent{
  
@@ -103,12 +105,14 @@ class SearchForm extends PureComponent{
                   initialValue: ''
                 })(
                   <Select
-                    placeholder='请选择部门类型'>
-                  {
-                    DeptSelect.map(item=>(
-                      <Option value={item.value} key={item.value}>{item.text}</Option>
-                    ))
-                  }
+                    placeholder='请选择部门类型'
+                  >
+                    <Option value="" key="">全部</Option>
+                    {
+                      DeptSelect.map(item=>(
+                        <Option value={item.value} key={item.value}>{item.text}</Option>
+                      ))
+                    }
                   </Select>
                 )
               }
@@ -140,16 +144,28 @@ class DepartmentMgt extends PureComponent{
     subModalVisible:false,//科室弹窗显示状态
     goodsModalVisible:false,//货位弹窗显示状态
     deptKeyword:'',//科室搜索关键字
-    goodsKeyword:'',//货位搜索关键字 - 货位
-    pharmacyKeyword:'',//货位搜索关键字- 药房
     hasStyle: null,
     subModalSelectRow:{},//科室点选-获取相关的信息
     subModalSelectRowCache:{},//科室点选-缓存
     goodsModalSelectRow:{},//科室点选-获取相关的信息
     goodsModalSelectRowCache:{},//科室点选-缓存
-    
+    storeList: []
   }
 
+  componentDidMount() {
+    this.props.dispatch({
+      type: 'base/orderStatusOrorderType',
+      payload: {
+        type: 'location_type'
+      },
+      callback: (data) => {
+        data = data.filter(item => item.value !== "");
+        this.setState({
+          storeList: data
+        });
+      }
+    })
+  }
 
   //新增部门 - 打开弹窗
   add = ()=>{
@@ -168,10 +184,9 @@ class DepartmentMgt extends PureComponent{
         values.openDeptCode = subModalSelectRowCache.ctdCode;//ctdCode为编码 
         if(values.deptType===5){//选择基数药的时候获取选中的Id
           values.parentId = goodsModalSelectRowCache.deptCode;
-          values.id = goodsModalSelectRowCache.id;
-          values.positionType = 5;
+          values.baseDeptCode = goodsModalSelectRowCache.id;
         }
-        delete values['openDeptName'] ;
+        delete values['openDeptName'];
         console.log(JSON.stringify(values))
         this.props.dispatch({
           type:'Organization/OperSysDept',
@@ -195,16 +210,26 @@ class DepartmentMgt extends PureComponent{
   /* ====================== 新增部门 弹窗 ======================*/
   //新增部门-选择科室 - 打开弹窗
   showDeptModal = () => {
-    this.setState({subModalVisible:true})
+    const deptType = this.props.form.getFieldValue('deptType');
+    if(!deptType) {
+      return message.warning('请选择部门性质');
+    };
+    this.setState({
+      subModalVisible:true,
+      queryDept: {
+        ctdCategory: deptType
+      }
+    })
   }
   //搜索科室弹窗
   searchSubModal = () => {
-    console.log(this.state.deptKeyword)
     //在此处发出请求，并且刷新科室弹窗中的table
-    let postData={
-      ctdDesc:this.state.deptKeyword
-    }
-    this.refs.tableDept.fetch(postData)
+    this.setState({
+      queryDept: {
+        ...this.state.queryDept,
+        ctdDesc:this.state.deptKeyword
+      }
+    });
   }
 
   //选择科室 - 确定
@@ -229,12 +254,9 @@ class DepartmentMgt extends PureComponent{
     this.setState({goodsModalVisible:true});
   }
   //搜索货位弹窗
-  searchGoodsModal = () => {
-    console.log(this.state.goodsKeyword)
-    console.log(this.state.pharmacyKeyword)
+  searchGoodsModal = (value) => {
     let postData = {
-      deptName:this.state.pharmacyKeyword,
-      positionName:this.state.goodsKeyword
+      positionName: value
     }
     //在此处发出请求，并且刷新货位弹窗中的table
     this.refs.tableGoods.fetch(postData)
@@ -262,6 +284,16 @@ class DepartmentMgt extends PureComponent{
       payload: values
     })
   }
+  //校验货位
+  verifyStore = (rule, value, callback) => {
+    value = value || [];
+    const isCheck = value.some(item => item === "1");
+    if(isCheck) {
+      callback();
+    }else {
+      callback(new Error('必须选择补货指示货位!'));
+    };
+  }
 
   render(){
     const columns = [
@@ -285,11 +317,6 @@ class DepartmentMgt extends PureComponent{
         title: '地址',
         dataIndex: 'deptLocation',
         width: 280,
-      },
-      {
-        title: '编辑人',
-        dataIndex: 'updateUserName',
-        width: 112,
       },
       {
         title: '编辑时间',
@@ -332,17 +359,19 @@ class DepartmentMgt extends PureComponent{
         dataIndex: 'positionName',
       },
     ]
-    const { visible , modalTitle ,subModalVisible, hasStyle , goodsModalVisible , queryDept , queryGoods} = this.state;
-    const { getFieldDecorator } = this.props.form;
+    let { visible , modalTitle ,subModalVisible, hasStyle , goodsModalVisible , queryDept , queryGoods, storeList} = this.state;
+    const { getFieldDecorator, getFieldsValue } = this.props.form;
     let query = this.props.base.queryConditons;
     delete query.key;
+    if(getFieldsValue(['deptType']).deptType === 3) {
+      storeList = storeList.filter((item, i) => i === 0);
+    };
     return (
       <div className='ysynet-main-content'>
         <WrapperForm formProps={{...this.props}}/>
         <div>
           <Button type='primary' icon='plus' className='button-gap' onClick={this.add}>新增</Button>
         </div>
-
         <RemoteTable 
           ref='table'
           query={query}
@@ -382,26 +411,56 @@ class DepartmentMgt extends PureComponent{
                 )
               }
             </FormItem>
-            <FormItem {...singleFormItemLayout} label={`科室名称`}>
-              {
-                getFieldDecorator(`openDeptName`,{//openDeptCode
-                  rules: [{ required: true,message: '请输入科室名称' }]
-                })(
-                  <Input onClick={this.showDeptModal} readOnly/>
-                )
-              }
-            </FormItem>
-            <FormItem {...singleFormItemLayout} label={`部门名称`}>
-              {
-                getFieldDecorator(`deptName`,{
-                  rules: [{ required: true,message: '请输入部门名称' }]
-                })(
-                  <Input />
-                )
-              }
-            </FormItem>
             {
-              this.props.form.getFieldsValue(['deptType']).deptType === 5?
+              getFieldsValue(['deptType']).deptType !== 1 && getFieldsValue(['deptType']).deptType !== 2 ?
+              [<FormItem key="1" {...singleFormItemLayout} label={`科室名称`}>
+                {
+                  getFieldDecorator(`openDeptName`,{
+                    rules: [{ required: true,message: '请输入科室名称' }]
+                  })(
+                    <Input onClick={this.showDeptModal} readOnly/>
+                  )
+                }
+              </FormItem>,
+              <FormItem key="2" {...singleFormItemLayout} label={`部门名称`}>
+                {
+                  getFieldDecorator(`deptName`,{
+                    rules: [{ required: true,message: '请输入部门名称' }]
+                  })(
+                    <Input />
+                  )
+                }
+              </FormItem>] : null
+            }
+            
+            {
+              getFieldsValue(['deptType']).deptType === 3 || getFieldsValue(['deptType']).deptType === 4 ?
+              <FormItem {...singleFormItemLayout} label={`货位设置`}>
+                {
+                  getFieldDecorator(`storeType`,{
+                    rules: [
+                      { required: true,message: '请选择货位设置' },
+                      { validator: this.verifyStore }
+                    ]
+                  })(
+                    <CheckboxGroup style={{ width: '100%', marginTop: 10 }}>
+                      <Row>
+                        {
+                          storeList.map(item => (
+                            <Col span={12} key={item.value}>
+                              <Checkbox value={item.value}>{item.label}</Checkbox>
+                            </Col>
+                          ))
+                        }
+                      </Row>
+                    </CheckboxGroup>
+                  )
+                }
+              </FormItem> : null
+            }
+            
+            {
+              getFieldsValue(['deptType']).deptType === 5?
               <FormItem {...singleFormItemLayout} label={`货位`}>
               {
                 getFieldDecorator(`positionName`,{
@@ -462,25 +521,17 @@ class DepartmentMgt extends PureComponent{
           onCancel={this.onCancelGoodsModal}
           >
             <Row>
-              <Input  className='button-gap' style={{width:120}} 
-                value={this.state.pharmacyKeyword} 
-                placeholder='药房关键字'
-                onChange={(e)=>this.setState({pharmacyKeyword:e.target.value})}/>
-
-              <Input  className='button-gap' style={{width:120}} 
-              value={this.state.goodsKeyword} 
-              placeholder='货位关键字'
-              onChange={(e)=>this.setState({goodsKeyword:e.target.value})}/>
-
-              <Button className='button-gap' onClick={this.searchGoodsModal}>查询</Button>
-              <Button className='button-gap' onClick={()=>{this.setState({goodsKeyword:'',pharmacyKeyword:''});this.refs.tableGoods.fetch({}) }}>重置</Button>
+              <Search
+                className='button-gap' 
+                style={{width:238}} 
+                placeholder='货位关键字'
+                onSearch={this.searchGoodsModal}
+                enterButton
+              />
             </Row>
-
-            
             <RemoteTable 
               ref='tableGoods'
               query={queryGoods}
-              // isJson={true}
               style={{marginTop: 20}}
               columns={goodsModalCol}
               scroll={{ x: '100%' }}

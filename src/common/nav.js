@@ -202,7 +202,7 @@ export const getNavData = app => [
     {
       name: "配置管理--编辑",//药库-配置管理
       icon: 'setting',
-      path: '/drugStorage/configMgt/drugDirectory/edit/:id',
+      path: '/drugStorage/configMgt/drugDirectory/edit/:id/:deptCode',
       component: dynamicWrapper(app, ['drugStorage/configMgt'], () => import('../routes/DrugStorage/configMgt/drugDirectory/edit'))
     },
     /* {
@@ -568,7 +568,7 @@ export const getNavData = app => [
       name: "库存查询",
       icon: "setting",
       path: '/drugStorage/stockMgt/stockInquiry',
-      component: dynamicWrapper(app, [], () => import('../routes/DrugStorage/stockInquiry'))
+      component: dynamicWrapper(app, ['drugStorage/stockInquiry'], () => import('../routes/DrugStorage/stockInquiry'))
     },
     //药库 - 库存查询 - 详情
     {
@@ -708,6 +708,18 @@ export const getNavData = app => [
       component: dynamicWrapper(app, ['pharmacy/configMgt'], () => import('../routes/Pharmacy/configMgt/baseMgt/drug'))
     },
     {
+      name: '全院管理 - 基数药目录管理',
+      icon: 'setting',
+      path: '/sys/configMgt/baseMgt',
+      component: dynamicWrapper(app, ['pharmacy/configMgt'], () => import('../routes/SystemMgt/baseMgt'))
+    },
+    {
+      name: '全院管理 - 基数药目录管理 - 药品',
+      icon: 'setting',
+      path: '/sys/configMgt/baseMgt/drug/:id',
+      component: dynamicWrapper(app, ['pharmacy/configMgt'], () => import('../routes/SystemMgt/baseMgt/drug'))
+    },
+    {
       name: '药房管理',//药房-药房管理
       icon: 'setting',
       path: '/pharmacy/manage',
@@ -822,7 +834,7 @@ export const getNavData = app => [
       name: "库存查询",
       icon: 'setting',
       path: '/pharmacy/stockMgt/stockInquiry',
-      component: dynamicWrapper(app, [], () => import('../routes/Pharmacy/stockInquiry')),
+      component: dynamicWrapper(app, ['drugStorage/stockInquiry'], () => import('../routes/Pharmacy/stockInquiry')),
     },
     //药房 - 库存查询 - 详情
     {
@@ -1035,12 +1047,18 @@ export const getNavData = app => [
       path: '/pharmacy/supplementDoc/supplementDocuments',
       component: dynamicWrapper(app, ['pharmacy/wareHouse'], () => import('../routes/Pharmacy/supplementDoc/supplementDocuments')),
     },
-    // {
-    //   name: "补登单据-新增",
-    //   icon: 'setting',
-    //   path: '/pharmacy/supplementDoc/supplementDocuments/add',
-    //   component: dynamicWrapper(app, [], () => import('../routes/Pharmacy/supplementDoc/supplementDocuments/add')),
-    // },
+    {
+      name: "异常发药单处理",
+      icon: 'setting',
+      path: '/pharmacy/supplementDoc/exceptionHandling',
+      component: dynamicWrapper(app, ['pharmacy/wareHouse'], () => import('../routes/Pharmacy/supplementDoc/exceptionHandling')),
+    },
+    {
+      name: "异常发药单处理-详情",
+      icon: 'setting',
+      path: '/pharmacy/supplementDoc/exceptionHandling/detail/:id',
+      component: dynamicWrapper(app, ['pharmacy/wareHouse'], () => import('../routes/Pharmacy/supplementDoc/exceptionHandling/detail')),
+    },
     {
       name: "补登单据-详情",
       icon: 'setting',
@@ -1071,6 +1089,24 @@ export const getNavData = app => [
       icon: 'setting',
       path: '/sys/drugDirectory/directory/edit/:bigDrugCode/:medDrugType',
       component: dynamicWrapper(app, ['systemMgt/drugDirectory'], () => import('../routes/SystemMgt/drugDirectory/edit')),
+    },
+    {
+      name: "系统管理 - 部门药品管理",
+      icon: 'setting',
+      path: '/sys/deptDrugControl/directory',
+      component: dynamicWrapper(app, ['drugStorage/configMgt'], () => import('../routes/SystemMgt/deptDrugControl')),
+    },
+    {
+      name: "系统管理 - 部门药品管理 - 药房编辑",
+      icon: 'setting',
+      path: '/sys/deptDrugControl/directory/pharmacyEdit/:id/:deptCode',
+      component: dynamicWrapper(app, ['drugStorage/configMgt'], () => import('../routes/SystemMgt/deptDrugControl/pharmacyEdit')),
+    },
+    {
+      name: "系统管理 - 部门药品管理 - 药库编辑",
+      icon: 'setting',
+      path: '/sys/deptDrugControl/directory/drugStorageEdit/:id/:deptCode',
+      component: dynamicWrapper(app, ['drugStorage/configMgt'], () => import('../routes/SystemMgt/deptDrugControl/drugStorageEdit')),
     },
     /* ******************   组织机构     *********************** */
     {
@@ -1262,6 +1298,20 @@ export const getNavData = app => [
       path: '/purchase/settlementMgt/statements/details/:id',
       component: dynamicWrapper(app, ['purchase/settlementMgt'], () => import('../routes/Purchase/settlementMgt/statements/details')),
     },
+    //采购结算 - 单据复核 - 发药单补登
+    {
+      name: "发药单补登",
+      icon: 'setting',
+      path: '/purchase/supplementDoc/dispensing',
+      component: dynamicWrapper(app, ['pharmacy/wareHouse'], () => import('../routes/Purchase/supplementDoc/dispensing')),
+    },
+    //采购结算 - 单据复核 - 发药单补登 - 详情
+    {
+      name: "发药单补登 - 详情",
+      icon: 'setting',
+      path: '/purchase/supplementDoc/dispensing/detail/:id',
+      component: dynamicWrapper(app, ['pharmacy/wareHouse'], () => import('../routes/Purchase/supplementDoc/dispensing/detail')),
+    },
     //采购结算 - 发票查询 - 发票查询
     {
       name: "发票查询",
@@ -1308,7 +1358,7 @@ export const getNavData = app => [
     {
       name: "损益分析 - 详情",
       icon: 'setting',
-      path: '/purchase/statisticAnalysis/profitLoss/details/:id',
+      path: '/purchase/statisticAnalysis/profitLoss/details/:id/:checkBillNo',
       component: dynamicWrapper(app, ['purchase/statistics'], () => import('../routes/Purchase/statisticAnalysis/profitLoss/details')),
     },
     //采购结算 - 统计分析 - 科室退库分析 
@@ -1323,7 +1373,7 @@ export const getNavData = app => [
       name: "订单执行情况",
       icon: 'setting',
       path: '/purchase/statisticAnalysis/orderFulfillment',
-      component: dynamicWrapper(app, [], () => import('../routes/Purchase/statisticAnalysis/orderFulfillment')),
+      component: dynamicWrapper(app, ['purchase/statistics'], () => import('../routes/Purchase/statisticAnalysis/orderFulfillment')),
     },
     //采购结算 - 统计分析 - 订单执行情况 - 详情
     {
@@ -1337,7 +1387,7 @@ export const getNavData = app => [
       name: "订单追溯",
       icon: 'setting',
       path: '/purchase/statisticAnalysis/orderRetrospect',
-      component: dynamicWrapper(app, [], () => import('../routes/Purchase/statisticAnalysis/orderRetrospect')),
+      component: dynamicWrapper(app, ['purchase/statistics'], () => import('../routes/Purchase/statisticAnalysis/orderRetrospect')),
     },
     //采购结算 - 统计分析 - 订单追溯 - 详情
     {
@@ -1358,7 +1408,7 @@ export const getNavData = app => [
       name: "供应商供货分析",
       icon: 'setting',
       path: '/purchase/statisticAnalysis/supplierSupply',
-      component: dynamicWrapper(app, [], () => import('../routes/Purchase/statisticAnalysis/supplierSupply')),
+      component: dynamicWrapper(app, ['purchase/statistics'], () => import('../routes/Purchase/statisticAnalysis/supplierSupply')),
     },
     //采购结算 - 统计分析 - 供应商退货分析 
     {
@@ -1373,6 +1423,13 @@ export const getNavData = app => [
       icon: 'setting',
       path: '/purchase/statisticAnalysis/financialTarget',
       component: dynamicWrapper(app, [], () => import('../routes/Purchase/statisticAnalysis/financialTarget')),
+    },
+    //采购结算 - 统计分析 - 财务指标 
+    {
+      name: "绩效信息表",
+      icon: 'setting',
+      path: '/purchase/statisticAnalysis/performanceInfo',
+      component: dynamicWrapper(app, [], () => import('../routes/Purchase/statisticAnalysis/performanceInfo')),
     },
     //采购结算 - 结算管理 - 结余查询
     {
@@ -1398,7 +1455,7 @@ export const getNavData = app => [
       name: "库存查询",
       icon: "setting",
       path: '/baseDrug/stockMgt/stockInquiry',
-      component: dynamicWrapper(app, [], () => import('../routes/BaseDrug/stockMgt')),
+      component: dynamicWrapper(app, ['baseDrug/stockMgt'], () => import('../routes/BaseDrug/stockMgt')),
     },
     {
       name: "库存查询 - 详情",

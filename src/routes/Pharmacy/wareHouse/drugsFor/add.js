@@ -40,7 +40,8 @@ class NewAdd extends PureComponent {
     btnLoading: false,
     saveLoading: false,
     applyType: '1',        //补货方式
-    fetchValue: undefined
+    fetchValue: undefined,
+    addDrugType: 1
   }
   componentDidMount = () =>{
     this.getReplenishList('1');
@@ -68,7 +69,7 @@ class NewAdd extends PureComponent {
     });
   }
   handleOk = () => {
-    let {modalSelectedRows, query} = this.state;
+    let {modalSelectedRows, query, addDrugType} = this.state;
     if(modalSelectedRows.length === 0) {
       message.warning('至少选择一条信息');
       return;
@@ -79,7 +80,8 @@ class NewAdd extends PureComponent {
       type: 'base/applyAddDrug',
       payload: {
         deptCode: query.deptCode,
-        drugCodeList: modalSelectedRows
+        drugCodeList: modalSelectedRows,
+        addDrugType
       },
       callback: (data) => {
         this.setState({
@@ -91,7 +93,7 @@ class NewAdd extends PureComponent {
       }
     })
   }
-  showModal = () => {
+  showModal = () => { //普通添加
     let {query, dataSource} = this.state;
     if(!query.deptCode) {
       message.warning('请选择部门');
@@ -101,7 +103,27 @@ class NewAdd extends PureComponent {
       ...query,
       existDrugCodeList: dataSource.map(item=>item.drugCode)
     };
-    this.setState({visible: true, query: {...query}});
+    this.setState({
+      visible: true, 
+      addDrugType: 1,
+      query: {...query}
+    });
+  }
+  autoShowModal = () => { //一键添加零库存
+    let {query, dataSource} = this.state;
+    if(!query.deptCode) {
+      message.warning('请选择部门');
+      return;
+    };
+    query = {
+      ...query,
+      existDrugCodeList: dataSource.map(item=>item.drugCode)
+    };
+    this.setState({
+      visible: true, 
+      addDrugType: 2,
+      query: {...query}
+    });
   }
   delete = () => {  //删除
     let {selectedRows, dataSource, query} = this.state;
@@ -350,7 +372,7 @@ class NewAdd extends PureComponent {
           </Row>
           <Row style={{marginTop: '10px'}}>
             <Button type='primary' icon='plus' onClick={this.showModal}>添加产品</Button>
-            <Button type='default' style={{ margin: '0 8px' }}>一键添加低库存产品</Button>
+            <Button type='default' onClick={this.autoShowModal} style={{ margin: '0 8px' }}>一键添加低库存产品</Button>
             <Button onClick={this.delete} type='default'>删除</Button>
           </Row>
         </div>

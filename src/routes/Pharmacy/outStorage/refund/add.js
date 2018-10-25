@@ -135,15 +135,15 @@ class RemarksForm extends PureComponent{
       <Form>
         <Row gutter={30}>
           <Col span={12}>
-            <FormItem label={`退货原因`} {...formRemarkLayout}>
+            <FormItem label={`退库原因`} {...formRemarkLayout}>
               {getFieldDecorator('backCause', {
-                initialValue: detailsData.backCause ? detailsData.backCause : '',
+                initialValue: detailsData.backCause ? detailsData.backCause : undefined,
                 rules: [{
-                  required: true, message: '请选择退货原因',
+                  required: true, message: '请选择退库原因',
                 }]
               })(
                 <Select
-                  placeholder="请选择退货原因"
+                  placeholder="请选择退库原因"
                   onChange={(value) => {
                     this.setState({
                       remarks: value
@@ -236,7 +236,6 @@ class AddRefund extends PureComponent{
       if (!err) {
         console.log(values, '查询条件');  
         let { query } = this.state;
-        this.refs.table.fetch({ ...query, ...values });
         this.setState({ query: { ...query, ...values } })
       }
     })
@@ -437,7 +436,7 @@ class AddRefund extends PureComponent{
             </Col>
           </Row>
           </div>
-          <div className='detailCard' style={{margin: '-12px -8px 0px -8px'}}>
+          <div className='detailCard' style={{margin: '-12px -8px -8px', minHeight: 'calc(100vh - 224px)'}}>
             <Table
               pagination={false}
               dataSource={dataSource}
@@ -505,7 +504,7 @@ class AddRefund extends PureComponent{
                 </Col>
                 <Col span={8} style={{display: display}}>
                   <FormItem label={`供应商`} {...formItemLayout}>
-                    {getFieldDecorator('supplierCode',{
+                    {getFieldDecorator('supplierName',{
                       initialValue: ''
                     })(
                       <Input placeholder='供应商'/>

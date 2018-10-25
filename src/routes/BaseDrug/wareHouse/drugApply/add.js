@@ -66,7 +66,10 @@ class NewAdd extends PureComponent {
       value: undefined,
       existDrugCodeList: dataSource.map(item=>item.drugCode)
     };
-    this.setState({visible: true, query: {...query}});
+    this.setState({
+      visible: true, 
+      query: {...query}
+    });
   }
   delete = () => {  //删除
     let {selectedRows, dataSource, query} = this.state;
@@ -244,8 +247,8 @@ class NewAdd extends PureComponent {
             </Col>
           </Row>
           <Row style={{marginTop: '10px'}}>
-            <Button type='primary' icon='plus' onClick={this.showModal}>添加产品</Button>
-            <Button type='default' style={{ margin: '0 8px' }}>一键添加低库存产品</Button>
+            <Button type='primary' icon='plus' style={{marginRight: 8}} onClick={this.showModal}>添加产品</Button>
+            {/* <Button type='default' onClick={this.autoShowModal} style={{ margin: '0 8px' }}>一键添加低库存产品</Button> */}
             <Button onClick={this.delete} type='default'>删除</Button>
           </Row>
         </div>

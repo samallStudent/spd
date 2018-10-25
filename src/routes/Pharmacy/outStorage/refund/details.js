@@ -170,7 +170,7 @@ class DetailsRefund extends PureComponent{
             <Row>
               <Col span={8}>
                   <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
-                      <label>退货人</label>
+                      <label>退库人</label>
                   </div>
                   <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18">
                     <div className='ant-form-item-control'>{ detailsData.createUserName }</div>
@@ -178,7 +178,7 @@ class DetailsRefund extends PureComponent{
               </Col>
               <Col span={8}>
                   <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
-                      <label>退货时间</label>
+                      <label>退库时间</label>
                   </div>
                   <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18">
                     <div className='ant-form-item-control'>{ detailsData.createDate }

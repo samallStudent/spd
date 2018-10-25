@@ -300,6 +300,7 @@ class BaseMgt extends PureComponent{
           </Row>
         </div>
         <Modal
+          destroyOnClose
           title={'添加产品'}
           visible={visible}
           width={1100}

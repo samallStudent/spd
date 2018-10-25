@@ -64,6 +64,9 @@ class AddUser extends PureComponent{
   save = () =>{
     let userInfo = {}, deptList = [],roleList = [];
     let { selectedRows, UserselectedRows, baseData } = this.state;
+    if(UserselectedRows.length === 0) {
+      return message.warning('至少分配一个角色！');
+    };
     selectedRows.map(item => deptList.push({ deptType: item.deptType, id: item.id }));
     UserselectedRows.map(item => roleList.push({ id: item.id }));
     userInfo.deptList = deptList;

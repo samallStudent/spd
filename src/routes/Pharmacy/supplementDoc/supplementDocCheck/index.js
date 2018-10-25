@@ -21,7 +21,10 @@ class Putaway extends PureComponent{
     selected: [],
     selectedRows: [],
     loading: false,
-    query:{makeupStatus:2}
+    query:{
+      makeupStatus: 2,
+      type: 2
+    }
   }
 
   _tableChange = values => {
@@ -60,7 +63,7 @@ class Putaway extends PureComponent{
 
   render(){
     let query = this.props.base.queryConditons;
-    query = {...this.state.query, ...query};
+    query = {...query, ...this.state.query};
     delete query.key;
     delete query.Time;
     delete query.reviewTime;
@@ -94,6 +97,11 @@ class Putaway extends PureComponent{
         title: '类型',
         width: 168,
         dataIndex: 'makeupTypeName',
+      },
+      {
+        title: '补登原因',
+        width: 224,
+        dataIndex: 'makeupCause',
       },
       {
         title: '补登人',
@@ -132,7 +140,7 @@ class Putaway extends PureComponent{
           style={{marginTop: 20}}
           columns={columns}
           loading={this.state.loading}
-          scroll={{ x: 1680 }}
+          scroll={{ x: 1904 }}
           url={supplementDoc.list}
           rowSelection={{
             selectedRowKeys: this.state.selected, 

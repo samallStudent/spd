@@ -94,6 +94,26 @@ export default {
         message.error(data.msg);
       }
     },
+    *makeDetail({payload, callback}, {call}) {
+      const data = yield call(wareHouse.makeDetail, payload);
+      if(callback && typeof callback === 'function') {
+        callback(data);
+      };
+    },
+    //全院管理 - 发药单补登 - 部门
+    *getDeptByParam({payload, callback}, {call}) {
+      const data = yield call(wareHouse.getDeptByParam, payload);
+      if(callback && typeof callback === 'function') {
+        callback(data);
+      };
+    },
+    //全院管理 - 发药单补登 - 批量发送
+    *batchSend({payload, callback}, {call}) {
+      const data = yield call(wareHouse.batchSend, payload);
+      if(callback && typeof callback === 'function') {
+        callback(data);
+      };
+    },
   },
   subscriptions: {
     

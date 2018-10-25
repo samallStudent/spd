@@ -329,7 +329,7 @@ class AddRefund extends PureComponent{
               type: 'base/createRecallOrLocked',
               payload: { ...postData },
               callback: () => {
-                message.success(`${isRecall ? '召回': '锁定'}成功`);
+                message.success(`操作成功`);
                 history.push({pathname:"/drugStorage/outStorage/recallAndLocked"});
               }
             })

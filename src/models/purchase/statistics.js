@@ -102,6 +102,55 @@ export default {
       if(typeof callback === 'function') {
         callback && callback(data);
       };
-    }
-  }
+    },
+    //订单执行情况详情头部
+    *orderExecuteDetail({payload, callback}, {call}) {
+      const data = yield call(statistics.orderExecuteDetail, payload);
+      if(typeof callback === 'function') {
+        callback && callback(data);
+      };
+    },
+    //订单执行情况导出
+    *orderExecuteExport({payload, callback}, {call}) {
+      const data = yield call(statistics.orderExecuteExport, payload);
+      if(typeof callback === 'function') {
+        callback && callback(data);
+      };
+    },
+    //供应商退货分析表格页脚
+    *countSupplierOrder({payload, callback}, {call}) {
+      const data = yield call(statistics.countSupplierOrder, payload);
+      if(typeof callback === 'function') {
+        callback && callback(data);
+      };
+    },
+    //订单追溯详情头部
+    *traceDetail({payload, callback}, {call}) {
+      const data = yield call(statistics.traceDetail, payload);
+      if(typeof callback === 'function') {
+        callback && callback(data);
+      };
+    },
+    //订单追溯导出
+    *exportTrace({payload, callback}, {call}) {
+      const data = yield call(statistics.exportTrace, payload);
+      if(typeof callback === 'function') {
+        callback && callback(data);
+      };
+    },
+    //供应商供货分析footer
+    *supplierAnalyze({payload, callback}, {call}) {
+      const data = yield call(statistics.supplierAnalyze, payload);
+      if(typeof callback === 'function') {
+        callback && callback(data);
+      };
+    },
+    //供应商供货分析导出
+    *exportSupplierAnalyze({payload, callback}, {call}) {
+      const data = yield call(statistics.exportSupplierAnalyze, payload);
+      if(typeof callback === 'function') {
+        callback && callback(data);
+      };
+    },
+  } 
 }

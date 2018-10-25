@@ -183,6 +183,15 @@ class SearchForm extends PureComponent{
               }
             </FormItem>
           </Col>
+          <Col span={8}>
+            <FormItem {...formItemLayout} label={'生产批号'}>
+              {
+                getFieldDecorator(`lot`)(
+                  <Input placeholder='请输入' />
+                )
+              }
+            </FormItem>
+          </Col>
           <Col span={8} style={{float: 'right', textAlign: 'right', marginTop: 4}} >
            <Button type="primary" htmlType="submit">查询</Button>
            <Button type='default' style={{marginLeft: 8}} onClick={this.handleReset}>重置</Button>
@@ -210,7 +219,7 @@ class DrugLedger extends PureComponent {
       payload: {
         ...this.state.query
       }
-    })
+    });
   }
   render() {
     const columns = [
@@ -221,6 +230,10 @@ class DrugLedger extends PureComponent {
       }, {
         title: '类型',
         dataIndex: 'type',
+        width: 168,
+      }, {
+        title: '单号',
+        dataIndex: 'orderNo',
         width: 168,
       }, {
         title: '时间',
@@ -314,7 +327,7 @@ class DrugLedger extends PureComponent {
           onChange={this._tableChange}
           query={query}
           columns={columns}
-          scroll={{x: 3248}}
+          scroll={{x: 3416}}
           style={{marginTop: 20}}
           ref='table'
           rowKey={'id'}

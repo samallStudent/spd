@@ -22,6 +22,6 @@ export const outStorage = {
   OUTSTORELIST: `${_local}/a/common/outstore/list`,     //出库单列表
   GETFILTERDRUGINFO: `${_local}/a/common/outstoredetail/getFilterDrugInfo`,  //新建出库添加产品列表
   PRINT_DETAIL: `${_local}/a/outStoreDetail/print/printDetail`,     //出库打印
-  PICKING_PRINT: `${_local}/a/pickingDetail/print`,     //拣货下架打印
+  PICKING_PRINT: `${_local}/a/pickingDetail/print/printDetail`,     //拣货下架打印
   PRINT_BACK_DETAIL: `${_local}/a/backsdetail/print/printBackDetail`,     //退货打印
 }

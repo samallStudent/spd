@@ -17,4 +17,7 @@ export const supplementDoc = {
   list: `${_local}/a/roommakeup/makeup/list`,  //补登单据列表
   addProductList:`${_local}/a/roomlocadjust/roomDrugList`,//补登单据新增产品列表
   addlist: `${_local}/a/roommakeupdetail/makeupdetail/addlist`, //补登入库单添加产品
+  addMedHisBackList: `${_local}/a/medHisBackDetail/medhisbackdetail/selectList`,    //补登异常入库单添加产品
+  billFlowBadVoList: `${_local}/a/bill/balance/billFlowBadVoList`,      //补登异常出库单添加产品
+  makeList: `${_local}/a/bill/balance/make/list`,         //补登异常单据确认列表
 }

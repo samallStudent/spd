@@ -89,48 +89,36 @@ const columns = [
     title: '供应商',
     width: 224,
     dataIndex: 'supplierName',
-  }];
-  const sendColumns = [{
-    title: '配送单状态',
-    width: 112,
-    dataIndex: 'fstate',
-    render: () => '交易完成'
-  },{
+  },
+  {
+    title: '计划单号',
+    dataIndex: 'planCode',
+    width: 168,
+  }
+];
+const sendColumns = [
+  {
     title: '配送单号',
     width: 168,
-    dataIndex: 'planNo',
-    render: () => 'PS002211807000086U'
+    dataIndex: 'distributeCode',
   },{
     title: '订单号',
     width: 168,
-    dataIndex: 'orderNo',
-    render: () => 'DD002211807000086U'
-  },{
-    title: '收货地址',
-    width: 280,
-    dataIndex: 'tfAddress',
-    render: () => '这个地址地址的字段挺长的'
-  },{
-    title: '供应商',
-    width: 224,
-    dataIndex: 'fOrgName'
-  },{
-    title: '制单人',
-    width: 112,
-    dataIndex: 'createUser',
-  },{
-    title: '制单时间',
-    width: 224,
-    dataIndex: 'createUTime',
-  },{
-    title: '验收人',
-    dataIndex: 'checkUser',
-    width: 112,
+    dataIndex: 'orderCode',
   },{
     title: '验收时间',
     width: 224,
-    dataIndex: 'checkTime',
-  }]
+    dataIndex: 'receptionTime',
+  },{
+    title: '验收人',
+    width: 168,
+    dataIndex: 'receptionUserName'
+  },{
+    title: '供应商',
+    width: 224,
+    dataIndex: 'supplierName',
+  }
+]
 
 class PlanOrderDetail extends PureComponent{
   state = {
@@ -230,31 +218,24 @@ class PlanOrderDetail extends PureComponent{
           <Table
             bordered
             title={()=>'产品信息'}
-            scroll={{x: 2188}}
+            scroll={{x: 2356}}
             columns={columns}
             rowKey={'id'}
             loading={loading}
             dataSource={detailsData ? detailsData.list : []}
-            pagination={{
-              size: 'small',
-              showQuickJumper: true,
-              showSizeChanger: true
-            }}
+            pagination={false}
           />
         </div>
         <div className='detailCard'>
           <Table
             bordered
             title={()=>'配送单信息'}
-            scroll={{x: 1624}}
+            scroll={{x: 952}}
             columns={sendColumns}
+            dataSource={detailsData ? detailsData.acceptCheckList : []}
             loading={loading}
             rowKey={'id'}
-            pagination={{
-              size: 'small',
-              showQuickJumper: true,
-              showSizeChanger: true
-            }}
+            pagination={false}
           />
         </div>
       </div>

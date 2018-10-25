@@ -123,6 +123,16 @@ class StockInquiry extends PureComponent {
       payload: values
     });
   }
+  export = () => {
+    const {value} = this.state;
+    const hisDrugCodeList = value ? [value] : [];
+    this.props.dispatch({
+      type: 'stockMgt/exportBaseDrug',
+      payload: {
+        hisDrugCodeList
+      }
+    })
+  }
   render() {
     // const { getFieldDecorator } = this.props.form;
     const {value} = this.state;
@@ -172,14 +182,18 @@ class StockInquiry extends PureComponent {
             </Col>
           </Row>
         </Form>
+        <Row>
+          <Button onClick={this.export}>
+            导出
+          </Button>
+        </Row>
         <RemoteTable
           onChange={this._tableChange}
           url={stockMgt.BASE_MEDICINE_LIST}
           isJson={true}
-          showHeader={true}
+          style={{marginTop: 20}}
           query={query}
           ref="tab"
-          bordered={true}
           scroll={{x: 1460}}
           columns={columns}
           rowKey="drugCode"

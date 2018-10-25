@@ -69,17 +69,21 @@ export default function request(url, options) {
       return error;
     });
   }else {
+    let filename = '';
     return fetch(url, newOptions)
     .then(response=> checkStatus(response))
-    .then(response => response.blob())
+    .then(response => {
+      filename = response.headers.get('Content-Disposition');
+      filename = filename.split('\'\'')[1];
+      filename = window.decodeURI(filename);
+      return response.blob();
+    })
     .then(blob => {
       const url = window.URL.createObjectURL(blob);
-      const urlArr = url.split('-');
-      const filename = urlArr[urlArr.length - 1];
       let a = document.createElement('a');
       a.href = url;
-      a.download = `${filename}.xlsx`;
-      a.click();                    
+      a.download = filename;
+      a.click(); 
     })
     .catch((error) => {
       if (error.code) {

@@ -4,7 +4,7 @@
 * @Last Modified time: 2018-07-24 13:13:55 
  */
 import React, { PureComponent } from 'react';
-import { Table , Select , Col, Button, Icon, Modal , message, InputNumber, Affix , Row , Tooltip, Spin, Form } from 'antd';
+import { Table , Select , Col, Button, Icon, Modal , message, InputNumber, Row , Tooltip, Spin, Form, Input } from 'antd';
 import { Link } from 'react-router-dom';
 import { supplementDoc } from '../../../../api/pharmacy/wareHouse';
 import RemoteTable from '../../../../components/TableGrid';
@@ -82,7 +82,7 @@ const modalColumns = [
     width: 224,
     dataIndex: 'approvalNo',
   }
-]
+];
 class AddSupplementDocuments extends PureComponent{
 
   constructor(props){
@@ -101,11 +101,26 @@ class AddSupplementDocuments extends PureComponent{
       modalSelected: [],
       data: [],//远程搜索下拉框数据内容
       fetching: false,//远程fetch搜索状态
+      typeList: [],
+      typeValue: '',
+      makeupCause: '',
     }
 
     this.fetchSelect = _.debounce(this.fetchSelect, 800);
   }
-
+  componentDidMount() {
+    this.props.dispatch({
+      type: 'base/orderStatusOrorderType',
+      payload: {
+        type: 'makeup_type_out'
+      },
+      callback: (data) => {
+        this.setState({
+          typeList: data
+        });
+      }
+    })
+  }
   // 模态框表单搜索
   fetchSelect = (value) => {
     console.log('fetching user', value);
@@ -141,12 +156,23 @@ class AddSupplementDocuments extends PureComponent{
       existDrugCodeList:a,//外部datasourch的drugCode
     })
   }
-
+  //补登原因
+  changeMakeupCause = (e) => {
+    this.setState({
+      makeupCause: e.target.value
+    });
+  }
   //提交
   onSubmit = () =>{
-    const {dataSource} = this.state;
+    const {dataSource, typeValue, makeupCause} = this.state;
     if( dataSource.length === 0 ){
       return message.warning('请至少添加一条数据');
+    };
+    if(!typeValue) {
+      return message.warning('请选择类型');
+    };
+    if(!makeupCause.trim()) {
+      return message.warning('请输入补登原因');
     };
     let isNull = dataSource.every(item => {
       if(!item.totalQuantity) {
@@ -161,7 +187,7 @@ class AddSupplementDocuments extends PureComponent{
       onOk:()=>{
         const { dispatch, history } = this.props;
         let postData = {}, List = [];
-        postData.makeupType = 2;
+        postData.makeupType = typeValue;
         dataSource.map(item =>List.push({ 
           // lot: item.lot,
           batchNo: item.batchNo,
@@ -171,6 +197,7 @@ class AddSupplementDocuments extends PureComponent{
           // drugCode: item.drugCode 
         }));
         postData.makeupinsertlist = List;
+        postData.makeupCause = makeupCause;
         console.log(postData,'postData')
         dispatch({
           type: 'base/InsertMakeup',
@@ -184,7 +211,6 @@ class AddSupplementDocuments extends PureComponent{
       onCancel:()=>{}
     })
   }
-
   //添加产品 到 主表
   handleOk = () => {
     let { modalSelectedRows } = this.state;
@@ -212,7 +238,6 @@ class AddSupplementDocuments extends PureComponent{
       }
     });
   }
-
   //单行设置datasource
   setRowInput = (val,field,index,isDate)=>{
     console.log(val)
@@ -220,6 +245,24 @@ class AddSupplementDocuments extends PureComponent{
     ds[index][field]=val
     console.log(ds)
     this.setState({dataSource:ds})
+  }
+  //状态下拉
+  typeChange = (value) => {
+    this.setState({
+      typeValue: value
+    });
+  }
+  //报溢单弹窗取消
+  normalCancel = () => {
+    this.setState({ 
+      visible: false, 
+      modalSelected: [],
+      modalSelectedRows: [],
+      query: {
+        ...this.state.query,
+        hisDrugCodeList: []
+      }
+    });
   }
   render(){
     const columns = [
@@ -299,9 +342,19 @@ class AddSupplementDocuments extends PureComponent{
         dataIndex: 'validEndDate',
       }
     ];
-    const { visible, dataSource, query, spinLoading, fetching, data} = this.state; 
+    
+    const { 
+      visible, 
+      dataSource, 
+      query, 
+      spinLoading, 
+      fetching, 
+      data, 
+      typeList,
+    } = this.state;
+
     return (
-      <Spin spinning={spinLoading} size="large">
+    <Spin spinning={spinLoading} size="large">
       <div className="fullCol" style={{ padding: 24, background: '#f0f2f5' }}>
         <div className="fullCol-fullChild" style={{margin: '-9px -24px 0'}}>
           <Row style={{borderBottom: '1px solid rgba(0, 0, 0, .1)', marginBottom: 10}}>
@@ -312,8 +365,43 @@ class AddSupplementDocuments extends PureComponent{
               <span style={{ cursor: 'pointer' }} onClick={() => this.props.history.go(-1)}><Icon type="close" style={{ fontSize: 26, marginTop: 8 }} /></span>
             </Col>
           </Row>
-          <Row style={{ marginTop: 10 }}>
-            <Col  span={4}>
+          <Row gutter={30} style={{ marginTop: 10 }}>
+            <Col span={6}>
+              <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
+                <label>类型</label>
+              </div>
+              <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-19">
+                <div className='ant-form-item-control'>
+                  <Select 
+                    style={{width: '100%'}}
+                    placeholder="请选择类型"
+                    onChange={this.typeChange}
+                  >
+                    {
+                      typeList.filter(item => item.value !== "").map(item => (
+                        <Option key={item.value} value={item.value}>{item.label}</Option>
+                      ))
+                    }
+                  </Select>
+                </div>
+              </div>
+            </Col>
+            <Col 
+              style={{
+                height: 40,
+                lineHeight: '40px'
+              }}
+              span={6}
+            >
+              <Input onChange={this.changeMakeupCause} placeholder="请输入补登原因"/>
+            </Col>
+            <Col 
+              style={{
+                height: 40,
+                lineHeight: '40px'
+              }}
+              span={6}
+            >
               <Button type='primary' className='button-gap' onClick={()=>{
                 if(this.refs.table){
                   let existDrugCodeList = [];
@@ -323,12 +411,12 @@ class AddSupplementDocuments extends PureComponent{
                 this.setState({visible:true});
               }}>
                 添加产品
-                </Button>
+              </Button>
               <Button onClick={this.delete} >移除</Button>
             </Col>
           </Row>
           </div>
-          <div className='detailCard' style={{margin: '-12px -8px 0px -8px'}}>
+          <div className='detailCard' style={{margin: '-12px -8px -8px', minHeight: 'calc(100vh - 158px)'}}>
             <Table
               pagination={false}
               dataSource={dataSource}
@@ -336,7 +424,7 @@ class AddSupplementDocuments extends PureComponent{
               bordered
               scroll={{x: 1680}}
               columns={columns}
-              rowKey={'drugCode'}
+              rowKey={'batchNo'}
               style={{marginTop: 24}}
               rowSelection={{
                 selectedRowKeys: this.state.selected,
@@ -349,16 +437,14 @@ class AddSupplementDocuments extends PureComponent{
           {
             dataSource.length === 0 ? null : 
             <div className="detailCard" style={{margin: '-12px -8px 0px -8px'}}>
-              <Affix offsetBottom={0} className='affix'>
-                <Row>
-                  <Col style={{ textAlign: 'right', padding: '10px' }}>
-                    <Button onClick={this.onSubmit} type='primary' style={{ marginRight: 8 }}>确定</Button>
-                    <Button type='primary' ghost>
-                      <Link to={{pathname:`/pharmacy/supplementDoc/supplementDocuments`}}>取消</Link>
-                    </Button>
-                  </Col>
-                </Row>
-              </Affix>
+              <Row>
+                <Col style={{ textAlign: 'right', padding: '10px' }}>
+                  <Button onClick={this.onSubmit} type='primary' style={{ marginRight: 8 }}>确定</Button>
+                  <Button type='primary' ghost>
+                    <Link to={{pathname:`/pharmacy/supplementDoc/supplementDocuments`}}>取消</Link>
+                  </Button>
+                </Col>
+              </Row>
             </div>
           }
           {/*选择产品-弹窗*/}
@@ -366,12 +452,13 @@ class AddSupplementDocuments extends PureComponent{
               bordered
               title={'添加产品'}
               visible={visible}
+              destroyOnClose
               width={1200}
               style={{ top: 20 }}
-              onCancel={() => this.setState({ visible: false, modalSelected: [] })}
+              onCancel={this.normalCancel}
               footer={[
                 <Button key="submit" type="primary" onClick={this.handleOk}>确认</Button>,
-                <Button key="back" onClick={() => this.setState({ visible: false })}>取消</Button>
+                <Button key="back" onClick={this.normalCancel}>取消</Button>
               ]}
             >
             <Row gutter={30}>

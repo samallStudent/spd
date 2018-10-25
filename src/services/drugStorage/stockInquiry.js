@@ -8,4 +8,14 @@ export function repertoryDetail(options) {
     type: 'formData',
     body: options
   })
+};
+
+//打印
+export function stockInquiryExport(options) {
+  return request(`${_local}/a/statics/storeSelect/export`, {
+    method: 'POST',
+    type: 'json',
+    body: options,
+    export: true
+  })
 }

@@ -29,3 +29,29 @@ export function deptExport(options) {
     body: options
   })
 }
+
+//补登 - 新建补登异常入库单
+export function addAbnormalDataSource(options) {
+  return request(`${_local}/a/medHisBackDetail/medhisbackdetail/druglist`, {
+    method: 'POST',
+    type: 'json',
+    body: options
+  })
+}
+
+//补登 - 新建异常入库单 - 确认
+export function confrimList(options) {
+  return request(`${_local}/a/medHisBackDetail/medhisbackdetail/confrimList`, {
+    method: 'POST',
+    type: 'json',
+    body: options
+  })
+}
+//补登 - 新建异常出库单 - 确认
+export function submitBadFlowList(options) {
+  return request(`${_local}/a/bill/balance/submitBadFlowList`, {
+    method: 'POST',
+    type: 'formData',
+    body: options
+  })
+}

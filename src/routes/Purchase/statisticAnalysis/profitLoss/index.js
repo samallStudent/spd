@@ -215,7 +215,7 @@ class ProfitLoss extends PureComponent {
     this.props.dispatch({
       type: 'statistics/profitLossExport',
       payload: queryConditons
-    })
+    });
   }
   render() {
     const {match} = this.props;
@@ -226,7 +226,7 @@ class ProfitLoss extends PureComponent {
         width: 168,
         render: (text, record) => {
           return <span>
-                  <Link to={{ pathname: `${match.path}/details/${text}`}}>{text}</Link>
+                  <Link to={{ pathname: `${match.path}/details/${text}/${record.checkBillNo}`}}>{text}</Link>
                  </span>
         }
       }, {

@@ -183,7 +183,9 @@ class DetailsPicking extends PureComponent{
   //固钉按钮
   affixButton = () => {
     let {rightDataSource} = this.state;
-    let isShow = rightDataSource.some(item => item.distributeStatus === 0);
+    let isShow = rightDataSource.some(item => item.detailDistributeStatus === 0);
+    console.log(rightDataSource);
+    
     if(!isShow) return null;
     return <Affix offsetBottom={10}>
               <div style={{textAlign: 'right'}}>

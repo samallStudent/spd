@@ -9,11 +9,10 @@
  * @file 采购计划 - 补货管理--补货计划
  */
 import React, { PureComponent } from 'react';
-import { Form, Row, Col, Button, DatePicker, Select, Icon, message } from 'antd';
+import { Form, Row, Col, Button, DatePicker, Select, message } from 'antd';
 import RemoteTable from '../../../../components/TableGrid';
 import { connect } from 'dva';
 import {statisticAnalysis} from '../../../../api/purchase/purchase';
-
 const FormItem = Form.Item;
 const { RangePicker } = DatePicker;
 const { Option } = Select;
@@ -30,11 +29,20 @@ const formItemLayout = {
 
 class SearchForm extends PureComponent{
   state = {
-    sortList: [],
     supplierList: []
   }
   componentDidMount() {
     const {dispatch} = this.props.formProps;
+    let { queryConditons } = this.props.formProps.base;
+    //找出表单的name 然后set
+    let values = this.props.form.getFieldsValue();
+    values = Object.getOwnPropertyNames(values);
+    let value = {};
+    values.map(keyItem => {
+      value[keyItem] = queryConditons[keyItem];
+      return keyItem;
+    });
+    this.props.form.setFieldsValue(value);
     dispatch({
       type: 'statistics/supplierAll',
       callback: ({data, code, msg}) => {
@@ -47,17 +55,6 @@ class SearchForm extends PureComponent{
         }
       }
     });
-    dispatch({
-      type: 'base/orderStatusOrorderType',
-      payload: {
-        type: 'order_by'
-      },
-      callback: (data) => {
-        this.setState({
-          sortList: data
-        });
-      }
-    })
   }
   handleSearch = e => {
     e.preventDefault();
@@ -71,25 +68,23 @@ class SearchForm extends PureComponent{
           values.startTime = '';
           values.endTime = '';
         };
-        delete values.closeDate;
-        this.props._handlQuery(values);
+        this.props.formProps.dispatch({
+          type:'base/updateConditions',
+          payload: values
+        });
       }
     })
-  }
-  toggle = () => {
-    this.props.formProps.dispatch({
-      type:'base/setShowHide'
-    });
   }
   //重置
   handleReset = () => {
     this.props.form.resetFields();
+    this.props.formProps.dispatch({
+      type:'base/clearQueryConditions'
+    });
   }
   render(){
     const { getFieldDecorator } = this.props.form;
-    const {display} = this.props.formProps.base;
-    const expand = display === 'block';
-    const { sortList, supplierList } = this.state;
+    const { supplierList } = this.state;
     return (
       <Form className="ant-advanced-search-form" onSubmit={this.handleSearch}>
         <Row gutter={30}>
@@ -121,31 +116,9 @@ class SearchForm extends PureComponent{
               }
             </FormItem>
           </Col>
-          <Col span={8}>
-            <FormItem {...formItemLayout} style={{display}} label={`排序`}>
-              {
-                getFieldDecorator(`orderBy`)(
-                  <Select
-                    style={{width: '100%'}}
-                    placeholder="请选择排序方式搜索"
-                  >
-                    <Option key="" value="">全部</Option>
-                    {
-                      sortList.map(item => (
-                        <Option key={item.value} value={item.value}>{item.label}</Option>
-                      ))
-                    }
-                  </Select>
-                )
-              }
-            </FormItem>
-          </Col>
           <Col span={8} style={{float: 'right', textAlign: 'right', marginTop: 4}} >
            <Button type="primary" htmlType="submit">查询</Button>
            <Button type='default' style={{marginLeft: 8}} onClick={this.handleReset}>重置</Button>
-           <a style={{marginLeft: 8, fontSize: 14}} onClick={this.toggle}>
-             {expand ? '收起' : '展开'} <Icon type={expand ? 'up' : 'down'} />
-           </a>
          </Col>
         </Row>
       </Form>
@@ -158,15 +131,18 @@ class SupplierReturn extends PureComponent {
   state = {
     query: {},
   }
-  handlQuery = (query) => {
-    this.setState({query});
+  _tableChange = values => {
+    this.props.dispatch({
+      type:'base/setQueryConditions',
+      payload: values
+    });
   }
   export = () => {
     const {query} = this.state;
     this.props.dispatch({
       type: 'statistics/supplierReturnExport',
       payload: query,
-    })
+    });
   }
   render() {
     const columns = [
@@ -178,33 +154,44 @@ class SupplierReturn extends PureComponent {
         title: '退货总单数',
         dataIndex: 'backCount',
         width: 168,
+        sorter: () => false
       }, {
         title: '退货品类数',
         dataIndex: 'backdetailDrugCount',
         width: 168,
+        sorter: () => false
       }, {
         title: '退货总金额(万元)',
         dataIndex: 'backPrice',
         width: 168,
+        sorter: () => false
       }, {
         title: '采购总单数',
-        dataIndex: 'backCount	',
-        width: 168
+        dataIndex: 'orderCount',
+        width: 168,
+        sorter: () => false
       }, {
         title: '采购品类数',
         dataIndex: 'orderdetailDrugCount',
-        width: 168
+        width: 168,
+        sorter: () => false
       }, {
         title: '采购总金额(万元)',
         dataIndex: 'orderPrice',
-        width: 168
+        width: 168,
+        sorter: () => false
       }, {
         title: '退货金额占比(%)',
         dataIndex: 'backProportion',
         width: 168
       }
     ];
-    const {query} = this.state;
+    let query = this.props.base.queryConditons;
+    query = {
+      ...query,
+    };
+    delete query.closeDate;
+    delete query.key;
     return (
       <div className='ysynet-main-content'>
         <WrapperForm

@@ -54,7 +54,14 @@ export default {
       if(typeof callback === 'function') {
         callback(data);
       }
-    }
+    },
     /*-- end --*/
+    //全院管理 - 基数药目录 - 药房部门
+    *findAllCardinalMedicineDeptList({payload, callback}, {call}) {
+      const data = yield call(configMgt.findAllCardinalMedicineDeptList, payload);
+      if(typeof callback === 'function') {
+        callback(data);
+      }
+    }
   }
 }

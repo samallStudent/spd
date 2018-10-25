@@ -302,6 +302,12 @@ class PslistAdd extends PureComponent{
         distributeCode: value,
       },
       callback: (data) => {
+        if(data.unVerfiyList.length) {
+          data.unVerfiyList = data.unVerfiyList.map(item => {
+            item.realReceiveQuantity = item.realDeliveryQuantiry;
+            return item;
+          })
+        };
         this.setState({
           loading: false,
           id: value,

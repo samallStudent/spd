@@ -94,7 +94,7 @@ export default {
     *getAllDepts({ payload, callback },{ call }){
       const data = yield call(userMgtService.getAllDepts, payload);
       if(data.code !== 200){
-        message.error(data.msg ||'获取所属部门失败')
+        return message.error(data.msg ||'获取所属部门失败')
       }
       if(callback) callback(data.data);
     },
@@ -103,16 +103,16 @@ export default {
       const data = yield call(userMgtService.resetPwd, payload);
       if(data.code === 200 && data.msg === 'success'){
         message.success('重置密码成功');
+        if(callback) callback();
       }else{
         message.error(data.msg ||'重置密码失败')
       }
-      if(callback) callback();
     },
     // 用户详情
     *findUserInfo({ payload, callback },{ put, call }){
       const data = yield call(userMgtService.findUserInfo, payload);
       if(data.code !== 200){
-        message.error(data.msg ||'获取角色信息详情失败')
+        return message.error(data.msg ||'获取角色信息详情失败')
       }
       if(callback) callback(data.data);
     },
@@ -120,7 +120,7 @@ export default {
     *getRoleInfo({ payload, callback },{ put, call }){
       const data = yield call(userMgtService.getRoleInfo, payload);
       if(data.code !== 200){
-        message.error(data.msg ||'获取所有得角色信息失败')
+        return message.error(data.msg ||'获取所有得角色信息失败')
       }
       if(callback) callback(data.data);
     },
@@ -128,7 +128,7 @@ export default {
     *getFilterCareProv({ payload, callback },{ put, call }){
       const data = yield call(userMgtService.getFilterCareProv, payload);
       if(data.code !== 200){
-        message.error(data.msg ||'获取所用户信息失败')
+        return message.error(data.msg ||'获取所用户信息失败')
       }
       if(callback) callback(data.data);
     },
@@ -138,10 +138,10 @@ export default {
       const data = yield call(userMgtService.operUserInfo, payload);
       if(data.code === 200 && data.msg === 'success'){
         message.success('操作成功');
+        if(callback) callback(data.data);
       }else{
         message.error(data.msg ||'编辑角色信息失败')
       }
-      if(callback) callback(data.data);
     },
     
   },

@@ -66,6 +66,13 @@ export default {
       }
       if(callback) callback(data);
     },
+    //获取部门
+    *getAllSysDept({ payload, callback },{ put, call }) {
+      const data = yield call(configMgt.getAllSysDept, payload);
+      if(callback && typeof callback === 'function'){
+        callback(data);
+      }
+    }
   },
   reducers: {},
 }

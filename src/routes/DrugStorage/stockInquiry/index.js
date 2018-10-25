@@ -77,6 +77,10 @@ const columns = [
     width: 112,
     dataIndex: 'usableQuantity',
   }, {
+    title: '待处理库存',
+    dataIndex: 'waitStoreNum',
+    width: 112
+  }, {
     title: '剂型',
     dataIndex: 'ctmmDosageFormDesc',
     width: 168,
@@ -126,6 +130,9 @@ class StockInquiry extends PureComponent {
   //重置
   handleReset = () => {
     this.props.form.resetFields();
+    this.setState({
+      value: undefined
+    });
     // let {query, value} = this.state;
     // if(!value) return;
     // this.setState({
@@ -144,6 +151,16 @@ class StockInquiry extends PureComponent {
       type:'base/setQueryConditions',
       payload: values
     });
+  }
+  export = () => {
+    const {value} = this.state;
+    const hisDrugCodeList = value ? [value] : [];
+    this.props.dispatch({
+      type: 'stockInquiry/stockInquiryExport',
+      payload: {
+        hisDrugCodeList
+      }
+    })
   }
   render() {
     // const { getFieldDecorator } = this.props.form;
@@ -194,15 +211,20 @@ class StockInquiry extends PureComponent {
             </Col>
           </Row>
         </Form>
+        <Row>
+          <Button onClick={this.export}>
+            导出
+          </Button>
+        </Row>
         <RemoteTable
           onChange={this._tableChange}
           url={drugStorage.queryDrugByDept}
           isJson={true}
-          showHeader={true}
           query={query}
           ref="tab"
           bordered={true}
-          scroll={{x: 1628}}
+          style={{marginTop: 20}}
+          scroll={{x: 1740}}
           columns={columns}
           rowKey="drugCode"
         />

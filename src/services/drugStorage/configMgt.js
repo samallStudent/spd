@@ -85,3 +85,11 @@ export function getSupplier(options) {
     body: options
   })
 };
+
+export function getAllSysDept(options) {
+  return request(`${_local}/a/depot/druginfo/getAllSysDept`,{ 
+    method: 'GET',
+    type: 'formData',
+    body: options
+  })
+}

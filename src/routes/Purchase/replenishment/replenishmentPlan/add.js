@@ -37,7 +37,8 @@ class NewAdd extends PureComponent {
     isEdit: false,
     dataSource: [],
     btnLoading: false,
-    saveLoading: false
+    saveLoading: false,
+    addDrugType: 1    //添加库存方式
   }
   componentWillMount = () =>{
     const { dispatch } = this.props;
@@ -85,7 +86,7 @@ class NewAdd extends PureComponent {
     }
   }
   handleOk = () => {
-    let {modalSelectedRows, query, dataSource} = this.state;
+    let {modalSelectedRows, query, dataSource, addDrugType} = this.state;
     if(modalSelectedRows.length === 0) {
       message.warning('至少选择一条信息');
       return;
@@ -96,13 +97,17 @@ class NewAdd extends PureComponent {
       type: 'base/addDrug',
       payload: {
         deptCode: query.deptCode,
-        drugCodeList: modalSelectedRows
+        drugCodeList: modalSelectedRows,
+        addDrugType
       },
       callback: (data) => {
         dataSource.push(...data);
         dataSource = dataSource.map((item) => {
           if(!item.id) {
             item.supplierCode = item.supplierList[0].ctmaSupplierCode;
+            if(item.demandQuantity || item.demandQuantity === 0) {
+              item.totalPrice = item.demandQuantity*item.supplierList[0].referencePrice
+            };
           };
           return item;
         });
@@ -126,7 +131,21 @@ class NewAdd extends PureComponent {
       message.warning('请选择部门');
       return;
     };
-    this.setState({ visible: true });
+    this.setState({ 
+      visible: true,
+      addDrugType: 1
+    });
+  }
+  autoShowModal = () => {
+    let {query} = this.state;
+    if(!query.deptCode) {
+      message.warning('请选择部门');
+      return;
+    };
+    this.setState({ 
+      visible: true,
+      addDrugType: 2
+    });
   }
   delete = () => {  //删除
     let {selectedRows, dataSource, query} = this.state;
@@ -418,7 +437,7 @@ class NewAdd extends PureComponent {
             </Row>
             <Row style={{marginTop: '10px'}}>
               <Button type='primary' icon='plus' onClick={this.showModal}>添加产品</Button>
-              <Button type='default' style={{ margin: '0 8px' }}>一键添加低库存产品</Button>
+              <Button type='default' onClick={this.autoShowModal} style={{ margin: '0 8px' }}>一键添加低库存产品</Button>
               <Button onClick={this.delete} type='default'>删除</Button>
             </Row>
           </div>
@@ -431,7 +450,7 @@ class NewAdd extends PureComponent {
             onCancel={() => this.setState({ visible: false, modalSelected: [] })}
             footer={[
               <Button key="submit" type="primary" loading={btnLoading} onClick={this.handleOk}>确认</Button>,
-              <Button key="back" onClick={() => this.setState({ visible: false })}>取消</Button>
+              <Button key="back" onClick={() => this.setState({ visible: false, modalSelected: [] })}>取消</Button>
             ]}
           >
             <Row>

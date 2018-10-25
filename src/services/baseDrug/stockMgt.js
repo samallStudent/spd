@@ -16,3 +16,13 @@ export function getBaseMedicineDetailList(options) {
     body: options 
   })
 }
+
+//打印
+export function exportBaseDrug(options) {
+  return request(`${_local}/a/statics/storeSelect/exportBaseDrug`, {
+    method: 'POST',
+    type: 'json',
+    body: options,
+    export: true
+  })
+}
