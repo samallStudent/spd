@@ -2,7 +2,7 @@
  * @Author: gaofengjiao 
  * @Date: 2018-08-06
  * @Last Modified by: wwb
- * @Last Modified time: 2018-10-26 17:08:11
+ * @Last Modified time: 2018-10-26 17:22:36
  */
 /* 
   @file  药库 - 入库--出库单验收-详情
@@ -494,6 +494,8 @@ class PslistCheck extends PureComponent{
                 <div className='ant-form-item-control'>{detailInfo.receptionUserName || ''}</div>
               </div>
             </Col>
+          </Row>
+          <Row>
             <Col span={8}>
               <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
                 <label>验收时间</label>
