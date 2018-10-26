@@ -342,6 +342,12 @@ export const getNavData = app => [
       component: dynamicWrapper(app, ['drugStorage/wareHouse'], () => import('../routes/DrugStorage/wareHouse/psListCheck/detail')),
     },
     {
+      name: '出库单验收--详情',
+      iocn: 'setting',
+      path: '/drugStorage/wareHouse/psListCheck/outDetail/:id',
+      component: dynamicWrapper(app, ['drugStorage/wareHouse'], () => import('../routes/DrugStorage/wareHouse/psListCheck/outDetail')),
+    },
+    {
       name: "上架",
       icon: 'setting',
       path: '/drugStorage/wareHouse/grounding',
@@ -1112,13 +1118,13 @@ export const getNavData = app => [
       name: "系统管理 - 供应商药品",
       icon: 'setting',
       path: '/sys/drugDirectory/supplierDrugs',
-      component: dynamicWrapper(app, [], () => import('../routes/SystemMgt/supplierDrugs')),
+      component: dynamicWrapper(app, ['drugStorage/supplierDrugs'], () => import('../routes/SystemMgt/supplierDrugs')),
     },
     {
       name: "系统管理 - 供应商药品 - 编辑",
       icon: 'setting',
-      path: '/sys/drugDirectory/supplierDrugs/edit/:id',
-      component: dynamicWrapper(app, [], () => import('../routes/SystemMgt/supplierDrugs/edit')),
+      path: '/sys/drugDirectory/supplierDrugs/edit/:id/:code',
+      component: dynamicWrapper(app, ['drugStorage/supplierDrugs'], () => import('../routes/SystemMgt/supplierDrugs/edit')),
     },
     /* ******************   组织机构     *********************** */
     {

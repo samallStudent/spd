@@ -2,15 +2,14 @@
  * @Author: gaofengjiao 
  * @Date: 2018-08-06
  * @Last Modified by: wwb
- * @Last Modified time: 2018-10-26 17:03:21
+ * @Last Modified time: 2018-10-26 17:08:11
  */
 /* 
-  @file  药库 - 入库--配送单验收-详情
+  @file  药库 - 入库--出库单验收-详情
 */
 import React, { PureComponent } from 'react';
-import {Row, Col, Tooltip, Input, InputNumber, DatePicker, Button, Tabs, Table, message} from 'antd';
+import {Row, Col, Tooltip,  Button, Tabs, Table, message} from 'antd';
 import {connect} from 'dva';
-import moment from 'moment';
 import wareHouse from '../../../../api/drugStorage/wareHouse';
 import querystring from 'querystring';
 import {difference} from 'lodash';
@@ -34,7 +33,7 @@ class PslistCheck extends PureComponent{
     }
   }
   //增加批号
-  addBatch = (record, i) => {
+  /* addBatch = (record, i) => {
     let {detailInfo, expandedRowKeys, selected} = this.state;
     let {unVerfiyList} = detailInfo;
     
@@ -66,9 +65,9 @@ class PslistCheck extends PureComponent{
       expandedRowKeys,
       selected: [...selected]
     });
-  }
+  } */
   //删除
-  removeBatch = (record, i) =>{
+  /* removeBatch = (record, i) =>{
     let {detailInfo, expandedRowKeys} = this.state;
     let {unVerfiyList} = detailInfo;
     let index;
@@ -89,7 +88,7 @@ class PslistCheck extends PureComponent{
       detailInfo: {...detailInfo},
       expandedRowKeys
     });
-  }
+  } */
   //tabs切换
   tabsChange = (key) =>{
     if(key === '2') {
@@ -181,7 +180,7 @@ class PslistCheck extends PureComponent{
       message.error('至少选择一条数据');
       return;
     };
-    if(!this.onCheck()) return;
+    // if(!this.onCheck()) return;
     this.setState({checkLoading: true});
     selectedRows = this.seekChildren(selectedRows).realSelectedRows; //包含children的二维数组
     let includeChildren = [...selectedRows];//包含children的一维数组
@@ -209,6 +208,7 @@ class PslistCheck extends PureComponent{
       }
       return i;
     });
+    console.log(detailList,this.state.id)
     this.props.dispatch({
       type: 'base/drugStorageSaveCheck',
       payload: {
@@ -228,7 +228,7 @@ class PslistCheck extends PureComponent{
     })
   }
   //校验
-  onCheck = () => {
+  /* onCheck = () => {
     let {selectedRows, detailInfo} = this.state;
     selectedRows = [...selectedRows];
     selectedRows = this.seekChildren(selectedRows).realSelectedRows; //包含children的二维数组
@@ -274,9 +274,9 @@ class PslistCheck extends PureComponent{
       message.warning('提交数据中存在药物批号一样，但是生产日期和有效期至不一样的数据');
     };
     return isNull && isLike;
-  }
+  } */
   //日期批号校验
-  valueCheck = (list) => {
+  /* valueCheck = (list) => {
     let a = [];
     a.push(list);
     if(list.children && list.children.length) {
@@ -298,7 +298,7 @@ class PslistCheck extends PureComponent{
     };
     d = d.every(item => item);
     return d;
-  }
+  } */
   checkChildren(list) {
     var a = list.every((item, i) => {
       if(i === list.length - 1) {
@@ -344,7 +344,22 @@ class PslistCheck extends PureComponent{
     let {loading, defaultActiveKey, expandedRowKeys, btnShow, detailInfo, checkLoading} = this.state;
     let {unVerfiyList, verifyList} = detailInfo;
     
-    let columnsUnVerfiy = [
+    let columns = [
+      {
+        title: '发起数量',
+        dataIndex: 'realDeliveryQuantiry',
+        width: 120,
+      },
+      {
+        title: '实到数量',
+        dataIndex: 'realReceiveQuantity',
+        width: 120,
+      },
+      {
+        title: '单位',
+        dataIndex: 'unit',
+        width: 60
+      },
       {
         title: '通用名称',
         dataIndex: 'ctmmGenericName',
@@ -365,6 +380,21 @@ class PslistCheck extends PureComponent{
         )
       },
       {
+        title: '剂型',
+        dataIndex: 'ctmmDosageFormDesc',
+        width: 168
+      },
+      {
+        title: '包装规格',
+        dataIndex: 'packageSpecification',
+        width: 168
+      },
+      {
+        title: '批准文号',
+        dataIndex: 'approvalNo',
+        width: 168
+      },
+      {
         title: '生产厂家',
         dataIndex: 'ctmmManufacturerName',
         className:'ellipsis',
@@ -374,204 +404,31 @@ class PslistCheck extends PureComponent{
         width: 224
       },
       {
-        title: '单位',
-        dataIndex: 'unit',
-        width: 60
-      },
-      {
-        title: '配送数量',
-        dataIndex: 'realDeliveryQuantiry',
-        width: 112
-      },
-      {
-        title: '实到数量',
-        dataIndex: 'realReceiveQuantity',
-        render: (text,record,index)=>{
-          return <InputNumber
-                    defaultValue={text}
-                    onChange={(value)=>{
-                      if(value > record.realDeliveryQuantiry){
-                        message.warning('请注意：实到数量比配送数量多');
-                      }
-                      record.realReceiveQuantity = value;
-                    }} 
-                  />
-        },
-        width: 120
-      },
-      {
         title: '生产批号',
         dataIndex: 'productBatchNo',
-        render: (text,record,index)=>{
-          return <Input 
-                  onChange={(e)=>{
-                    record.productBatchNo = e.target.value;
-                  }} 
-                  defaultValue={text}
-                  />
-        },
         width: 168
       },
       {
         title: '生产日期',
         dataIndex: 'realProductTime',
-        render: (text,record,index)=> {
-          return <DatePicker
-                  disabledDate={(current) => current && current > moment(record.realValidEndDate)}
-                  onChange={(dates, moment) => {
-                    record.realProductTime = moment;
-                  }}
-                  defaultValue={moment(text, 'YYYY-MM-DD')}
-                />
-        },
         width: 168
       },
       {
         title: '有效期至',
         dataIndex: 'realValidEndDate',
-        render: (text,record,index)=> {
-          return <DatePicker
-                  disabledDate={(current) => current && current < moment(record.realProductTime)}
-                  onChange={(dates, moment) => {
-                    record.realValidEndDate = moment;
-                  }}
-                  defaultValue={moment(text, 'YYYY-MM-DD')}
-                />
-        },
-        width: 168
-      },
-      {
-        title: '包装规格',
-        dataIndex: 'packageSpecification',
-        width: 168
-      },
-      {
-        title: '剂型',
-        dataIndex: 'ctmmDosageFormDesc',
         width: 168
       },
       {
         title: '供应商',
         dataIndex: 'supplierName',
         width: 224
-      },
-      {
-        title: '批准文号',
-        dataIndex: 'approvalNo',
-        width: 168
-      },
-      {
-        title: '操作',
-        dataIndex: 'RN',
-        width: 112,
-        render: (text, record, i)=>{
-          return record.id ? 
-                 <a onClick={this.addBatch.bind(this, record, i)}>增加验收批号</a> 
-                 : 
-                 <a onClick={this.removeBatch.bind(this, record, i)}>删除</a>
-        }
       }
-    ];
-    let columnsVerify = [
-      {
-        title: '通用名称',
-        dataIndex: 'ctmmGenericName',
-        width: 168
-      },
-      {
-        title: '商品名',
-        dataIndex: 'ctmmTradeName',
-        width: 224
-      },
-      {
-        title: '规格',
-        dataIndex: 'ctmmSpecification',
-        className:'ellipsis',
-        render:(text)=>(
-          <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
-        ),
-        width: 168
-      },
-      {
-        title: '生产厂家',
-        dataIndex: 'ctmmManufacturerName',
-        width: 224,
-        className:'ellipsis',
-        render:(text)=>(
-          <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
-        ),
-      },
-      {
-        title: '单位',
-        dataIndex: 'replanUnit',
-        width: 60,
-      },
-      {
-        title: '配送数量',
-        dataIndex: 'realDeliveryQuantiry',
-        width: 112,
-      },  
-      {
-        title: '实到数量',
-        dataIndex: 'realReceiveQuantiry',
-        width: 112,
-      },
-      {
-        title: '生产批号',
-        dataIndex: 'productBatchNo',
-        width: 168,
-      },
-      {
-        title: '生产日期',
-        dataIndex: 'realProductTime',
-        width: 168,
-      },
-      {
-        title: '有效期至',
-        dataIndex: 'realValidEndDate',
-        width: 168,
-      },
-      {
-        title: '包装规格',
-        dataIndex: 'packageSpecification',
-        width: 168,
-      },
-      {
-        title: '剂型',
-        dataIndex: 'ctmmDosageFormDesc',
-        width: 168,
-      },
-      {
-        title: '供应商',
-        dataIndex: 'supplierName',
-        width: 168,
-      },
-      {
-        title: '批准文号',
-        dataIndex: 'approvalNo',
-        width: 168,
-      }
-    ];
+      ];
     if(detailInfo.isShowTemprature === 1) {
-      columnsVerify.splice(10, 0, {
+      columns.splice(10, 0, {
         title: '验收温度',
         dataIndex: 'realAcceptanceTemperature',
         width: 112,
-      });
-      columnsUnVerfiy.splice(10, 0, {
-        title: '验收温度',
-        dataIndex: 'realAcceptanceTemperature',
-        render: (text,record,index)=> {
-          return <Input 
-                  type="number"
-                  onChange={(e)=>{
-                    record.realAcceptanceTemperature = e.target.value;
-                  }}
-                  defaultValue={text || '' } 
-                  addonAfter={`℃`}
-                />
-        },
-        width: 168,
       });
     };
     
@@ -589,18 +446,10 @@ class PslistCheck extends PureComponent{
           <Row>
             <Col span={8}>
               <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
-                <label>配送单</label>
+                <label>出库单</label>
               </div>
               <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18">
                 <div className='ant-form-item-control'>{detailInfo.distributeCode || ''}</div>
-              </div>
-            </Col>
-            <Col span={8}>
-              <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
-                <label>订单号</label>
-              </div>
-              <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18">
-                <div className='ant-form-item-control'>{detailInfo.orderCode || ''}</div>
               </div>
             </Col>
             <Col span={8}>
@@ -613,26 +462,28 @@ class PslistCheck extends PureComponent{
             </Col>
             <Col span={8}>
               <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
-                <label>类型</label>
+                <label>来源部门</label>
               </div>
               <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18">
-                <div className='ant-form-item-control'>{detailInfo.typeName || ''}</div>
+                <div className='ant-form-item-control'>{detailInfo.deptName || ''}</div>
+              </div>
+            </Col>
+            </Row>
+          <Row>
+            <Col span={8}>
+              <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
+                <label>出库人</label>
+              </div>
+              <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18">
+                <div className='ant-form-item-control'>{detailInfo.createName || ''}</div>
               </div>
             </Col>
             <Col span={8}>
               <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
-                <label>供应商</label>
+                <label>出库时间</label>
               </div>
               <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18">
-                <div className='ant-form-item-control'>{detailInfo.supplierName || ''}</div>
-              </div>
-            </Col>
-            <Col span={8}>
-              <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
-                <label>配送日期</label>
-              </div>
-              <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18">
-                <div className='ant-form-item-control'>{ detailInfo.createDate || ''}</div>
+                <div className='ant-form-item-control'>{detailInfo.createDate || ''}</div>
               </div>
             </Col>
             <Col span={8}>
@@ -645,10 +496,10 @@ class PslistCheck extends PureComponent{
             </Col>
             <Col span={8}>
               <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
-                <label>收货地址</label>
+                <label>验收时间</label>
               </div>
               <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18">
-                <div className='ant-form-item-control'>{detailInfo.deptAddress || ''}</div>
+                <div className='ant-form-item-control'>{detailInfo.receptionTime || ''}</div>
               </div>
             </Col>
           </Row>
@@ -660,7 +511,7 @@ class PslistCheck extends PureComponent{
                 bordered
                 loading={loading}
                 scroll={{x: 2536}}
-                columns={columnsUnVerfiy}
+                columns={columns}
                 dataSource={unVerfiyList || []}
                 pagination={false}
                 rowKey={'key'}
@@ -682,7 +533,7 @@ class PslistCheck extends PureComponent{
                 loading={loading}
                 bordered
                 scroll={{x: 2356}}
-                columns={columnsVerify || []}
+                columns={columns || []}
                 dataSource={verifyList}
                 rowKey={'key'}
                 pagination={false}

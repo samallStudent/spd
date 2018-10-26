@@ -59,6 +59,19 @@ export default {
       if(callback) callback();
     },
 
+    // 发送订单
+    *sendOrder({ payload, callback }, { call }){
+      const data = yield call(replenishment.sendOrder, payload);
+      let flag = true;
+      if(data.code === 200 && data.msg === 'success'){
+        message.success('发送订单成功');
+      }else{
+        flag = false;
+        message.error(data.msg || '发送订单失败')
+      }
+      if(callback) callback(flag);
+    },
+
     // 关闭订单
     *closeOrder({ payload,callback },{ call }){
       const data = yield call(replenishment.closeOrder, payload);

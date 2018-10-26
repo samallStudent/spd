@@ -5,6 +5,7 @@
  */
 import React, { PureComponent } from 'react';
 import { Form , Row , Button , Col , Select, Modal, Collapse, Radio , message, Table} from 'antd';
+// import { supplierDurs } from '../../../api/drugStorage/supplierDrugs';
 import { connect } from 'dva';
 const formItemLayout ={
   labelCol: {
@@ -51,8 +52,8 @@ class EditDrugDirectory extends PureComponent{
   componentDidMount(){
     //获取当前药品目录详情信息
     this.props.dispatch({
-      type:'drugStorageConfigMgt/GetDrugInfo',
-      payload:{id:this.props.match.params.id},
+      type:'supplierDrugs/genDrugDetail',
+      payload:{id: this.props.match.params.id, hisDrugCode: this.props.match.params.code },
       callback:(data)=>{
         let {listTransforsVo, customUnit} = data.data;
         listTransforsVo.push({
@@ -71,8 +72,8 @@ class EditDrugDirectory extends PureComponent{
           listTransforsVo,
           replanUnitCode: data.data.replanUnitCode,
           customUnit: customUnit,
-          upperQuantity: data.data.upperQuantity,
-          downQuantity: data.data.downQuantity
+          // upperQuantity: data.data.upperQuantity,
+          // downQuantity: data.data.downQuantity
         })
         if(data.data.supplier && data.data.supplier.length&&data.data.medDrugType===2){//目录外 
           this.setState({
@@ -208,7 +209,7 @@ class EditDrugDirectory extends PureComponent{
         <label>{label}</label>
       </div>
       <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-16">
-        <div className='ant-form-item-control'>
+        <div className='ant-form-item-control ellipsis' style={{ width: '100%' }}>
           {val}
         </div>
       </div>
@@ -280,7 +281,8 @@ class EditDrugDirectory extends PureComponent{
         <div className='fullCol-fullChild'>
           <div style={{ display:'flex',justifyContent: 'space-between' }}>
             <h3 style={{ fontWeight: 'bold' }}>基本信息</h3>
-            <Button type='primary' onClick={this.onSubmit}>保存</Button>
+            {/* <Button type='primary' onClick={this.onSubmit}>保存</Button> */}
+            <Button type='primary' onClick={() =>console.log('保存')}>保存</Button>
           </div>
           <Row>
             <Col span={8}>
@@ -350,14 +352,14 @@ class EditDrugDirectory extends PureComponent{
                 <div className='ant-form-item-control'>{fillBackData?fillBackData.approvalNo:''}</div>
               </div>
             </Col>
-            <Col span={8}>
+            {/* <Col span={8}>
               <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
                   <label>药品编码</label>
               </div>
               <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18">
                 <div className='ant-form-item-control'>{fillBackData?fillBackData.hisDrugCode:''}</div>
               </div>
-            </Col>
+            </Col> */}
             <Col span={8}>
               <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
                   <label>状态</label>
@@ -391,7 +393,7 @@ class EditDrugDirectory extends PureComponent{
                     <label>价格</label>
                   </div>
                   <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18">
-                    <div className='ant-form-item-control'>{fillBackData?fillBackData.ctmmTradeName:''}</div>
+                    <div className='ant-form-item-control'>{fillBackData && fillBackData.drugPrice ? fillBackData.drugPrice.toFixed(4):''}</div>
                   </div>
                 </Col>
                 <Col span={8}>
@@ -399,7 +401,7 @@ class EditDrugDirectory extends PureComponent{
                     <label>供应商</label>
                   </div>
                   <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18">
-                    <div className='ant-form-item-control'>{fillBackData?fillBackData.ctmmAnotherName:''}</div>
+                    <div className='ant-form-item-control'>{fillBackData?fillBackData.supplierName:''}</div>
                   </div>
                 </Col>
                 <Col span={8}>
@@ -423,7 +425,7 @@ class EditDrugDirectory extends PureComponent{
             <Panel header="药品信息" key="5" style={customPanelStyle}>
               <Row className='fixHeight'>
                 {this.getLayoutInfo('药品名称',fillBackData?fillBackData.ctmmDesc:'')}
-                {this.getLayoutInfo('药品剂量',fillBackData?fillBackData.ctphdmiDosageUnitDesc:'')}
+                {this.getLayoutInfo('药品剂量',fillBackData?fillBackData.ctmmDosage:'')}
                 {this.getLayoutInfo('药学分类描述',fillBackData?fillBackData.ctphdmiCategoryDesc:'')}
                 {this.getLayoutInfo('管制分类描述',fillBackData?fillBackData.ctphdmiRegulatoryClassDesc:'')}
                 {this.getLayoutInfo('危重药物标志',fillBackData?fillBackData.ctmmCriticalCareMedicine:'')}

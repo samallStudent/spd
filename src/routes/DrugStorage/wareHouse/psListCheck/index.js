@@ -1,8 +1,8 @@
 /*
  * @Author: gaofengjiao 
  * @Date: 2018-08-06
- * @Last Modified by: gaofengjiao
- * @Last Modified time: 2018-08-06
+ * @Last Modified by: wwb
+ * @Last Modified time: 2018-10-26 16:34:53
  */
 /**
  * @file 药库 - 入库--配送单验收--列表
@@ -33,7 +33,12 @@ const columns = [
    width: 280,
    render: (text,record) =>{
      return <span>
-        <Link to={{pathname: `/drugStorage/wareHouse/psListCheck/detail/id=${record.distributeCode}&state=${record.auditStatus}`}}>{text}</Link>
+       {
+         record.type === 1 || record.type === 2 || record.type === 4?  // 1 ,2,4 配送单详情  3  出库单详情
+         <Link to={{pathname: `/drugStorage/wareHouse/psListCheck/detail/id=${record.distributeCode}&state=${record.auditStatus}`}}>{text}</Link>
+         :
+         <Link to={{pathname: `/drugStorage/wareHouse/psListCheck/outDetail/id=${record.distributeCode}&state=${record.auditStatus}`}}>{text}</Link>
+       }
       </span>
    }
   },

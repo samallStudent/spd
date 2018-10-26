@@ -1,6 +1,6 @@
 import React , {PureComponent} from 'react';
 import { Form, Row, Col, Button, Input, Select, Icon, Tooltip, message, Modal, Radio  } from 'antd';
-// import { configMgt } from '../../../api/drugStorage/configMgt';
+import { supplierDurs } from '../../../api/drugStorage/supplierDrugs';
 import { Link } from 'react-router-dom';
 import RemoteTable from '../../../components/TableGrid';
 import { connect } from 'dva';
@@ -35,6 +35,7 @@ class SearchForm extends PureComponent{
       return keyItem;
     });
     this.props.form.setFieldsValue(value);
+
   }
   handleSearch = (e) => {
     e.preventDefault();
@@ -55,6 +56,7 @@ class SearchForm extends PureComponent{
   render(){
     const { getFieldDecorator } = this.props.form;
     const {display} = this.props.formProps.base;
+    const { deptList } = this.props;
     const expand = display === 'block';
     return (
       <Form className="ant-advanced-search-form" onSubmit={this.handleSearch}>
@@ -67,6 +69,11 @@ class SearchForm extends PureComponent{
                 })(
                   <Select placeholder="请选择">
                     <Option key='' value=''>全部</Option>
+                    {
+                      deptList.map(item => (
+                        <Option key={item.ctmaSupplierCode} value={item.ctmaSupplierCode}>{item.ctmaSupplierName}</Option>
+                      ))
+                    }
                   </Select>
                 )
               }
@@ -80,8 +87,8 @@ class SearchForm extends PureComponent{
                 })(
                   <Select placeholder="请选择">
                     <Option key='' value=''>全部</Option>
-                    <Option key='2' value='2'>是</Option>
-                    <Option key='1' value='1'>否</Option>
+                    <Option key='2' value='2'>采购</Option>
+                    <Option key='1' value='1'>零库存</Option>
                   </Select>
                 )
               }
@@ -126,22 +133,22 @@ const WrappSearchForm = Form.create()(SearchForm);
 const columns = [
   {
     title: '供应商',
-    dataIndex: 'ctmmGenericName',
+    dataIndex: 'supplierName',
     width: 168,
   },
   {
     title: '通用名',
+    dataIndex: 'ctmmGenericName',
+    width: 224,
+  },
+  {
+    title: '商品名',
     dataIndex: 'ctmmTradeName',
     width: 224,
   },
   {
-    title: '通用名',
-    dataIndex: 'spm',
-    width: 224,
-  },
-  {
     title: '生产厂家',
-    dataIndex: 'sccj',
+    dataIndex: 'ctmmManufacturerName',
     width: 224,
     className: 'ellipsis',
     render:(text)=>(
@@ -169,8 +176,11 @@ const columns = [
   },
   {
     title: '价格',
-    dataIndex: 'replanUnit',
-    width: 112
+    dataIndex: 'drugPrice',
+    width: 112,
+    render: (text,record) =>{
+      return text === undefined || text == null ? '0.00': text.toFixed(2);
+    }
   },
   {
     title: '批准文号',
@@ -185,7 +195,7 @@ const columns = [
     render: (text, record)=>{
       return (
         <span>
-          <Link to={{pathname: `/sys/drugDirectory/supplierDrugs/edit`}}>{'编辑'}</Link>
+          <Link to={{pathname: `/sys/drugDirectory/supplierDrugs/edit/${record.id}/${record.hisDrugCode}`}}>{'编辑'}</Link>
         </span>
       )
     }
@@ -202,7 +212,21 @@ class DrugDirectory extends PureComponent{
     modalQuery: {}
   }
   componentDidMount() {
-
+    this.props.dispatch({
+      type: 'supplierDrugs/genSupplier',
+      callback: ({data, code, msg}) => {
+        if(code === 200) {
+          this.setState({
+            deptList: data,
+            modalQuery: {
+              deptCode: data[0].id
+            }
+          });
+        }else {
+          message.error(msg);
+        }
+      }
+    });
   }
   // 批量设置上下限
   bitchEdit = () =>{
@@ -270,16 +294,18 @@ class DrugDirectory extends PureComponent{
       <RemoteTable
         ref='table'
         query={query}
+        isJson={true}
         style={{marginTop: 20}}
         columns={columns}
         scroll={{ x: 1748 }}
+        url={supplierDurs.findDrugsList}
         rowSelection={{
           selectedRowKeys: this.state.selected,
           onChange: (selectedRowKeys, selectedRows) => {
             this.setState({selected: selectedRowKeys, selectedRows: selectedRows})
           }
         }}
-        rowKey='detailId'
+        rowKey='id'
         onChange={this._tableChange}
       />
     </div>

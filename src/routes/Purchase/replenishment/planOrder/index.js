@@ -2,7 +2,7 @@
  * @Author: wwb 
  * @Date: 2018-07-24 16:08:53 
  * @Last Modified by: wwb
- * @Last Modified time: 2018-08-31 20:23:41
+ * @Last Modified time: 2018-10-26 10:23:50
  */
 
 /**
@@ -208,6 +208,7 @@ class PlanOrder extends PureComponent{
     selected: [],
     selectedRows: [],
     loading: false,
+    sendLoading: false
   }
   //关闭订单
   closeOrder = () =>{
@@ -237,16 +238,24 @@ class PlanOrder extends PureComponent{
     }
   }
   sendOrder = () =>{
-    let { selected,selectedRows } = this.state;
+    let { selected, selectedRows, query } = this.state;
     if (selected.length === 0) {
      return message.warn('请至少选择一条数据')
     }
-    let orderLength =  selectedRows.filter(item => item.orderStatus === '1')[0].length;
+    let orderLength =  selectedRows.filter(item => item.orderStatus === 1).length;
     if(orderLength === selectedRows.length){
-      this.setState({ loading: true });
+      let orderCodeList = selectedRows.map(item => item.orderCode);
+      console.log(orderCodeList,'orderCodeList')
+      this.setState({ sendLoading: true });
       this.props.dispatch({
         type: 'replenish/sendOrder',
-        payload: {}
+        payload: { orderCodeList },
+        callback: (flag) =>{
+          this.setState({ sendLoading: false });
+          if(flag){
+            this.refs.table.fetch(query);
+          }
+        }
       })
     }else{
       return message.warning('选中的数据中存在状态非待审核的单据,请检查重新提交')
@@ -259,7 +268,7 @@ class PlanOrder extends PureComponent{
     })
   }
   render(){
-    const { loading } = this.state;
+    const { loading, sendLoading } = this.state;
     const columns = [
       {
         title: '订单号',
@@ -311,7 +320,7 @@ class PlanOrder extends PureComponent{
             formProps={{...this.props}}
           />
          <div className='ant-row-bottom'>
-            <Button type='primary' onClick={this.sendOrder} disabled >发送订单</Button>
+            <Button type='primary' onClick={this.sendOrder} loading={sendLoading}>发送订单</Button>
             <Button type='default' onClick={this.closeOrder} loading={loading} style={{ marginLeft: 8 }}>取消订单</Button>
          </div>
          <RemoteTable 

@@ -47,7 +47,7 @@ class GoodsAllocation extends PureComponent{
       type:'Organization/GetGoodsType',
       payload:null,
       callback:(data)=>{
-        console.log(data)
+        // console.log(data)
         this.setState({
           goosTypeSelect:data.data
         })
@@ -59,7 +59,7 @@ class GoodsAllocation extends PureComponent{
       type:'Organization/GetUserList',
       payload:null,
       callback:(data)=>{
-        console.log(data)
+        // console.log(data)
         this.setState({
           getUserListSelect:data.data
         })
@@ -77,17 +77,14 @@ class GoodsAllocation extends PureComponent{
   onSubmitModal = () => {
     this.props.form.validateFields((err,values)=>{
       if(!err){
-        console.log(JSON.stringify(values)  )
         values.deptCode = this.props.match.params.id;
         if(values.positionType){
           values.positionType=Number(values.positionType);
         };
         values.id = this.state.record.id;
         this.props.dispatch({
-          type:'Organization/OperSysDept',
-          payload:{
-            goods:[values],
-          },
+          type:'Organization/saveOrUpdateGoodsPlace',
+          payload:{ ...values },
           callback:(data)=>{
             this.onCancelModal();
             this.refs.tableGoods.fetch();

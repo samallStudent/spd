@@ -52,3 +52,11 @@ export function GetGoodsType(options){
     body: options
   })
 }
+// 新增货位
+export function saveOrUpdate(options){
+  return request(`${_local}/a/dept/saveOrUpdate`,{ 
+    method: 'POST',
+    type: 'formData',
+    body: options
+  })
+}

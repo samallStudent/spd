@@ -74,6 +74,15 @@ export function orderStatus(options) {
   })
 }
 
+//  发送订单
+export function sendOrder(options) {
+  return request(`${_local}/a/purchaseorder/sendOrder2Supplier`, {
+    method: 'POST',
+    type: 'json',
+    body: options
+  })
+}
+
 // 关闭订单
 export function closeOrder(options) {
   return request(`${_local}/a/purchaseorder/closeOrder`, {

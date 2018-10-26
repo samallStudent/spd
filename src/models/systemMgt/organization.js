@@ -61,6 +61,16 @@ export default {
         message.error(data.msg);
       }
     },
+    // 新增货位
+    *saveOrUpdateGoodsPlace({ payload, callback },{ put, call }){
+      const data = yield call(DepartmentService.saveOrUpdate, payload);
+      if (data.code === 200) {
+        if (callback) callback(data);
+      } else {
+        message.error(data.msg);
+      }
+    },
+
     /******   供应商管理  *****/
     *SupplierSave({ payload, callback },{ put, call }){
       const data = yield call(supplierMgtService.SupplierSave, payload);
