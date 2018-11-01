@@ -4,6 +4,8 @@ import {_local} from '../local';
 export const common = {
   CHECKBILL_LIST: `${_local}/a/checkbill/list`,   //盘点列表
   SUPPLIER_LIST: `${_local}/a/depot/supplier/all`,     //供应商下拉
+  QUERY_DRUG_BY_LIST: `${_local}/a/common/queryDrugByList`,  //搜索
+  SHEVE_LIST: `${_local}/a/checkbill/sheveList`,        //全院盘点审核
 }
 /*-- 新建盘点 --*/
 export const checkDecrease = {

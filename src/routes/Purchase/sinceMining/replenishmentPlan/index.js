@@ -152,7 +152,10 @@ const WrapperForm = Form.create()(SearchForm);
 class ReplenishmentPlan extends PureComponent {
   state = {
     loading: false,
-    query: { planType: '1' },
+    query: { 
+      planType: '1',
+      purchaseType: 2
+    },
     selectedRowKeys: [],
     selectedRows: [],
     typeListDate: []
@@ -207,10 +210,6 @@ class ReplenishmentPlan extends PureComponent {
         dataIndex: 'statusName',
         width: 112,
       }, {
-        title: '供应商',
-        dataIndex: 'supplierName',
-        width: 168,
-      }, {
         title: '发起人',
         dataIndex: 'createUserName',
         width: 168,
@@ -253,7 +252,7 @@ class ReplenishmentPlan extends PureComponent {
           onChange={this._tableChange}
           query={query}
           columns={columns}
-          scroll={{x: 1560}}
+          scroll={{x: 1392}}
           style={{marginTop: 20}}
           ref='table'
           rowKey={'id'}

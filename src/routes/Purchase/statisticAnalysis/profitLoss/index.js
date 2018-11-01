@@ -51,7 +51,7 @@ class SearchForm extends PureComponent{
     });
     this.props.form.setFieldsValue(value);
     dispatch({
-      type: 'statistics/getDeptByParam',
+      type: 'statistics/getDeptInfo',
       callback: ({data, code, msg}) => {
         if(code === 200) {
           this.setState({

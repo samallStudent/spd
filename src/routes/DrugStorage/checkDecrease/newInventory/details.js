@@ -3,12 +3,12 @@
  */
 import React, { PureComponent } from 'react';
 import {Row, Col, Input, Button, message, Tooltip, DatePicker, InputNumber} from 'antd';
-import {checkDecrease} from '../../../../api/checkDecrease';
+import {checkDecrease, common} from '../../../../api/checkDecrease';
 import RetomeTable from '../../../../components/TableGrid';
+import FetchSelect from '../../../../components/FetchSelect/index';
 import {connect} from 'dva';
 import moment from 'moment';
 import {difference} from 'loadsh';
-const {Search} = Input;
 const monthFormat = 'YYYY-MM-DD';
 class Details extends PureComponent {
   constructor(props) {
@@ -284,9 +284,11 @@ class Details extends PureComponent {
   }
   onSearch = (value) => {
     let {query} = this.state;
-    query.paramName = value;
     this.setState({
-      query: {...query}
+      query: {
+        ...query,
+        hisDrugCodeList: value ? [value] : []
+      }
     });
   }
   //table回调
@@ -460,6 +462,7 @@ class Details extends PureComponent {
                 });
               }}
               ref={'table'}
+              isJson
               query={query}
               data={dataSource}
               url={checkDecrease.GET_LIST_BY_BILLNO}
@@ -483,6 +486,7 @@ class Details extends PureComponent {
     if(info.checkStatus && info.checkStatus !== 2) {
       return <RetomeTable
               ref={'table'}
+              isJson
               query={query}
               url={checkDecrease.GET_LIST_BY_BILLNO}
               scroll={{x: 2800}}
@@ -774,7 +778,13 @@ class Details extends PureComponent {
               </div>
               <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18" style={{ marginLeft: -30 }}>
                 <div className='ant-form-item-control'>
-                  <Search onSearch={this.onSearch} placeholder={'通用名称/商品名称'} />
+                  <FetchSelect
+                    style={{width: '100%'}}
+                    allowClear
+                    placeholder='通用名/商品名'
+                    url={common.QUERY_DRUG_BY_LIST}
+                    cb={this.onSearch}
+                  />
                 </div>
               </div>
             </Col>

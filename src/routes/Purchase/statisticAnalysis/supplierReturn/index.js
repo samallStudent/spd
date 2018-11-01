@@ -60,7 +60,7 @@ class SearchForm extends PureComponent{
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        const closeDate = values.closeDate === undefined ? '' : values.invoiceDate;
+        const closeDate = values.closeDate === undefined ? '' : values.closeDate;
         if (closeDate.length > 0) {
           values.startTime = closeDate[0].format('YYYY-MM-DD');
           values.endTime = closeDate[1].format('YYYY-MM-DD');

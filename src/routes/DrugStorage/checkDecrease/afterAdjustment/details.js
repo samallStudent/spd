@@ -2,11 +2,11 @@
  * @file 药库 - 盘点损益 - 新建盘点 - 详情(待确认)
  */
 import React, { PureComponent } from 'react';
-import {Row, Col, Input, Button, message, Tooltip} from 'antd';
-import {checkDecrease} from '../../../../api/checkDecrease';
+import {Row, Col, Button, message, Tooltip} from 'antd';
+import {checkDecrease, common} from '../../../../api/checkDecrease';
 import RetomeTable from '../../../../components/TableGrid';
+import FetchSelect from '../../../../components/FetchSelect/index';
 import {connect} from 'dva';
-const {Search} = Input;
 class Details extends PureComponent {
   state = {
     info: {},
@@ -61,9 +61,11 @@ class Details extends PureComponent {
   //搜索
   onSearch = (value) => {
     let {query} = this.state;
-    query.paramName = value;
     this.setState({
-      query: {...query}
+      query: {
+        ...query,
+        hisDrugCodeList: value ? [value] : []
+      }
     });
   }
   render() {
@@ -268,7 +270,13 @@ class Details extends PureComponent {
               </div>
               <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18" style={{ marginLeft: -30 }}>
                 <div className='ant-form-item-control'>
-                  <Search onSearch={this.onSearch} placeholder={'通用名称/商品名称'} />
+                  <FetchSelect
+                    style={{width: '100%'}}
+                    allowClear
+                    placeholder='通用名/商品名'
+                    url={common.QUERY_DRUG_BY_LIST}
+                    cb={this.onSearch}
+                  />
                 </div>
               </div>
             </Col>
@@ -283,6 +291,7 @@ class Details extends PureComponent {
           <hr className="hr"/>
           <RetomeTable
             query={query}
+            isJson
             url={checkDecrease.GET_LIST_BY_BILLNO}
             scroll={{x: 2636}}
             columns={columns}

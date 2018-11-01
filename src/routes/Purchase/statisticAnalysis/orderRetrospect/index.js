@@ -238,6 +238,7 @@ class OrderRetrospect extends PureComponent {
   exort = () => {
     let {queryConditons} = this.props.base;
     queryConditons = {...queryConditons};
+    delete queryConditons.closeDate;
     delete queryConditons.key;
     delete queryConditons.pageNo;
     delete queryConditons.pageSize;

@@ -8,51 +8,51 @@ const SubMenu = Menu.SubMenu;
 // 使用递归创建菜单
 // 正式数据
 const createMenu = menuList => {
-return (
-  Array.isArray(menuList.children) ? menuList.children.map((menu, index) => {
-    // let key;
-    // if(menu.children){
-    //   let href = menu.children[0].href;
-    //   if(href){
-    //     let hrefArr = href.split('/');
-    //     let len = hrefArr.length === 3 ? 2: 3;
-    //     key = hrefArr.slice(0,len).join('/');
-    //     // console.log(key);
-    //   }
-    // }
-    if(menu.children && menu.name) {
-      return (
-        <SubMenu
-          className='ysy-menu-Item'
-          // key={key ? key: menu.id}
-          key={menu.id}
-          title={<span><Icon type={menu.icon} /><span>{menu.name}</span></span>}
-        >
-          { createMenu(menu) }
-        </SubMenu>
-      )
-    };
-    if(menu.name) {
-      return (
-        <Menu.Item 
-          name={menu.name} 
-          key={menu.href && menu.href[menu.href.length-1] === '/' ? menu.href.substring(0,menu.href.length-1): menu.href && menu.href[menu.href.length-1] !== '/'? menu.href :menu.id } 
-          href={menu.href} 
-          id={menu.id}
-        >
-          {/* <Icon type={menu.icon} /> */}
-          <span> { menu.name } </span>
-        </Menu.Item>
-      )
-    };
-    return null;
-  }) : (
-    <Menu.Item name={menuList.name} key={menuList.key} href={menuList.href} id={menuList.id}>
-      <Icon type={menuList.icon} />
-      <span> { menuList.name } </span>
-    </Menu.Item>
+  return (
+    Array.isArray(menuList.children) ? menuList.children.map((menu, index) => {
+      // let key;
+      // if(menu.children){
+      //   let href = menu.children[0].href;
+      //   if(href){
+      //     let hrefArr = href.split('/');
+      //     let len = hrefArr.length === 3 ? 2: 3;
+      //     key = hrefArr.slice(0,len).join('/');
+      //     // console.log(key);
+      //   }
+      // }
+      if(menu.children && menu.name) {
+        return (
+          <SubMenu
+            className='ysy-menu-Item'
+            // key={key ? key: menu.id}
+            key={menu.id}
+            title={<span><Icon type={menu.icon} /><span>{menu.name}</span></span>}
+          >
+            { createMenu(menu) }
+          </SubMenu>
+        )
+      };
+      if(menu.name) {
+        return (
+          <Menu.Item 
+            name={menu.name} 
+            key={menu.href && menu.href[menu.href.length-1] === '/' ? menu.href.substring(0,menu.href.length-1): menu.href && menu.href[menu.href.length-1] !== '/'? menu.href :menu.id } 
+            href={menu.href} 
+            id={menu.id}
+          >
+            {/* <Icon type={menu.icon} /> */}
+            <span> { menu.name } </span>
+          </Menu.Item>
+        )
+      };
+      return null;
+    }) : (
+      <Menu.Item name={menuList.name} key={menuList.key} href={menuList.href} id={menuList.id}>
+        <Icon type={menuList.icon} />
+        <span> { menuList.name } </span>
+      </Menu.Item>
+    )
   )
-)
 }
 /* const createMenu = menuList => {
 return (
@@ -196,12 +196,10 @@ onOpenChange = openKeys => {
 }
 componentWillReceiveProps = (nextProps) => {
   this.changeActiveKeys();
+  this.setSubTitle();
   if(this.props.users.currentMenuList.name && this.props.users.currentMenuList.name !== nextProps.users.currentMenuList.name && nextProps.users.currentMenuList.name) {
     this.props.cb(nextProps.users.currentMenuList.children[0].children[0].name);
-  }
-  if(!this.props.title){
-    this.setSubTitle()
-  }
+  };
   if (nextProps.collapsed) {
     this.setState({ openKeys: [] })
   }

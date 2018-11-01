@@ -172,13 +172,21 @@ export function backStorage(options) {
     body: options
   })
 }
+// 退货 确认操作
+export function backSubmit(options) {
+  return request(`${_local}/a/basemedicine/baseBack/backSubmit`,{
+    method: 'POST',
+    type: 'json',
+    body: options
+  })
+}
 
 /* 召回及锁定 */  
 // 删除召回单据
 export function deleteRecall(options) {
   return request(`${_local}/a/roomrecall/delete`,{
     method: 'POST',
-    type: 'formData',
+    type: 'json',
     body: options
   })
 }
@@ -220,6 +228,14 @@ export function batchAudit(options) {
  // 审核不通过
 export function reject(options) {
   return request(`${_local}/a/roomrecall/reject`,{
+    method: 'POST',
+    type: 'formData',
+    body: options
+  })
+}
+//发起部门
+export function getDeptInfoAndStore(options) {
+  return request(`${_local}/a/sys/sysdept/getDeptInfoAndStore`,{
     method: 'POST',
     type: 'formData',
     body: options

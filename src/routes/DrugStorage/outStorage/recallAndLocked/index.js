@@ -168,17 +168,15 @@ class RecallAndLocked extends PureComponent {
     display: 'none'
   }
   delete = () =>{
-    const { selectedRows, query } = this.state;
+    let { selectedRows, query } = this.state;
     if (selectedRows.length === 0) {
       return message.warn('请选择一条数据');
-    }
-    if(selectedRows.length > 1){
-      return message.warning('只能选择一条数据');
-    }
+    };
+    selectedRows = selectedRows.map(item => item.recallNo);
     this.setState({ loading: true });
     this.props.dispatch({
       type: 'outStorage/deleteRecallPlan',
-      payload: { recallNo: selectedRows[0].recallNo },
+      payload: { recallNos: selectedRows },
       callback: () =>{
         message.success('删除成功');
         this.setState({ loading: false });
@@ -216,9 +214,9 @@ class RecallAndLocked extends PureComponent {
         dataIndex: 'recallTypeName',
       },
       {
-        title: '供应商',
-        width: 224,
-        dataIndex: 'supplierName',
+        title: '召回原因',
+        width: 280,
+        dataIndex: 'remarks',
       },
       {
         title: '发起人',
@@ -240,11 +238,6 @@ class RecallAndLocked extends PureComponent {
        width: 224,
        dataIndex: 'updateDate',
       },
-      {
-        title: '原因',
-        width: 280,
-        dataIndex: 'remarks',
-       }
     ];
     let query = this.props.base.queryConditons;
     delete query.key;
@@ -266,7 +259,7 @@ class RecallAndLocked extends PureComponent {
           url={outStorage.ROOMRECALL_LIST}
           columns={columns}
           rowKey={'id'}
-          scroll={{ x: 1784 }}
+          scroll={{ x: 1512 }}
           style={{marginTop: 20}}
           rowSelection={{
             selectedRowKeys: this.state.selected,

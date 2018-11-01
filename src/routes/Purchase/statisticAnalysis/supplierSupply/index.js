@@ -63,13 +63,13 @@ class SearchForm extends PureComponent{
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        const closeDate = values.closeDate === undefined ? '' : values.invoiceDate;
+        const closeDate = values.closeDate === undefined ? '' : values.closeDate;
         if (closeDate.length > 0) {
-          values.invoiceStartTime = closeDate[0].format('YYYY-MM-DD');
-          values.invoiceEndTime = closeDate[1].format('YYYY-MM-DD');
+          values.startTime = closeDate[0].format('YYYY-MM-DD');
+          values.endTime = closeDate[1].format('YYYY-MM-DD');
         }else {
-          values.invoiceStartTime = '';
-          values.invoiceEndTime = '';
+          values.startTime = '';
+          values.endTime = '';
         };
         values.supplierCodeList = values.supplierCodeList ? [values.supplierCodeList] : [];
         this.props.formProps.dispatch({
@@ -172,6 +172,12 @@ class SupplierSupply extends PureComponent {
       });
     }
   }
+  _tableChange = values => {
+    this.props.dispatch({
+      type:'base/setQueryConditions',
+      payload: values
+    });
+  }
   render() {
     const columns = [
       {
@@ -184,31 +190,31 @@ class SupplierSupply extends PureComponent {
         width: 168,
       }, {
         title: '订单发送时间',
-        dataIndex: 'orderTime',
+        dataIndex: 'sendTime',
         width: 168,
       }, {
         title: '平均到货天数',
-        dataIndex: 'avgArriveDay',
+        dataIndex: 'arriveDay',
         width: 168,
         sorter: () => false
       }, {
         title: '采购品种数',
-        dataIndex: 'purchaseTypeNum',
+        dataIndex: 'purchaseVariety',
         width: 168,
         sorter: () => false
       }, {
         title: '配送品种数',
-        dataIndex: 'actualTypeNum',
+        dataIndex: 'deliverVariety',
         width: 168,
         sorter: () => false
       }, {
         title: '采购数量',
-        dataIndex: 'purchaseCount',
+        dataIndex: 'purchaseNum',
         width: 112,
         sorter: () => false
       }, {
         title: '实际到货数量',
-        dataIndex: 'actualCount',
+        dataIndex: 'actualNum',
         width: 168,
         sorter: () => false
       }

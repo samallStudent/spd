@@ -35,11 +35,6 @@ const formRemarkLayout = {
 }
 const columns = [
   {
-   title: '部门',
-   width: 168,
-   dataIndex: 'deptName',
-  },
-  {
     title: '库存数量',
     width: 112,
     dataIndex: 'usableQuantity',
@@ -106,15 +101,9 @@ const columns = [
     render:(text)=>(
       <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
     )
-  },
-  {
-    title: '供应商',
-    width: 224,
-    dataIndex: 'supplierName',
   }
 ];
 const modalColumns = [
-  
   {
     title: '通用名称',
     dataIndex: 'ctmmGenericName',
@@ -172,11 +161,6 @@ const modalColumns = [
     render:(text)=>(
       <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
     )
-  },
-  {
-    title: '供应商',
-    dataIndex: 'supplierName',
-    width: 224,
   }
 ];
 class RemarksForm extends PureComponent{
@@ -420,7 +404,7 @@ class AddRefund extends PureComponent{
             dataSource={dataSource}
             title={()=>'产品信息'}
             bordered
-            scroll={{x: 2460}}
+            scroll={{x: 2236}}
             columns={columns}
             rowKey={'uuid'}
             style={{marginTop: 24}}
@@ -513,7 +497,7 @@ class AddRefund extends PureComponent{
               bordered
               isJson={true}
               url={outStorage.RECALLORLOCKADDPRODUCT_LIST}
-              scroll={{x: 2128}}
+              scroll={{x: 1904}}
               columns={modalColumns}
               rowKey={'uuid'}
               rowSelection={{

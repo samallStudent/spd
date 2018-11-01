@@ -34,9 +34,9 @@ const columns = [
     dataIndex: 'recallTypeName',
   },
   {
-    title: '供应商',
-    width: 224,
-    dataIndex: 'supplierName',
+    title: '召回原因',
+    dataIndex: 'remarks',
+    width: 280
   },
   {
     title: '发起人',
@@ -57,11 +57,6 @@ const columns = [
     title: '审核时间',
     width: 224,
     dataIndex: 'updateDate',
-  },
-  {
-    title: '原因',
-    dataIndex: 'remarks',
-    width: 280
   }
 ];
 /* 搜索 - 表单 */
@@ -266,7 +261,7 @@ class RecallAndLockedCheck extends PureComponent{
           query={query}
           bordered
           url={outStorage.ROOMRECALL_LIST}
-          scroll={{x: 1784}}
+          scroll={{x: 1560}}
           columns={columns}
           rowKey={'id'}
           style={{marginTop: 20}}

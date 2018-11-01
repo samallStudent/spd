@@ -421,6 +421,18 @@ export const getNavData = app => [
       component: dynamicWrapper(app, ['drugStorage/outStorage'], () => import('../routes/DrugStorage/outStorage/outReceiptMgt/details')),
     },
     {
+      name: "全院管理 - 药库出库/退货复核",
+      icon: 'setting',
+      path: '/purchase/supplementDoc/outReceiptMgt',
+      component: dynamicWrapper(app, ['drugStorage/outStorage'], () => import('../routes/Purchase/supplementDoc/outReceiptMgt')),
+    },
+    {
+      name: "全院管理 - 药库出库/退货复核-详情",
+      icon: 'setting',
+      path: '/purchase/supplementDoc/outReceiptMgt/details/:id',
+      component: dynamicWrapper(app, ['drugStorage/outStorage'], () => import('../routes/Purchase/supplementDoc/outReceiptMgt/details')),
+    },
+    {
       name: "手工出库",
       icon: 'setting',
       path: '/drugStorage/outStorage/withdraw',
@@ -504,13 +516,6 @@ export const getNavData = app => [
       icon: 'setting',
       path: '/drugStorage/goodsAdjust/adjust/detail/:id',
       component: dynamicWrapper(app, ['drugStorage/goodsAdjust'], () => import('../routes/DrugStorage/goodsAdjust/adjust/detail')),
-    },
-    // 药库 - 盘点损益
-    {
-      name: "盘点损益",
-      icon: 'setting',
-      path: '/drugStorage/checkDecrease',
-      component: dynamicWrapper(app, [], () => import('../routes/DrugStorage/checkDecrease/newInventory')),
     },
     // 药库 - 盘点损益 - 新建盘点
     {
@@ -726,6 +731,30 @@ export const getNavData = app => [
       component: dynamicWrapper(app, ['pharmacy/configMgt'], () => import('../routes/SystemMgt/baseMgt/drug'))
     },
     {
+      name: '全院管理 - 盘点损益',
+      icon: 'setting',
+      path: '/purchase/checkDecrease/inventoryAudit',
+      component: dynamicWrapper(app, ['checkDecrease/index', 'purchase/statistics'], () => import('../routes/Purchase/checkDecrease/inventoryAudit'))
+    },
+    {
+      name: '全院管理 - 盘点损益 - 详情',
+      icon: 'setting',
+      path: '/purchase/checkDecrease/inventoryAudit/details/:id',
+      component: dynamicWrapper(app, ['checkDecrease/index'], () => import('../routes/Purchase/checkDecrease/inventoryAudit/details'))
+    },
+    {
+      name: "全院管理 - 召回及锁定审核",
+      icon: 'setting',
+      path: '/purchase/outStorage/recallAndLockedCheck',
+      component: dynamicWrapper(app, ['drugStorage/outStorage'], () => import('../routes/Purchase/outStorage/recallAndLockedCheck')),
+    },
+    {
+      name: "全院管理 - 召回及锁定审核详情",
+      icon: 'setting',
+      path: '/purchase/outStorage/recallAndLockedCheck/details/:recallNo/:recallStatus',
+      component: dynamicWrapper(app, ['drugStorage/outStorage'], () => import('../routes/Purchase/outStorage/recallAndLockedCheck/details')),
+    },
+    {
       name: '药房管理',//药房-药房管理
       icon: 'setting',
       path: '/pharmacy/manage',
@@ -932,16 +961,22 @@ export const getNavData = app => [
       component: dynamicWrapper(app, [], () => import('../routes/Pharmacy/outStorage/refund')),
     },
     {
-      name: "退库-新增",//药库-出库-退库-新增
-      icon: 'setting',
-      path: '/pharmacy/outStorage/refund/add',
-      component: dynamicWrapper(app, [], () => import('../routes/Pharmacy/outStorage/refund/add')),
-    },
-    {
       name: "退库-详情",//药库-出库-退库-详情
       icon: 'setting',
       path: '/pharmacy/outStorage/refund/details/:backNo',
       component: dynamicWrapper(app, [], () => import('../routes/Pharmacy/outStorage/refund/details')),
+    },
+    {
+      name: "基数药 - 退库",
+      icon: 'setting',
+      path: '/baseDrug/outStorage/refund',
+      component: dynamicWrapper(app, [], () => import('../routes/BaseDrug/outStorage/refund')),
+    },
+    {
+      name: "基数药 - 退库-详情",
+      icon: 'setting',
+      path: '/baseDrug/outStorage/refund/details/:backNo',
+      component: dynamicWrapper(app, [], () => import('../routes/BaseDrug/outStorage/refund/details')),
     },
     //药房-出库-受理配货
     {
@@ -1027,6 +1062,20 @@ export const getNavData = app => [
       path: '/pharmacy/outStorage/pharmacyReview/details/:id',
       component: dynamicWrapper(app, ['drugStorage/outStorage'], () => import('../routes/Pharmacy/outStorage/pharmacyReview/details')),
     },
+    // 全院管理 - 药房-出库/退库复核
+    {
+      name: "全院管理 - 药房 - 出库/退库复核",
+      icon: 'setting',
+      path: '/purchase/supplementDoc/pharmacyReview',
+      component: dynamicWrapper(app, [], () => import('../routes/Purchase/supplementDoc/pharmacyReview')),
+    },
+    // 全院管理 - 药房-出库/退库复核-详情
+    {
+      name: "全院管理 - 药房 - 出库/退库复核 - 详情",
+      icon: 'setting',
+      path: '/purchase/supplementDoc/pharmacyReview/details/:id',
+      component: dynamicWrapper(app, ['drugStorage/outStorage'], () => import('../routes/Purchase/supplementDoc/pharmacyReview/details')),
+    },
     /* ********************      货位调整      ************************** */
     {
       name: "货位调整",
@@ -1082,6 +1131,18 @@ export const getNavData = app => [
       icon: 'setting',
       path: '/pharmacy/supplementDoc/supplementDocCheck/detail/:id',
       component: dynamicWrapper(app, ['pharmacy/wareHouse'], () => import('../routes/Pharmacy/supplementDoc/supplementDocCheck/detail')),
+    },
+    {
+      name: "全院管理 - 补登单审核",
+      icon: 'setting',
+      path: '/purchase/supplementDoc/supplementDocCheck',
+      component: dynamicWrapper(app, ['pharmacy/wareHouse'], () => import('../routes/Purchase/supplementDoc/supplementDocCheck')),
+    },
+    {
+      name: "全院管理 - 补登单审核 - 详情",
+      icon: 'setting',
+      path: '/purchase/supplementDoc/supplementDocCheck/detail/:id',
+      component: dynamicWrapper(app, ['pharmacy/wareHouse'], () => import('../routes/Purchase/supplementDoc/supplementDocCheck/detail')),
     },
     /* ***************  系统管理  ******************* */
     {
@@ -1265,6 +1326,18 @@ export const getNavData = app => [
       component: dynamicWrapper(app, [], () => import('../routes/Purchase/sinceMining/outCatalogPurchase/detail')),
     },
     {
+      name: "采购结算-自采管理--自采库存查询",
+      icon: 'setting',
+      path: '/purchase/sinceMining/sinceMiningStore',
+      component: dynamicWrapper(app, [], () => import('../routes/Purchase/sinceMining/sinceMiningStore')),
+    },
+    {
+      name: "采购结算-自采管理--自采库存查询--详情",
+      icon: 'setting',
+      path: '/purchase/sinceMining/sinceMiningStore/details/:id',
+      component: dynamicWrapper(app, [], () => import('../routes/Purchase/sinceMining/sinceMiningStore/details')),
+    },
+    {
       name: "采购结算-补货管理--计划审核",
       icon: 'setting',
       path: '/purchase/replenishment/planCheck',
@@ -1275,6 +1348,18 @@ export const getNavData = app => [
       icon: 'setting',
       path: '/purchase/replenishment/planCheck/detail/:planCode/:auditStatus',
       component: dynamicWrapper(app, ['replenishment/replenish'], () => import('../routes/Purchase/replenishment/planCheck/detail')),
+    },
+    {
+      name: "采购结算-补货管理--自采计划审核",
+      icon: 'setting',
+      path: '/purchase/replenishment/sinceMiningPlanCheck',
+      component: dynamicWrapper(app, ['replenishment/replenish'], () => import('../routes/Purchase/replenishment/sinceMiningPlanCheck')),
+    },
+    {
+      name: "采购结算-补货管理--自采计划审核--详情",
+      icon: 'setting',
+      path: '/purchase/replenishment/sinceMiningPlanCheck/detail/:planCode/:auditStatus',
+      component: dynamicWrapper(app, ['replenishment/replenish'], () => import('../routes/Purchase/replenishment/sinceMiningPlanCheck/detail')),
     },
     {
       name: "采购结算-补货管理--计划订单",
@@ -1419,7 +1504,7 @@ export const getNavData = app => [
       name: "供应商排行",
       icon: 'setting',
       path: '/purchase/statisticAnalysis/supplierRank',
-      component: dynamicWrapper(app, [], () => import('../routes/Purchase/statisticAnalysis/supplierRank')),
+      component: dynamicWrapper(app, ['purchase/statistics'], () => import('../routes/Purchase/statisticAnalysis/supplierRank')),
     },
     //采购结算 - 统计分析 - 供应商供货分析 
     {

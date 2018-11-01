@@ -191,8 +191,8 @@ export default {
       }
     },
     //出库单管理 - 申领部门
-    *findAllDepts({callback}, {call}) {
-      const data = yield call(outStorageService.findAllDepts);
+    *findAllDepts({callback, payload}, {call}) {
+      const data = yield call(outStorageService.findAllDepts, payload);
       if(data.code === 200 && data.msg === 'success') {
         callback && callback(data.data);
       }else {
@@ -222,6 +222,14 @@ export default {
     // 确认退货
     *submitBackStorage({ payload,callback },{ call }){
       const data = yield call(outStorageService.backStorage, payload);
+      if(data.code !== 200){
+        return message.error(data.msg||'退货操作失败')
+      }
+      if(callback) callback(data.data)
+    },
+    // 基数药确认新建退库
+    *backSubmit({ payload,callback },{ call }){
+      const data = yield call(outStorageService.backSubmit, payload);
       if(data.code !== 200){
         return message.error(data.msg||'退货操作失败')
       }

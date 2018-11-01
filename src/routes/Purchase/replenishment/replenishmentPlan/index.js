@@ -152,7 +152,11 @@ const WrapperForm = Form.create()(SearchForm);
 class ReplenishmentPlan extends PureComponent {
   state = {
     loading: false,
-    query: { planType: '1' },
+    query: { 
+      planType: '1',
+      purchaseType: 1,
+      queryType: '1',
+    },
     selectedRowKeys: [],
     selectedRows: [],
     typeListDate: []

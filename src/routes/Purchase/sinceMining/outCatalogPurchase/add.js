@@ -20,7 +20,8 @@ class NewAdd extends PureComponent{
   state = {
     isShow: false,
     query: {
-      medDrugType: '2'
+      medDrugType: '2',
+      purchaseType: 2
     },
     dataSource: [],// 添加的产品
     deptModules: [],// 采购部门
@@ -154,6 +155,7 @@ class NewAdd extends PureComponent{
     postData.list = list;
     postData.auditStatus = auditStatus;
     postData.planType = '1';
+    postData.purchaseType = 2;
     postData.deptCode = query.deptCode;
     dispatch({
       type: 'base/submit',
@@ -353,6 +355,7 @@ class NewAdd extends PureComponent{
         </div>
         
         <Modal
+          destroyOnClose
           title={'添加产品'}
           visible={visible}
           width={1100}
@@ -363,46 +366,46 @@ class NewAdd extends PureComponent{
             <Button key="back" onClick={() => this.setState({ visible: false })}>取消</Button>
           ]}
         >
-        <Row>
-          <Col span={7} style={{marginLeft: 4}}>
-            <FetchSelect
-              allowClear
-              value={value}
-              style={{ width: 248 }}
-              placeholder='通用名/商品名'
-              url={replenishmentPlan.QUERY_DRUG_BY_LIST}
-              cb={(value, option) => {
-                let {query} = this.state;
-                query = {
-                  ...query,
-                  hisDrugCodeList: value ? [value] : []
-                };
-                this.setState({
-                  query,
-                  value
-                });
+          <Row>
+            <Col span={7} style={{marginLeft: 4}}>
+              <FetchSelect
+                allowClear
+                value={value}
+                style={{ width: 248 }}
+                placeholder='通用名/商品名'
+                url={replenishmentPlan.QUERY_DRUG_BY_LIST}
+                cb={(value, option) => {
+                  let {query} = this.state;
+                  query = {
+                    ...query,
+                    hisDrugCodeList: value ? [value] : []
+                  };
+                  this.setState({
+                    query,
+                    value
+                  });
+                }}
+              />
+            </Col>
+          </Row>
+          <div className='detailCard'>
+            <RemoteTable
+              ref='table'
+              bordered
+              query={query}
+              isJson={true}
+              columns={modalColumns}
+              url={replenishmentPlan.QUERYDRUGBYDEPT}
+              scroll={{ x: 1392 }}
+              rowKey='bigDrugCode'
+              rowSelection={{
+                selectedRowKeys: this.state.modalSelected,
+                onChange: (selectedRowKeys, selectedRows) => {
+                  this.setState({modalSelected: selectedRowKeys, modalSelectedRows: selectedRows})
+                }
               }}
             />
-          </Col>
-        </Row>
-        <div className='detailCard'>
-          <RemoteTable
-            ref='table'
-            bordered
-            query={query}
-            isJson={true}
-            columns={modalColumns}
-            url={replenishmentPlan.QUERYDRUGBYDEPT}
-            scroll={{ x: 1392 }}
-            rowKey='bigDrugCode'
-            rowSelection={{
-              selectedRowKeys: this.state.modalSelected,
-              onChange: (selectedRowKeys, selectedRows) => {
-                this.setState({modalSelected: selectedRowKeys, modalSelectedRows: selectedRows})
-              }
-            }}
-          />
-        </div>
+          </div>
         </Modal>
         <div className='detailCard' style={{margin: '-12px -8px 0px -8px'}}>
           <Table 

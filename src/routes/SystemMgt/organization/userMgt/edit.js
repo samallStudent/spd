@@ -56,7 +56,9 @@ class AddUser extends PureComponent{
           phone: data.phone, 
           loading: false,
           UserselectedRows,
-          selectedRows
+          selectedRows,
+          userSelected: UserselectedRows.map(item => item.id),
+          selected: selectedRows.map(item => item.id)
         })
       }
     })
@@ -158,13 +160,8 @@ class AddUser extends PureComponent{
               showSizeChanger: true
             }}
             rowSelection={{
-              getCheckboxProps: record => ({
-                defaultChecked: record.checked === 1
-              }),
               selectedRowKeys: this.state.selected,
               onChange: (selectedRowKeys, selectedRows) => {
-                console.log(selectedRowKeys);
-                
                 this.setState({selected: selectedRowKeys, selectedRows: selectedRows})
               }
             }}
@@ -187,12 +184,8 @@ class AddUser extends PureComponent{
               showSizeChanger: true
             }}
             rowSelection={{
-              getCheckboxProps: record => ({
-                defaultChecked: record.checked === 1
-              }), 
               selectedRowKeys: this.state.userSelected,
               onChange: (selectedRowKeys, selectedRows) => {
-                console.log(selectedRowKeys);
                 this.setState({userSelected: selectedRowKeys, UserselectedRows: selectedRows})
               }
             }}

@@ -9,7 +9,7 @@
  * @file 采购计划 - 补货管理--补货计划
  */
 import React, { PureComponent } from 'react';
-import { Form, Row, Col, Button, DatePicker, Select, message } from 'antd';
+import { Form, Row, Col, Button, DatePicker } from 'antd';
 import RemoteTable from '../../../../components/TableGrid';
 import { connect } from 'dva';
 import {statisticAnalysis} from '../../../../api/purchase/purchase';
@@ -17,7 +17,6 @@ import moment from 'moment';
 
 const FormItem = Form.Item;
 const { RangePicker } = DatePicker;
-const { Option } = Select;
 const formItemLayout = {
   labelCol: {
     xs: { span: 24 },
@@ -37,7 +36,6 @@ class SearchForm extends PureComponent{
   }
   componentDidMount() {
     let { queryConditons } = this.props.formProps.base;
-    const { dispatch } = this.props.formProps;
     //找出表单的name 然后set
     let values = this.props.form.getFieldsValue();
     values = Object.getOwnPropertyNames(values);
@@ -46,31 +44,22 @@ class SearchForm extends PureComponent{
       value[keyItem] = queryConditons[keyItem];
       return keyItem;
     });
+    if(!value.closeDate) {
+      value.closeDate = [moment(), moment().subtract(-1, 'months')];
+    };
     this.props.form.setFieldsValue(value);
-    dispatch({
-      type: 'statistics/supplierAll',
-      callback: ({code, msg, data}) => {
-        if(code === 200) {
-          this.setState({
-            supplierList: data
-          });
-        }else {
-          message.error(msg);
-        }
-      }
-    });
   }
   handleSearch = e => {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        const closeDate = values.closeDate === undefined ? '' : values.invoiceDate;
+        const closeDate = values.closeDate === undefined ? '' : values.closeDate;
         if (closeDate.length > 0) {
-          values.invoiceStartTime = closeDate[0].format('YYYY-MM-DD');
-          values.invoiceEndTime = closeDate[1].format('YYYY-MM-DD');
+          values.startTime = closeDate[0].format('YYYY-MM-DD');
+          values.endTime = closeDate[1].format('YYYY-MM-DD');
         }else {
-          values.invoiceStartTime = '';
-          values.invoiceEndTime = '';
+          values.startTime = '';
+          values.endTime = '';
         };
         this.props.formProps.dispatch({
           type:'base/updateConditions',
@@ -94,26 +83,8 @@ class SearchForm extends PureComponent{
           <Col span={8}>
             <FormItem {...formItemLayout} label={`出库时间`}>
               {
-                getFieldDecorator(`closeDate`, {
-                  initialValue: [moment(), moment().subtract(-1, 'months')]
-                })(
+                getFieldDecorator(`closeDate`)(
                   <RangePicker style={{width: '100%'}}/>
-                )
-              }
-            </FormItem>
-          </Col>
-          <Col span={8}>
-            <FormItem {...formItemLayout} label={`排序`}>
-              {
-                getFieldDecorator(`invoiceDate`)(
-                  <Select 
-                    placeholder="请选择"
-                    style={{
-                      width: '100%'
-                    }}
-                  >
-                    <Option value={""} key={""}>全部</Option>
-                  </Select>
                 )
               }
             </FormItem>
@@ -136,42 +107,59 @@ class SupplierRank extends PureComponent {
       endTime: moment().subtract(-1, 'months').format(dateFormat)
     },
   }
-  handlQuery = (query) => {
-    this.setState({query});
-  }
   export = () => {
-    
+    let {queryConditons} = this.props.base;
+    queryConditons = {...queryConditons};
+    delete queryConditons.key;
+    delete queryConditons.pageNo;
+    delete queryConditons.pageSize;
+    delete queryConditons.sortField;
+    delete queryConditons.sortOrder;
+    this.props.dispatch({
+      type: 'statistics/gysphExport',
+      payload: queryConditons
+    });
+  }
+  _tableChange = values => {
+    this.props.dispatch({
+      type:'base/setQueryConditions',
+      payload: values
+    });
   }
   render() {
     const columns = [
       {
-        title: '排行',
-        dataIndex: 'invoiceNo',
-        width: 60,
-      }, {
         title: '供应商',
-        dataIndex: 'invoiceCode',
-        width: 168,
+        dataIndex: 'supplierName',
+        width: 168
       }, {
         title: '出库品类数',
-        dataIndex: 'settleBillNo',
+        dataIndex: 'drugCount',
         width: 168,
+        sorter: () => false
       }, {
         title: '出库数量',
-        dataIndex: 'invoiceTime',
+        dataIndex: 'backSumNum',
         width: 168,
+        sorter: () => false
       }, {
         title: '出库总金额(万元)',
-        dataIndex: 'invoiceAmount',
-        width: 168
+        dataIndex: 'backSumAmount',
+        width: 168,
+        sorter: () => false
       }
     ];
-    const {query} = this.state;
+    let query = this.props.base.queryConditons;
+    query = {
+      ...this.state.query,
+      ...query,
+    };
+    delete query.closeDate;
+    delete query.key;
     return (
       <div className='ysynet-main-content'>
         <WrapperForm
           formProps={{...this.props}}
-          _handlQuery={this.handlQuery}
         />
         <div>
           <Button onClick={this.export}>导出</Button>
@@ -179,13 +167,12 @@ class SupplierRank extends PureComponent {
         <RemoteTable
           onChange={this._tableChange}
           query={query}
-          isJson
           columns={columns}
           scroll={{x: '100%'}}
           style={{marginTop: 20}}
           ref='table'
-          rowKey={'id'}
-          url={statisticAnalysis.INVOICE_LIST}
+          rowKey={'supplierCode'}
+          url={statisticAnalysis.GYSPH_LIST}
         />
       </div>
     )

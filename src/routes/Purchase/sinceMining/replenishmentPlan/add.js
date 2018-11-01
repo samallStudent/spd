@@ -27,7 +27,8 @@ class NewAdd extends PureComponent {
     loading: false,
     deptModules: [],// 补货部门
     query: {
-      medDrugType: '1'
+      medDrugType: '1',
+      purchaseType: 2
     },
     selected: [],
     selectedRows: [],
@@ -50,7 +51,7 @@ class NewAdd extends PureComponent {
     });
   };
   componentDidMount = () => {
-    if(this.props.match.path === "/editReplenishment/:planCode") {
+    if(this.props.match.path === "/editReplenishmentPlan/:planCode") {
       let { planCode } = this.props.match.params;
       this.setState({loading: true})
       this.props.dispatch({
@@ -143,7 +144,8 @@ class NewAdd extends PureComponent {
     });
   }
   submit = (auditStatus) => {   //提交  保存
-    let {isEdit, info, dataSource} = this.state;
+    let {isEdit, info, dataSource, submitLoading, saveLoading} = this.state;
+    if(saveLoading || submitLoading) return;
     let isNull = dataSource.every(item => {
       if(!item.supplierCode) {
         message.warning('供应商不能为空');
@@ -177,7 +179,8 @@ class NewAdd extends PureComponent {
         id: isEdit? info.id : '',
         planType: '1',
         list: dataSource,
-        deptCode: this.state.query.deptCode
+        deptCode: this.state.query.deptCode,
+        purchaseType: 2
       },
       callback: (data)=>{
         message.success(`${auditStatus === 1? '保存' : '提交'}成功`);
@@ -218,7 +221,8 @@ class NewAdd extends PureComponent {
       spinLoading,
       btnLoading,
       saveLoading,
-      value
+      value,
+      submitLoading
     } = this.state;
     const columns = [
       {
@@ -347,7 +351,7 @@ class NewAdd extends PureComponent {
         width: 168
       }, {
         title: '当前库存',
-        dataIndex: 'totalStoreNum',
+        dataIndex: 'usableQuantity',
         width: 112,
       }, {
         title: '剂型',
@@ -423,7 +427,7 @@ class NewAdd extends PureComponent {
             </Row>
           </div>
           <Modal
-            bordered
+            destroyOnClose
             title={'添加产品'}
             visible={visible}
             width={1100}
@@ -503,7 +507,7 @@ class NewAdd extends PureComponent {
               <Row>
                 <Col style={{ textAlign: 'right', padding: '10px' }}>
                   <Button loading={saveLoading} onClick={()=>{this.submit('2')}} type='primary'>提交</Button>
-                  <Button loading={saveLoading} onClick={()=>{this.submit('1')}} type='danger' style={{ marginLeft: 8 }} ghost>保存</Button>
+                  <Button loading={submitLoading} onClick={()=>{this.submit('1')}} type='danger' style={{ marginLeft: 8 }} ghost>保存</Button>
                 </Col>
               </Row>
             </div>

@@ -124,11 +124,6 @@ class RecallDetail extends PureComponent {
 						dataIndex: 'approvalNo',
 						width: 224,
 					},
-					{
-						title: '供应商',
-						width: 224,
-						dataIndex: 'supplierName'
-					}
         ];
         return (
 					<Spin spinning={spinning}>
@@ -202,7 +197,7 @@ class RecallDetail extends PureComponent {
 									bordered
 									dataSource={dataSource}
 									title={() => '产品信息'}
-									scroll={{ x: 2412 }}
+									scroll={{ x: 2188 }}
 									columns={columns}
 									rowKey={'bigDrugCode'}
 									pagination={{

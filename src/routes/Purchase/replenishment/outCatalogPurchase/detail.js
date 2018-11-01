@@ -8,7 +8,7 @@
   @file 补货计划 详情
 */
 import React, { PureComponent } from 'react';
-import { Table ,Row, Col,Tooltip, Button } from 'antd';
+import { Table ,Row, Col, Tooltip, } from 'antd';
 import { connect } from 'dva';
 const columns = [
   {
@@ -94,10 +94,10 @@ class OutCatalogPurchase extends PureComponent{
         <div className='fullCol-fullChild'>
           <div style={{ display: 'flex',justifyContent: 'space-between' }}>
             <h3>单据信息</h3>
-            <div>
+            {/* <div>
               <Button type='default'>编辑</Button>
               <Button type='primary' style={{ marginLeft: 8 }}>发起申请</Button>
-            </div>
+            </div> */}
           </div>
           <Row>
             <Col span={8}>

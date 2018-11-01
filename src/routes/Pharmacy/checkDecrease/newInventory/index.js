@@ -140,9 +140,11 @@ class NewInventory extends PureComponent {
     checkValue: [],
     indeterminate: false,
     allChecked: false,
+    drugFeature: []
   }
   componentDidMount() {
-    this.props.dispatch({
+    const {dispatch} = this.props;
+    dispatch({
       type: 'base/orderStatusOrorderType',
       payload: {
         type: 'check_bill_type'
@@ -153,7 +155,7 @@ class NewInventory extends PureComponent {
         });
       }
     });
-    this.props.dispatch({
+    dispatch({
       type: 'base/orderStatusOrorderType',
       payload: {
         type: 'check_status'
@@ -164,7 +166,7 @@ class NewInventory extends PureComponent {
         });
       }
     });
-    this.props.dispatch({
+    dispatch({
       type: 'base/orderStatusOrorderType',
       payload: {
         type: 'check_bill_sub_type'
@@ -175,7 +177,7 @@ class NewInventory extends PureComponent {
         });
       }
     });
-    this.props.dispatch({
+    dispatch({
       type: 'base/orderStatusOrorderType',
       payload: {
         type: 'location_type'
@@ -186,7 +188,19 @@ class NewInventory extends PureComponent {
           locTypeList: data
         });
       }
-    })
+    });
+    dispatch({
+      type: 'checkDecrease/medHisdrugFeature',
+      callback: ({data, code, msg}) => {
+        if(code === 200) {
+          this.setState({
+            drugFeature: data
+          });
+        }else {
+          message.error(msg);
+        };
+      }
+    });
   }
   //查询
   _tableChange = values => {
@@ -266,9 +280,19 @@ class NewInventory extends PureComponent {
   //单选框渲染
   radioRender = (list) => {
     list = list.filter(item => item.label !== "全部")
-    return list.map(item => {
-      return <Radio key={item.value} value={item.value}>{item.label}</Radio>
-    })
+    return (
+      <Row>
+        {
+          list.map(item => {
+            return (
+              <Col key={item.value} span={8}>
+                <Radio value={item.value}>{item.label}</Radio>
+              </Col>
+            )
+          })
+        }
+      </Row>
+    )
   }
   //多选框渲染
   renderCheckbox = (list) => {
@@ -319,7 +343,7 @@ class NewInventory extends PureComponent {
       labelCol: { span: 6 }, 
       wrapperCol: { span: 18 } 
     };
-    const {status, types, checkValue, subTypes, subType, deleteLoadig, locTypeList, indeterminate, allChecked} = this.state;
+    const {status, types, checkValue, subTypes, subType, deleteLoadig, locTypeList, indeterminate, allChecked, drugFeature} = this.state;
     const columns = [
       {
         title: '盘点单',
@@ -423,7 +447,7 @@ class NewInventory extends PureComponent {
                   {getFieldDecorator('checkBillType', {
                     rules: [{ required: true, message: '请选择类型' }]
                   })(
-                    <RadioGroup style={{width: '100%'}}>
+                    <RadioGroup style={{width: '80%'}}>
                       {this.radioRender(types)}
                     </RadioGroup>
                   )}
@@ -435,9 +459,38 @@ class NewInventory extends PureComponent {
                   {getFieldDecorator('checkBillSubType', {
                     rules: [{ required: true, message: '请选择子类型' }]
                   })(
-                      <RadioGroup onChange={(e) => this.setState({ subType: e.target.value })}>
+                      <RadioGroup style={{width: '80%'}} onChange={(e) => this.setState({ subType: e.target.value })}>
                         {this.radioRender(subTypes)}
                       </RadioGroup>
+                  )}
+                </FormItem>
+              </Col>
+              <Col span={24}>
+                <FormItem required label={'药品特征'} {...formItemLayoutAdd}>
+                  {getFieldDecorator('drugFeatureCode', {
+                    rules: [
+                      {
+                        validator: (rule, value, callback) => {
+                          if(value === undefined) {
+                            callback(new Error('请选择药品特征'));
+                          }else {
+                            callback();
+                          }
+                        }
+                      }
+                    ]
+                  })(
+                    <RadioGroup style={{width: '80%'}}>
+                      <Row>
+                        {
+                          drugFeature.map(item => (
+                            <Col key={item.ctmmTypeCode} span={8}>
+                              <Radio value={item.ctmmTypeCode}>{item.ctmmTypeName}</Radio>
+                            </Col>
+                          ))
+                        }
+                      </Row>
+                    </RadioGroup>
                   )}
                 </FormItem>
               </Col>

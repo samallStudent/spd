@@ -110,7 +110,6 @@ class Detail extends PureComponent{
           <RemoteTable
             title={()=>'订单信息'}
             scroll={{x: '100%'}}
-            isJson
             columns={columns}
             rowKey={'id'}
             query={query}

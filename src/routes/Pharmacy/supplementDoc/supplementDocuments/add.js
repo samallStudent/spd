@@ -449,18 +449,18 @@ class AddSupplementDocuments extends PureComponent{
           }
           {/*选择产品-弹窗*/}
           <Modal 
-              bordered
-              title={'添加产品'}
-              visible={visible}
-              destroyOnClose
-              width={1200}
-              style={{ top: 20 }}
-              onCancel={this.normalCancel}
-              footer={[
-                <Button key="submit" type="primary" onClick={this.handleOk}>确认</Button>,
-                <Button key="back" onClick={this.normalCancel}>取消</Button>
-              ]}
-            >
+            bordered
+            title={'添加产品'}
+            visible={visible}
+            destroyOnClose
+            width={1200}
+            style={{ top: 20 }}
+            onCancel={this.normalCancel}
+            footer={[
+              <Button key="submit" type="primary" onClick={this.handleOk}>确认</Button>,
+              <Button key="back" onClick={this.normalCancel}>取消</Button>
+            ]}
+          >
             <Row gutter={30}>
               <Col span={8}>
                 <Select

@@ -176,7 +176,8 @@ class PlanCheck extends PureComponent{
     selectedRows: [],
     loading: false,
     query: {
-      queryType: '2'
+      queryType: '2',
+      purchaseType: 1
     },
   }
   _tableChange = values => {
@@ -278,7 +279,10 @@ class PlanCheck extends PureComponent{
               selectedRowKeys: this.state.selected,
               onChange: (selectedRowKeys, selectedRows) => {
                 this.setState({selected: selectedRowKeys, selectedRows: selectedRows})
-              }
+              },
+              getCheckboxProps: record => ({
+                disabled: record.auditStatus === 4,
+              }),
             }}
          />
       </div>

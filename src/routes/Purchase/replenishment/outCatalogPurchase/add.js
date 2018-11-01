@@ -20,7 +20,8 @@ class NewAdd extends PureComponent{
   state = {
     isShow: false,
     query: {
-      medDrugType: '2'
+      medDrugType: '2',
+      purchaseType: 1
     },
     dataSource: [],// 添加的产品
     deptModules: [],// 采购部门
@@ -154,6 +155,7 @@ class NewAdd extends PureComponent{
     postData.list = list;
     postData.auditStatus = auditStatus;
     postData.planType = '1';
+    postData.purchaseType = 1;
     postData.deptCode = query.deptCode;
     dispatch({
       type: 'base/submit',

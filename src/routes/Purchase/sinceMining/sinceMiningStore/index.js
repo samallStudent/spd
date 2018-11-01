@@ -2,30 +2,27 @@ import React , {PureComponent} from 'react';
 
 import { Link } from 'react-router-dom'
 
-import { Form, Row, Col, Button, Tooltip } from 'antd';
-//Select
-import FetchSelect from '../../../components/FetchSelect/index';
+import { Form, Row, Col, Button, Tooltip, Select } from 'antd';
 
-import RemoteTable from '../../../components/TableGrid';
+import FetchSelect from '../../../../components/FetchSelect/index';
 
-import drugStorage from '../../../api/drugStorage/stockInquiry';
-import goodsAdjust from '../../../api/drugStorage/goodsAdjust';
+import RemoteTable from '../../../../components/TableGrid';
 import {connect} from 'dva';
 
 
-// const FormItem = Form.Item;
-// const {Option} = Select;
+const FormItem = Form.Item;
+const {Option} = Select;
 
-// const formItemLayout = {
-//   labelCol: {
-//     xs: { span: 24 },
-//     sm: { span: 5 },
-//   },
-//   wrapperCol: {
-//     xs: { span: 24 },
-//     sm: { span: 19 },
-//   },
-//  };
+const formItemLayout = {
+  labelCol: {
+    xs: { span: 24 },
+    sm: { span: 5 },
+  },
+  wrapperCol: {
+    xs: { span: 24 },
+    sm: { span: 19 },
+  },
+ };
 
 const columns = [
   {
@@ -35,7 +32,7 @@ const columns = [
     render: (text, record) => {
       return (
         <span>
-          <Link to={{pathname: `/pharmacy/stockMgt/stockInquiry/details/dCode=${record.drugCode}&bCode=${record.hisDrugCode}`}}>{text}</Link>
+          <Link to={{pathname: `/purchase/sinceMining/sinceMiningStore/details/dCode=${record.drugCode}&bCode=${record.hisDrugCode}`}}>{text}</Link>
         </span>  
       )
     }
@@ -108,32 +105,15 @@ class StockInquiry extends PureComponent {
     this.props.form.validateFields((err, values) => {
       // values.deptCode = values.deptCode === undefined? "" : values.deptCode;
       values.hisDrugCodeList = this.state.value ? [this.state.value] : [];
-
       this.props.dispatch({
         type:'base/updateConditions',
         payload: values
       });
-      // this.setState({
-      //   query: {
-      //     ...query,
-      //     deptCode: values.deptCode,
-      //     hisDrugCodeList: value? [value] : [],
-      //   }
-      // });
     });
   }
   //重置
   handleReset = () => {
     this.props.form.resetFields();
-    // let {query, value} = this.state;
-    // if(!value) return;
-    // this.setState({
-    //   value: undefined,
-    //   query: {
-    //     ...query,
-    //     hisDrugCodeList: []
-    //   }
-    // })
     this.props.dispatch({
       type:'base/clearQueryConditions'
     });
@@ -145,7 +125,7 @@ class StockInquiry extends PureComponent {
     });
   }
   render() {
-    // const { getFieldDecorator } = this.props.form;
+    const { getFieldDecorator } = this.props.form;
     const {value} = this.state;
     let query = this.props.base.queryConditons;
     delete query.key;
@@ -154,30 +134,25 @@ class StockInquiry extends PureComponent {
         <Form onSubmit={this.handleSearch}>
           <Row gutter={30}>
             <Col span={8}>
-              <div className="ant-row ant-form-item">
-                <div className="ant-form-item-label ant-col-xs-24 ant-col-sm-5">
-                  <label>关键字</label>
-                </div>
-                <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-19">
-                  <div className="ant-form-item-control">
-                    <FetchSelect
+              <FormItem label={`关键字`} {...formItemLayout}>
+                {getFieldDecorator('deptCode')(
+                  <FetchSelect
                       allowClear={true}
                       value={value}
                       style={{ width: 248 }}
                       placeholder='通用名/商品名'
-                      url={goodsAdjust.QUERY_DRUG_BY_LIST}
+                      // url={goodsAdjust.QUERY_DRUG_BY_LIST}
                       cb={(value) => {
                         this.setState({
                           value
                         });
                       }}
                     />
-                  </div>
-                </div>
-              </div>
+                )}
+              </FormItem>
             </Col>
             <Col span={8}>
-              {/* <FormItem label={`药品类型`} {...formItemLayout}>
+              <FormItem label={`采购部门`} {...formItemLayout}>
                 {getFieldDecorator('deptCode')(
                   <Select placeholder="请选择">
                     <Option value="全部">全部</Option>
@@ -185,9 +160,9 @@ class StockInquiry extends PureComponent {
                     <Option value="营养类">营养类</Option>
                   </Select>
                 )}
-              </FormItem> */}
+              </FormItem>
             </Col>
-            <Col span={8} style={{ textAlign: 'right', marginTop: 4}} >
+            <Col span={8} style={{ textAlign: 'right', marginTop: 4}}>
               <Button type="primary" htmlType="submit">查询</Button>
               <Button style={{marginLeft: 8}} onClick={this.handleReset}>重置</Button>
             </Col>
@@ -195,7 +170,6 @@ class StockInquiry extends PureComponent {
         </Form>
         <RemoteTable
           onChange={this._tableChange}
-          url={drugStorage.queryDrugByDept}
           isJson={true}
           showHeader={true}
           query={query}

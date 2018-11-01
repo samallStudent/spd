@@ -60,6 +60,14 @@ export function submitCheck(options) {
     body: options
   })
 }
+//药品特征
+export function medHisdrugFeature(options) {
+  return request(`${_local}/a/medhisdrugfeature/selectlist`, {
+    method: 'POST',
+    type: 'formData',
+    body: options
+  })
+}
 /*-- end --*/
 
 /*-- 盘点审核 --*/

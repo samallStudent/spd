@@ -174,7 +174,7 @@ export default {
       }
       if(callback) callback(data.data)
     },
-     // 审核不通过
+    // 审核不通过
      *auditReject({ payload,callback },{ call }){
       const data = yield call(outStorageService.reject, payload);
       if(data.code !== 200){
@@ -182,7 +182,13 @@ export default {
       }
       if(callback) callback(data.data)
     },
-
+    //发起部门
+    *getDeptInfoAndStore({ payload,callback },{ call }){
+      const data = yield call(outStorageService.getDeptInfoAndStore, payload);
+      if(callback && typeof callback === 'function') {
+        callback(data);
+      };
+    },
     subscriptions: {
       
     }

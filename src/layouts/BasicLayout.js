@@ -134,13 +134,6 @@ class BasicLayout extends PureComponent {
   handleClick = (e) =>{
     let { dispatch, users, history } = this.props;
     if(e.key === this.state.deptId[0]) return;
-    // 切换子系统  清除查询条件并重置显示隐藏
-    this.props.dispatch({
-      type: 'base/clearQueryConditions'
-    });
-    this.props.dispatch({
-      type: 'base/restoreShowHide'
-    });
     let { deptInfo } = users.userInfo;
     let currMenuList = deptInfo.filter(item => item.deptId === e.key)[0].menuList;
     let tree = menuFormat(currMenuList, true, 1 );
@@ -161,6 +154,13 @@ class BasicLayout extends PureComponent {
       type: 'users/setCurrentDept',
       payload: { id: e.key, deptName: e.item.props.children },
       callback: () =>{
+        // 切换子系统  清除查询条件并重置显示隐藏
+        dispatch({
+          type: 'base/clearQueryConditions'
+        });
+        dispatch({
+          type: 'base/restoreShowHide'
+        });
         dispatch({
           type: 'users/setCurrentMenu',
           payload: { menu : menu }
@@ -183,7 +183,11 @@ class BasicLayout extends PureComponent {
   menu = (list) => {
     let {deptId} = this.state;
     return (
-      <Menu 
+      <Menu
+        style={{
+          height: 300, 
+          overflow: 'auto'
+        }}
         selectable
         onClick={this.handleClick}
         selectedKeys={deptId}

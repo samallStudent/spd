@@ -37,7 +37,7 @@ class AddMenuMgt extends PureComponent{
     parentId:''
   }
 
-  componentWillMount (){
+  componentDidMount (){
     //编辑的时候进行回填操作
     const params = this.props.match.params.id;
     const paramsJson = querystring.parse(params);

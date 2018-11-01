@@ -191,3 +191,21 @@ export function exportSupplierAnalyze(options) {
     export: true
   })
 }
+//药房药库部门
+export function getDeptInfo(options) {
+  return request(`${_local}/a/sys/sysdept/getDeptInfo`, {
+    method: 'POST',
+    type: 'formData',
+    body: options,
+  })
+}
+
+//供应商排行导出
+export function gysphExport(options) {
+  return request(`${_local}/a/gysph/statics/export`, {
+    method: 'POST',
+    type: 'formData',
+    body: options,
+    export: true
+  })
+}

@@ -213,11 +213,7 @@ class DetailsRefund extends PureComponent{
             scroll={{x: 1796}}
             columns={columns}
             rowKey={'drugCode'}
-            pagination={{
-              size: 'small',
-              showQuickJumper: true,
-              showSizeChanger: true
-            }}
+            pagination={false}
           />
           </div>
         </Spin>

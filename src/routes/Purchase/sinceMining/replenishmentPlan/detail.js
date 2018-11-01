@@ -150,7 +150,7 @@ class ReplenishmentDetail extends PureComponent{
             {
               (detailsData.auditStatus === 1 && detailsData.auditStatus === 3) &&
               <div>
-                <Link to={{pathname: `/editReplenishment/${this.props.match.params.planCode}`}}><Button type='default'>编辑</Button></Link>
+                <Link to={{pathname: `/editReplenishmentPlan/${this.props.match.params.planCode}`}}><Button type='default'>编辑</Button></Link>
                 <Button type='primary' onClick={this.submit} style={{ marginLeft: 8 }}>提交</Button>
               </div>
             }

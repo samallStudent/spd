@@ -152,5 +152,18 @@ export default {
         callback && callback(data);
       };
     },
+    *getDeptInfo({payload, callback}, {call}) {
+      const data = yield call(statistics.getDeptInfo, payload);
+      if(typeof callback === 'function') {
+        callback && callback(data);
+      };
+    },
+    //供应商排行导出
+    *gysphExport({payload, callback}, {call}) {
+      const data = yield call(statistics.gysphExport, payload);
+      if(typeof callback === 'function') {
+        callback && callback(data);
+      };
+    },
   } 
 }

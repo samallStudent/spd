@@ -45,6 +45,13 @@ export default {
       const data = yield call(checkDecrease.submitCheck, payload);
       callback && callback(data);
     },
+    //药品特征
+    *medHisdrugFeature({callback, payload}, {call}) {
+      const data = yield call(checkDecrease.medHisdrugFeature, payload);
+      if(callback && typeof callback === 'function') {
+        callback(data);
+      };
+    },
     /**-- end --**/
 
     /*-- 盘点审核 --*/

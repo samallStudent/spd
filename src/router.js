@@ -17,6 +17,7 @@ import AddNewAcceptance from './routes/Pharmacy/wareHouse/acceptance/add';
 import AddOutput from './routes/DrugStorage/outStorage/withdraw/add';
 import AddNewBackStorage from './routes/DrugStorage/outStorage/backStorage/add' // 药库退货
 import AddNewBackStoragePlan from './routes/Pharmacy/outStorage/refund/add' // 药房退库
+import AddBaseBackStoragePlan from './routes/BaseDrug/outStorage/refund/add' // 基数药退库
 import AddNewReCallOrLocked from './routes/DrugStorage/outStorage/recallAndLocked/add'; // 药库 新建召回, 新建锁定
 import PharmacyAddNewOutput from './routes/Pharmacy/outStorage/newOut/add';
 import PharmacyAddNewBaseOutput from './routes/Pharmacy/outStorage/baseReplen/add';
@@ -81,7 +82,7 @@ function RouterConfig({ history, app }) {
     },
   };
 
-  return (
+  return (//AddBaseBackStoragePlan
     <LocaleProvider locale={zhCN}>
       <Router history={history}>
         <Switch>
@@ -90,6 +91,7 @@ function RouterConfig({ history, app }) {
           <Route path="/subSystem" component={SubSystem}/>
           <Route path="/createReplenishment" component={NewAdd}/>
           <Route path="/editReplenishment/:planCode" component={NewAdd}/>
+          <Route path="/editReplenishmentPlan/:planCode" component={SinceReplenishment}/>
           <Route path="/createOutCatalogPurcahsePlan" component={CatalogAdd}/>
           <Route path="/addDrugsFor" component={AddDrugsFor}/>
           <Route path="/addNewAcceptance" component={AddNewAcceptance}/>
@@ -98,6 +100,7 @@ function RouterConfig({ history, app }) {
           <Route path="/editBackStoragePlan/:backNo" component={AddNewBackStorage}/>
           <Route path="/AddNewBackStoragePlan" component={AddNewBackStoragePlan}/>
           <Route path="/editPharmacyBackStoragePlan/:backNo" component={AddNewBackStoragePlan}/>
+          <Route path="/AddBaseBackStoragePlan" component={AddBaseBackStoragePlan}/>
           <Route path="/AddNewReCallOrLocked/:type" component={AddNewReCallOrLocked}/>
           <Route path="/pharmacyAddNewOutput" component={PharmacyAddNewOutput}/>
           <Route path="/pharmacyAddNewBaseOutput" component={PharmacyAddNewBaseOutput}/>
