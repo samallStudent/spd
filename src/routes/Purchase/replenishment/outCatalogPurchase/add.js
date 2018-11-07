@@ -154,7 +154,7 @@ class NewAdd extends PureComponent{
     }));
     postData.list = list;
     postData.auditStatus = auditStatus;
-    postData.planType = '1';
+    postData.planType = '2';
     postData.purchaseType = 1;
     postData.deptCode = query.deptCode;
     dispatch({
@@ -326,7 +326,7 @@ class NewAdd extends PureComponent{
           <Row>
             <Col span={6}>
               <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
-                <label>采购部门</label>
+                <label>补货部门</label>
               </div>
               <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-19">
                 <div className='ant-form-item-control'>

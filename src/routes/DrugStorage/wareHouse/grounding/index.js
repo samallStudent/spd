@@ -5,7 +5,7 @@
  */
 
 import React, { PureComponent } from 'react';
-import {DatePicker, Form, Input, Row, Col, Button, Icon, Select, message, Popconfirm } from 'antd';
+import {DatePicker, Form, Input, Row, Col, Button, Icon, Select } from 'antd';
 import {Link} from 'react-router-dom';
 import RemoteTable from '../../../../components/TableGrid';
 import {wareHouse} from '../../../../api/pharmacy/wareHouse';
@@ -23,11 +23,6 @@ class Putaway extends PureComponent{
       messageError:"",
       selectedRowKeys:[],
     }
-  }
-
-  //单行确认 
-  confirmOk = () => {
-    message.success('操作成功')
   }
   _tableChange = values => {
     this.props.dispatch({
@@ -68,17 +63,6 @@ class Putaway extends PureComponent{
         title: '上架时间',
         width: 224,
         dataIndex: 'upUserDate',
-      },
-      {
-        title: '操作',
-        width: 60,
-        dataIndex: 'RN',
-        render: (text, record) => 
-          <span>
-            <Popconfirm title="确定打印吗？" okText="是" cancelText="否"  onConfirm={()=>this.confirmOk(record)}>
-              <a>打印</a>
-            </Popconfirm>
-          </span>  
       }
     ];
     let query = this.props.base.queryConditons;

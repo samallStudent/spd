@@ -35,14 +35,6 @@ const columns = [
     width: 112,
   },
   {
-    title: '类型',
-    dataIndex: 'applyType',
-    width: 168,
-    render: (text, record, index) => {
-      return text === '1' ? '申领': text === '2' ? '调拨': '' 
-    }
-  },
-  {
     title: '发起人',
     dataIndex: 'createUserName',
     width: 112,
@@ -51,16 +43,6 @@ const columns = [
     title: '发起时间',
     dataIndex: 'createDate',
     width: 224,
-  },
-  {
-    title: '配货人',
-    dataIndex: 'distributeUserName',
-    width: 112,
-  },
-  {
-    title: '配货时间',
-    dataIndex: 'distributeDate',
-    width: 224,
   }
 ];
 /* 搜索 - 表单 */
@@ -68,7 +50,6 @@ class SearchFormWrapper extends PureComponent {
   state = {
     display: 'none',
     deptOption: [], // 申领部门
-    apply_type_options: [], //配货类别
     common_distribute_status: [] // 配货状态
   }
   componentDidMount = () =>{
@@ -83,15 +64,6 @@ class SearchFormWrapper extends PureComponent {
         } else {
           this.setState({ deptOption: [] });
         }
-      }
-    });
-
-    // 配货类别
-    dispatch({
-      type: 'base/orderStatusOrorderType',
-      payload: { type : 'apply_type' },
-      callback: (data) =>{
-        this.setState({ apply_type_options: data })
       }
     });
     // 配货状态
@@ -143,7 +115,7 @@ class SearchFormWrapper extends PureComponent {
   }
  
   render() {
-    const { deptOption, apply_type_options, common_distribute_status } = this.state;
+    const { deptOption, common_distribute_status } = this.state;
     const { getFieldDecorator } = this.props.form;
     const {display} = this.props.formProps.base;
     const expand = display === 'block';
@@ -183,24 +155,6 @@ class SearchFormWrapper extends PureComponent {
                 {
                   common_distribute_status.map((item,index)=> <Option key={index} value={item.value}>{ item.label }</Option>)
                 }
-               </Select>
-              )}
-            </FormItem>
-          </Col>
-          <Col span={8} style={{display: display}}>
-            <FormItem label={`类型`} {...formItemLayout}>
-              {getFieldDecorator('spec',{
-                initialValue: ''
-              })(
-               <Select 
-                 showSearch
-                 placeholder={'请选择'}
-                 optionFilterProp="children"
-                 filterOption={(input, option) => option.props.children.indexOf(input) >= 0}
-                 >
-                 {
-                   apply_type_options.map((item,index)=> <Option key={index} value={item.value}>{ item.label }</Option>)
-                 }
                </Select>
               )}
             </FormItem>
@@ -265,7 +219,7 @@ class Picking extends PureComponent{
           url={outStorage.FINDDISTRIBUTE_LIST}
           ref='table'
           query={query}
-          scroll={{x: 1400}}
+          scroll={{x: '100%'}}
           columns={columns}
           rowKey={'id'}
           style={{marginTop: 20}}

@@ -28,7 +28,7 @@ class Login extends PureComponent{
     })
   }
   userLogin = (username,password) =>{
-    let { dispatch, history } = this.props;
+    let { dispatch } = this.props;
     dispatch({
       type: 'users/userLogin',
       payload: { username, password },
@@ -54,15 +54,15 @@ class Login extends PureComponent{
             type: 'users/setCurrentMenu',
             payload: { menu : tree[0].children[0] },
           });
-          window.sessionStorage.setItem('key', data.deptInfo[0].deptId);
-          window.sessionStorage.setItem('deptName', data.deptInfo[0].deptName);
-          // href = href.split('/');
-          // href.splice(2, 0, deptInfo[0].deptId);
-          // href = href.join('/');
-          history.push({ pathname: href ? href: '/error' })
-          // history.push({ pathname: '/subSystem' })
-          // history.push({ pathname: '/sys/drugDirectory/directory' })
-
+          // window.sessionStorage.setItem('key', data.deptInfo[0].deptId);
+          // window.sessionStorage.setItem('deptName', data.deptInfo[0].deptName);
+          let newHref = window.location.href;
+          newHref = newHref.split('#');
+          newHref[1] = href;
+          newHref = newHref.join('#');
+          const urlParams = new URL(newHref);
+          urlParams.searchParams.set('depeId', data.deptInfo[0].deptId);
+          window.location.href = urlParams.href;
         };
       }
     })

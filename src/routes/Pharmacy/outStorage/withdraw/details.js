@@ -185,7 +185,7 @@ class DetailsPickSoldOut extends PureComponent{
                 <Button style={{marginRight: 8}} type="primary">下一步: 复核</Button>
               </Link> : null
             }
-            <Button  icon='printer' onClick={()=> message.warning('敬请期待下个版本迭代内容')}>打印</Button>
+            {/* <Button  icon='printer' onClick={()=> message.warning('敬请期待下个版本迭代内容')}>打印</Button> */}
           </Col>
         </Row>
         <Row>

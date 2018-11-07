@@ -245,7 +245,13 @@ class AddRefund extends PureComponent{
           onOk:()=>{
             const { dispatch, history } = this.props;
             let postData = {}, backDrugList = [];
-            dataSource.map(item => backDrugList.push({ backNum: item.backNum, drugCode: item.drugCode, batchNo: item.batchNo }));
+            dataSource.map(item => backDrugList.push({ 
+              backNum: item.backNum, 
+              drugCode: item.drugCode, 
+              inStoreCode: item.inStoreCode,
+              lot: item.lot,
+              supplierCode: item.supplierCode
+            }));
             postData.backDrugList = backDrugList;
             postData.backcause = values.backCause;
             if(values.backcauseOther) {

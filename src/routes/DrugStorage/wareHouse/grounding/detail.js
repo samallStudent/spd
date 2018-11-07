@@ -61,10 +61,6 @@ class DetailsPutaway extends PureComponent{
       }
     })
   }
-  //打印
-  onPrint = () =>{
-    
-  }
   //确认
   onSubmit = () =>{
     let {selectedRow} = this.state;
@@ -128,7 +124,7 @@ class DetailsPutaway extends PureComponent{
       },
       {
         title: '实际货位',
-        width: 150,
+        width: 200,
         dataIndex: 'realReceiveStore',
         render: (text, record) => {
           return <Select
@@ -299,8 +295,7 @@ class DetailsPutaway extends PureComponent{
     return (
       <div className='fadeIn ysynet-content'>
         <div style={{margin: '0 16px'}}>
-          <h3>单据信息 
-            <Button style={{float:'right'}} onClick={()=>this.onPrint()} >打印</Button>
+          <h3>单据信息
           </h3>
           <Row>
             <Col span={8}>
@@ -346,7 +341,7 @@ class DetailsPutaway extends PureComponent{
                 loading={loading}
                 dataSource={listwsj}
                 bordered
-                scroll={{x: 1994}}
+                scroll={{x: 2044}}
                 columns={notColumns}
                 rowKey={'id'}
                 pagination={false}

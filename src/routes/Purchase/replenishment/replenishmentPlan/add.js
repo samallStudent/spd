@@ -330,6 +330,10 @@ class NewAdd extends PureComponent {
                  />
         }
       }, {
+        title: '总库存',
+        dataIndex: 'totalStoreNum',
+        width: 112
+      }, {
         title: '当前库存',
         dataIndex: 'usableQuantity',
         width: 112
@@ -369,8 +373,12 @@ class NewAdd extends PureComponent {
         dataIndex: 'ctmmSpecification',
         width: 168
       }, {
-        title: '当前库存',
+        title: '总库存',
         dataIndex: 'totalStoreNum',
+        width: 112,
+      }, {
+        title: '当前库存',
+        dataIndex: 'usableQuantity',
         width: 112,
       }, {
         title: '剂型',
@@ -487,7 +495,7 @@ class NewAdd extends PureComponent {
                 ref="table"
                 modalLoading={modalLoading}
                 columns={modalColumns}
-                scroll={{ x: 1504 }}
+                scroll={{ x: 1616 }}
                 rowKey='drugCode'
                 rowSelection={{
                   selectedRowKeys: this.state.modalSelected,
@@ -506,7 +514,7 @@ class NewAdd extends PureComponent {
               bordered
               columns={columns}
               dataSource={dataSource}
-              scroll={{ x: 2404 }}
+              scroll={{ x: 2516 }}
               rowKey='drugCode'
               rowSelection={{
                 selectedRowKeys: this.state.selected,

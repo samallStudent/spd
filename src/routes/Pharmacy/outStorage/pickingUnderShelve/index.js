@@ -43,7 +43,7 @@ class SearchFormWrapper extends PureComponent {
     //拣货类型
     dispatch({
       type: 'base/orderStatusOrorderType',
-      payload: { type : 'picking_type' },
+      payload: { type : 'new_picking_type' },
       callback: (data) =>{
         this.setState({ picking_type: data })
       }
@@ -181,6 +181,11 @@ class SearchFormWrapper extends PureComponent {
  }
 const SearchForm = Form.create()(SearchFormWrapper);
 class PickSoldOut extends PureComponent{
+  state = {
+    query: {
+      queryType: 2
+    }
+  }
   //单行确认 
   confirmOk = () => {
     message.success('操作成功')
@@ -194,7 +199,7 @@ class PickSoldOut extends PureComponent{
 
   render(){
     let query = this.props.base.queryConditons;
-    query = {...query};
+    query = {...query, ...this.state.query};
     delete query.key;
     delete query.Time;
     const columns = [

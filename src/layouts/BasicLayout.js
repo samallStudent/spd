@@ -5,6 +5,7 @@ import { connect } from 'dva';
 import Profile from '../components/profile'
 import SiderMenu from '../components/SiderMenu';
 import { menuFormat } from '../utils/utils';
+// import browser from 'browser';
 import styles from './style.css';
 const { Header, Content, Sider } = Layout;
 class BasicLayout extends PureComponent {
@@ -35,16 +36,9 @@ class BasicLayout extends PureComponent {
             let deptInfo = data.deptInfo;
             let { menuList } = deptInfo[0];
             let tree = menuFormat(menuList,true,1);
-            let id = window.sessionStorage.getItem('key');
-            let deptName = window.sessionStorage.getItem('deptName');
-            // let id = this.props.location.pathname.split('/')[2];
-            // let deptName;
-            // data.deptInfo.map(item => {
-            //   if(item.deptId === id) {
-            //     deptName = item.deptName;
-            //   };
-            //   return item;
-            // });
+            const urlParams = new URL(window.location.href);
+            const id = urlParams.searchParams.get('depeId');
+            const deptName = deptInfo.filter(item => item.deptId === id)[0].deptName;
             if(id && deptName) {
               console.log('刷新');
               dispatch({
@@ -132,7 +126,7 @@ class BasicLayout extends PureComponent {
     });
   }
   handleClick = (e) =>{
-    let { dispatch, users, history } = this.props;
+    let { dispatch, users } = this.props;
     if(e.key === this.state.deptId[0]) return;
     let { deptInfo } = users.userInfo;
     let currMenuList = deptInfo.filter(item => item.deptId === e.key)[0].menuList;
@@ -143,11 +137,11 @@ class BasicLayout extends PureComponent {
     // menu.children[0].children[0].href.splice(2, 0, e.key);
     // menu.children[0].children[0].href = menu.children[0].children[0].href.join('/');
 
-    if(menu.children[0].children[0].href === this.props.location.pathname) {      //如果切换时路由相同，必须重新渲染
-      this.setState({
-        hasDept: false
-      });
-    }
+    // if(menu.children[0].children[0].href === this.props.location.pathname) {      //如果切换时路由相同，必须重新渲染
+    //   this.setState({
+    //     hasDept: false
+    //   });
+    // }
     window.sessionStorage.setItem('key', e.key);
     window.sessionStorage.setItem('deptName', e.item.props.children);
     dispatch({
@@ -165,18 +159,25 @@ class BasicLayout extends PureComponent {
           type: 'users/setCurrentMenu',
           payload: { menu : menu }
         });
-        if(menu.children[0].children[0].href !== this.props.location.pathname) {
+        // if(menu.children[0].children[0].href !== this.props.location.pathname) {
           let pathnameArr = window.location.href.split('#');
           pathnameArr[1] = menu.children[0].children[0].href;
-          console.log(1);
-          
-          // window.open(pathnameArr.join('#'), '_blank');
-          history.push({ pathname: menu.children[0].children[0].href });
-        }else {
-          this.setState({
-            hasDept: true
-          });
-        }
+          let href = window.location.href;
+          href = href.split('#');
+          href[1] = menu.children[0].children[0].href;
+          href = href.join('#');
+          const urlParams = new URL(href);
+          urlParams.searchParams.set('depeId', e.key);
+          // window.history.pushState(null, '', urlParams.href);
+          window.location.href = urlParams.href;
+          // history.push({
+          //   pathname: menu.children[0].children[0].href,
+          // });
+        // }else {
+        //   this.setState({
+        //     hasDept: true
+        //   });
+        // }
       }
     })
   }
@@ -185,7 +186,7 @@ class BasicLayout extends PureComponent {
     return (
       <Menu
         style={{
-          height: 300, 
+          maxHeight: 300, 
           overflow: 'auto'
         }}
         selectable

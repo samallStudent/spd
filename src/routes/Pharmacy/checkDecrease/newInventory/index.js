@@ -443,7 +443,7 @@ class NewInventory extends PureComponent {
           <Form>
             <Row>
               <Col span={24}>
-                <FormItem label={'类型'} {...formItemLayoutAdd}>
+                <FormItem label={'类型'} style={{marginBottom: 0}} {...formItemLayoutAdd}>
                   {getFieldDecorator('checkBillType', {
                     rules: [{ required: true, message: '请选择类型' }]
                   })(
@@ -455,7 +455,7 @@ class NewInventory extends PureComponent {
                 </FormItem>
               </Col>
               <Col span={24}>
-                <FormItem label={'子类型'} {...formItemLayoutAdd}>
+                <FormItem label={'子类型'} style={{marginBottom: 0}} {...formItemLayoutAdd}>
                   {getFieldDecorator('checkBillSubType', {
                     rules: [{ required: true, message: '请选择子类型' }]
                   })(
@@ -466,7 +466,7 @@ class NewInventory extends PureComponent {
                 </FormItem>
               </Col>
               <Col span={24}>
-                <FormItem required label={'药品特征'} {...formItemLayoutAdd}>
+                <FormItem required style={{marginBottom: 0}} label={'药品特征'} {...formItemLayoutAdd}>
                   {getFieldDecorator('drugFeatureCode', {
                     rules: [
                       {
@@ -495,7 +495,26 @@ class NewInventory extends PureComponent {
                 </FormItem>
               </Col>
               <Col span={24}>
-                <FormItem label={'货位类别'} {...formItemLayoutAdd}>
+                <FormItem label={'采购类型'} style={{marginBottom: 0}} {...formItemLayoutAdd}>
+                  {getFieldDecorator('purchaseType', {
+                    rules: [{ required: true, message: '请选择采购类型' }],
+                    initialValue: 1
+                  })(
+                    <RadioGroup style={{width: '80%'}}>
+                      <Row>
+                        <Col span={8}>
+                          <Radio value={1}>零库存</Radio>
+                        </Col>
+                        <Col span={8}>
+                          <Radio value={2}>自采</Radio>
+                        </Col>
+                      </Row>
+                    </RadioGroup>
+                  )}
+                </FormItem>
+              </Col>
+              <Col span={24}>
+                <FormItem label={'货位类别'} style={{marginBottom: 0}} {...formItemLayoutAdd}>
                   {getFieldDecorator('locType', {
                     rules: [{ required: true, message: '请选择货位类别' }]
                   })(
@@ -515,7 +534,7 @@ class NewInventory extends PureComponent {
               {
                 subType === '3' ?
                   <Col span={24}>
-                    <FormItem label={'起始时间'} {...formItemLayoutAdd}>
+                    <FormItem style={{marginBottom: 0}} label={'起始时间'} {...formItemLayoutAdd}>
                       {getFieldDecorator('checkStartTime', {
                         rules: [{ required: true, message: '请选择起始时间' }],
                         initialValue: moment(new Date(), moment().format('YYYY-MM-DD 00:00'))
@@ -532,7 +551,7 @@ class NewInventory extends PureComponent {
                   null
               }
               <Col span={24}>
-                <FormItem label={'备注'} {...formItemLayoutAdd}>
+                <FormItem style={{marginBottom: 0}} label={'备注'} {...formItemLayoutAdd}>
                   {getFieldDecorator('remarks')(
                     <Input style={{ width: 280 }} />
                   )}

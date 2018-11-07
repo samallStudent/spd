@@ -1,42 +1,34 @@
 import React, {PureComponent} from 'react';
 import {Row, Col} from 'antd';
-import RemoteTable from '../../../components/TableGrid';
-import drugStorage from '../../../api/drugStorage/stockInquiry';
+import RemoteTable from '../../../../components/TableGrid';
+import drugStorage from '../../../../api/drugStorage/stockInquiry';
 import {connect} from 'dva';
 import querystring from 'querystring';
 const columns = [
     {
         title: '生产批号',
-        dataIndex: 'lot',
-        width: 168,
+        dataIndex: 'lot'
     }, {
         title: '生产日期',
-        dataIndex: 'productDate',
-        width: 168,
+        dataIndex: 'productDate'
     }, {
         title: '有效期至',
         dataIndex: 'validEndDate',
-        width: 168,
     }, {
         title: '货位',
-        dataIndex: "storeLocName",
-        width: 112,
+        dataIndex: "storeLocName"
     }, {
         title: '货位类型',
         dataIndex: "storeType",
-        width: 168,
     }, {
         title: '单位',
         dataIndex: "unit",
-        width: 112,
     }, {
         title: '数量',
-        dataIndex: "usableQuantity",
-        width: 112,
+        dataIndex: "usableQuantity"
     }, {
         title: '供应商',
-        dataIndex: 'supplierName',
-        width: 224,
+        dataIndex: 'supplierName'
     }
 ]
 
@@ -49,7 +41,7 @@ class Details extends PureComponent{
             query: {
                 drugCode: info.dCode
             },
-            bigDrugCode: info.bCode,
+            hisDrugCode: info.bCode,
             info: {}
         }
     }
@@ -57,7 +49,7 @@ class Details extends PureComponent{
         this.props.dispatch({
             type: 'stockInquiry/repertoryDetail',
             payload: {
-                hisDrugCode: this.state.bigDrugCode
+                hisDrugCode: this.state.hisDrugCode
             },
             callback: (data) => {
                 this.setState({info: data});
@@ -133,7 +125,6 @@ class Details extends PureComponent{
                     <h3 style={{marginBottom: 16}}>库存信息</h3>
                     <RemoteTable
                         rowKey="batchNo"
-                        scroll={{x: 1232}}
                         query={query}
                         url={drugStorage.getDetailList}
                         columns={columns}

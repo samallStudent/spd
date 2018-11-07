@@ -76,16 +76,6 @@ class RecallAndLockedDetail extends PureComponent {
 			const { recallStatus } = this.props.match.params;
 			const columns = [
 				{
-					title: '库存数量',
-					width: 112,
-					dataIndex: 'recallNum',
-				},
-				{
-					title: '单位',
-					width: 60,
-					dataIndex: 'unit',
-				},
-				{
 					title: '通用名',
 					dataIndex: 'ctmmGenericName',
 					width: 168,
@@ -142,11 +132,6 @@ class RecallAndLockedDetail extends PureComponent {
 					title: '批准文号',
 					dataIndex: 'approvalNo',
 					width: 224,
-				},
-				{
-					title: '供应商',
-					width: 224,
-					dataIndex: 'supplierName'
 				}
 			];
         return (
@@ -222,7 +207,7 @@ class RecallAndLockedDetail extends PureComponent {
 									bordered
 									dataSource={dataSource}
 									title={() => '产品信息'}
-									scroll={{ x: 2412 }}
+									scroll={{ x: 2016 }}
 									columns={columns}
 									rowKey={'bigDrugCode'}
 									pagination={{

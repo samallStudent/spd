@@ -55,11 +55,6 @@ class Putaway extends PureComponent{
         dataIndex: 'orderCode',
       },
       {
-        title: '状态',
-        width: 112,
-        dataIndex: 'auditStatuslName',
-      },
-      {
         title: '入库分类',
         width: 112,
         dataIndex: 'inStoreTypeName',
@@ -90,7 +85,7 @@ class Putaway extends PureComponent{
           query={query}
           url={wareHouse.depotinstoreList}
           ref="tab"
-          scroll={{x: 1568}}
+          scroll={{x: 1456}}
           columns={columns}
           rowKey={'id'}
           style={{marginTop: 24}}

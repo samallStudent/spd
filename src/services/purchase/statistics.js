@@ -209,3 +209,21 @@ export function gysphExport(options) {
     export: true
   })
 }
+
+//绩效信息表部门列表
+export function operationlogDeptList(options) {
+  return request(`${_local}/a/operationlog/dept`, {
+    method: 'GET',
+    type: 'formData',
+    body: options
+  })
+};
+
+//绩效信息表部门联动菜单
+export function operationlogMenu(options) {
+  return request(`${_local}/a/operationlog/menu`, {
+    method: 'GET',
+    type: 'formData',
+    body: options
+  })
+}

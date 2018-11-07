@@ -28,7 +28,7 @@ const formItemLayout = {
 };
 const columns = [
   {
-   title: '配送单号',
+   title: '配送单/出库单',
    dataIndex: 'distributeCode',
    width: 280,
    render: (text,record) =>{
@@ -169,10 +169,10 @@ class SearchForm extends PureComponent{
       <Form className="ant-advanced-search-form" onSubmit={this.handleSearch}>
         <Row gutter={30}>
           <Col span={8}>
-            <FormItem {...formItemLayout} label={`配送单/订单号`}>
+            <FormItem {...formItemLayout} label={`单号`}>
               {
                 getFieldDecorator(`distributeCode`)(
-                  <Input placeholder='扫描或输入配送单/订单号' />
+                  <Input placeholder='请输入单号' />
                 )
               }
             </FormItem>

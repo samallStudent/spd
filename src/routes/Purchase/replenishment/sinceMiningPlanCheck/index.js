@@ -38,7 +38,10 @@ class SearchForm extends PureComponent{
     //类型
     dispatch({
       type: 'base/orderStatusOrorderType',
-      payload: { type : 'plan_type' },
+      payload: { 
+        type : 'plan_type',
+        typeValues: '3,4'
+      },
       callback: (data) =>{
         this.setState({ plan_type: data })
       }
@@ -214,7 +217,7 @@ class PlanCheck extends PureComponent{
         width: 280,
         render: (text,record) =>{
           return <span>
-            <Link to={{pathname: `/purchase/replenishment/planCheck/detail/${record.planCode}/${record.auditStatus}`}}>{text}</Link>
+            <Link to={{pathname: `/purchase/replenishment/sinceMiningPlanCheck/detail/${record.planCode}/${record.auditStatus}`}}>{text}</Link>
           </span>  
         }
       },{

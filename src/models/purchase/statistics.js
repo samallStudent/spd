@@ -165,5 +165,19 @@ export default {
         callback && callback(data);
       };
     },
+    //绩效信息表部门
+    *operationlogDeptList({payload, callback}, {call}) {
+      const data = yield call(statistics.operationlogDeptList, payload);
+      if(typeof callback === 'function') {
+        callback && callback(data);
+      };
+    },
+    //绩效信息表部门联动菜单
+    *operationlogMenu({payload, callback}, {call}) {
+      const data = yield call(statistics.operationlogMenu, payload);
+      if(typeof callback === 'function') {
+        callback && callback(data);
+      };
+    },
   } 
 }

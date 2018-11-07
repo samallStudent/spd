@@ -197,7 +197,7 @@ class EditDrugDirectory extends PureComponent{
                 }else{
                   message.success('保存成功！')
                   const { history } = this.props;
-                  history.push({pathname:"/drugStorage/configMgt/drugDirectory"})
+                  history.push({pathname:"/sys/deptDrugControl/directory"})
                 }
                 
               }

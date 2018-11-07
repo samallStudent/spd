@@ -23,6 +23,13 @@ export function genDetail(options) {
     body: options
   })
 }
-
+//修改采购方式
+export function updateSupplierRefPrice(options) {
+  return request(`${_local}/a/supplier/price/updateSupplierRefPrice`,{
+    method: 'POST',
+    type: 'formData',
+    body: options
+  })
+}
 
 

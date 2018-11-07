@@ -44,7 +44,7 @@ class SearchFormWrapper extends PureComponent {
     //拣货类型
     dispatch({
       type: 'base/orderStatusOrorderType',
-      payload: { type : 'picking_type' },
+      payload: { type : 'new_picking_type' },
       callback: (data) =>{
         this.setState({ picking_type: data })
       }
@@ -192,7 +192,10 @@ class PickSoldOut extends PureComponent{
     this.state = {
       loading: false,
       messageError:"",
-      selectedRowKeys:[]
+      selectedRowKeys:[],
+      query: {
+        queryType: 2
+      }
     }
   }
   _tableChange = values => {
@@ -264,7 +267,7 @@ class PickSoldOut extends PureComponent{
       }
     ];
     let query = this.props.base.queryConditons;
-    query = {...query};
+    query = {...query, ...this.state.query};
     delete query.Time;
     delete query.key;
     return (

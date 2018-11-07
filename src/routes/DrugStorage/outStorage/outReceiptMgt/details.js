@@ -20,15 +20,6 @@ const columns = [
     dataIndex: 'ctmmTradeName',
   },
   {
-    title: '规格',
-    width: 168,
-    dataIndex: 'ctmmSpecification',
-    className:'ellipsis',
-    render:(text)=>(
-      <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
-    )
-  },
-  {
     title: '剂型',
     width: 168,
     dataIndex: 'ctmmDosageFormDesc',
@@ -279,7 +270,7 @@ class DetailsOutput extends PureComponent{
             bordered
             loading={loading}
             dataSource={detailVo || []}
-            scroll={{x: 2244}}
+            scroll={{x: 2076}}
             columns={columns}
             rowKey={'batchNo'}
             pagination={false}

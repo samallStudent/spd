@@ -579,14 +579,112 @@ export const getNavData = app => [
       name: "库存查询",
       icon: "setting",
       path: '/drugStorage/stockMgt/stockInquiry',
-      component: dynamicWrapper(app, ['drugStorage/stockInquiry'], () => import('../routes/DrugStorage/stockInquiry'))
+      component: dynamicWrapper(app, ['drugStorage/stockInquiry'], () => import('../routes/DrugStorage/stockMgt/stockInquiry'))
     },
     //药库 - 库存查询 - 详情
     {
       name: '详情',
       icon: "setting",
       path: '/drugStorage/stockMgt/stockInquiry/details/:id',
-      component: dynamicWrapper(app, ['drugStorage/stockInquiry'], () => import('../routes/DrugStorage/stockInquiry/details'))
+      component: dynamicWrapper(app, ['drugStorage/stockInquiry'], () => import('../routes/DrugStorage/stockMgt/stockInquiry/details'))
+    },
+    //查询统计 - 结算分析
+    {
+      name: "结算分析",
+      icon: 'setting',
+      path: '/drugStorage/stockMgt/settlementAnalysis',
+      component: dynamicWrapper(app, ['purchase/statistics'], () => import('../routes/DrugStorage/stockMgt/settlementAnalysis')),
+    },
+    //查询统计 - 药品台账
+    {
+      name: "药品台账",
+      icon: 'setting',
+      path: '/drugStorage/stockMgt/drugLedger',
+      component: dynamicWrapper(app, ['purchase/statistics'], () => import('../routes/DrugStorage/stockMgt/drugLedger')),
+    },
+    //查询统计 - 近效期查询
+    {
+      name: "近效期查询",
+      icon: 'setting',
+      path: '/drugStorage/stockMgt/nearlyEffective',
+      component: dynamicWrapper(app, ['purchase/statistics'], () => import('../routes/DrugStorage/stockMgt/nearlyEffective')),
+    },
+    //查询统计 - 损益分析
+    {
+      name: "损益分析",
+      icon: 'setting',
+      path: '/drugStorage/stockMgt/profitLoss',
+      component: dynamicWrapper(app, ['purchase/statistics'], () => import('../routes/DrugStorage/stockMgt/profitLoss')),
+    },
+    //查询统计 - 损益分析 - 详情
+    {
+      name: "损益分析 - 详情",
+      icon: 'setting',
+      path: '/drugStorage/stockMgt/profitLoss/details/:id/:checkBillNo',
+      component: dynamicWrapper(app, ['purchase/statistics'], () => import('../routes/DrugStorage/stockMgt/profitLoss/details')),
+    },
+    //查询统计 - 科室退库分析 
+    {
+      name: "科室退库分析",
+      icon: 'setting',
+      path: '/drugStorage/stockMgt/sectionAnalysis',
+      component: dynamicWrapper(app, ['purchase/statistics'], () => import('../routes/DrugStorage/stockMgt/sectionAnalysis')),
+    },
+    //查询统计 - 订单执行情况 
+    {
+      name: "订单执行情况",
+      icon: 'setting',
+      path: '/drugStorage/stockMgt/orderFulfillment',
+      component: dynamicWrapper(app, ['purchase/statistics'], () => import('../routes/DrugStorage/stockMgt/orderFulfillment')),
+    },
+    //查询统计 - 订单执行情况 - 详情
+    {
+      name: "订单执行情况 - 详情",
+      icon: 'setting',
+      path: '/drugStorage/stockMgt/orderFulfillment/details/:id',
+      component: dynamicWrapper(app, ['purchase/statistics'], () => import('../routes/DrugStorage/stockMgt/orderFulfillment/details')),
+    },
+    //查询统计 - 订单追溯 
+    {
+      name: "订单追溯",
+      icon: 'setting',
+      path: '/drugStorage/stockMgt/orderRetrospect',
+      component: dynamicWrapper(app, ['purchase/statistics'], () => import('../routes/DrugStorage/stockMgt/orderRetrospect')),
+    },
+    //查询统计 - 订单追溯 - 详情
+    {
+      name: "订单追溯 - 详情",
+      icon: 'setting',
+      path: '/drugStorage/stockMgt/orderRetrospect/details/:id',
+      component: dynamicWrapper(app, ['purchase/statistics'], () => import('../routes/DrugStorage/stockMgt/orderRetrospect/details')),
+    },
+    //查询统计 - 供应商排行 
+    {
+      name: "供应商排行",
+      icon: 'setting',
+      path: '/drugStorage/stockMgt/supplierRank',
+      component: dynamicWrapper(app, ['purchase/statistics'], () => import('../routes/DrugStorage/stockMgt/supplierRank')),
+    },
+    //查询统计 - 供应商供货分析 
+    {
+      name: "供应商供货分析",
+      icon: 'setting',
+      path: '/drugStorage/stockMgt/supplierSupply',
+      component: dynamicWrapper(app, ['purchase/statistics'], () => import('../routes/DrugStorage/stockMgt/supplierSupply')),
+    },
+    //查询统计 - 供应商退货分析 
+    {
+      name: "供应商退货分析",
+      icon: 'setting',
+      path: '/drugStorage/stockMgt/supplierReturn',
+      component: dynamicWrapper(app, ['purchase/statistics'], () => import('../routes/DrugStorage/stockMgt/supplierReturn')),
+    },
+    //查询统计 - 财务指标 
+    {
+      name: "财务指标",
+      icon: 'setting',
+      path: '/drugStorage/stockMgt/financialTarget',
+      component: dynamicWrapper(app, [], () => import('../routes/DrugStorage/stockMgt/financialTarget')),
     },
     //药库 - 结算管理
     // {
@@ -869,16 +967,50 @@ export const getNavData = app => [
       name: "库存查询",
       icon: 'setting',
       path: '/pharmacy/stockMgt/stockInquiry',
-      component: dynamicWrapper(app, ['drugStorage/stockInquiry'], () => import('../routes/Pharmacy/stockInquiry')),
+      component: dynamicWrapper(app, ['drugStorage/stockInquiry'], () => import('../routes/Pharmacy/stockMgt/stockInquiry')),
     },
     //药房 - 库存查询 - 详情
     {
       name: "详情",
       icon: 'setting',
       path: '/pharmacy/stockMgt/stockInquiry/details/:id',
-      component: dynamicWrapper(app, ['drugStorage/stockInquiry'], () => import('../routes/Pharmacy/stockInquiry/details')),
+      component: dynamicWrapper(app, ['drugStorage/stockInquiry'], () => import('../routes/Pharmacy/stockMgt/stockInquiry/details')),
     }, 
-      
+    //药房 - 查询统计 - 药品台账
+    {
+      name: "药品台账",
+      icon: 'setting',
+      path: '/pharmacy/stockMgt/drugLedger',
+      component: dynamicWrapper(app, ['purchase/statistics'], () => import('../routes/Pharmacy/stockMgt/drugLedger')),
+    },
+    //药房 - 查询统计 - 近效期查询
+    {
+      name: "近效期查询",
+      icon: 'setting',
+      path: '/pharmacy/stockMgt/nearlyEffective',
+      component: dynamicWrapper(app, ['purchase/statistics'], () => import('../routes/Pharmacy/stockMgt/nearlyEffective')),
+    },
+    //药房 - 查询统计 - 损益分析
+    {
+      name: "损益分析",
+      icon: 'setting',
+      path: '/pharmacy/stockMgt/profitLoss',
+      component: dynamicWrapper(app, ['purchase/statistics'], () => import('../routes/Pharmacy/stockMgt/profitLoss')),
+    },
+    //药房 - 查询统计 - 损益分析 - 详情
+    {
+      name: "损益分析 - 详情",
+      icon: 'setting',
+      path: '/pharmacy/stockMgt/profitLoss/details/:id/:checkBillNo',
+      component: dynamicWrapper(app, ['purchase/statistics'], () => import('../routes/Pharmacy/stockMgt/profitLoss/details')),
+    },
+    //药房 - 查询统计 - 供应商排行 
+    {
+      name: "供应商排行",
+      icon: 'setting',
+      path: '/pharmacy/stockMgt/supplierRank',
+      component: dynamicWrapper(app, ['purchase/statistics'], () => import('../routes/Pharmacy/stockMgt/supplierRank')),
+    },
     /*------药房------*/
     /*-----药房-申领入库--*/
     {
@@ -1532,7 +1664,7 @@ export const getNavData = app => [
       name: "绩效信息表",
       icon: 'setting',
       path: '/purchase/statisticAnalysis/performanceInfo',
-      component: dynamicWrapper(app, [], () => import('../routes/Purchase/statisticAnalysis/performanceInfo')),
+      component: dynamicWrapper(app, ['purchase/statistics'], () => import('../routes/Purchase/statisticAnalysis/performanceInfo')),
     },
     //采购结算 - 结算管理 - 结余查询
     {

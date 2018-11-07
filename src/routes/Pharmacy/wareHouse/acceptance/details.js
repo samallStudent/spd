@@ -173,8 +173,8 @@ class DetailsNewLibrary extends PureComponent{
 
   //打印
   print = () => {
-    const { auditStatus, distributeCode } = this.state.info;
-    window.open(`${wareHouse.PRINT_ROOM_DETAIL}?distributeCode=${distributeCode}&status=${auditStatus}`);
+    const { defaultActiveKey, distributeCode } = this.state.info;
+    window.open(`${wareHouse.PRINT_ROOM_DETAIL}?distributeCode=${distributeCode}&status=${defaultActiveKey}`);
   }
 
   render(){

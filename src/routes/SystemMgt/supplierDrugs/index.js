@@ -1,8 +1,10 @@
 import React , {PureComponent} from 'react';
 import { Form, Row, Col, Button, Input, Select, Icon, Tooltip, message, Modal, Radio  } from 'antd';
 import { supplierDurs } from '../../../api/drugStorage/supplierDrugs';
+import {common} from '../../../api/purchase/purchase';
 import { Link } from 'react-router-dom';
 import RemoteTable from '../../../components/TableGrid';
+import FetchSelect from '../../../components/FetchSelect';
 import { connect } from 'dva';
 const FormItem = Form.Item;
 const { Option } = Select;
@@ -19,6 +21,9 @@ const formItemLayout = {
 };
 
 class SearchForm extends PureComponent{
+  state = {
+    typeList: []
+  }
   toggle = () => {
     this.props.formProps.dispatch({
       type:'base/setShowHide'
@@ -27,6 +32,11 @@ class SearchForm extends PureComponent{
   componentDidMount() {
     let { queryConditons } = this.props.formProps.base;
     //找出表单的name 然后set
+    queryConditons = {...queryConditons};
+    if(queryConditons.supplierCodeList) {
+      queryConditons.supplierCodeList = queryConditons.supplierCodeList[0];
+    };
+    queryConditons.hisDrugCodeList = undefined;
     let values = this.props.form.getFieldsValue();
     values = Object.getOwnPropertyNames(values);
     let value = {};
@@ -35,12 +45,24 @@ class SearchForm extends PureComponent{
       return keyItem;
     });
     this.props.form.setFieldsValue(value);
-
+    this.props.formProps.dispatch({
+      type: 'base/orderStatusOrorderType',
+      payload: {
+        type: 'his_purchase_type'
+      },
+      callback: (data) => {
+        this.setState({
+          typeList: data
+        });
+      }
+    })
   }
   handleSearch = (e) => {
     e.preventDefault();
     console.log(this.props.formProps)
     this.props.form.validateFields((err,values)=>{
+      values.hisDrugCodeList = values.hisDrugCodeList ? [values.hisDrugCodeList] : [];
+      values.supplierCodeList = values.supplierCodeList ? [values.supplierCodeList] : [];
       this.props.formProps.dispatch({
           type:'base/updateConditions',
           payload: values
@@ -57,6 +79,7 @@ class SearchForm extends PureComponent{
     const { getFieldDecorator } = this.props.form;
     const {display} = this.props.formProps.base;
     const { deptList } = this.props;
+    const {typeList} = this.state;
     const expand = display === 'block';
     return (
       <Form className="ant-advanced-search-form" onSubmit={this.handleSearch}>
@@ -64,7 +87,7 @@ class SearchForm extends PureComponent{
           <Col span={8}>
             <FormItem {...formItemLayout} label={`供应商`}>
               {
-                getFieldDecorator(`deptCode`,{
+                getFieldDecorator(`supplierCodeList`,{
                   initialValue: ''
                 })(
                   <Select placeholder="请选择">
@@ -82,13 +105,15 @@ class SearchForm extends PureComponent{
           <Col span={8}>
             <FormItem {...formItemLayout} label={`采购方式`}>
               {
-                getFieldDecorator('medDrugType',{
+                getFieldDecorator('purchaseType',{
                   initialValue: ''
                 })(
                   <Select placeholder="请选择">
-                    <Option key='' value=''>全部</Option>
-                    <Option key='2' value='2'>采购</Option>
-                    <Option key='1' value='1'>零库存</Option>
+                    {
+                      typeList.map(item => (
+                        <Option key={item.value} value={item.value}>{item.label}</Option>
+                      ))
+                    }
                   </Select>
                 )
               }
@@ -97,10 +122,15 @@ class SearchForm extends PureComponent{
           <Col span={8} style={{ display: display }}>
             <FormItem {...formItemLayout} label={`名称`}>
               {
-                getFieldDecorator(`ctmmTradeName`,{
+                getFieldDecorator(`hisDrugCodeList`,{
                   initialValue: ''
                 })(
-                  <Input placeholder='请输入' />
+                  <FetchSelect
+                    allowClear={true}
+                    placeholder='通用名/商品名'
+                    query={{queryType: 3}}
+                    url={common.QUERY_DRUG_BY_LIST}
+                  />
                 )
               }
             </FormItem>
@@ -108,7 +138,7 @@ class SearchForm extends PureComponent{
           <Col span={8} style={{ display: display }}>
             <FormItem {...formItemLayout} label={`生产厂家`}>
               {
-                getFieldDecorator(`ctmmDosageFormDesc`,{
+                getFieldDecorator(`ctmmManufacturerName`,{
                   initialValue: ''
                 })(
                   <Input placeholder='请输入' />
@@ -166,12 +196,12 @@ const columns = [
   },
   {
     title: '采购方式',
-    dataIndex: 'ctmmDosageFormDesc',
+    dataIndex: 'purchaseTypeName',
     width: 168,
   },
   {
     title: '采购单位',
-    dataIndex: 'packageSpecification',
+    dataIndex: 'replanUnit',
     width: 112,
   },
   {
@@ -238,10 +268,40 @@ class DrugDirectory extends PureComponent{
   }
   bitchEditConfirm = () =>{
     this.props.form.validateFields( (err,values) =>{
+      console.log(values);
+      
       if(!err){
-        
+        const {selectedRows} = this.state;
+        const id = selectedRows.map(item => item.id);
+          this.props.dispatch({
+            type: 'supplierDrugs/updateSupplierRefPrice',
+            payload: {
+              id,
+              purchaseType: values.purchaseType
+            },
+            callback: ({data, code, msg}) => {
+              if(code === 200) {
+                message.success('操作成功');
+                this.props.form.resetFields();
+                this.setState({
+                  selectedRows: [],
+                  selected: [],
+                  visible: false
+                });
+                this.refs.table.fetch();
+              }else {
+                message.error(msg)
+              };
+            }
+          })
       }
     })
+  }
+  onCancel = () => {
+    this.props.form.resetFields();
+    this.setState({
+      visible: false
+    });
   }
   _tableChange = values => {
     this.props.dispatch({
@@ -259,25 +319,25 @@ class DrugDirectory extends PureComponent{
       <WrappSearchForm deptList={deptList} formProps={{...this.props}}/>
       <Row className='ant-row-bottom'>
         <Col>
-          <Button type='primary' onClick={this.bitchEdit}>批量设置采购方式</Button>
+          {/* <Button type='primary' onClick={this.bitchEdit}>批量设置采购方式</Button> */}
         </Col>
       </Row>
       <Modal
         title={'批量编辑'}
         width={488}
         visible={visible}
-        onCancel={()=>this.setState({ visible: false })}
+        onCancel={this.onCancel}
         footer={[
           <Button key="submit" type='primary' loading={loading} onClick={this.bitchEditConfirm}>
               确认
           </Button>,
-          <Button key="back"  type='default' onClick={()=>this.setState({ visible: false })}>取消</Button>
+          <Button key="back"  type='default' onClick={this.onCancel}>取消</Button>
         ]}
         >
         <Form>
           <FormItem {...formItemLayout} label={`采购方式`}>
             {
-              getFieldDecorator(`upperQuantity`,{
+              getFieldDecorator(`purchaseType`,{
                 rules:[{
                   required:true,message:"请选择采购方式！"
                 }]
@@ -299,12 +359,12 @@ class DrugDirectory extends PureComponent{
         columns={columns}
         scroll={{ x: 1748 }}
         url={supplierDurs.findDrugsList}
-        rowSelection={{
-          selectedRowKeys: this.state.selected,
-          onChange: (selectedRowKeys, selectedRows) => {
-            this.setState({selected: selectedRowKeys, selectedRows: selectedRows})
-          }
-        }}
+        // rowSelection={{
+        //   selectedRowKeys: this.state.selected,
+        //   onChange: (selectedRowKeys, selectedRows) => {
+        //     this.setState({selected: selectedRowKeys, selectedRows: selectedRows})
+        //   }
+        // }}
         rowKey='id'
         onChange={this._tableChange}
       />

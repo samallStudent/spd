@@ -254,7 +254,7 @@ class RecallAndLockedCheck extends PureComponent{
           formProps={{...this.props}}
         />
         <Row>
-          <Button type='primary' className='button-gap'onClick={this.bitchPass} > 批量通过</Button>
+          <Button type='primary' className='button-gap'onClick={this.bitchPass} >批量通过</Button>
         </Row>
         <RemoteTable
           ref='table'

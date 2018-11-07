@@ -321,7 +321,8 @@ class NewAdd extends PureComponent {
               <Row>
                 <Col style={{ textAlign: 'right', marginTop: '10px' }}>
                   <Button loading={saveLoading} onClick={()=>{this.submit('1')}} type='primary'>提交</Button>
-                  <Button loading={saveLoading} onClick={()=>{this.submit('0')}} type='danger' style={{ marginLeft: 8 }} ghost>保存</Button>
+                  {/* <Button loading={saveLoading} onClick={()=>{this.submit('0')}} type='danger' style={{ marginLeft: 8 }} ghost>保存</Button> */}
+                  <Button onClick={()=>{this.props.history.go(-1)}} type='danger' style={{ marginLeft: 8 }} ghost>取消</Button>
                 </Col>
               </Row>
           }

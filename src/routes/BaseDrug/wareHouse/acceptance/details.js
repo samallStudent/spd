@@ -5,6 +5,7 @@
  */
 import React, { PureComponent } from 'react';
 import { Table ,Row, Col, Tabs, Tooltip, Button, message, Spin } from 'antd';
+import {_local} from '../../../../api/local';
 import {connect} from 'dva';
 const columns = [
   {
@@ -155,7 +156,7 @@ class DetailsNewLibrary extends PureComponent{
   }
 
   tabsChange = (activeKey) =>{
-    if(activeKey === '2') {
+    if(activeKey === '3') {
       this.setState({activeKey, btnShow: false});
     };
     if(activeKey === '1') {
@@ -165,14 +166,8 @@ class DetailsNewLibrary extends PureComponent{
 
   //打印
   print = () => {
-    const { distributeCode, auditStatus } = this.state.info;
-    this.props.dispatch({
-      type: 'wareHouse/baseCheckPrint',
-      payload: {
-        distributeCode,
-        status: auditStatus
-      }
-    });
+    const { distributeCode, activeKey } = this.state.info;
+    window.open(`${_local}/a/deliver/print/printBasicMedicDetail?distributeCode=${distributeCode}&status=${activeKey}`, '_blank');
   }
 
   render(){
@@ -273,7 +268,7 @@ class DetailsNewLibrary extends PureComponent{
                 }}
               />
             </TabPane>
-            <TabPane tab="已验收" key="2">
+            <TabPane tab="已验收" key="3">
               <Table
                 loading={loading}
                 bordered

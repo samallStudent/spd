@@ -312,7 +312,16 @@ class AddSupplementDocuments extends PureComponent{
     modalSelectedRows.map(item => item.totalQuantity = 1);
     let newDataSource = [];
     newDataSource = [ ...dataSource, ...modalSelectedRows ];
-    this.setState({ dataSource: newDataSource, visible: false, modalSelected: [], modalSelectedRows: [] }) 
+    const existDrugCodeList = newDataSource.map(item => item.drugCode);
+    this.setState({ 
+      dataSource: newDataSource, 
+      visible: false, 
+      modalSelected: [], 
+      modalSelectedRows: [],
+      query: {
+        existDrugCodeList
+      }
+    }) 
   }
   //添加异常入库单到主表
   handleAbnormalOk = () => {
@@ -349,9 +358,10 @@ class AddSupplementDocuments extends PureComponent{
     });
   }
   delete = () => {  //删除
-    let { selectedRows, dataSource, query } = this.state;
+    let { selectedRows, dataSource, query, abnormalQuery } = this.state;
     dataSource = _.difference(dataSource, selectedRows);
     let existDrugCodeList = dataSource.map((item) => item.drugCode)
+    let existListNo = dataSource.map((item) => item.drugCode)
     this.setState({
       dataSource,
       selected: [],
@@ -359,6 +369,10 @@ class AddSupplementDocuments extends PureComponent{
       query: {
         ...query,
         existDrugCodeList
+      },
+      abnormalQuery: {
+        ...abnormalQuery,
+        existListNo
       }
     });
   }
@@ -658,6 +672,13 @@ class AddSupplementDocuments extends PureComponent{
         dataIndex: 'supplierName',
       },
     ];
+    let rowKey = "";
+    if(typeValue === "1") {
+      rowKey = "drugCode";
+    };
+    if(typeValue === "4") {
+      rowKey = "backNo";
+    };
     return (
     <Spin spinning={spinLoading} size="large">
       <div className="fullCol" style={{ padding: 24, background: '#f0f2f5' }}>
@@ -717,7 +738,7 @@ class AddSupplementDocuments extends PureComponent{
                       dataSource.map(item => existDrugCodeList.push(item.drugCode));
                       this.refs.table.fetch({ ...query, existDrugCodeList });
                     }
-                    this.setState({visible:true});
+                    this.setState({visible: true});
                   }}>
                     添加产品
                   </Button>,
@@ -726,13 +747,18 @@ class AddSupplementDocuments extends PureComponent{
               }
               {
                 typeValue === "4" ? 
-                <Button
-                  type='primary' 
-                  className='button-gap' 
-                  onClick={this.showAbnormalModal}
-                >
-                  选择异常退药入库单
-                </Button> : null
+                [
+                  <Button
+                    key={1}
+                    type='primary' 
+                    className='button-gap' 
+                    onClick={this.showAbnormalModal}
+                  >
+                    选择异常退药入库单
+                  </Button>,
+                  <Button key={2} onClick={this.delete} >移除</Button>
+                ]
+                 : null
               }
             </Col>
           </Row>
@@ -745,7 +771,7 @@ class AddSupplementDocuments extends PureComponent{
               bordered
               scroll={{x: 1680}}
               columns={typeValue === "1" ? columns : abnormalColumns}
-              rowKey={'drugCode'}
+              rowKey={rowKey}
               style={{marginTop: 24}}
               rowSelection={{
                 selectedRowKeys: this.state.selected,
@@ -856,7 +882,7 @@ class AddSupplementDocuments extends PureComponent{
               scroll={{x: 789}}
               style={{marginTop: 20}}
               columns={abnormalModalColumns}
-              rowKey={'hisBackNo'}
+              rowKey={'backNo'}
               rowSelection={{
                 selectedRowKeys: this.state.modalSelected,
                 onChange: (selectedRowKeys, selectedRows) => {

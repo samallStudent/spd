@@ -399,22 +399,6 @@ class DetailsPicking extends PureComponent{
                 <div className='ant-form-item-control'>{ detailsData.applyLocation }</div>
               </div>
             </Col>
-            <Col span={8}>
-              <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
-                <label>配货人</label>
-              </div>
-              <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18">
-                <div className='ant-form-item-control'>{ detailsData.distributeUserName }</div>
-              </div>
-            </Col>
-            <Col span={8}>
-              <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
-                <label>配货时间</label>
-              </div>
-              <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18">
-                <div className='ant-form-item-control'>{ detailsData.distributeDate }</div>
-              </div>
-            </Col>
           </Row>
           <hr className='hr'/>
         </Spin>

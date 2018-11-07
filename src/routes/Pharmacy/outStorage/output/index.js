@@ -37,6 +37,16 @@ const columns = [
     dataIndex: 'outDeptName'
   },
   {
+    title: '患者姓名',
+    width: 168,
+    dataIndex: 'sickName'
+  },
+  {
+    title: '就诊卡编号',
+    width: 168,
+    dataIndex: 'medCardNo'
+  },
+  {
     title: '出库分类',
     width: 168,
     dataIndex: 'backTypeName'
@@ -82,7 +92,7 @@ class Output extends PureComponent{
           onChange={this._tableChange}
           query={query}
           url={outStorage.BILLOUTSOTRE_LIST}
-          scroll={{x: 1288}}
+          scroll={{x: 1624}}
           columns={columns}
           rowKey={'id'}
           style={{marginTop: 20}}

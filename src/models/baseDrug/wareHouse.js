@@ -18,13 +18,6 @@ export default {
         message.error(data.msg);
       }
     },
-    //打印
-    *baseCheckPrint({payload, callback}, {call}) {
-      const data = yield call(wareHouse.baseCheckPrint, payload);
-      if(typeof callback === 'function') {
-        callback && callback(data);
-      }
-    }
     /*-- end --*/
   },
 }

@@ -42,4 +42,5 @@ export const statisticAnalysis = {
   TRACE_LIST: `${_local}/a/orderexecute/trace`,         //订单追溯列表
   ORDER_DETAIL_TRACE: `${_local}/a/orderexecute/orderDetailTrace`,    //订单追溯详情分页
   GYSPH_LIST: `${_local}/a/gysph/statics/list`,     //供应商排行
+  OPERATIONLOG_LIST: `${_local}/a/operationlog/list`,     //绩效信息表
 }

@@ -148,7 +148,7 @@ class ReplenishmentDetail extends PureComponent{
           <div style={{ display: 'flex',justifyContent: 'space-between' }}>
             <h3>单据信息</h3>
             {
-              (detailsData.auditStatus === 1 && detailsData.auditStatus === 3) &&
+              (detailsData.auditStatus === 1 || detailsData.auditStatus === 3) &&
               <div>
                 <Link to={{pathname: `/editReplenishmentPlan/${this.props.match.params.planCode}`}}><Button type='default'>编辑</Button></Link>
                 <Button type='primary' onClick={this.submit} style={{ marginLeft: 8 }}>提交</Button>

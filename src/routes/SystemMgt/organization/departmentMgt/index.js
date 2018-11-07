@@ -149,7 +149,8 @@ class DepartmentMgt extends PureComponent{
     subModalSelectRowCache:{},//科室点选-缓存
     goodsModalSelectRow:{},//科室点选-获取相关的信息
     goodsModalSelectRowCache:{},//科室点选-缓存
-    storeList: []
+    storeList: [],
+    OKLoading: false
   }
 
   componentDidMount() {
@@ -180,6 +181,9 @@ class DepartmentMgt extends PureComponent{
       if(!err){
         console.log(values)
         console.log(this.state.subModalSelectRowCache);//此数据为科室每次确认的最终数据
+        this.setState({
+          OKLoading: true
+        });
         const { subModalSelectRowCache , goodsModalSelectRowCache } = this.state;
         values.openDeptCode = subModalSelectRowCache.ctdCode;//ctdCode为编码 
         if(values.deptType===5){//选择基数药的时候获取选中的Id
@@ -194,7 +198,10 @@ class DepartmentMgt extends PureComponent{
           callback:(data)=>{
             console.log(data)
             this.refs.table.fetch()
-            this.setState({visible:false})
+            this.setState({
+              visible:false,
+              OKLoading: false
+            })
           }
         })
         
@@ -359,7 +366,7 @@ class DepartmentMgt extends PureComponent{
         dataIndex: 'positionName',
       },
     ]
-    let { visible , modalTitle ,subModalVisible, hasStyle , goodsModalVisible , queryDept , queryGoods, storeList} = this.state;
+    let { visible , modalTitle ,subModalVisible, hasStyle , goodsModalVisible , queryDept , queryGoods, storeList, OKLoading} = this.state;
     const { getFieldDecorator, getFieldsValue } = this.props.form;
     let query = this.props.base.queryConditons;
     delete query.key;
@@ -394,6 +401,9 @@ class DepartmentMgt extends PureComponent{
           title={modalTitle}
           onOk={this.onSubmitModal}
           onCancel={this.onCancelModal}
+          okButtonProps={{
+            loading: OKLoading
+          }}
           >
           <Form onSubmit={this.onSubmit}>
             <FormItem {...singleFormItemLayout} label={`部门性质`}>

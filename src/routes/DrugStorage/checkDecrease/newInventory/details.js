@@ -299,10 +299,16 @@ class Details extends PureComponent {
     let {info} = this.state;
     if(info.checkStatus === 2) {
       data = data.map((item, i)=>{
-        item.practicalRepertory = item.accountStoreNum;
-        item.validEndTime = item.accountEndTime;
-        item.realProductTime = item.accountProductTime;
-        item.practicalBatch = item.accountBatchNo;
+        if(item.checkDetailStatus === 1) {
+          if(info.checkBillType === "2") {
+            item.practicalRepertory = 0;
+          }else {
+            item.practicalRepertory = item.accountStoreNum;
+          }
+          item.validEndTime = item.accountEndTime;
+          item.realProductTime = item.accountProductTime;
+          item.practicalBatch = item.accountBatchNo;
+        };
         return item;
       })
     };
@@ -550,30 +556,43 @@ class Details extends PureComponent {
       {
         title: '账面库存',
         dataIndex: 'accountStoreNum',
-        width: 112
+        width: 112,
+        render: (text, record, i) => {
+          if(info.checkBillType === "2" && record.checkDetailStatus === 1) {
+            return null;
+          };
+          return text;
+        }
       },
       {
         title: '实际数量',
         dataIndex: 'practicalRepertory',
         width: 140,
         render:(text, record, i)=>{
-          return info.checkStatus === 2 && record.checkDetailStatus === 1?
-                 <InputNumber
-                  style={{width: '100%'}}
-                  onChange={(value) => {
-                    this.changePracticalRepertory(value, i, record);
-                  }}
-                  min={0}
-                  defaultValue={text} 
-                  placeholder="请输入实际数量"
-                  precision={0}
-                 /> : text
+          if(info.checkStatus === 2 && record.checkDetailStatus === 1) {
+            return <InputNumber
+                    style={{width: '100%'}}
+                    onChange={(value) => {
+                      this.changePracticalRepertory(value, i, record);
+                    }}
+                    min={0}
+                    defaultValue={text} 
+                    placeholder="请输入实际数量"
+                    precision={0}
+                  />
+          };
+          return <span>{text}</span>
         },
       },
       {
         title: '盈亏数量',
         dataIndex: 'checkNum', 
-        render: (text, record) => text? text : 0,
+        render: (text, record, i) => {
+          if(info.checkBillType === "2" && record.checkDetailStatus === 1) {
+            return null;
+          };
+          return text ? text : 0;
+        },
         width: 112
       },
       {

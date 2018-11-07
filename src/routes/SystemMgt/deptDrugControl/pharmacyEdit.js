@@ -219,9 +219,9 @@ class EditDrugDirectory extends PureComponent{
               callback:(data)=>{
                 message.success('保存成功！')
                 const { history } = this.props;
-                history.push({pathname:"/pharmacy/configMgt/drugDirectory"})
+                history.push({pathname:"/sys/deptDrugControl/directory"})
               }
-            })
+            });
           }
         })
       },

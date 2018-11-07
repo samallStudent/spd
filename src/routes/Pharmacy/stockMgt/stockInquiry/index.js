@@ -4,15 +4,14 @@ import { Link } from 'react-router-dom'
 
 import { Form, Row, Col, Button, Tooltip } from 'antd';
 //Select
-import FetchSelect from '../../../components/FetchSelect/index';
+import FetchSelect from '../../../../components/FetchSelect/index';
 
-import RemoteTable from '../../../components/TableGrid';
+import RemoteTable from '../../../../components/TableGrid';
 
-import drugStorage from '../../../api/drugStorage/stockInquiry';
-
-import goodsAdjust from '../../../api/drugStorage/goodsAdjust';
-
+import drugStorage from '../../../../api/drugStorage/stockInquiry';
+import goodsAdjust from '../../../../api/drugStorage/goodsAdjust';
 import {connect} from 'dva';
+
 
 // const FormItem = Form.Item;
 // const {Option} = Select;
@@ -36,7 +35,7 @@ const columns = [
     render: (text, record) => {
       return (
         <span>
-          <Link to={{pathname: `/drugStorage/stockMgt/stockInquiry/details/dCode=${record.drugCode}&bCode=${record.hisDrugCode}`}}>{text}</Link>
+          <Link to={{pathname: `/pharmacy/stockMgt/stockInquiry/details/dCode=${record.drugCode}&bCode=${record.hisDrugCode}`}}>{text}</Link>
         </span>  
       )
     }
@@ -63,11 +62,11 @@ const columns = [
   }, {
     title: '包装规格',
     dataIndex: 'packageSpecification',
-    width: 168,
+    width: 112,
   }, {
     title: '单位',
     dataIndex: 'replanUnit',
-    width: 60,
+    width: 112,
   }, {
     title: '库存数量',
     dataIndex: 'totalStoreNum',
@@ -87,7 +86,7 @@ const columns = [
   }, {
     title: '批准文号',
     dataIndex: 'approvalNo',
-    width: 224,
+    width: 168,
   }
 ];
 
@@ -130,20 +129,11 @@ class StockInquiry extends PureComponent {
   //重置
   handleReset = () => {
     this.props.form.resetFields();
-    this.setState({
-      value: undefined
-    });
-    // let {query, value} = this.state;
-    // if(!value) return;
-    // this.setState({
-    //   value: undefined,
-    //   query: {
-    //     ...query,
-    //     hisDrugCodeList: []
-    //   }
-    // })
     this.props.dispatch({
       type:'base/clearQueryConditions'
+    });
+    this.setState({
+      value: undefined
     });
   }
   _tableChange = values => {
@@ -184,7 +174,7 @@ class StockInquiry extends PureComponent {
                       style={{ width: 248 }}
                       placeholder='通用名/商品名'
                       url={goodsAdjust.QUERY_DRUG_BY_LIST}
-                      cb={(value, option) => {
+                      cb={(value) => {
                         this.setState({
                           value
                         });
@@ -222,7 +212,6 @@ class StockInquiry extends PureComponent {
           isJson={true}
           query={query}
           ref="tab"
-          bordered={true}
           style={{marginTop: 20}}
           scroll={{x: 1740}}
           columns={columns}

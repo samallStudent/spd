@@ -91,6 +91,8 @@ class DetailsOutput extends PureComponent{
     super(props)
     let info = this.props.match.params.id;
     info = querystring.parse(info);
+    console.log(info);
+    
     this.state={
       info: {},
       loading: false,
@@ -182,7 +184,7 @@ class DetailsOutput extends PureComponent{
             </Col>
               <Col style={{textAlign:'right', float: 'right'}} span={6}>
                 {
-                  info.status && info.status === 1? (
+                  info.status && info.status === 1 ? (
                       [<Button type='primary' key="1" className='button-gap' style={{marginRight: 8}} onClick={()=>this.onSubmit()}>复核通过</Button>,
                       <Button loading={banLoading} key="2" onClick={()=>this.onBan()} >不通过</Button>]
                   ) : null

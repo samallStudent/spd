@@ -12,14 +12,13 @@ class DropdownList extends React.Component {
           credentials: 'include',
           mode: 'cors',
         })
-        .then(res => res.json)
-        .then(data=>{
-          window.sessionStorage.removeItem('key');
-          window.sessionStorage.removeItem('deptName');
-        })
-      }
-    }
+        .then(res => res.json);
+      };
+    };
     window.location.hash = link;
+    const urlParams = new URL(window.location.href);
+    urlParams.searchParams.delete('depeId');
+    window.history.pushState(null, '', urlParams.href);
   }
   menus = () => {
     return (

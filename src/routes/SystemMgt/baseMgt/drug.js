@@ -198,6 +198,11 @@ class BaseMgt extends PureComponent{
         width: 168,
       },
       {
+        title: '单位',
+        dataIndex: 'replanUnit',
+        width: 112,
+      },
+      {
         title: '包装规格',
         dataIndex: 'packageSpecification',
         width: 168,
@@ -349,7 +354,7 @@ class BaseMgt extends PureComponent{
             ref='table'
             query={query}
             url={drugMgt.FIND_CARDINAL_MEDICINE_DETAIL}
-            scroll={{x: 1520}}
+            scroll={{x: 1632}}
             columns={columns}
             rowKey={'id'}
           />

@@ -108,7 +108,7 @@ componentDidMount() {
   this.props.formProps.dispatch({
     type: 'base/orderStatusOrorderType',
     payload: {
-      type: 'acceptance_check'
+      type: 'acceptance_checkVo'
     },
     callback: (data) => {
       this.setState({statusList: data});

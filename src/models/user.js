@@ -42,10 +42,13 @@ export default {
       }
     },
     setCurrentDeptInfo(state,action){
+      // const urlParams = new URL(window.location.href);
+      // urlParams.searchParams.set('depeId', action.payload.id);
+      // window.history.replaceState(null, '', urlParams.href);
       return {
         ...state,
         currentDept: { deptId: action.payload.id,deptName: action.payload.deptName }
-      }
+      };
     }
   },
   effects:{

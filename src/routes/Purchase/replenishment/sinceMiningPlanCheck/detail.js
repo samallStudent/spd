@@ -153,7 +153,8 @@ class PlanCheckDetail extends PureComponent{
       type: 'replenish/updateStatus',
       payload: { ...values },
       callback: () =>{
-        history.push({ pathname: '/purchase/replenishment/planCheck' });
+        message.success('操作成功');
+        history.push({ pathname: '/purchase/replenishment/sinceMiningPlanCheck' });
       } 
     })
 

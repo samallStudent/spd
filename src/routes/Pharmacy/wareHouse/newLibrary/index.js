@@ -114,7 +114,7 @@ class SearchFormWrapper extends PureComponent {
     this.props.formProps.dispatch({
       type: 'base/orderStatusOrorderType',
       payload: {
-        type: 'in_store_type'
+        type: 'room_in_store_type'
       },
       callback: (data) => {
         this.setState({type: data});

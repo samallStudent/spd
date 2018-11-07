@@ -93,7 +93,7 @@ state = {
 setSubTitle = () =>{
   const href = window.location.href;
   let pathname = href.split('#')[1];
-  console.log(pathname, 'pathname')
+  // console.log(pathname, 'pathname')
   pathname = pathname.split('/');
   pathname.length = 4;
   pathname = pathname.join('/');

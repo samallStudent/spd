@@ -150,10 +150,9 @@ class AddSupplementDocuments extends PureComponent{
   }
   //模态框 - 下拉框选择后搜索
   searchTable = (value) => {
-    let a = this.state.dataSource.map(item=>item.drugCode?item.drugCode:null)
     this.refs.table.fetch({
-      hisDrugCodeList:[value],
-      existDrugCodeList:a,//外部datasourch的drugCode
+      ...this.state.query,
+      hisDrugCodeList:[value]
     })
   }
   //补登原因
@@ -222,19 +221,36 @@ class AddSupplementDocuments extends PureComponent{
     modalSelectedRows.map(item => item.totalQuantity = 1);
     let newDataSource = [];
     newDataSource = [ ...dataSource, ...modalSelectedRows ];
-    this.setState({ dataSource: newDataSource, visible: false, modalSelected: [], modalSelectedRows: [] }) 
+    const existDrugList = newDataSource.map(item => ({
+      locCode: item.goodsCode,
+      drugCode: item.drugCode,
+      lot: item.lot
+    }));
+    this.setState({ 
+      dataSource: newDataSource, 
+      visible: false, 
+      modalSelected: [], 
+      modalSelectedRows: [],
+      query: {
+        existDrugList 
+      }
+    }) 
   }
   delete = () => {  //删除
     let { selectedRows, dataSource, query } = this.state;
     dataSource = _.difference(dataSource, selectedRows);
-    let existDrugCodeList = dataSource.map((item) => item.drugCode)
+    let existDrugList = dataSource.map((item) => ({
+      locCode: item.goodsCode,
+      drugCode: item.drugCode,
+      lot: item.lot
+    }));
     this.setState({
       dataSource,
       selected: [],
       selectedRows: [],
       query: {
         ...query,
-        existDrugCodeList
+        existDrugList
       }
     });
   }
@@ -403,11 +419,6 @@ class AddSupplementDocuments extends PureComponent{
               span={6}
             >
               <Button type='primary' className='button-gap' onClick={()=>{
-                if(this.refs.table){
-                  let existDrugCodeList = [];
-                  dataSource.map(item => existDrugCodeList.push(item.drugCode));
-                  this.refs.table.fetch({ ...query, existDrugCodeList });
-                }
                 this.setState({visible:true});
               }}>
                 添加产品

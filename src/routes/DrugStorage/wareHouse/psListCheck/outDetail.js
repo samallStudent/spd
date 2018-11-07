@@ -337,8 +337,8 @@ class PslistCheck extends PureComponent{
   }
   //打印
   print = () => {
-    const {distributeCode, auditStatus} = this.state.detailInfo;//printDetail
-    window.open(`${wareHouse.PRINT_DETAIL}?distributeCode=${distributeCode}&status=${auditStatus}`);
+    const {distributeCode, defaultActiveKey} = this.state.detailInfo;
+    window.open(`${wareHouse.PRINT_DETAIL}?distributeCode=${distributeCode}&status=${defaultActiveKey}`);
   }
   render(){
     let {loading, defaultActiveKey, expandedRowKeys, btnShow, detailInfo, checkLoading} = this.state;
@@ -352,7 +352,7 @@ class PslistCheck extends PureComponent{
       },
       {
         title: '实到数量',
-        dataIndex: 'realReceiveQuantity',
+        dataIndex: 'realReceiveQuantiry',
         width: 120,
       },
       {

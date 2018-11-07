@@ -155,7 +155,7 @@ class ReplenishmentPlan extends PureComponent {
     query: { 
       planType: '1',
       purchaseType: 1,
-      queryType: '1',
+      queryType: '1'
     },
     selectedRowKeys: [],
     selectedRows: [],

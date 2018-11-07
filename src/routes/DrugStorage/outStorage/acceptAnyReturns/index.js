@@ -193,7 +193,8 @@ class PickSoldOut extends PureComponent{
       messageError:"",
       selectedRowKeys:[],
       query: {
-        pickingType: "4"
+        pickingType: "4",
+        queryType: 1
       }
     }
   }
@@ -222,7 +223,7 @@ class PickSoldOut extends PureComponent{
         )
       },
       {
-       title: '申领部门',
+       title: '受理部门',
        dataIndex: 'deptName',
        width: 168,
       },
@@ -265,8 +266,6 @@ class PickSoldOut extends PureComponent{
     ];
     let query = this.props.base.queryConditons;
     query = {...query, ...this.state.query};
-    console.log(this.state.query);
-    
     delete query.Time;
     delete query.key;
     return (

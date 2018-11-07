@@ -24,7 +24,7 @@ const columns = [
   {
     title: '申领单',
     width:150,
-    dataIndex: 'supplierCode',
+    dataIndex: 'applyCode',
   },
   {
     title: '配货部门',

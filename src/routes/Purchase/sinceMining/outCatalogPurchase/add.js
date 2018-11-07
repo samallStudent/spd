@@ -31,7 +31,8 @@ class NewAdd extends PureComponent{
     selectedRows: [],
     modalSelected: [],
     modalSelectedRows: [],
-    value: undefined
+    value: undefined,
+    addDrugType: 1
   }
   componentWillMount = () =>{
     const { dispatch } = this.props;
@@ -44,7 +45,7 @@ class NewAdd extends PureComponent{
     })
   }
   handleOk = () => {
-    let { modalSelectedRows, query } = this.state;
+    let { modalSelectedRows, query, addDrugType } = this.state;
     if(modalSelectedRows.length === 0) {
       return message.warning('至少选择一条信息');
     }
@@ -55,7 +56,8 @@ class NewAdd extends PureComponent{
       type: 'base/addDrug',
       payload: {
         deptCode: query.deptCode,
-        drugCodeList
+        drugCodeList,
+        addDrugType
       },
       callback: (data) => {
         this.setState({
@@ -91,7 +93,22 @@ class NewAdd extends PureComponent{
     let { dataSource, query } = this.state;
     let existDrugCodeList = [];
     dataSource.map(item => existDrugCodeList.push(item.drugCode));
-    this.setState({ visible: true,query: { ...query, existDrugCodeList } });
+    this.setState({ 
+      visible: true,
+      query: { ...query, existDrugCodeList },
+      addDrugType: 1
+    });
+  }
+  autoShowModal = () => {
+    let {query} = this.state;
+    if(!query.deptCode) {
+      message.warning('请选择部门');
+      return;
+    };
+    this.setState({ 
+      visible: true,
+      addDrugType: 2
+    });
   }
   delete = () => {  //删除
     let {selectedRows, dataSource, query} = this.state;
@@ -154,7 +171,7 @@ class NewAdd extends PureComponent{
     }));
     postData.list = list;
     postData.auditStatus = auditStatus;
-    postData.planType = '1';
+    postData.planType = '4';
     postData.purchaseType = 2;
     postData.deptCode = query.deptCode;
     dispatch({
@@ -349,7 +366,7 @@ class NewAdd extends PureComponent{
           </Row>
           <Row style={{marginTop: '10px'}}>
             <Button type='primary' icon='plus' onClick={this.addProduct}>添加产品</Button>
-            <Button type='default' style={{ margin: '0 8px' }}>一键添加低库存产品</Button>
+            <Button type='default' onClick={this.autoShowModal} style={{ margin: '0 8px' }}>一键添加低库存产品</Button>
             <Button type='default' onClick={this.delete}>删除</Button>
           </Row>
         </div>

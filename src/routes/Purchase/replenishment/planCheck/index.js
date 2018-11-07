@@ -38,7 +38,10 @@ class SearchForm extends PureComponent{
     //类型
     dispatch({
       type: 'base/orderStatusOrorderType',
-      payload: { type : 'plan_type' },
+      payload: { 
+        type : 'plan_type',
+        typeValues: '1,2'
+      },
       callback: (data) =>{
         this.setState({ plan_type: data })
       }

@@ -38,7 +38,8 @@ class NewAdd extends PureComponent {
     isEdit: false,
     dataSource: [],
     btnLoading: false,
-    saveLoading: false
+    saveLoading: false,
+    addDrugType: 1
   }
   componentWillMount = () =>{
     const { dispatch } = this.props;
@@ -86,7 +87,7 @@ class NewAdd extends PureComponent {
     }
   }
   handleOk = () => {
-    let {modalSelectedRows, query, dataSource} = this.state;
+    let {modalSelectedRows, query, dataSource, addDrugType} = this.state;
     if(modalSelectedRows.length === 0) {
       message.warning('至少选择一条信息');
       return;
@@ -97,7 +98,8 @@ class NewAdd extends PureComponent {
       type: 'base/addDrug',
       payload: {
         deptCode: query.deptCode,
-        drugCodeList: modalSelectedRows
+        drugCodeList: modalSelectedRows,
+        addDrugType
       },
       callback: (data) => {
         dataSource.push(...data);
@@ -127,7 +129,21 @@ class NewAdd extends PureComponent {
       message.warning('请选择部门');
       return;
     };
-    this.setState({ visible: true });
+    this.setState({ 
+      visible: true,
+      addDrugType: 2
+    });
+  }
+  autoShowModal = () => {
+    let {query} = this.state;
+    if(!query.deptCode) {
+      message.warning('请选择部门');
+      return;
+    };
+    this.setState({ 
+      visible: true,
+      addDrugType: 2
+    });
   }
   delete = () => {  //删除
     let {selectedRows, dataSource, query} = this.state;
@@ -167,28 +183,27 @@ class NewAdd extends PureComponent {
         supplierCode: item.supplierCode
       }
     })
-    if(auditStatus === 1){
+    if(auditStatus === '1'){
       this.setState({ submitLoading: true  })
     }else{
       this.setState({ saveLoading: true });
-    }
+    };
     this.props.dispatch({
       type: 'base/submit',
       payload: {
         auditStatus: auditStatus,
         id: isEdit? info.id : '',
-        planType: '1',
+        planType: '3',
         list: dataSource,
         deptCode: this.state.query.deptCode,
         purchaseType: 2
       },
       callback: (data)=>{
         message.success(`${auditStatus === 1? '保存' : '提交'}成功`);
-        if(auditStatus === 1){
-          this.setState({ submitLoading: false  })
-        }else{
-          this.setState({ saveLoading: false });
-        }
+          this.setState({ 
+            submitLoading: false,
+            saveLoading: false
+          })
         this.props.history.go(-1);
       }
     })
@@ -422,7 +437,7 @@ class NewAdd extends PureComponent {
             </Row>
             <Row style={{marginTop: '10px'}}>
               <Button type='primary' icon='plus' onClick={this.showModal}>添加产品</Button>
-              <Button type='default' style={{ margin: '0 8px' }}>一键添加低库存产品</Button>
+              <Button type='default'  onClick={this.autoShowModal} style={{ margin: '0 8px' }}>一键添加低库存产品</Button>
               <Button onClick={this.delete} type='default'>删除</Button>
             </Row>
           </div>

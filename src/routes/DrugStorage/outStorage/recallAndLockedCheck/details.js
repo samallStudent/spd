@@ -76,16 +76,6 @@ class RecallAndLockedDetail extends PureComponent {
 		const { recallStatus } = this.props.match.params;
 		const columns = [
 			{
-				title: '库存数量',
-				width: 112,
-				dataIndex: 'recallNum',
-			},
-			{
-				title: '单位',
-				width: 60,
-				dataIndex: 'unit',
-			},
-			{
 				title: '通用名',
 				dataIndex: 'ctmmGenericName',
 				width: 168,
@@ -217,9 +207,9 @@ class RecallAndLockedDetail extends PureComponent {
 								bordered
 								dataSource={dataSource}
 								title={() => '产品信息'}
-								scroll={{ x: 2188 }}
+								scroll={{ x: 2016 }}
 								columns={columns}
-								rowKey={'bigDrugCode'}
+								rowKey={'batchNo'}
 								pagination={{
 									size: 'small',
 									showQuickJumper: true,

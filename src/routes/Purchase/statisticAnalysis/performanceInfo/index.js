@@ -36,13 +36,13 @@ class SearchForm extends PureComponent{
   componentDidMount() {
     const {dispatch} = this.props.formProps;
     dispatch({
-      type: 'statistics/getDeptByParam',
+      type: 'statistics/operationlogDeptList',
       callback: ({data, code, msg}) => {
         if(code === 200) {
           this.setState({
             deptList: data
           });
-        }
+        };
       }
     });
   }
@@ -72,6 +72,44 @@ class SearchForm extends PureComponent{
     this.props.form.resetFields();
     this.props._handlQuery({});
   }
+  //监听部门切换
+  listenDept = (value) => {
+    const {deptList} = this.state;
+    const {deptCode} = this.props.form.getFieldsValue();
+    if(value === deptCode) return;
+    if(value === undefined) {
+      this.props.form.setFieldsValue({
+        menuCode: undefined
+      });
+      this.setState({
+        subSysList: []
+      });
+      return;
+    }
+    let i;
+    deptList.map((item, index) => {
+      if(item.id === value) {
+        i = index;
+      };
+      return item;
+    });
+    this.props.form.setFieldsValue({
+      menuCode: undefined
+    });
+    this.props.formProps.dispatch({
+      type: 'statistics/operationlogMenu',
+      payload: {
+        deptType: deptList[i].deptType
+      },
+      callback: ({data, code, msg}) => {
+        if(code === 200) {
+          this.setState({
+            subSysList: data
+          });
+        };
+      }
+    })
+  }
   render(){
     const { getFieldDecorator } = this.props.form;
     const {display} = this.props.formProps.base;
@@ -90,37 +128,17 @@ class SearchForm extends PureComponent{
             </FormItem>
           </Col>
           <Col span={8}>
-            <FormItem {...formItemLayout} label={`子系统`}>
-              {
-                getFieldDecorator(`supplierCode`)(
-                  <Select
-                    showSearch
-                    placeholder="请选择"
-                    optionFilterProp="children"
-                    filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
-                  >
-                    <Option key={''} value={''}>全部</Option>
-                  {
-                    subSysList.map(item => (
-                      <Option key={item.ctmaSupplierCode} value={item.ctmaSupplierCode}>{item.ctmaSupplierName}</Option>
-                    ))
-                  }
-                  </Select>
-                )
-              }
-            </FormItem>
-          </Col>
-          <Col span={8}>
-            <FormItem {...formItemLayout} label={`部门`} style={{ display: display }}>
+            <FormItem {...formItemLayout} label={`部门`}>
               {
                 getFieldDecorator(`deptCode`)(
                   <Select
+                    allowClear
+                    onChange={this.listenDept}
                     showSearch
                     placeholder="请选择"
                     optionFilterProp="children"
                     filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
                   >
-                    <Option key={''} value={''}>全部</Option>
                   {
                     deptList.map(item => (
                       <Option key={item.id} value={item.id}>{item.deptName}</Option>
@@ -131,10 +149,31 @@ class SearchForm extends PureComponent{
               }
             </FormItem>
           </Col>
+          <Col span={8}>
+            <FormItem {...formItemLayout} label={`菜单`} style={{ display: display }}>
+              {
+                getFieldDecorator(`menuCode`)(
+                  <Select
+                    allowClear
+                    showSearch
+                    placeholder="请选择"
+                    optionFilterProp="children"
+                    filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
+                  >
+                  {
+                    subSysList.map(item => (
+                      <Option key={item.id} value={item.id}>{item.name}</Option>
+                    ))
+                  }
+                  </Select>
+                )
+              }
+            </FormItem>
+          </Col>
           <Col span={8} style={{ display: display }}>
             <FormItem {...formItemLayout} label={'人员'}>
               {
-                getFieldDecorator(`paramName`)(
+                getFieldDecorator(`operatorName`)(
                   <Input placeholder='请输入' />
                 )
               }
@@ -170,23 +209,23 @@ class SectionAnalysis extends PureComponent {
     const columns = [
       {
         title: '操作时间',
-        dataIndex: 'deptName',
+        dataIndex: 'operationTime',
         width: 224,
       }, {
         title: '部门',
-        dataIndex: 'backNo',
+        dataIndex: 'deptName',
         width: 168,
       }, {
         title: '人员',
-        dataIndex: 'backCause',
+        dataIndex: 'operatorName',
         width: 168,
       }, {
         title: '子系统',
-        dataIndex: 'ctmmGenericName',
+        dataIndex: 'menuName',
         width: 224,
       }, {
         title: '业务',
-        dataIndex: 'ctmmTradeName',
+        dataIndex: 'business',
         width: 224
       }
     ];
@@ -205,8 +244,8 @@ class SectionAnalysis extends PureComponent {
           scroll={{x: 1008}}
           style={{marginTop: 20}}
           ref='table'
-          rowKey={'backNo'}
-          url={statisticAnalysis.JX_XXB}
+          rowKey={'id'}
+          url={statisticAnalysis.OPERATIONLOG_LIST}
         />
       </div>
     )

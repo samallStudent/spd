@@ -209,7 +209,7 @@ class SearchFormWrapper extends PureComponent {
           </Col>
           <Col span={8} style={{ display }}>
             <FormItem label={'原因'} {...formItemLayout}>
-              {getFieldDecorator('remarks',)(
+              {getFieldDecorator('recallReasonType',)(
                 <Select
                   placeholder="请选择原因"
                   style={{width: '100%'}}

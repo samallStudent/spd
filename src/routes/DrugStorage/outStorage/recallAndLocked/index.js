@@ -95,7 +95,7 @@ class SearchForm extends PureComponent {
           </Col>
           <Col span={8}>
             <FormItem label={'原因'} {...formItemLayout}>
-              {getFieldDecorator('remarks',)(
+              {getFieldDecorator('recallReasonType',)(
                 <Select
                   placeholder="请选择原因"
                   style={{width: '100%'}}
@@ -224,19 +224,9 @@ class RecallAndLocked extends PureComponent {
         dataIndex: 'createUserName',
       },
       {
-       title: '发起时间',
-       width: 224,
-       dataIndex: 'createDate',
-      },
-      {
-        title: '审核人',
-        width: 112,
-        dataIndex: 'updateUserName',
-      },
-      {
-       title: '审核时间',
-       width: 224,
-       dataIndex: 'updateDate',
+        title: '发起时间',
+        width: 224,
+        dataIndex: 'createDate',
       },
     ];
     let query = this.props.base.queryConditons;
@@ -259,7 +249,7 @@ class RecallAndLocked extends PureComponent {
           url={outStorage.ROOMRECALL_LIST}
           columns={columns}
           rowKey={'id'}
-          scroll={{ x: 1512 }}
+          scroll={{ x: 1176 }}
           style={{marginTop: 20}}
           rowSelection={{
             selectedRowKeys: this.state.selected,

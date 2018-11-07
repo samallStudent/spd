@@ -337,8 +337,8 @@ class PslistCheck extends PureComponent{
   }
   //打印
   print = () => {
-    const {distributeCode, auditStatus} = this.state.detailInfo;//printDetail
-    window.open(`${wareHouse.PRINT_DETAIL}?distributeCode=${distributeCode}&status=${auditStatus}`);
+    const {distributeCode, defaultActiveKey} = this.state.detailInfo;//printDetail
+    window.open(`${wareHouse.PRINT_DETAIL}?distributeCode=${distributeCode}&status=${defaultActiveKey}`);
   }
   render(){
     let {loading, defaultActiveKey, expandedRowKeys, btnShow, detailInfo, checkLoading} = this.state;
@@ -388,14 +388,33 @@ class PslistCheck extends PureComponent{
         dataIndex: 'realReceiveQuantity',
         render: (text,record,index)=>{
           return <InputNumber
-                    defaultValue={text}
+                    value={text}
                     onChange={(value)=>{
                       if(value > record.realDeliveryQuantiry){
                         message.warning('请注意：实到数量比配送数量多');
-                      }
+                      };
                       record.realReceiveQuantity = value;
+                      unVerfiyList = [...unVerfiyList];
+                      detailInfo.unVerfiyList = unVerfiyList;
+                      this.setState({
+                        detailInfo: {...detailInfo}
+                      });
                     }} 
                   />
+        },
+        width: 120
+      },
+      {
+        title: '差额数量',
+        dataIndex: 'balanceAmount',
+        render: (text,record,index)=>{
+          let balanceAmount;
+          if(record.realReceiveQuantity || record.realReceiveQuantity === 0) {
+            balanceAmount = record.realReceiveQuantity - record.realDeliveryQuantiry;
+          }else {
+            balanceAmount = 0;
+          };
+          return <span>{balanceAmount}</span>
         },
         width: 120
       },

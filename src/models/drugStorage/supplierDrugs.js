@@ -20,7 +20,13 @@ export default {
       }
       if(callback) callback(data)
     },
-
+    //修改采购方式
+    *updateSupplierRefPrice({ payload,callback },{ call }){
+      const data = yield call(supplierDrugsService.updateSupplierRefPrice, payload);
+      if(callback && typeof callback === 'function') {
+        callback(data);
+      };
+    },
     
   },
   reducers: {},

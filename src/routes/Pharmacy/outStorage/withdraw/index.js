@@ -156,7 +156,8 @@ const SearchForm = Form.create()(SearchFormWrapper);
 class PickSoldOut extends PureComponent{
   state = {
     query: {
-      pickingType: '5'
+      pickingType: '5',
+      queryType: 1
     }
   }
   //单行确认 
@@ -187,7 +188,7 @@ class PickSoldOut extends PureComponent{
         )
       },
       {
-       title: '申领部门',
+       title: '受理部门',
        dataIndex: 'deptName',
        width: 168,
       },
