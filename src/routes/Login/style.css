@@ -31,8 +31,9 @@
   height: 58px;
   /* margin-right: 20px; */
   display: inline-block;
+  /* background: url('../../assets/img/logo258-58.jpg'); */
   background: url('../../assets/img/logo3.png');
-  background-size: 100% 100%
+  background-size: 100% 100%;
 }
 .ysy-login-logo{
   width: 120px;

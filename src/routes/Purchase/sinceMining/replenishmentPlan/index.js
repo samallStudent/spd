@@ -153,7 +153,7 @@ class ReplenishmentPlan extends PureComponent {
   state = {
     loading: false,
     query: { 
-      planType: '1',
+      planType: '3',
       purchaseType: 2
     },
     selectedRowKeys: [],

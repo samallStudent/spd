@@ -133,16 +133,19 @@ queryKey = (menuList, href) => {
   href.length = 4;
   href = href.join('/');
   menuList.children.forEach((item, i) => {
-    item.children.forEach((itemChild, j) => {
-      if(itemChild.href === href) {
-        index = i;
-        indexChild = j;
-      };
-    });
+    if(item.children && Array.isArray(item.children)) {
+      item.children.forEach((itemChild, j) => {
+        if(itemChild.href === href) {
+          index = i;
+          indexChild = j;
+        };
+      });
+    }
   });
   if(index !== undefined && indexChild !== undefined) {
     return menuList.children[index].children[indexChild].parentId;
   };
+  return '';
 }
 // 正式数据
 changeActiveKeys = () => {

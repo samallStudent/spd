@@ -137,15 +137,14 @@ class DetailsRefund extends PureComponent{
           <div style={{padding: '0 16px'}}>
             <div className='ysynet-details-flex-header'>
               <h3>单据信息</h3>
-              {
-                detailsData.backStatus === 3 &&
-                <div style={{ textAlign: 'right' }}>
-                  <Link to={{pathname: `/editBackStoragePlan/${this.props.match.params.backNo}`}}><Button type='default'>编辑</Button></Link>
-                  {/* <Button type='primary' onClick={this.backStroage} style={{ marginLeft: 8 }}>确认退货</Button> */}
-                </div>
-              }
               <div style={{ textAlign: 'right' }}>
-                  <Button onClick={this.print}>打印</Button>
+                {
+                  detailsData.backStatus === 3 && 
+                  <Link to={{pathname: `/editBackStoragePlan/${this.props.match.params.backNo}`}}>
+                    <Button type='default'>编辑</Button>
+                  </Link>
+                }
+                <Button style={{marginLeft: 8}} onClick={this.print}>打印</Button>
                 </div>
             </div>
             <Row>

@@ -171,38 +171,22 @@ class Details extends PureComponent {
                 <div className='ant-form-item-control'>{info.ctmaSupplierName || ''}</div>
               </div>
             </Col>
-            {/* <Col span={8}>
+            <Col span={8}>
               <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
-                <label>对账人</label>
+                <label>开始时间</label>
               </div>
               <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18">
-                <div className='ant-form-item-control'>张三三</div>
+                <div className='ant-form-item-control'>{info.startDate || ''}</div>
               </div>
             </Col>
             <Col span={8}>
               <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
-                <label>对账完成时间</label>
+                <label>结束时间</label>
               </div>
               <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18">
-                <div className='ant-form-item-control'>2018-7-24 16:45:15</div>
+                <div className='ant-form-item-control'>{info.endDate || ''}</div>
               </div>
             </Col>
-            <Col span={8}>
-              <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
-                <label>结算人</label>
-              </div>
-              <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18">
-                <div className='ant-form-item-control'>张三三</div>
-              </div>
-            </Col>
-            <Col span={8}>
-              <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
-                <label>结算时间</label>
-              </div>
-              <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18">
-                <div className='ant-form-item-control'>2018-7-24 16:45:15</div>
-              </div>
-            </Col> */}
           </Row>
           <div style={{borderBottom: '1px dashed #d9d9d9', marginBottom: 10}}></div>
           <Row align="middle">

@@ -9,7 +9,7 @@ export function getPlainNode(nodeList, parentPath = '') {
     item.exact = true;
     if (item.children && !item.component) {
       arr.push(...getPlainNode(item.children, item.path));
-    } else {
+    }else {
       if (item.children && item.component) {
         item.exact = false;
       }

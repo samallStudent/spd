@@ -122,7 +122,7 @@ class DetailsNewLibrary extends PureComponent{
         this.setState({
           loading: false,
           info: data,
-          defaultActiveKey: data.auditStatus === 1 ? '1' : '2',
+          defaultActiveKey: data.auditStatus + '',
           btnShow: data.auditStatus === 1 ? true : false,
         })
       }
@@ -173,7 +173,8 @@ class DetailsNewLibrary extends PureComponent{
 
   //打印
   print = () => {
-    const { defaultActiveKey, distributeCode } = this.state.info;
+    const { distributeCode } = this.state.info;
+    const { defaultActiveKey } = this.state;
     window.open(`${wareHouse.PRINT_ROOM_DETAIL}?distributeCode=${distributeCode}&status=${defaultActiveKey}`);
   }
 

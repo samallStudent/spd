@@ -166,7 +166,8 @@ class DetailsNewLibrary extends PureComponent{
 
   //打印
   print = () => {
-    const { distributeCode, activeKey } = this.state.info;
+    const { distributeCode } = this.state.info;
+    const {activeKey} = this.state;
     window.open(`${_local}/a/deliver/print/printBasicMedicDetail?distributeCode=${distributeCode}&status=${activeKey}`, '_blank');
   }
 

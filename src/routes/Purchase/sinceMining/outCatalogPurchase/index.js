@@ -155,7 +155,7 @@ class OutCatalogPurchase extends PureComponent{
     loading: false,
     query: {
       queryType: '1',
-      planType: '2',
+      planType: '4',
       purchaseType: 2
     },
   }

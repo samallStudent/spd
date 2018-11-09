@@ -4,7 +4,7 @@
 * @Last Modified time: 2018-07-24 13:13:55 
  */
 import React, { PureComponent } from 'react';
-import {Table, Row, Col, InputNumber, Select, Button, Tabs, message, Tooltip} from 'antd';
+import {Table, Row, Col, Select, Button, Tabs, message, Tooltip} from 'antd';
 import {connect} from 'dva';
 const Option = Select.Option;
 const {TabPane} = Tabs;
@@ -152,20 +152,21 @@ class DetailsPutaway extends PureComponent{
         width: 168,
         dataIndex: 'realNum',
         render: (text, record) => {
-          return <InputNumber
-                  min={1}
-                  precision={0}
-                  onChange={(value) => {
-                    if(value > record.realReceiveQuantiry) {
-                      message.warning('注意：数量大于指示数量');
-                    };
-                    if(value <= 0) {
-                      message.warning('上架数量不能小于0');
-                    }
-                    record.realNum = value;
-                  }}
-                  defaultValue={text}
-                 />
+          return text;
+          // return <InputNumber
+          //         min={1}
+          //         precision={0}
+          //         onChange={(value) => {
+          //           if(value > record.realReceiveQuantiry) {
+          //             message.warning('注意：数量大于指示数量');
+          //           };
+          //           if(value <= 0) {
+          //             message.warning('上架数量不能小于0');
+          //           }
+          //           record.realNum = value;
+          //         }}
+          //         defaultValue={text}
+          //        />
         }
       },
       {

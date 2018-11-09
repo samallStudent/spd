@@ -46,7 +46,8 @@ class SearchForm extends PureComponent{
     });
     this.props.form.setFieldsValue(value);
   }
-  handleSearch = () => {
+  handleSearch = (e) => {
+    e.preventDefault();
     this.props.form.validateFields((err,values)=>{
       this.props.formProps.dispatch({
         type:'base/updateConditions',

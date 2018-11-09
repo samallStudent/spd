@@ -113,9 +113,17 @@ class RemarksForm extends PureComponent{
       }
     })
   }
+  componentWillReceiveProps(nextProps) {
+    if(this.props.detailsData.backCause !== nextProps.detailsData.backCause) {
+      this.setState({
+        remarks: nextProps.detailsData.backCause
+      })
+    };
+  }
   render() {
     const { getFieldDecorator } = this.props.form;
     let {recallReason, remarks} = this.state;
+    const { detailsData } = this.props;
     recallReason = recallReason.map(item => (
       <Option key={item.value} value={item.value}>{item.label}</Option>
     ));
@@ -125,6 +133,7 @@ class RemarksForm extends PureComponent{
           <Col span={12}>
             <FormItem label={`退货原因`} {...formRemarkLayout}>
               {getFieldDecorator('backCause', {
+                initialValue: detailsData.backCause ? detailsData.backCause : undefined,
                 rules: [{
                   required: true, message: '请选择退货原因',
                 }]
@@ -148,6 +157,7 @@ class RemarksForm extends PureComponent{
               remarks === '其他' ? 
                 <FormItem label={`原因`} {...formRemarkLayout}>
                   {getFieldDecorator('backcauseOther',{
+                    initialValue: detailsData.backCauseOther ? detailsData.backCauseOther : '',
                     rules: [{
                         required: true, message: '请输入原因',
                     }]
@@ -326,7 +336,7 @@ class AddRefund extends PureComponent{
       {
         title: '单位',
         width: 60,
-        dataIndex: 'unit',
+        dataIndex: 'replanUnit',
       },
       {
         title: '有效期至',
@@ -392,7 +402,7 @@ class AddRefund extends PureComponent{
         dataIndex: 'supplierName',
       }
     ];
-    const { visible, isEdit, dataSource, query, spinLoading, display } = this.state; 
+    const { visible, isEdit, dataSource, query, spinLoading, display, detailsData } = this.state; 
     const { getFieldDecorator } = this.props.form;
     return (
     <Spin spinning={spinLoading} size="large">
@@ -424,6 +434,7 @@ class AddRefund extends PureComponent{
           <Row style={{ marginTop: 10 }}>
             <Col span={12}>
               <RemarksFormWarp
+                detailsData={detailsData}
                 dispatch={this.props.dispatch}
                 ref="remarksForm"
               />
@@ -438,7 +449,7 @@ class AddRefund extends PureComponent{
               bordered
               scroll={{x: 2410}}
               columns={columns}
-              rowKey={'id'}
+              rowKey={'batchNo'}
               style={{marginTop: 24}}
               rowSelection={{
                 selectedRowKeys: this.state.selected,

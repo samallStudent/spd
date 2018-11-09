@@ -337,7 +337,8 @@ class PslistCheck extends PureComponent{
   }
   //打印
   print = () => {
-    const {distributeCode, defaultActiveKey} = this.state.detailInfo;//printDetail
+    const {distributeCode} = this.state.detailInfo;//printDetail
+    const {defaultActiveKey} = this.state;
     window.open(`${wareHouse.PRINT_DETAIL}?distributeCode=${distributeCode}&status=${defaultActiveKey}`);
   }
   render(){
