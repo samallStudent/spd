@@ -133,12 +133,14 @@ class EditDrugDirectory extends PureComponent{
             }
           }
           for (const key in obj) {
-            goodsList.push({
-              name: obj[key][0].locationName,
-              dataIndex: goodsListMap[key].goods,
-              dataIndexUnit: goodsListMap[key].unit,
-              list: obj[key]
-            });
+            if(obj[key].length !== 0) {
+              goodsList.push({
+                name: obj[key][0].locationName,
+                dataIndex: goodsListMap[key].goods,
+                dataIndexUnit: goodsListMap[key].unit,
+                list: obj[key]
+              });
+            };
           };
           this.setState({
             goodsList,  //货位数组
@@ -182,34 +184,46 @@ class EditDrugDirectory extends PureComponent{
               scatteredLocUnitCode,
               ...otherInfo 
             }  = values;
-              let replanUnit = replanUnitSelect.filter(item => item.unitCode === replanUnitCode)[0].unit;
-              let dispensingMachineUnit = replanUnitSelect.filter(item => item.unitCode === dispensingMachineUnitCode)[0].unit;
-              let advanceScatteredLocUnit = replanUnitSelect.filter(item => item.unitCode === advanceScatteredUnitCode)[0].unit;
-              let scatteredLocUnit = replanUnitSelect.filter(item => item.unitCode === scatteredLocUnitCode)[0].unit;
-              let postData = {
-                customUnit,
-                drugInfo:{
-                  dispensingMachineUnitCode,
-                  advanceScatteredUnitCode,
-                  scatteredLocUnitCode,
-                  replanUnit,
-                  dispensingMachineUnit,
-                  advanceScatteredLocUnit,
-                  scatteredLocUnit,
-                  replanUnitCode, 
-                  purchaseQuantity,
-                  upperQuantity, 
-                  downQuantity,
-                  replanStore,
-                  medDrugType:this.state.fillBackData.medDrugType,
-                  id:this.props.match.params.id,
-                  drugCode:this.state.fillBackData.drugCode||'',
-                  bigDrugCode:this.state.fillBackData.bigDrugCode,
-                  hisDrugCode:this.state.fillBackData.hisDrugCode,
-                  ...otherInfo
-                }
+            let replanUnit,
+              dispensingMachineUnit,
+              advanceScatteredLocUnit,
+              scatteredLocUnit;
+            if(replanUnitCode) {
+              replanUnit = replanUnitSelect.filter(item => item.unitCode === replanUnitCode)[0].unit;
+            };
+            if(dispensingMachineUnitCode) {
+              dispensingMachineUnit = replanUnitSelect.filter(item => item.unitCode === dispensingMachineUnitCode)[0].unit;
+            };
+            if(advanceScatteredUnitCode) {
+              advanceScatteredLocUnit = replanUnitSelect.filter(item => item.unitCode === advanceScatteredUnitCode)[0].unit;
+            };
+            if(scatteredLocUnitCode) {
+              scatteredLocUnit = replanUnitSelect.filter(item => item.unitCode === scatteredLocUnitCode)[0].unit;
+            };
+            let postData = {
+              customUnit,
+              drugInfo:{
+                dispensingMachineUnitCode,
+                advanceScatteredUnitCode,
+                scatteredLocUnitCode,
+                replanUnit,
+                dispensingMachineUnit,
+                advanceScatteredLocUnit,
+                scatteredLocUnit,
+                replanUnitCode, 
+                purchaseQuantity,
+                upperQuantity, 
+                downQuantity,
+                replanStore,
+                medDrugType:this.state.fillBackData.medDrugType,
+                id:this.props.match.params.id,
+                drugCode:this.state.fillBackData.drugCode||'',
+                bigDrugCode:this.state.fillBackData.bigDrugCode,
+                hisDrugCode:this.state.fillBackData.hisDrugCode,
+                ...otherInfo
               }
-              delete postData['drugInfo']['keys'];
+            }
+            delete postData['drugInfo']['keys'];
               
             console.log(postData);
             // 发出请求
@@ -276,6 +290,9 @@ class EditDrugDirectory extends PureComponent{
   goodsRender = () => {
     const {goodsList, fillBackData, replanUnitSelect, replanUnitZN} = this.state;
     const {getFieldDecorator} = this.props.form;
+    if(!goodsList.length) {
+      return <p>暂无指示货位信息</p>;
+    }
     return (
       goodsList.map(item => (
         <Col span={12} key={item.name} style={{height: 84}}>

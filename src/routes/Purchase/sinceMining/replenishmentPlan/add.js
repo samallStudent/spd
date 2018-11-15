@@ -243,19 +243,23 @@ class NewAdd extends PureComponent {
       {
         title: '通用名称',
         dataIndex: 'ctmmGenericName',
-        width: 168
+        width: 224,
+        className: 'ellipsis',
+        render:(text)=>(
+          <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+        )
       }, {
         title: '商品名',
         dataIndex: 'ctmmTradeName',
-        width: 224
+        width: 224,
+        className: 'ellipsis',
+        render:(text)=>(
+          <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+        )
       }, {
         title: '规格',
         dataIndex: 'ctmmSpecification',
         width: 168,
-        className: 'ellipsis',
-        render: (text) => (
-          <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
-        )
       }, {
         title: '剂型',
         dataIndex: 'ctmmDosageFormDesc',
@@ -310,7 +314,7 @@ class NewAdd extends PureComponent {
       }, {
         title: '单位',
         dataIndex: 'replanUnit',
-        width: 60,
+        width: 112,
       }, {
         title: '需求数量',
         dataIndex: 'demandQuantity',
@@ -355,11 +359,19 @@ class NewAdd extends PureComponent {
       {
         title: '通用名称',
         dataIndex: 'ctmmGenericName',
-        width: 168
+        width: 224,
+        className: 'ellipsis',
+        render:(text)=>(
+          <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+        )
       }, {
         title: '商品名',
         dataIndex: 'ctmmTradeName',
-        width: 224
+        width: 224,
+        className: 'ellipsis',
+        render:(text)=>(
+          <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+        )
       }, {
         title: '规格',
         dataIndex: 'ctmmSpecification',
@@ -483,7 +495,7 @@ class NewAdd extends PureComponent {
                 ref="table"
                 modalLoading={modalLoading}
                 columns={modalColumns}
-                scroll={{ x: 1504 }}
+                scroll={{ x: 1600 }}
                 rowKey='drugCode'
                 rowSelection={{
                   selectedRowKeys: this.state.modalSelected,
@@ -502,7 +514,7 @@ class NewAdd extends PureComponent {
               bordered
               columns={columns}
               dataSource={dataSource}
-              scroll={{ x: 2404 }}
+              scroll={{ x: 2550 }}
               rowKey='drugCode'
               rowSelection={{
                 selectedRowKeys: this.state.selected,

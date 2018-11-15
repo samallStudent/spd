@@ -59,12 +59,20 @@ class RecallDetail extends PureComponent {
 					{
 						title: '通用名',
 						dataIndex: 'ctmmGenericName',
-						width: 168,
+						width: 224,
+						className: 'ellipsis',
+						render: (text) => (
+							<Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+						)
 					},
 					{
 						title: '商品名',
 						dataIndex: 'ctmmTradeName',
 						width: 224,
+						className: 'ellipsis',
+						render: (text) => (
+							<Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+						)
 					},
 					{
 						title: '规格',
@@ -187,7 +195,7 @@ class RecallDetail extends PureComponent {
 									bordered
 									dataSource={dataSource}
 									title={() => '产品信息'}
-									scroll={{ x: 2016 }}
+									scroll={{ x: 1950 }}
 									columns={columns}
 									rowKey={'bigDrugCode'}
 									pagination={{

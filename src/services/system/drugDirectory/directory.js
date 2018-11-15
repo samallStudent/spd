@@ -25,3 +25,11 @@ export function operMedicineInfo(options){
     body: options
   })
 }
+//修改报告药标识
+export function editMedicinalType(options) {
+  return request(`${_local}/a/his/hisctmedicinematerial/editMedicinalType`,{ //查询详情
+    method: 'POST',
+    type: 'formData',
+    body: options
+  })
+}

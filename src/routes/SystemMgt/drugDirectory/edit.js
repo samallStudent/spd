@@ -4,8 +4,20 @@
 * @Last Modified time: 2018-07-24 10:58:49 
  */
 import React, { PureComponent } from 'react';
-import { Form, Row, Col, Table} from 'antd';
+import { Form, Row, Col, Table, Button, Radio, message } from 'antd';
 import { connect } from 'dva';
+const singleFormItemLayout = {
+  labelCol: {
+    xs: { span: 24 },
+    sm: { span: 8 },//5
+  },
+  wrapperCol: {
+    xs: { span: 24 },
+    sm: { span: 15 }
+  },
+}
+const RadioGroup = Radio.Group;
+const FormItem = Form.Item;
 class EditDrugDirectory extends PureComponent{
   constructor(props){
     super(props)
@@ -14,10 +26,13 @@ class EditDrugDirectory extends PureComponent{
     }
   }
   componentDidMount = () =>{
-    const { bigDrugCode, medDrugType } = this.props.match.params;
+    this.getDetail();
+  }
+  getDetail = () => {
+    const { hisDrugCode } = this.props.match.params;
     this.props.dispatch({
       type: 'drugDirectory/getMedicineInfo',
-      payload: { bigDrugCode , medDrugType },
+      payload: { hisDrugCode },
       callback: (data) =>{
         this.setState({ 
           baseData: data,
@@ -37,8 +52,30 @@ class EditDrugDirectory extends PureComponent{
       </div>
     </Col>
   )
+  onSave = () => {
+    this.props.form.validateFields((err, values) => {
+      if(!err) {
+        const { hisDrugCode } = this.props.match.params;
+        this.props.dispatch({
+          type: 'drugDirectory/editMedicinalType',
+          payload: {
+            hisDrugCode,
+            medDrugType: values.medDrugType
+          },
+          callback: ({data, code, msg}) => {
+            if(code === 200) {
+              message.success('操作成功');
+              this.getDetail();
+            }else {
+              message.error(msg);
+            };
+          }
+        })
+      }
+    });
+  }
   render(){
-    const { baseData, } = this.state;
+    const { baseData } = this.state;
     const columns = [
       {
         title: '单位属性',
@@ -68,12 +105,15 @@ class EditDrugDirectory extends PureComponent{
         title: '基础单位',
         dataIndex: 'smallUit',
       },
-    ]
+    ];
+    const { getFieldDecorator } = this.props.form;
+    
     return (
       <div className='fullCol fadeIn'>
         <div className='fullCol-fullChild'>
           <div style={{ display:'flex',justifyContent: 'space-between' }}>
             <h3><b>基本信息</b></h3>
+            <Button onClick={this.onSave} type="primary">保存</Button>
           </div>
           <Row gutter={30}>
             <Col span={8}>
@@ -163,34 +203,57 @@ class EditDrugDirectory extends PureComponent{
           </Row>
         </div>
         <div className='detailCard'>
-            <h3>单位信息</h3>
-            <hr className='hr'/>
-            <Table
-              columns={columns}
-              dataSource={baseData.listTransforsVo}
-              bordered
-              rowKey={'sort'}
-              pagination={false}
-            />
-          </div>
-          <div className='detailCard'>
-            <h3>药品信息</h3>
-            <hr className='hr'/>
-            <Row className='fixHeight'>
-            {this.getLayoutInfo('药品名称',baseData?baseData.ctmmDesc:'')}
-            {this.getLayoutInfo('药品剂量',baseData?baseData.ctphdmiDosageUnitDesc:'')}
-            {this.getLayoutInfo('药学分类描述',baseData?baseData.ctphdmiCategoryDesc:'')}
-            {this.getLayoutInfo('管制分类描述',baseData?baseData.ctphdmiRegulatoryClassDesc:'')}
-            {this.getLayoutInfo('危重药物标志',baseData?baseData.ctmmCriticalCareMedicine:'')}
-            {this.getLayoutInfo('抗菌药物标志',baseData?baseData.ctmmAntibacterialsign:'')}
-            {this.getLayoutInfo('国家基本药物标记',baseData?baseData.ctmmEssentialMedicine:'')}
-            {this.getLayoutInfo('贵重标记',baseData.ctmmValuableSign?baseData.ctmmValuableSign==="1"?'Y':'N':'')}
-            {this.getLayoutInfo('皮试标志',baseData.ctmmSkintestSign?baseData.ctmmSkintestSign==="1"?'Y':'N':'')}
-            {this.getLayoutInfo('冷藏标识',baseData.refrigerateType?baseData.refrigerateType==="1"?'Y':'N':'')}
-            {this.getLayoutInfo('停用标记',baseData.ctmmStatusCode?baseData.ctmmStatusCode==="1"?'Y':'N':'')}
-            
+          <h3>单位信息</h3>
+          <hr className='hr'/>
+          <Table
+            columns={columns}
+            dataSource={baseData.listTransforsVo}
+            bordered
+            rowKey={'sort'}
+            pagination={false}
+          />
+        </div>
+        <div className='detailCard'>
+          <h3>报告药标识</h3>
+          <hr className='hr'/>
+          <Form>
+            <Row>
+              <Col span={6}>
+                <FormItem {...singleFormItemLayout} label={`是否报告药`}>
+                  {
+                    getFieldDecorator(`medDrugType`,{
+                      initialValue: baseData.medDrugType ? baseData.medDrugType : '', 
+                      rules: [{ required: true,message: '请选择是否报告药' }]
+                    })(
+                      <RadioGroup>
+                        <Radio value={2}>是</Radio>
+                        <Radio value={1}>否</Radio>
+                      </RadioGroup>
+                    )
+                  }
+                </FormItem>
+              </Col>
             </Row>
-          </div>
+          </Form>
+        </div>
+        <div className='detailCard'>
+          <h3>药品信息</h3>
+          <hr className='hr'/>
+          <Row className='fixHeight'>
+          {this.getLayoutInfo('药品名称',baseData?baseData.ctmmDesc:'')}
+          {this.getLayoutInfo('药品剂量',baseData?baseData.ctphdmiDosageUnitDesc:'')}
+          {this.getLayoutInfo('药学分类描述',baseData?baseData.ctphdmiCategoryDesc:'')}
+          {this.getLayoutInfo('管制分类描述',baseData?baseData.ctphdmiRegulatoryClassDesc:'')}
+          {this.getLayoutInfo('危重药物标志',baseData?baseData.ctmmCriticalCareMedicine:'')}
+          {this.getLayoutInfo('抗菌药物标志',baseData?baseData.ctmmAntibacterialsign:'')}
+          {this.getLayoutInfo('国家基本药物标记',baseData?baseData.ctmmEssentialMedicine:'')}
+          {this.getLayoutInfo('贵重标记',baseData.ctmmValuableSign?baseData.ctmmValuableSign==="1"?'Y':'N':'')}
+          {this.getLayoutInfo('皮试标志',baseData.ctmmSkintestSign?baseData.ctmmSkintestSign==="1"?'Y':'N':'')}
+          {this.getLayoutInfo('冷藏标识',baseData.refrigerateType?baseData.refrigerateType==="1"?'Y':'N':'')}
+          {this.getLayoutInfo('停用标记',baseData.ctmmStatusCode?baseData.ctmmStatusCode==="1"?'Y':'N':'')}
+          
+          </Row>
+        </div>
       </div>
     )
   }

@@ -172,19 +172,23 @@ class NewAdd extends PureComponent{
       {
         title: '通用名称',
         dataIndex: 'ctmmGenericName',
-        width: 168
+        width: 224,
+        className: 'ellipsis',
+        render:(text)=>(
+          <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+        )
       },{
         title: '商品名',
         dataIndex: 'ctmmTradeName',
-        width: 224
+        width: 224,
+        className: 'ellipsis',
+        render:(text)=>(
+          <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+        )
       },{
         title: '规格',
         dataIndex: 'ctmmSpecification',
         width: 168,
-        className:'ellipsis',
-        render:(text)=>(
-          <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
-        )
       },{
         title: '剂型',
         dataIndex: 'ctmmDosageFormDesc',
@@ -281,11 +285,19 @@ class NewAdd extends PureComponent{
       {
         title: '通用名称',
         dataIndex: 'ctmmGenericName',
-        width: 168,
+        width: 224,
+        className: 'ellipsis',
+        render:(text)=>(
+          <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+        )
       }, {
         title: '商品名',
         dataIndex: 'ctmmTradeName',
         width: 224,
+        className: 'ellipsis',
+        render:(text)=>(
+          <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+        )
       }, {
         title: '规格',
         dataIndex: 'ctmmSpecification',
@@ -394,7 +406,7 @@ class NewAdd extends PureComponent{
             isJson={true}
             columns={modalColumns}
             url={replenishmentPlan.QUERYDRUGBYDEPT}
-            scroll={{ x: 1392 }}
+            scroll={{ x: 1400 }}
             rowKey='bigDrugCode'
             rowSelection={{
               selectedRowKeys: this.state.modalSelected,
@@ -412,7 +424,7 @@ class NewAdd extends PureComponent{
             bordered
             rowKey='drugCode'
             dataSource={dataSource}
-            scroll={{ x: 2180 }}
+            scroll={{ x: 2200 }}
             pagination={false}
             rowSelection={{
               selectedRowKeys: this.state.selected,

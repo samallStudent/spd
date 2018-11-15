@@ -28,4 +28,11 @@ export function cacheCurrentDept(options){
   })
 }
 
+export function updatePassWordById(options) {
+  return request(`${_local}/a/his/updatePassWordById`,{ //密码修改
+    method: 'POST',
+    type: 'formData',
+    body: options
+  })
+}
 

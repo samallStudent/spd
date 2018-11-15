@@ -324,21 +324,25 @@ class PslistAdd extends PureComponent{
       {
         title: '通用名称',
         dataIndex: 'ctmmGenericName',
-        width: 168
+        width: 224,
+        className: 'ellipsis',
+        render:(text)=>(
+          <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+        )
       },
       {
         title: '商品名',
         dataIndex: 'ctmmTradeName',
-        width: 224
+        width: 224,
+        className: 'ellipsis',
+        render:(text)=>(
+          <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+        )
       },
       {
         title: '规格',
         dataIndex: 'ctmmSpecification',
         width: 168,
-        className:'ellipsis',
-        render:(text)=>(
-          <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
-        )
       },
       {
         title: '生产厂家',
@@ -352,7 +356,7 @@ class PslistAdd extends PureComponent{
       {
         title: '单位',
         dataIndex: 'unit',
-        width: 60
+        width: 112
       },
       {
         title: '配送数量',
@@ -452,20 +456,24 @@ class PslistAdd extends PureComponent{
       {
         title: '通用名称',
         dataIndex: 'ctmmGenericName',
-        width: 168
+        width: 224,
+        className: 'ellipsis',
+        render:(text)=>(
+          <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+        )
       },
       {
         title: '商品名',
         dataIndex: 'ctmmTradeName',
-        width: 224
+        width: 224,
+        className: 'ellipsis',
+        render:(text)=>(
+          <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+        )
       },
       {
         title: '规格',
         dataIndex: 'ctmmSpecification',
-        className:'ellipsis',
-        render:(text)=>(
-          <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
-        ),
         width: 168
       },
       {
@@ -480,7 +488,7 @@ class PslistAdd extends PureComponent{
       {
         title: '单位',
         dataIndex: 'replanUnit',
-        width: 60,
+        width: 112,
       },
       {
         title: '配送数量',
@@ -642,7 +650,7 @@ class PslistAdd extends PureComponent{
               <Table
                 bordered
                 loading={loading}
-                scroll={{x: 2536}}
+                scroll={{x: 2750}}
                 columns={columnsUnVerfiy}
                 dataSource={unVerfiyList || []}
                 pagination={false}
@@ -664,7 +672,7 @@ class PslistAdd extends PureComponent{
               <Table
                 loading={loading}
                 bordered
-                scroll={{x: 2244}}
+                scroll={{x: 2500}}
                 columns={columnsVerify}
                 dataSource={verifyList || []}
                 rowKey={'key'}

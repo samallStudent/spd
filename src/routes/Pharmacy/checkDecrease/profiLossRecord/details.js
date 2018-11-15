@@ -74,16 +74,16 @@ class Details extends PureComponent {
       {
         title: '通用名',
         dataIndex: 'ctmmGenericName',
-        width: 168,
+        width: 224,
+        className: 'ellipsis',
+        render:(text)=>(
+          <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+        )
       },
       {
         title: '规格',
         dataIndex: 'ctmmSpecification',
         width: 168,
-        className: 'ellipsis',
-        render:(text)=>(
-          <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
-        )
       },
       {
         title: '生产厂家',
@@ -102,7 +102,7 @@ class Details extends PureComponent {
       {
         title: '单位',
         dataIndex: 'unit',
-        width: 60,
+        width: 112,
       },
       {
         title: '账面库存',
@@ -246,7 +246,7 @@ class Details extends PureComponent {
             isJson
             query={query}
             url={profiLossRecord.GET_LIST_BY_BILLNO}
-            scroll={{x: 2636}}
+            scroll={{x: 2800}}
             columns={columns}
             rowKey={'id'}
           />

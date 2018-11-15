@@ -20,12 +20,12 @@ const columns = [
   },
   {
     title: '单位',
-    width: 60,
+    width: 80,
     dataIndex: 'replanUnit'
   },
   {
     title: '通用名',
-    width: 168,
+    width: 224,
     dataIndex: 'ctmmGenericName'
   },
   {
@@ -258,7 +258,7 @@ class DetailsNewLibrary extends PureComponent{
               <Table
                 bordered
                 loading={loading}
-                scroll={{x: 2404}}
+                scroll={{x: 2424}}
                 columns={columns}
                 dataSource={unVerfiyList || []}
                 pagination={false}
@@ -273,7 +273,7 @@ class DetailsNewLibrary extends PureComponent{
               <Table
                 loading={loading}
                 bordered
-                scroll={{x: 2356}}
+                scroll={{x: 2376}}
                 rowKey={'id'}
                 columns={columns}
                 dataSource={verifyList || []}

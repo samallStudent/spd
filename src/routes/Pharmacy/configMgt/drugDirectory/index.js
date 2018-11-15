@@ -150,21 +150,25 @@ const columns = [
   {
     title: '通用名称',
     dataIndex: 'ctmmGenericName',
-    width: 168,
+    width: 224,
+    className: 'ellipsis',
+    render:(text)=>(
+      <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+    )
   },
   {
     title: '商品名称',
     dataIndex: 'ctmmTradeName',
-    width: 224
+    width: 224,
+    className: 'ellipsis',
+    render:(text)=>(
+      <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+    )
   },
   {
     title: '规格',
     dataIndex: 'ctmmSpecification',
-    className: 'ellipsis',
     width: 168,
-    render:(text)=>(
-      <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
-    )
   },
   {
     title: '剂型',
@@ -174,7 +178,7 @@ const columns = [
   {
     title: '包装规格',
     dataIndex: 'packageSpecification',
-    width: 112
+    width: 168
   },
   {
     title: '药品编码',
@@ -486,7 +490,7 @@ class DrugDirectory extends PureComponent{
         query={query}
         style={{marginTop: 20}}
         columns={IndexColumns}
-        scroll={{ x: 1844 }}
+        scroll={{ x: 1950 }}
         url={configMgt.findDepotlist}
         rowSelection={{
           selectedRowKeys: this.state.selected,

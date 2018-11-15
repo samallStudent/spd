@@ -200,17 +200,17 @@ class NewAddGoodsAdjust extends PureComponent{
     const columns = [
       {
         title: '通用名',
-		    width: 168,
-        dataIndex: 'ctmmGenericName'
+		    width: 224,
+        dataIndex: 'ctmmGenericName',
+        className: 'ellipsis',
+        render: (text) => (
+          <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+        )
       },
       {
         title: '规格',
 		    width: 168,
         dataIndex: 'ctmmSpecification',
-        className:'ellipsis',
-        render:(text)=>(
-          <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
-        )
       },
       {
         title: '生产厂家',
@@ -314,12 +314,20 @@ class NewAddGoodsAdjust extends PureComponent{
         dataIndex: 'positionTypeName'
       },{
         title: '通用名',
-		    width: 168,
-        dataIndex: 'ctmmGenericName'
+		    width: 224,
+        dataIndex: 'ctmmGenericName',
+        className: 'ellipsis',
+        render: (text) => (
+          <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+        )
       },{
         title: '商品名',
 		    width: 224,
         dataIndex: 'ctmmTradeName',
+        className: 'ellipsis',
+        render: (text) => (
+          <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+        )
       },{
         title: '规格',
 		    width: 168,
@@ -394,7 +402,7 @@ class NewAddGoodsAdjust extends PureComponent{
             bordered
             rowKey='id'
             dataSource={dataSource}
-            scroll={{ x: 2184 }}
+            scroll={{ x: 2250 }}
             pagination={false}
             rowSelection={{
               selectedRowKeys: this.state.selected,
@@ -457,7 +465,7 @@ class NewAddGoodsAdjust extends PureComponent{
             url={goodsAdjust.roomDrugList}
             style={{ marginTop: 16 }} 
             columns={modalColumns}
-            scroll={{ x: 2288 }}
+            scroll={{ x: 2350 }}
             rowKey='id'
             rowSelection={{
               selectedRowKeys: this.state.modalSelected,

@@ -16,22 +16,22 @@ const columns = [
   },
   {
     title: '单位',
-    width: 60,
+    width: 112,
     dataIndex: 'replanUnit',
   },
   {
     title: '包装规格',
     width: 168,
     dataIndex: 'packageSpecification',
-    className:'ellipsis',
-    render:(text)=>(
-      <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
-    )
   },
   {
     title: '通用名',
-    width: 168,
+    width: 224,
     dataIndex: 'ctmmGenericName',
+    className: 'ellipsis',
+    render:(text)=>(
+      <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+    )
   },
   {
     title: '规格',
@@ -171,7 +171,7 @@ class ReplenishmentDetail extends PureComponent{
             title={()=>'产品信息'}
             style={{marginTop: 20}}
             columns={columns}
-            scroll={{ x: 1404 }}
+            scroll={{ x: 1600 }}
             rowKey='batchNo'
             dataSource={baseInfo?baseInfo.list:[]}
             pagination={false}

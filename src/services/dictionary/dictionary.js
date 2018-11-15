@@ -1,5 +1,5 @@
 import request from '../../utils/request';
-import { _local } from '../../api/local'
+import { _local } from '../../api/local';
 
 
 export function searchStaticByOrgId(options){

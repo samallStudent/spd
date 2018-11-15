@@ -16,7 +16,7 @@ const columns = [
   },
   {
     title: '单位',
-    width: 60,
+    width: 112,
     dataIndex: 'replanUnit',
   },
   {
@@ -35,8 +35,12 @@ const columns = [
   },
   {
     title: '通用名',
-    width: 168,
+    width: 224,
     dataIndex: 'ctmmGenericName',
+    className: 'ellipsis',
+    render:(text)=>(
+      <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+    )
   },
   {
     title: '规格',
@@ -206,7 +210,7 @@ class ReplenishmentDetail extends PureComponent{
             bordered
             columns={columns}
             pagination={false}
-            scroll={{ x: 1572 }}
+            scroll={{ x: 1750 }}
             rowKey='drugCode'
             dataSource={baseInfo?baseInfo.list:[]}
           />

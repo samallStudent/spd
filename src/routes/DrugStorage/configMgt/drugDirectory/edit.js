@@ -10,11 +10,11 @@ import {difference} from 'lodash';
 const supplyFormItemLayout = {
   labelCol: {
     xs: { span: 24 },
-    sm: { span: 8 },
+    sm: { span: 4 },
   },
   wrapperCol: {
     xs: { span: 24 },
-    sm: { span: 16 }
+    sm: { span: 20 }
   },
 }
 const formItemLayout ={
@@ -430,7 +430,7 @@ class EditDrugDirectory extends PureComponent{
       return (
         <Col span={12} key={index}>
           <Row>
-            <Col span={8}>
+            <Col span={16}>
               <FormItem {...supplyFormItemLayout} label={`供应商`}  key={k}>
                 {
                   medDrugType===1?
@@ -454,20 +454,6 @@ class EditDrugDirectory extends PureComponent{
               </FormItem>
             </Col>
             <Col span={8}>
-              <FormItem {...supplyFormItemLayout} style={{display: 'inline-block'}} label="价格" >
-                {
-                  getFieldDecorator(`supplier[${index}].supplierPrice`,{
-                    initialValue: k.supplierPrice,
-                    rules:[{
-                      required:true,message:"必填！"
-                    }]
-                  })(
-                    <Input type='number' style={{ width:120 ,marginRight: 8}} addonAfter='元'/>
-                  )
-                }
-              </FormItem>
-            </Col>
-            <Col span={6}>
               <FormItem {...supplyFormItemLayout} style={{display: 'inline-block',marginRight:8}}>
                 {
                   getFieldDecorator(`supplier[${index}].whetherDefault`,{

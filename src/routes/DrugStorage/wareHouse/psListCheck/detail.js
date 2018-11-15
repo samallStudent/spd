@@ -47,7 +47,8 @@ class PslistCheck extends PureComponent{
       parentId: record.id,
       id: null,
       key,
-      realReceiveQuantity: ''
+      realReceiveQuantity: '',
+      realDeliveryQuantiry: 0
     });
     detailInfo.unVerfiyList = unVerfiyList;
     expandedRowKeys.push(record.key);
@@ -349,21 +350,25 @@ class PslistCheck extends PureComponent{
       {
         title: '通用名称',
         dataIndex: 'ctmmGenericName',
-        width: 168
+        width: 224,
+        className: 'ellipsis',
+        render:(text)=>(
+          <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+        )
       },
       {
         title: '商品名',
         dataIndex: 'ctmmTradeName',
-        width: 224
+        width: 224,
+        className: 'ellipsis',
+        render:(text)=>(
+          <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+        )
       },
       {
         title: '规格',
         dataIndex: 'ctmmSpecification',
         width: 168,
-        className:'ellipsis',
-        render:(text)=>(
-          <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
-        )
       },
       {
         title: '生产厂家',
@@ -377,7 +382,7 @@ class PslistCheck extends PureComponent{
       {
         title: '单位',
         dataIndex: 'unit',
-        width: 60
+        width: 112
       },
       {
         title: '配送数量',
@@ -387,11 +392,32 @@ class PslistCheck extends PureComponent{
       {
         title: '实到数量',
         dataIndex: 'realReceiveQuantity',
-        render: (text,record,index)=>{
+        render: (text, record, index)=>{
           return <InputNumber
                     value={text}
                     onChange={(value)=>{
-                      if(value > record.realDeliveryQuantiry){
+                      let pIndex;
+                      if(record.parentId) {
+                        unVerfiyList.forEach((item, i) => {
+                          if(item.id === record.parentId) {
+                            pIndex = i;
+                          };
+                        });
+                      }else {
+                        pIndex = index;
+                      };
+                      let allRealDeliveryQuantiry = unVerfiyList[pIndex].realReceiveQuantity ? unVerfiyList[pIndex].realReceiveQuantity : 0;
+                      if(unVerfiyList[pIndex].children) {
+                        unVerfiyList[pIndex].children.forEach((item) => {
+                          if(item.realReceiveQuantity === "" || item.realReceiveQuantity === undefined) {
+                            item.realReceiveQuantity = 0
+                          };
+                          allRealDeliveryQuantiry += item.realReceiveQuantity;
+                        });
+                      };
+                      let lastRealDeliveryQuantiry = record.realDeliveryQuantiry ? record.realDeliveryQuantiry : 0;
+                      allRealDeliveryQuantiry = allRealDeliveryQuantiry - lastRealDeliveryQuantiry;
+                      if(value + allRealDeliveryQuantiry > unVerfiyList[pIndex].realDeliveryQuantiry){
                         message.warning('请注意：实到数量比配送数量多');
                       };
                       record.realReceiveQuantity = value;
@@ -496,7 +522,11 @@ class PslistCheck extends PureComponent{
       {
         title: '通用名称',
         dataIndex: 'ctmmGenericName',
-        width: 168
+        width: 224,
+        className: 'ellipsis',
+        render:(text)=>(
+          <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+        )
       },
       {
         title: '商品名',
@@ -524,7 +554,7 @@ class PslistCheck extends PureComponent{
       {
         title: '单位',
         dataIndex: 'replanUnit',
-        width: 60,
+        width: 112,
       },
       {
         title: '配送数量',
@@ -679,7 +709,7 @@ class PslistCheck extends PureComponent{
               <Table
                 bordered
                 loading={loading}
-                scroll={{x: 2536}}
+                scroll={{x: 2700}}
                 columns={columnsUnVerfiy}
                 dataSource={unVerfiyList || []}
                 pagination={false}
@@ -701,7 +731,7 @@ class PslistCheck extends PureComponent{
               <Table
                 loading={loading}
                 bordered
-                scroll={{x: 2356}}
+                scroll={{x: 2500}}
                 columns={columnsVerify || []}
                 dataSource={verifyList}
                 rowKey={'key'}

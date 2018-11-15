@@ -28,12 +28,20 @@ const modalColumns = [
   {
     title: '通用名称',
     dataIndex: 'ctmmGenericName',
-    width: 168
+    width: 224,
+    className: 'ellipsis',
+    render:(text)=>(
+      <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+    )
   },
   {
     title: '商品名',
     dataIndex: 'ctmmTradeName',
-    width: 224
+    width: 224,
+    className: 'ellipsis',
+    render:(text)=>(
+      <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+    )
   },
   {
     title: '规格',
@@ -489,8 +497,12 @@ class AddSupplementDocuments extends PureComponent{
       },
       {
         title: '通用名',
-        width: 168,
+        width: 224,
         dataIndex: 'ctmmGenericName',
+        className: 'ellipsis',
+        render:(text)=>(
+          <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+        )
       },
       {
         title: '规格',
@@ -510,10 +522,6 @@ class AddSupplementDocuments extends PureComponent{
         title: '包装规格',
         width: 168,
         dataIndex: 'packageSpecification',
-        className:'ellipsis',
-        render:(text)=>(
-          <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
-        )
       },
       {
         title: '生产批号',
@@ -605,8 +613,12 @@ class AddSupplementDocuments extends PureComponent{
       },
       {
         title: '通用名',
-        width: 168,
+        width: 224,
         dataIndex: 'hisDrugName',
+        className: 'ellipsis',
+        render:(text)=>(
+          <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+        )
       },
       {
         title: '规格',
@@ -769,7 +781,7 @@ class AddSupplementDocuments extends PureComponent{
               dataSource={dataSource}
               title={()=>'产品信息'}
               bordered
-              scroll={{x: 1680}}
+              scroll={{x: 1900}}
               columns={typeValue === "1" ? columns : abnormalColumns}
               rowKey={rowKey}
               style={{marginTop: 24}}
@@ -835,7 +847,7 @@ class AddSupplementDocuments extends PureComponent{
               isJson={true}
               style={{marginTop: 20}}
               url={supplementDoc.addlist}
-              scroll={{x: 1616}}
+              scroll={{x: 1700}}
               columns={modalColumns}
               rowKey={'drugCode'}
               rowSelection={{

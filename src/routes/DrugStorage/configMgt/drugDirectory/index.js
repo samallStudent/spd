@@ -141,21 +141,25 @@ const columns = [
   {
     title: '通用名称',
     dataIndex: 'ctmmGenericName',
-    width: 168,
+    width: 224,
+    className: 'ellipsis',
+    render: (text) => (
+      <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+    ),
   },
   {
     title: '商品名称',
     dataIndex: 'ctmmTradeName',
     width: 224,
+    className: 'ellipsis',
+    render: (text) => (
+      <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+    )
   },
   {
     title: '规格',
     dataIndex: 'ctmmSpecification',
-    width: 280,
-    className: 'ellipsis',
-    render:(text)=>(
-      <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
-    )
+    width: 168,
   },
   {
     title: '剂型',
@@ -170,7 +174,7 @@ const columns = [
   {
     title: '单位',
     dataIndex: 'replanUnit',
-    width: 60
+    width: 112
   },
   {
     title: '药品编码',
@@ -440,6 +444,7 @@ class DrugDirectory extends PureComponent{
         title='添加药品'
         width={1100}
         visible={addVisible}
+        destroyOnClose
         onCancel={()=>this.setState({ addVisible: false })}
         footer={[
           <Button key="submit" type='primary' loading={addLoading} onClick={this.addDrug}>
@@ -455,7 +460,7 @@ class DrugDirectory extends PureComponent{
           query={{}}
           style={{marginTop: 20}}
           columns={columns}
-          scroll={{ x: 2080 }}
+          scroll={{ x: 1550 }}
           url={configMgt.findDepotFilterList}
           rowSelection={{
             selectedRowKeys: this.state.modalSelected,
@@ -472,7 +477,7 @@ class DrugDirectory extends PureComponent{
         query={query}
         style={{marginTop: 20}}
         columns={IndexColumns}
-        scroll={{ x: 2032 }}
+        scroll={{ x: 2100 }}
         url={configMgt.findDepotlist}
         rowSelection={{
           selectedRowKeys: this.state.selected,

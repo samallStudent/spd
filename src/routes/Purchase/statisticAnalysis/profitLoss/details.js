@@ -25,22 +25,26 @@ const columns = [
   },
   {
     title: '通用名',
-    width: 168,
-    dataIndex: 'ctmmGenericName'
+    width: 224,
+    dataIndex: 'ctmmGenericName',
+    className: 'ellipsis',
+    render:(text)=>(
+      <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+    )
   },
   {
     title: '商品名',
-    width: 168,
-    dataIndex: 'ctmmTradeName'
+    width: 224,
+    dataIndex: 'ctmmTradeName',
+    className: 'ellipsis',
+    render:(text)=>(
+      <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+    )
   },
   {
     title: '规格',
     width: 168,
     dataIndex: 'ctmmSpecification',
-    className:'ellipsis',
-    render:(text)=>(
-      <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
-    )
   },
   {
     title: '生产厂家',
@@ -62,9 +66,9 @@ const columns = [
     dataIndex: 'lot'
   },
   {
-    title: 'productDate',
+    title: '生产日期',
     width: 168,
-    dataIndex: 'scrq'
+    dataIndex: 'productDate'
   },
   {
     title: '有效期止',
@@ -228,7 +232,7 @@ class Detail extends PureComponent{
           <hr className="hr" />
           <RemoteTable
             query={query}
-            scroll={{x: 3168}}
+            scroll={{x: 3300}}
             columns={columns}
             rowKey={'id'}
             url={statisticAnalysis.PROFIT_LOSS_DETAIL_LIST}

@@ -445,20 +445,6 @@ class EditDrugDirectory extends PureComponent{
                 }
               </FormItem>
             </Col>
-            <Col span={8}>
-              <FormItem {...supplyFormItemLayout} style={{display: 'inline-block'}} label="价格" >
-                {
-                  getFieldDecorator(`supplier[${index}].supplierPrice`,{
-                    initialValue: k.supplierPrice,
-                    rules:[{
-                      required:true,message:"必填！"
-                    }]
-                  })(
-                    <Input type='number' style={{ width:120 ,marginRight: 8}} addonAfter='元'/>
-                  )
-                }
-              </FormItem>
-            </Col>
             <Col span={6}>
               <FormItem {...supplyFormItemLayout} style={{display: 'inline-block',marginRight:8}}>
                 {

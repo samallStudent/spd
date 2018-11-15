@@ -11,23 +11,27 @@ import {connect} from 'dva';
 const columns = [
   {
     title: '通用名',
-    width: 168,
+    width: 224,
     fixed: 'left',
-    dataIndex: 'ctmmGenericName'
+    dataIndex: 'ctmmGenericName',
+    className: 'ellipsis',
+    render:(text)=>(
+      <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+    )
   },
   {
     title: '商品名',
     width: 224,
     dataIndex: 'ctmmTradeName',
+    className: 'ellipsis',
+    render:(text)=>(
+      <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+    )
   },
   {
     title: '规格',
     width: 168,
     dataIndex: 'ctmmSpecification',
-    className:'ellipsis',
-    render: (text)=>(
-      <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
-    )
   },
   {
     title: '生产批号',
@@ -81,7 +85,7 @@ const columns = [
   },
   {
     title: '有效期至',
-    width: 224,
+    width: 168,
     dataIndex: 'realValidEndDate'
   },
   {
@@ -257,7 +261,7 @@ class DetailsNewLibrary extends PureComponent{
               <Table
                 bordered
                 loading={loading}
-                scroll={{x: 2456}}
+                scroll={{x: 2500}}
                 columns={columns}
                 dataSource={unVerfiyList || []}
                 pagination={false}
@@ -272,7 +276,7 @@ class DetailsNewLibrary extends PureComponent{
               <Table
                 loading={loading}
                 bordered
-                scroll={{x: 2408}}
+                scroll={{x: 2458}}
                 columns={columns}
                 dataSource={verifyList || []}
                 rowKey={'id'}

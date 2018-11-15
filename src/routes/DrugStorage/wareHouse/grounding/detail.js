@@ -171,22 +171,22 @@ class DetailsPutaway extends PureComponent{
       },
       {
         title: '单位',
-        width: 60,
+        width: 112,
         dataIndex: 'replanUnit'
       },
       {
         title: '通用名',
-        width: 168,
-        dataIndex: 'ctmmGenericName'
+        width: 224,
+        dataIndex: 'ctmmGenericName',
+        className: 'ellipsis',
+        render:(text)=>(
+          <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+        )
       },
       {
         title: '规格',
         width: 168,
         dataIndex: 'ctmmSpecification',
-        className:'ellipsis',
-        render:(text)=>(
-          <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
-        )
       },
       {
         title: '包装规格',
@@ -246,7 +246,7 @@ class DetailsPutaway extends PureComponent{
       },
       {
         title: '单位',
-        width: 60,
+        width: 112,
         dataIndex: 'replanUnit'
       },
       {
@@ -258,10 +258,6 @@ class DetailsPutaway extends PureComponent{
         title: '规格',
         width: 168,
         dataIndex: 'ctmmSpecification',
-        className:'ellipsis',
-        render:(text)=>(
-          <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
-        )
       },
       {
         title: '包装规格',
@@ -342,7 +338,7 @@ class DetailsPutaway extends PureComponent{
                 loading={loading}
                 dataSource={listwsj}
                 bordered
-                scroll={{x: 2044}}
+                scroll={{x: 2150}}
                 columns={notColumns}
                 rowKey={'id'}
                 pagination={false}

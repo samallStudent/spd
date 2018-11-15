@@ -154,10 +154,10 @@ const WrappSearchForm = Form.create()(SearchForm);
 const columns = [{
   title: '通用名称',
   dataIndex: 'ctmmGenericName',
-  width: 168,
+  width: 224,
   render: (text,record) =>{
     return <span>
-            <Link to={{pathname: `/sys/drugDirectory/directory/edit/${record.bigDrugCode}/${record.medDrugType}`}}>{text}</Link>
+            <Link to={{pathname: `/sys/drugDirectory/directory/edit/${record.hisDrugCode}`}}>{text}</Link>
           </span>
   }
 },
@@ -165,15 +165,15 @@ const columns = [{
   title: '商品名',
   dataIndex: 'ctmmTradeName',
   width: 224,
+  className: 'ellipsis',
+  render:(text)=>(
+    <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+  )
 },
 {
   title: '规格',
   dataIndex: 'ctmmSpecification',
   width: 168,
-  className: 'ellipsis',
-  render:(text)=>(
-    <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
-  )
 },
 {
   title: '剂型',
@@ -277,6 +277,11 @@ class DrugDirectory extends PureComponent{
         )
       },
       {
+        title: '是否报告药',
+        dataIndex: 'drugTypeName',
+        width: 112,
+      },
+      {
         title: '状态',
         dataIndex: 'ctmmStatusCode',
         width: 112,
@@ -293,7 +298,7 @@ class DrugDirectory extends PureComponent{
         />
         <Row className='ant-row-bottom'>
           <Col>
-            <Button style={{marginRight: 8}} type='primary' onClick={this.add}>新增</Button>
+            {/* <Button style={{marginRight: 8}} type='primary' onClick={this.add}>新增</Button> */}
             <Button onClick={this.print}>导出</Button>
           </Col>
         </Row>
@@ -424,7 +429,7 @@ class DrugDirectory extends PureComponent{
           bordered
           query={query}
           url={systemMgt.MEDICINEMATERIAL_LIST}
-          scroll={{x: 1624}}
+          scroll={{x: 1800}}
           columns={IndexColumns}
           rowKey={'id'}
         />

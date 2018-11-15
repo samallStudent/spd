@@ -359,26 +359,30 @@ class PslistCheck extends PureComponent{
       {
         title: '单位',
         dataIndex: 'unit',
-        width: 60
+        width: 112
       },
       {
         title: '通用名称',
         dataIndex: 'ctmmGenericName',
-        width: 168
+        width: 224,
+        className: 'ellipsis',
+        render:(text)=>(
+          <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+        )
       },
       {
         title: '商品名',
         dataIndex: 'ctmmTradeName',
-        width: 224
+        width: 224,
+        className: 'ellipsis',
+        render:(text)=>(
+          <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+        )
       },
       {
         title: '规格',
         dataIndex: 'ctmmSpecification',
         width: 168,
-        className:'ellipsis',
-        render:(text)=>(
-          <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
-        )
       },
       {
         title: '剂型',
@@ -513,7 +517,7 @@ class PslistCheck extends PureComponent{
               <Table
                 bordered
                 loading={loading}
-                scroll={{x: 2536}}
+                scroll={{x: 2600}}
                 columns={columns}
                 dataSource={unVerfiyList || []}
                 pagination={false}
@@ -535,7 +539,7 @@ class PslistCheck extends PureComponent{
               <Table
                 loading={loading}
                 bordered
-                scroll={{x: 2356}}
+                scroll={{x: 2600}}
                 columns={columns || []}
                 dataSource={verifyList}
                 rowKey={'key'}

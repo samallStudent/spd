@@ -235,14 +235,26 @@ class SectionAnalysis extends PureComponent {
         title: '退库原因',
         dataIndex: 'backCause',
         width: 168,
+        className: 'ellipsis',
+        render:(text)=>(
+          <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+        )
       }, {
         title: '通用名',
         dataIndex: 'ctmmGenericName',
         width: 224,
+        className: 'ellipsis',
+        render:(text)=>(
+          <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+        )
       }, {
         title: '商品名',
         dataIndex: 'ctmmTradeName',
-        width: 168
+        width: 224,
+        className: 'ellipsis',
+        render:(text)=>(
+          <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+        )
       }, {
         title: '规格',
         dataIndex: 'ctmmSpecification',
@@ -312,7 +324,7 @@ class SectionAnalysis extends PureComponent {
           query={query}
           isJson
           columns={columns}
-          scroll={{x: 2856}}
+          scroll={{x: 3000}}
           style={{marginTop: 20}}
           ref='table'
           footer={() => (

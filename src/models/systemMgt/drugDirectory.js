@@ -28,6 +28,12 @@ export default {
       }
       if(callback) callback();
     },
+    *editMedicinalType({ payload, callback },{ put, call }){
+      const data = yield call(drugDirectoryService.editMedicinalType, payload);
+      if(callback && typeof callback === 'function') {
+        callback(data);
+      };
+    },
   },
   subscriptions: {}
 }

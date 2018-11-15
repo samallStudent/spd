@@ -460,7 +460,7 @@ class Details extends PureComponent {
               query={query}
               data={dataSource}
               url={checkDecrease.GET_LIST_BY_BILLNO}
-              scroll={{x: 2800}}
+              scroll={{x: 3000}}
               columns={columns}
               rowKey={'uuid'}
               expandedRowKeys={expandedRowKeys}
@@ -483,7 +483,7 @@ class Details extends PureComponent {
               isJson
               query={query}
               url={checkDecrease.GET_LIST_BY_BILLNO}
-              scroll={{x: 2800}}
+              scroll={{x: 3000}}
               columns={columns}
               rowKey={'uuid'}
              />
@@ -511,16 +511,16 @@ class Details extends PureComponent {
       {
         title: '通用名称',
         dataIndex: 'ctmmGenericName',
-        width: 168
+        width: 224,
+        className: 'ellipsis',
+        render:(text)=>(
+          <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+        )
       },
       {
         title: '规格',
         dataIndex: 'ctmmSpecification',
         width: 168,
-        className: 'ellipsis',
-        render:(text)=>(
-          <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
-        )
       },
       {
         title: '生产厂家',
@@ -539,7 +539,7 @@ class Details extends PureComponent {
       {
         title: '单位',
         dataIndex: 'unit',
-        width: 60
+        width: 112
       },
       {
         title: '账面库存',
@@ -614,7 +614,9 @@ class Details extends PureComponent {
         render: (text, record, i) => {
           return info.checkStatus === 2 && record.checkDetailStatus === 1? 
                  <DatePicker
+                  allowClear={false}
                   disabledDate={(stareTime)=>{
+                    console.log(stareTime)
                     return stareTime.valueOf() > moment(record.validEndTime).valueOf();
                   }}
                   onChange={(moment, value) => {
@@ -637,6 +639,7 @@ class Details extends PureComponent {
         render: (text, record, i) => {
           return info.checkStatus === 2 && record.checkDetailStatus === 1? 
                  <DatePicker
+                  allowClear={false}
                   disabledDate={(endTime)=>{
                     return endTime.valueOf() <= moment(record.realProductTime).valueOf();
                   }}

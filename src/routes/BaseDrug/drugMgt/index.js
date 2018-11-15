@@ -139,7 +139,7 @@ const columns = [
   {
     title: '通用名称',
     dataIndex: 'genericName',
-    width: 168,
+    width: 224,
     fixed: 'left',
     render: (text, record) => (
       <Link to={{pathname: `/baseDrug/drugMgt/drugCatalog/edit/bCode=${record.bigDrugCode}&dCode=${record.drugCode}&id=${record.id}`}}>{text}</Link>
@@ -172,7 +172,7 @@ const columns = [
   {
     title: '单位',
     dataIndex: 'unit',
-    width: 60
+    width: 80
   },
   {
     title: '药品编码',
@@ -367,7 +367,7 @@ class DrugDirectory extends PureComponent{
         query={query}
         style={{marginTop: 20}}
         columns={IndexColumns}
-        scroll={{ x: 1176 }}
+        scroll={{ x: 1252 }}
         url={drugMgt.FIND_MEDICINE_CATALOG}
         // rowSelection={{
         //   selectedRowKeys: this.state.selected,

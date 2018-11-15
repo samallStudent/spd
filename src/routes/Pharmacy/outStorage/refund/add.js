@@ -37,16 +37,16 @@ const modalColumns = [
   {
     title: '通用名称',
     dataIndex: 'ctmmGenericName',
-    width: 168,
+    width: 224,
+    className: 'ellipsis',
+    render:(text)=>(
+      <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+    )
   },
   {
     title: '规格',
     dataIndex: 'ctmmSpecification',
     width: 168,
-    className:'ellipsis',
-    render:(text)=>(
-      <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
-    )
   },
   {
     title: '入库单号',
@@ -336,7 +336,7 @@ class AddRefund extends PureComponent{
       },
       {
         title: '单位',
-        width: 60,
+        width: 112,
         dataIndex: 'unit',
       },
       {
@@ -346,13 +346,21 @@ class AddRefund extends PureComponent{
       },
       {
         title: '通用名称',
-        width: 168,
+        width: 224,
         dataIndex: 'ctmmGenericName',
+        className: 'ellipsis',
+        render:(text)=>(
+          <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+        )
       },
       {
         title: '商品名称',
         width: 224,
         dataIndex: 'ctmmTradeName',
+        className: 'ellipsis',
+        render:(text)=>(
+          <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+        )
       },
       {
         title: '规格',
@@ -448,7 +456,7 @@ class AddRefund extends PureComponent{
               dataSource={dataSource}
               title={()=>'产品信息'}
               bordered
-              scroll={{x: 2404}}
+              scroll={{x: 2550}}
               columns={columns}
               rowKey={'id'}
               style={{marginTop: 24}}
@@ -541,7 +549,7 @@ class AddRefund extends PureComponent{
               bordered
               isJson={true}
               url={outStorage.BACKSTORAGE_ADDPRODUCT_LIST}
-              scroll={{x: 1900}}
+              scroll={{x: 2000}}
               columns={modalColumns}
               rowKey={'id'}
               rowSelection={{

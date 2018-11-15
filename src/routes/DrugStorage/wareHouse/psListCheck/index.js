@@ -28,7 +28,7 @@ const formItemLayout = {
 };
 const columns = [
   {
-   title: '验收单',
+   title: '配送单/验收单',
    dataIndex: 'distributeCode',
    width: 280,
    render: (text,record) =>{

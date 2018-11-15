@@ -4,21 +4,26 @@ import { _local } from '../../api/local'
 class DropdownList extends React.Component {
   selectHandler = (link) => {
     // console.log(link,'link')
-    const uri = window.location.hash.substring(2, window.location.hash.length);
-    if(uri !== link){
-      if(link === '/login'){
-        fetch(`${_local}/a/logout`,{
-          method: 'GET',
-          credentials: 'include',
-          mode: 'cors',
-        })
-        .then(res => res.json);
+    if(link === '/login') {
+      const uri = window.location.hash.substring(2, window.location.hash.length);
+      if(uri !== link){
+        if(link === '/login'){
+          fetch(`${_local}/a/logout`,{
+            method: 'GET',
+            credentials: 'include',
+            mode: 'cors',
+          })
+          .then(res => res.json);
+        };
       };
+      window.location.hash = link;
+      const urlParams = new URL(window.location.href);
+      urlParams.searchParams.delete('depeId');
+      window.history.pushState(null, '', urlParams.href);
     };
-    window.location.hash = link;
-    const urlParams = new URL(window.location.href);
-    urlParams.searchParams.delete('depeId');
-    window.history.pushState(null, '', urlParams.href);
+    if(link === '/changePassword') {
+      this.props.changePassword();
+    };
   }
   menus = () => {
     return (

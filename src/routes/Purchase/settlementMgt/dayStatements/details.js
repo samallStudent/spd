@@ -83,21 +83,25 @@ class Details extends PureComponent {
       {
         title: '通用名',
         dataIndex: 'ctmmGenericName',
-        width: 168
+        width: 224,
+        className: 'ellipsis',
+        render:(text)=>(
+          <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+        )
       },
       {
         title: '商品名',
         dataIndex: 'ctmmTradeName',
-        width: 224
+        width: 224,
+        className: 'ellipsis',
+        render:(text)=>(
+          <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+        )
       },
       {
         title: '规格',
         dataIndex: 'ctmmSpecification',
         width: 168,
-        className:'ellipsis',
-        render:(text)=>(
-            <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
-        )
       },
       {
         title: '生产厂家',
@@ -255,7 +259,7 @@ class Details extends PureComponent {
             isJson={true}
             query={query}
             url={dayStatements.DAILY_DETAIL_LIST}
-            scroll={{x: 3080}}
+            scroll={{x: 3150}}
             columns={columns}
             rowKey={'id'}
             style={{marginTop: 24}}

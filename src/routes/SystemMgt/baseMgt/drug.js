@@ -176,21 +176,25 @@ class BaseMgt extends PureComponent{
         title: '通用名称',
         fixed: 'left',
         dataIndex: 'ctmmGenericName',
-        width: 168,
+        width: 224,
+        className: 'ellipsis',
+        render:(text)=>(
+          <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+        )
       },
       {
         title: '商品名称',
         dataIndex: 'ctmmTradeName',
         width: 224,
+        className: 'ellipsis',
+        render:(text)=>(
+          <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+        )
       },
       {
         title: '规格',
         dataIndex: 'ctmmSpecification',
         width: 168,
-        className: 'ellipsis',
-        render:(text)=>(
-          <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
-        )
       },
       {
         title: '剂型',
@@ -261,11 +265,19 @@ class BaseMgt extends PureComponent{
       {
         title: '通用名',
         dataIndex: 'ctmmGenericName',
-        width: 168,
+        width: 224,
+        className: 'ellipsis',
+        render:(text)=>(
+          <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+        )
       },{
         title: '商品名',
         dataIndex: 'ctmmTradeName',
         width: 224,
+        className: 'ellipsis',
+        render:(text)=>(
+          <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+        )
       },{
         title: '规格',
         dataIndex: 'ctmmSpecification',
@@ -334,7 +346,7 @@ class BaseMgt extends PureComponent{
             url={drugMgt.ADD_CARDINAL_MEDICINE}
             style={{ marginTop: 16 }} 
             columns={modalColumns}
-            scroll={{ x: 1120 }}
+            scroll={{ x: 1250 }}
             rowKey='drugCode'
             rowSelection={{
               selectedRowKeys: this.state.modalSelected,
@@ -354,7 +366,7 @@ class BaseMgt extends PureComponent{
             ref='table'
             query={query}
             url={drugMgt.FIND_CARDINAL_MEDICINE_DETAIL}
-            scroll={{x: 1632}}
+            scroll={{x: 1800}}
             columns={columns}
             rowKey={'id'}
           />

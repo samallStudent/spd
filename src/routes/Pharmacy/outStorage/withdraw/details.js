@@ -91,18 +91,18 @@ class DetailsPickSoldOut extends PureComponent{
     const columns = [
       {
         title: '通用名称',
-        width: 168,
+        width: 224,
         fixed: 'left',
         dataIndex: 'ctmmGenericName',
+        className: 'ellipsis',
+        render:(text)=>(
+          <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+        )
       },
       {
         title: '规格',
         width: 168,
         dataIndex: 'ctmmSpecification',
-        className:'ellipsis',
-        render:(text)=>(
-          <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
-        )
       },
       {
         title: '生产厂家',
@@ -135,7 +135,7 @@ class DetailsPickSoldOut extends PureComponent{
       },
       {
         title: '单位',
-        width: 60,
+        width: 112,
         dataIndex: 'replanUnit'
       },
       {
@@ -240,7 +240,7 @@ class DetailsPickSoldOut extends PureComponent{
             <Table
               bordered
               dataSource={leftDataSource}
-              scroll={{x: 1684}}
+              scroll={{x: 1900}}
               columns={columns}
               loading={loading}
               pagination={false}
@@ -257,7 +257,7 @@ class DetailsPickSoldOut extends PureComponent{
             <Table
               bordered
               dataSource={rightDataSource}
-              scroll={{x: 1684}}
+              scroll={{x: 1900}}
               loading={loading}
               columns={readyPickingColumns}
               pagination={false}

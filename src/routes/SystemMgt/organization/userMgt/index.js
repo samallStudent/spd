@@ -9,7 +9,7 @@
  * @file 系统管理--组织机构--用户管理
  */
 import React, { PureComponent } from 'react';
-import { Form, Row, Col, Input, Select, Button, Icon, Popconfirm, Modal, Badge } from 'antd';
+import { Form, Row, Col, Input, Select, Button, Icon, Popconfirm, Modal, Badge, Tooltip } from 'antd';
 import { formItemLayout } from '../../../../utils/commonStyles';
 import RemoteTable from '../../../../components/TableGrid';
 import { systemMgt } from '../../../../api/systemMgt';
@@ -221,17 +221,29 @@ class UserMgt extends PureComponent{
       {
         title: '部门性质',
         dataIndex: 'deptType',
+        className: 'ellipsis',
+        render:(text)=>(
+          <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+        ),
         width: 168
       },
       {
         title: '科室名称',
         dataIndex: 'hisCtDeptNme',
         width: 168,
+        className: 'ellipsis',
+        render:(text)=>(
+          <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+        )
       },
       {
         title: '部门名称',
         dataIndex: 'deptName',
         width: 168,
+        className: 'ellipsis',
+        render:(text)=>(
+          <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+        )
       },
       {
         title: '状态',

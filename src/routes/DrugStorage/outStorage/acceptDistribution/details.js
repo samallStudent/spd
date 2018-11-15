@@ -245,17 +245,17 @@ class DetailsPicking extends PureComponent{
     const leftColumns = [
       {
         title: '通用名称',
-        width: 168,
+        width: 224,
         dataIndex: 'ctmmGenericName',
+        className: 'ellipsis',
+        render: (text) => (
+          <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+        )
       },
       {
         title: '规格',
         width: 168,
         dataIndex: 'ctmmSpecification',
-        className:'ellipsis',
-        render:(text)=>(
-          <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
-        )
       },
       {
         title: '剂型',
@@ -273,7 +273,7 @@ class DetailsPicking extends PureComponent{
       },
       {
         title: '单位',
-        width: 60,
+        width: 112,
         dataIndex: 'replanUnit',
       },
       {
@@ -411,7 +411,7 @@ class DetailsPicking extends PureComponent{
               <Table
                 bordered
                 loading={loading}
-                scroll={{x: 1348}}
+                scroll={{x: 1500}}
                 columns={leftColumns}
                 dataSource={leftDataSource}
                 rowKey={'id'}

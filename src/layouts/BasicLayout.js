@@ -141,9 +141,19 @@ class BasicLayout extends PureComponent {
     //   this.setState({
     //     hasDept: false
     //   });
-    // }
-    window.sessionStorage.setItem('key', e.key);
-    window.sessionStorage.setItem('deptName', e.item.props.children);
+    // // }
+    // window.sessionStorage.setItem('key', e.key);
+    // window.sessionStorage.setItem('deptName', e.item.props.children);
+    let pathnameArr = window.location.href.split('#');
+    pathnameArr[1] = menu.children[0].children[0].href;
+    let href = window.location.href;
+    href = href.split('#');
+    href[1] = menu.children[0].children[0].href;
+    href = href.join('#');
+    const urlParams = new URL(href);
+    urlParams.searchParams.set('depeId', e.key);
+    // window.history.pushState(null, '', urlParams.href);
+    window.location.href = urlParams.href;
     dispatch({
       type: 'users/setCurrentDept',
       payload: { id: e.key, deptName: e.item.props.children },
@@ -160,16 +170,7 @@ class BasicLayout extends PureComponent {
           payload: { menu : menu }
         });
         // if(menu.children[0].children[0].href !== this.props.location.pathname) {
-          let pathnameArr = window.location.href.split('#');
-          pathnameArr[1] = menu.children[0].children[0].href;
-          let href = window.location.href;
-          href = href.split('#');
-          href[1] = menu.children[0].children[0].href;
-          href = href.join('#');
-          const urlParams = new URL(href);
-          urlParams.searchParams.set('depeId', e.key);
-          // window.history.pushState(null, '', urlParams.href);
-          window.location.href = urlParams.href;
+          
           // history.push({
           //   pathname: menu.children[0].children[0].href,
           // });

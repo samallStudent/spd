@@ -38,6 +38,10 @@ const modalColumns = [
     title: '通用名称',
     dataIndex: 'ctmmGenericName',
     width: 168,
+    className:'ellipsis',
+    render:(text)=>(
+      <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+    )
   },
   {
     title: '规格',
@@ -346,7 +350,7 @@ class AddRefund extends PureComponent{
       },
       {
         title: '通用名称',
-        width: 168,
+        width: 224,
         dataIndex: 'ctmmGenericName',
       },
       {
@@ -448,7 +452,7 @@ class AddRefund extends PureComponent{
               dataSource={dataSource}
               title={()=>'产品信息'}
               bordered
-              scroll={{x: 2404}}
+              scroll={{x: 2460}}
               columns={columns}
               rowKey={'id'}
               style={{marginTop: 24}}

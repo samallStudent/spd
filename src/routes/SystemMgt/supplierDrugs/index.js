@@ -170,11 +170,19 @@ const columns = [
     title: '通用名',
     dataIndex: 'ctmmGenericName',
     width: 224,
+    className: 'ellipsis',
+    render:(text)=>(
+      <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+    )
   },
   {
     title: '商品名',
     dataIndex: 'ctmmTradeName',
     width: 224,
+    className: 'ellipsis',
+    render:(text)=>(
+      <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+    )
   },
   {
     title: '生产厂家',

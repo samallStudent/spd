@@ -243,10 +243,18 @@ class DrugLedger extends PureComponent {
         title: '通用名',
         dataIndex: 'ctmmGenericName',
         width: 224,
+        className: 'ellipsis',
+        render: (text) => (
+          <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+        )
       }, {
         title: '商品名',
         dataIndex: 'ctmmTradeName',
-        width: 168
+        width: 224,
+        className: 'ellipsis',
+        render: (text) => (
+          <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+        )
       }, {
         title: '规格',
         dataIndex: 'ctmmSpecification',
@@ -327,7 +335,7 @@ class DrugLedger extends PureComponent {
           onChange={this._tableChange}
           query={query}
           columns={columns}
-          scroll={{x: 3416}}
+          scroll={{x: 3500}}
           style={{marginTop: 20}}
           ref='table'
           rowKey={'id'}

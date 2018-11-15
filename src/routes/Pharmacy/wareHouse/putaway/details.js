@@ -4,7 +4,7 @@
 * @Last Modified time: 2018-07-24 13:13:55 
  */
 import React, { PureComponent } from 'react';
-import {Table, Row, Col, InputNumber, Select, Button, Tabs, message, Tooltip} from 'antd';
+import {Table, Row, Col, Select, Button, Tabs, message, Tooltip} from 'antd';
 import {connect} from 'dva';
 import querystring from 'querystring';
 const Option = Select.Option;
@@ -158,32 +158,36 @@ class DetailsPutaway extends PureComponent{
         title: '实际上架数量',
         width: 168,
         dataIndex: 'realNum',
-        render: (text, record) => {
-          return <InputNumber
-                  min={1}
-                  precision={0}
-                  onChange={(value) => {
-                    if(value > record.realReceiveQuantiry) {
-                      message.warning('注意：数量大于指示数量');
-                    };
-                    if(value <= 0) {
-                      message.warning('上架数量不能小于0');
-                    }
-                    record.realNum = value;
-                  }}
-                  defaultValue={text}
-                 />
-        }
+        // render: (text, record) => {
+        //   return <InputNumber
+        //           min={1}
+        //           precision={0}
+        //           onChange={(value) => {
+        //             if(value > record.realReceiveQuantiry) {
+        //               message.warning('注意：数量大于指示数量');
+        //             };
+        //             if(value <= 0) {
+        //               message.warning('上架数量不能小于0');
+        //             }
+        //             record.realNum = value;
+        //           }}
+        //           defaultValue={text}
+        //          />
+        // }
       },
       {
         title: '单位',
-        width: 60,
+        width: 112,
         dataIndex: 'replanUnit'
       },
       {
         title: '通用名',
-        width: 168,
-        dataIndex: 'ctmmGenericName'
+        width: 224,
+        dataIndex: 'ctmmGenericName',
+        className: 'ellipsis',
+        render:(text)=>(
+          <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+        )
       },
       {
         title: '规格',
@@ -252,22 +256,22 @@ class DetailsPutaway extends PureComponent{
       },
       {
         title: '单位',
-        width: 60,
+        width: 112,
         dataIndex: 'replanUnit'
       },
       {
         title: '通用名',
-        width: 168,
-        dataIndex: 'ctmmGenericName'
+        width: 224,
+        dataIndex: 'ctmmGenericName',
+        className: 'ellipsis',
+        render:(text)=>(
+          <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+        )
       },
       {
         title: '规格',
         width: 168,
         dataIndex: 'ctmmSpecification',
-        className:'ellipsis',
-        render:(text)=>(
-          <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
-        )
       },
       {
         title: '包装规格',
@@ -347,7 +351,7 @@ class DetailsPutaway extends PureComponent{
               loading={loading}
               dataSource={listwsj}
               bordered
-              scroll={{x: 1964}}
+              scroll={{x: 2150}}
               columns={notColumns}
               rowKey={'id'}
               pagination={false}
@@ -363,7 +367,7 @@ class DetailsPutaway extends PureComponent{
               loading={loading}
               dataSource={listysj}
               bordered
-              scroll={{x: 1916}}
+              scroll={{x: 2100}}
               columns={hasColumns}
               rowKey={'drugCode'}
               pagination={false}

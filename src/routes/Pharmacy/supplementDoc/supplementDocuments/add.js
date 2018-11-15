@@ -26,21 +26,25 @@ const modalColumns = [
   {
     title: '通用名称',
     dataIndex: 'ctmmGenericName',
-    width: 168
+    width: 224,
+    className: 'ellipsis',
+    render:(text)=>(
+      <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+    )
   },
   {
     title: '商品名',
     dataIndex: 'ctmmTradeName',
-    width: 224
+    width: 224,
+    className: 'ellipsis',
+    render:(text)=>(
+      <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+    )
   },
   {
     title: '规格',
     dataIndex: 'ctmmSpecification',
     width: 168,
-    className:'ellipsis',
-    render:(text)=>(
-      <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
-    )
   },
   {
     title: '剂型',
@@ -316,8 +320,12 @@ class AddSupplementDocuments extends PureComponent{
       },
       {
         title: '通用名',
-        width: 168,
+        width: 224,
         dataIndex: 'ctmmGenericName',
+        className: 'ellipsis',
+        render:(text)=>(
+          <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+        )
       },
       {
         title: '规格',
@@ -433,7 +441,7 @@ class AddSupplementDocuments extends PureComponent{
               dataSource={dataSource}
               title={()=>'产品信息'}
               bordered
-              scroll={{x: 1680}}
+              scroll={{x: 1950}}
               columns={columns}
               rowKey={'batchNo'}
               style={{marginTop: 24}}
@@ -494,7 +502,7 @@ class AddSupplementDocuments extends PureComponent{
               ref="table"
               isJson={true}
               url={supplementDoc.addProductList}
-              scroll={{x: 2072}}
+              scroll={{x: 2200}}
               columns={modalColumns}
               rowKey={'id'}
               rowSelection={{

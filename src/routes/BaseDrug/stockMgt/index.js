@@ -31,7 +31,7 @@ const columns = [
   {
     title: '通用名',
     dataIndex: 'ctmmGenericName',
-    width: 168,
+    width: 224,
     render: (text, record) => {
       return (
         <span>
@@ -194,7 +194,7 @@ class StockInquiry extends PureComponent {
           style={{marginTop: 20}}
           query={query}
           ref="tab"
-          scroll={{x: 1460}}
+          scroll={{x: 1516}}
           columns={columns}
           rowKey="drugCode"
         />

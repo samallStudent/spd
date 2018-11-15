@@ -119,6 +119,7 @@
 .logo {
   height: 100%;
   vertical-align: middle;
+  /* background: url('./assets/img/logo258-58.jpg') -10px center no-repeat; */
   background: url('./assets/img/logo3.png') -10px center no-repeat;
   background-size: contain;
 }
@@ -398,7 +399,6 @@ td:hover .editable-cell-icon {
   margin-right: 15px;
 }
 .ellipsis{
-  width: 270px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;

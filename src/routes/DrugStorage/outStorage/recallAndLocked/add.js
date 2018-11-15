@@ -38,13 +38,21 @@ const formRemarkLayout = {
 const columns = [
   {
     title: '通用名称',
-    width: 168,
+    width: 224,
     dataIndex: 'ctmmGenericName',
+    className: 'ellipsis',
+    render: (text) => (
+      <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+    )
   },
   {
     title: '商品名称',
     width: 224,
     dataIndex: 'ctmmTradeName',
+    className: 'ellipsis',
+    render: (text) => (
+      <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+    )
   },
   {
     title: '规格',
@@ -99,16 +107,16 @@ const modalColumns = [
   {
     title: '通用名称',
     dataIndex: 'ctmmGenericName',
-    width: 168,
+    width: 224,
+    className: 'ellipsis',
+    render: (text) => (
+      <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+    )
   },
   {
     title: '规格',
     dataIndex: 'ctmmSpecification',
     width: 168,
-    className:'ellipsis',
-    render:(text)=>(
-      <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
-    )
   },
   {
     title: '生产批号',
@@ -172,6 +180,8 @@ class RemarksForm extends PureComponent{
   render() {
     const { getFieldDecorator } = this.props.form;
     let {recallReason, remarks} = this.state;
+    const {isRecall} = this.props;
+    let showText = isRecall? '召回' : '锁定';
     recallReason = recallReason.map(item => (
       <Option key={item.value} value={item.value}>{item.label}</Option>
     ));
@@ -179,14 +189,14 @@ class RemarksForm extends PureComponent{
       <Form>
         <Row gutter={30}>
           <Col span={12}>
-            <FormItem label={`召回原因`} {...formRemarkLayout}>
+            <FormItem label={`${showText}原因`} {...formRemarkLayout}>
               {getFieldDecorator('recallReasonType', {
                 rules: [{
-                  required: true, message: '请选择召回原因',
+                  required: true, message: `请选择${showText}召回原因`,
                 }]
               })(
                 <Select
-                  placeholder="请选择召回原因"
+                  placeholder={`请选择${showText}召回原因`}
                   onChange={(value) => {
                     this.setState({
                       remarks: value
@@ -389,6 +399,7 @@ class AddRefund extends PureComponent{
               <RemarksFormWarp
                 dispatch={this.props.dispatch}
                 ref="remarksForm"
+                isRecall={isRecall}
               />
             </Col>
           </Row>
@@ -400,7 +411,7 @@ class AddRefund extends PureComponent{
             dataSource={dataSource}
             title={()=>'产品信息'}
             bordered
-            scroll={{x: 2064}}
+            scroll={{x: 2000}}
             columns={columns}
             rowKey={'uuid'}
             style={{marginTop: 24}}
@@ -478,7 +489,7 @@ class AddRefund extends PureComponent{
               bordered
               isJson={true}
               url={outStorage.RECALLORLOCKADDPRODUCT_LIST}
-              scroll={{x: 1624}}
+              scroll={{x: 1750}}
               columns={modalColumns}
               rowKey={'uuid'}
               rowSelection={{

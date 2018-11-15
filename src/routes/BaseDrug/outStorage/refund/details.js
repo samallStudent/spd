@@ -10,7 +10,7 @@ const Conform = Modal.confirm;
 const columns = [
   {
     title: '通用名称',
-    width: 168,
+    width: 224,
     dataIndex: 'ctmmGenericName',
   },
   {
@@ -203,7 +203,7 @@ class DetailsRefund extends PureComponent{
           <Table  
             bordered
             dataSource={dataSource}
-            scroll={{x: 1796}}
+            scroll={{x: 1852}}
             columns={columns}
             rowKey={'drugCode'}
             pagination={false}

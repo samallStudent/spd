@@ -179,5 +179,49 @@ export default {
         callback && callback(data);
       };
     },
+    //批号追溯详情头部－基本信息
+    *batchGetDrugInfo({payload, callback}, {call}) {
+        const data = yield call(statistics.batchGetDrugInfo, payload);
+        if(typeof callback === 'function') {
+            callback && callback(data);
+        };
+    },
+    //批号追溯详情－当前库存
+    *batchGetStore({payload, callback}, {call}) {
+      const data = yield call(statistics.batchGetStore, payload);
+      if(typeof callback === 'function') {
+        callback && callback(data);
+      };
+    },
+    //批号追溯详情－采购验收记录
+    *batchGetPlanAndCheck({payload, callback}, {call}) {
+        const data = yield call(statistics.batchGetPlanAndCheck, payload);
+        if(typeof callback === 'function') {
+            callback && callback(data);
+        };
+    },
+    //批号追溯详情－院内流通记录
+    *batchMedCirculate({payload, callback}, {call}) {
+        const data = yield call(statistics.batchMedCirculate, 
+    payload);
+        if(typeof callback === 'function') {
+            callback && callback(data);
+        };
+    },
+    //批号追溯详情－发药记录
+    *batchGetDispensing({payload, callback}, {call}) {
+        const data = yield call(statistics.batchGetDispensing, payload);
+        if(typeof callback === 'function') {
+            callback && callback(data);
+        };
+    },
+    //批号追溯详情－非发药消耗
+    *batchGetMakeUp({payload, callback}, {call}) {
+        const data = yield call(statistics.batchGetMakeUp, payload);
+        if(typeof callback === 'function') {
+            callback && callback(data);
+        };
+    },
+
   } 
 }

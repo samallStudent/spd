@@ -709,10 +709,22 @@ export const getNavData = app => [
       children: []
     },
     {
-      name: '配置管理',//药房-配置管理
+      name: '工作台',//药房-工作台
       icon: 'setting',
-      path: '/pharmacy/configMgt',
-      component: dynamicWrapper(app, [], () => import('../routes/Pharmacy/configMgt'))
+      path: '/pharmacy/workbenchMenu/workbench',
+      component: dynamicWrapper(app, ['common/workbench'], () => import('../routes/Pharmacy/workbenchMenu/workbench'))
+    },
+    {
+      name: '工作台',//全院-工作台
+      icon: 'setting',
+      path: '/purchase/workbenchMenu/workbench',
+      component: dynamicWrapper(app, ['common/workbench'], () => import('../routes/Purchase/workbenchMenu/workbench'))
+    },
+    {
+      name: '工作台',//药库-工作台
+      icon: 'setting',
+      path: '/drugStorage/workbenchMenu/workbench',
+      component: dynamicWrapper(app, ['common/workbench'], () => import('../routes/DrugStorage/workbenchMenu/workbench'))
     },
     // 药房 - 盘点损益
     {
@@ -1286,7 +1298,7 @@ export const getNavData = app => [
     {
       name: "系统管理-药品目录--编辑",
       icon: 'setting',
-      path: '/sys/drugDirectory/directory/edit/:bigDrugCode/:medDrugType',
+      path: '/sys/drugDirectory/directory/edit/:hisDrugCode',
       component: dynamicWrapper(app, ['systemMgt/drugDirectory'], () => import('../routes/SystemMgt/drugDirectory/edit')),
     },
     {
@@ -1665,6 +1677,20 @@ export const getNavData = app => [
       icon: 'setting',
       path: '/purchase/statisticAnalysis/performanceInfo',
       component: dynamicWrapper(app, ['purchase/statistics'], () => import('../routes/Purchase/statisticAnalysis/performanceInfo')),
+    },
+    //查询统计 - 批号追溯
+    {
+      name: "批号追溯",
+      icon: 'setting',
+      path: '/purchase/statisticAnalysis/batch',
+      component: dynamicWrapper(app, ['purchase/statistics'], () => import('../routes/Purchase/statisticAnalysis/batch')),
+    },
+    //查询统计 - 批号追溯 - 详情
+    {
+      name: "批号追溯 - 详情",
+      icon: 'setting',
+      path: '/purchase/statisticAnalysis/batch/details/:bigDrugCode/:drugCode/:hisDrugCode/:lot',
+      component: dynamicWrapper(app, ['purchase/statistics'], () => import('../routes/Purchase/statisticAnalysis/batch/details')),
     },
     //采购结算 - 结算管理 - 结余查询
     {

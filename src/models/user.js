@@ -77,6 +77,13 @@ export default {
         // if(callback) callback();
       }
     },
+    //修改密码
+    *updatePassWordById({ payload, callback },{ put, call }){
+      const data = yield call(usersService.updatePassWordById, payload);
+      if(callback && typeof callback === 'function') {
+        callback(data);
+      };
+    },
     *setCurrentMenu({ payload },{ put }){
       yield put({ type: 'saveCurrentMenu', payload })
     },

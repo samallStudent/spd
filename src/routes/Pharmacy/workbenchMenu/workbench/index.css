@@ -1,0 +1,126 @@
+.backlog-warp {
+  display: flex;
+  justify-content: space-between;
+  margin: 10px 10px 0;
+  padding: 10px 0;
+}
+.icon-common {
+  font-size: 26px;
+  width: 26px;
+  display: flex;
+  align-items: center;
+  margin: 10px 0;
+}
+.left-icon {
+  composes: icon-common;
+}
+.left-icon:hover {
+  background: rgba(0,0,0,.3);
+  border-radius: 4px;
+}
+.right-icon:hover {
+  background: rgba(0,0,0,.3);
+  border-radius: 4px;
+}
+.right-icon {
+  composes: icon-common;
+}
+
+.item-list-warp {
+  width: 100%;
+  overflow: hidden;
+  margin: 0 12px;
+  padding-bottom: 8px;
+}
+
+.item-list {
+  position: relative;
+  top: 0;
+  left: 0;
+  transition: all .6s ease-in-out;
+}
+
+.item {
+  float: left;
+  box-sizing: border-box;
+  padding: 18px 10px;
+  background: #fafafa;
+  border-radius: 8px;
+  margin: 0px 12px;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+.item-active {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  background: #F0F2FC;
+}
+.item:hover {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  background: #F0F2FC;
+}
+.item .item-icon {
+  width: 35%;
+  border-radius: 50%;
+  text-align: center;
+}
+
+.item .item-icon img {
+  
+}
+
+.item .item-text {
+  width: 55%
+}
+
+.item .item-text p {
+  font-size: 16px;
+  color: rgba(0,0,0, .6);
+  font-weight: 600;
+  margin: 0;
+}
+
+.item .item-text span {
+  font-size: 20px;
+  color: rgba(0, 0, 0, .2);
+}
+
+.card-item-info {
+  background: #fff;
+  min-height: 112px;
+  padding: 25px 16px;
+  border-radius: 4px;
+  justify-content: space-between;
+  flex-direction: column;
+  display: flex;
+}
+
+.item-odd-status, .item-module-date {
+  display: flex;
+  justify-content: space-between;
+}
+.item-odd-status {
+  margin-bottom: 10px;
+}
+.item-odd {
+  color: rgba(0, 0, 0, 0.6);
+  font-family: Arial;
+}
+.item-odd, .item-status {
+  font-size: 18px;
+}
+.item-status {
+  color: #f39f18;
+  font-family: 平方;
+}
+.item-module, .item-date {
+  font-size: 16px;
+  color: rgba(0, 0, 0, .45);
+}
+.item-module {
+  font-family: 平方;
+}
+.item-date {
+  font-family: Arial;
+}

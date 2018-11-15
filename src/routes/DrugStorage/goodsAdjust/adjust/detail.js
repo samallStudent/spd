@@ -14,16 +14,16 @@ const columns = [
   {
     title: '通用名',
     dataIndex: 'ctmmGenericName',
-		width: 168,
+		width: 224,
+    className: 'ellipsis',
+    render: (text) => (
+      <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+    )
   },
   {
     title: '规格',
 		width: 168,
     dataIndex: 'ctmmSpecification',
-    className:'ellipsis',
-    render:(text)=>(
-      <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
-    )
   },
   {
     title: '生产厂家',
@@ -157,7 +157,7 @@ class ReplenishmentDetail extends PureComponent{
             loading={loading}
             dataSource={roomLocAdjustDetailVoList || []}
             bordered
-            scroll={{x: 2072}}
+            scroll={{x: 2200}}
             columns={columns}
             rowKey={'drugCode'}
           />

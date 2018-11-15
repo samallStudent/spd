@@ -13,13 +13,21 @@ import { connect } from 'dva';
 const columns = [
   {
     title: '通用名',
-    width: 168,
-    dataIndex: 'ctmmGenericName'
+    width: 224,
+    dataIndex: 'ctmmGenericName',
+    className: 'ellipsis',
+    render:(text)=>(
+      <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+    )
   },
   {
     title: '商品名',
-    width: 168,
-    dataIndex: 'goodsName'
+    width: 224,
+    dataIndex: 'goodsName',
+    className: 'ellipsis',
+    render:(text)=>(
+      <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+    )
   },
   {
     title: '规格',
@@ -179,7 +187,7 @@ class Detail extends PureComponent{
         <div className='detailCard'>
           <Table
             title={()=>'发票信息'}
-            scroll={{x: 1624}}
+            scroll={{x: 1800}}
             columns={columns}
             rowKey={'id'}
             bordered

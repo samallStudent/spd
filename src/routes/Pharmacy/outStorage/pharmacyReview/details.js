@@ -11,22 +11,26 @@ import querystring from 'querystring';
 const columns = [
   {
     title: '通用名',
-    width: 168,
-    dataIndex: 'ctmmGenericName'
+    width: 224,
+    dataIndex: 'ctmmGenericName',
+    className: 'ellipsis',
+    render:(text)=>(
+      <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+    )
   },
   {
     title: '商品名',
     width: 224,
     dataIndex: 'ctmmTradeName',
+    className: 'ellipsis',
+    render:(text)=>(
+      <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+    )
   },
   {
     title: '规格',
     width: 168,
     dataIndex: 'ctmmSpecification',
-    className:'ellipsis',
-    render:(text)=>(
-      <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
-    )
   },
   {
     title: '剂型',
@@ -40,7 +44,7 @@ const columns = [
   },
   {
     title: '单位',
-    width: 60,
+    width: 112,
     dataIndex: 'replanUnit'
   },
   {

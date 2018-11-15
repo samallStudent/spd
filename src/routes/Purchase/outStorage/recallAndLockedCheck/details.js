@@ -78,21 +78,25 @@ class RecallAndLockedDetail extends PureComponent {
 				{
 					title: '通用名',
 					dataIndex: 'ctmmGenericName',
-					width: 168,
+					width: 224,
+					className: 'ellipsis',
+					render:(text)=>(
+						<Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+					)
 				},
 				{
 					title: '商品名',
 					dataIndex: 'ctmmTradeName',
 					width: 224,
+					className: 'ellipsis',
+					render:(text)=>(
+						<Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+					)
 				},
 				{
 					title: '规格',
 					dataIndex: 'ctmmSpecification',
 					width: 168,
-					className: 'ellipsis',
-					render: (text) => (
-							<Tooltip placement="topLeft" title={text}>{text}</Tooltip>
-					)
 				},
 				{
 					title: '剂型',
@@ -207,7 +211,7 @@ class RecallAndLockedDetail extends PureComponent {
 									bordered
 									dataSource={dataSource}
 									title={() => '产品信息'}
-									scroll={{ x: 2016 }}
+									scroll={{ x: 2000 }}
 									columns={columns}
 									rowKey={'bigDrugCode'}
 									pagination={{

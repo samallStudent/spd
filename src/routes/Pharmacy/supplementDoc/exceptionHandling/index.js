@@ -9,6 +9,7 @@ import { Link } from 'react-router-dom';
 import { supplementDoc } from '../../../../api/pharmacy/wareHouse';
 import RemoteTable from '../../../../components/TableGrid';
 import { connect } from 'dva';
+import { difference } from 'loadsh';
 // const {Search} = Input;
 class Putaway extends PureComponent{
 
@@ -176,11 +177,17 @@ class Putaway extends PureComponent{
             scroll={{x: 789}}
             style={{marginTop: 20}}
             columns={abnormalModalColumns}
-            rowKey={'hisBackNo'}
+            rowKey={'dispensingNo'}
             rowSelection={{
               selectedRowKeys: this.state.modalSelected,
               onChange: (selectedRowKeys, selectedRows) => {
-                this.setState({ modalSelected: selectedRowKeys, modalSelectedRows: selectedRows })
+                let {modalSelected, modalSelectedRows} = this.state;
+                modalSelected = difference(selectedRowKeys, modalSelected);
+                modalSelectedRows = difference(selectedRows, modalSelectedRows);
+                if(modalSelected.length > 1) {
+                  return message.warning('一次只能处理一张异常单据!');
+                };
+                this.setState({ modalSelected, modalSelectedRows });
               }
             }}
           />

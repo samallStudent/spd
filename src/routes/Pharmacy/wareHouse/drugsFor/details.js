@@ -14,18 +14,26 @@ const columns = [
   },
   {
     title: '单位',
-    width: 60,
+    width: 112,
     dataIndex: 'replanUnit'
   },
   {
     title: '通用名称',
-    width: 168,
+    width: 224,
     dataIndex: 'ctmmGenericName',
+    className: 'ellipsis',
+    render:(text)=>(
+      <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+    )
   },
   {
     title: '商品名称',
     width: 224,
     dataIndex: 'ctmmTradeName',
+    className: 'ellipsis',
+    render:(text)=>(
+      <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+    )
   },
   {
     title: '规格',
@@ -155,7 +163,7 @@ class DetailsApplyAccept extends PureComponent{
             dataSource={dataSource}
             bordered
             pagination={false}
-            scroll={{x: 1516}}
+            scroll={{x: 1700}}
             columns={columns}
             rowKey={'drugCode'}
           />
