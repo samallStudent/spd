@@ -145,7 +145,7 @@ class AddOutput extends PureComponent{
     let {dataSource} = this.state;
     let listDetail = dataSource.map(item=>{
       return {
-        batchNo: item.batchNo,
+        lot: item.lot,
         drugCode: item.drugCode
       }
     });

@@ -192,12 +192,12 @@ class AddSupplementDocuments extends PureComponent{
         let postData = {}, List = [];
         postData.makeupType = typeValue;
         dataSource.map(item =>List.push({ 
-          // lot: item.lot,
-          batchNo: item.batchNo,
+          lot: item.lot,
+          // batchNo: item.batchNo,
           // productDate: item.productDate,
           totalQuantity: item.totalQuantity,
           // validEndDate: item.validEndDate,
-          // drugCode: item.drugCode 
+          drugCode: item.drugCode 
         }));
         postData.makeupinsertlist = List;
         postData.makeupCause = makeupCause;
