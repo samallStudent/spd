@@ -9,6 +9,7 @@ import * as outStorageService from '../services/drugStorage/outStorage';
 import * as goodsAdjust from '../services/drugStorage/goodsAdjust';
 import * as baseDrug from '../services/baseDrug/wareHouse';
 import * as settlementMgt from '../services/purchase/settlementMgt';
+import * as drugPricing from '../services/purchase/drugPricing';
 import { message } from 'antd';
 
 export default {
@@ -280,6 +281,13 @@ export default {
         return message.error(data.msg||'获取订单状态失败')
       }
       if(callback) callback(data.data)
+    },
+    //药品调价 - 新建调价 - 提交调价
+    *checkpriceDetaiConfrim({payload, callback}, {call}) {
+      const data = yield call(drugPricing.checkpriceDetaiConfrim, payload);
+      if(callback && typeof callback === 'function') {
+        callback(data);
+      };
     },
     //公用---产品搜索下拉框
     *SearchProductSelect({ payload,callback },{ call }){

@@ -45,3 +45,9 @@ export const statisticAnalysis = {
   OPERATIONLOG_LIST: `${_local}/a/operationlog/list`,     //绩效信息表
   BATCH_LIST: `${_local}/a/common/trace/tracePageList`,         //批号追溯列表
 }
+//药品调价
+export const drugPricing = {
+  CHECK_PRICE: `${_local}/a/checkprice/list`,     //确认调价列表
+  SELECT_DRUG_CODE: `${_local}/a/checkpricedetail/selectDrugCode`,    //添加产品
+  CHECK_PRICE_DETAIL: `${_local}/a/checkpricedetail/getList`,     //详情列表
+}

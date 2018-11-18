@@ -1421,7 +1421,19 @@ export const getNavData = app => [
       component: dynamicWrapper(app, ['ysy/dict'], () => import('../routes/SystemMgt/setting/itemsData')),
     },
      /* ********************   采购结算 子系统    ******************************* */
-     {
+    {
+      name: "全院管理-药品调价--调价确认",
+      icon: 'setting',
+      path: '/purchase/drugPricing/pricingConfirmation',
+      component: dynamicWrapper(app, [], () => import('../routes/Purchase/drugPricing/pricingConfirmation')),
+    },
+    {
+      name: "全院管理-药品调价--调价确认",
+      icon: 'setting',
+      path: '/purchase/drugPricing/pricingConfirmation/details/:id',
+      component: dynamicWrapper(app, ['purchase/drugPricing'], () => import('../routes/Purchase/drugPricing/pricingConfirmation/details')),
+    },
+    {
       name: "采购结算-补货管理--补货计划",
       icon: 'setting',
       path: '/purchase/replenishment/replenishmentPlan',

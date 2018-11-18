@@ -29,6 +29,7 @@ import AddInSupplementDoc from './routes/Pharmacy/supplementDoc/supplementDocume
 import BaseAddDrugsApply from './routes/BaseDrug/wareHouse/drugApply/add';
 import BaseAddNewAcceptance from './routes/BaseDrug/wareHouse/acceptance/add';
 import NewRecon from './routes/Purchase/settlementMgt/dayStatements/newRecon';
+import PriceAdjustment from './routes/Purchase/drugPricing/pricingConfirmation/add';
 import { getNavData } from './common/nav';
 import { getPlainNode } from './utils/utils';
 
@@ -114,6 +115,7 @@ function RouterConfig({ history, app }) {
           <Route path="/newRecon" component={NewRecon}/>
           <Route path="/createSinceReplenishment" component={SinceReplenishment}/>
           <Route path="/createSinceOutCatalog" component={SinceOutCatalog}/>
+          <Route path="/addPriceAdjustment" component={PriceAdjustment}/>          
           {/* <Route path="/home" component={Home}/> */}
           {/* <Route path="/app" render={props => <WorkplaceLayout {...props} {...passProps} />} /> */}
           <Route path="/" exact render={()=> (

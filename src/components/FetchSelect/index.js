@@ -128,7 +128,7 @@ class FetchSelect extends React.Component {
         showSearch
         defaultValue={this.props.defaultValue}
         onSearch={this.handleChange}
-        value={this.props.value || this.state.value}
+        value={this.props.value}
         onChange={this.props.onChange || this.getValues}
         notFoundContent={fetching ? <Spin size="small" /> : "暂无搜索结果"}
         style={this.props.style}
