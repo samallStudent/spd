@@ -16,7 +16,7 @@ const columns = [
         dataIndex: 'validEndDate'
     },{
         title: '货位',
-        dataIndex: 'hw'
+        dataIndex: 'storeLocName'
     },{
         title: '货位类型',
         dataIndex: 'storeType'
@@ -25,7 +25,7 @@ const columns = [
         dataIndex: 'unit'
     },{
         title: '数量',
-        dataIndex: 'sl'
+        dataIndex: 'totalQuantity'
     },{
         title: '供应商',
         dataIndex: 'supplierName'
@@ -138,9 +138,9 @@ class Details extends PureComponent{
              <div className='detailCard'>
                     <h3 style={{marginBottom: 16}}>库存信息</h3>
                     <RemoteTable
-                        rowKey="batchNo"
+                        rowKey="id"
                         query={query}
-                        url={salvageCar.GET_SALVGECAR_DETAILS_LIST}
+                        url={salvageCar.GET_RESCUECAR_MEDICEINE_DETAIL_LIST}
                         columns={columns}
                     />
                 </div>

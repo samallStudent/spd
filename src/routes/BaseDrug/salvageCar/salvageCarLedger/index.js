@@ -14,8 +14,8 @@ import { formItemLayout } from '../../../../utils/commonStyles';
 import RemoteTable from '../../../../components/TableGrid/index'; 
 import salvageCar from '../../../../api/baseDrug/salvageCar';
 import {connect} from 'dva';
-import moment from 'moment';
-const dateFormat = 'YYYY-MM-DD';
+// import moment from 'moment';
+// const dateFormat = 'YYYY-MM-DD';
 const { RangePicker } = DatePicker;
 const FormItem = Form.Item;
 const { Option } = Select;
@@ -46,7 +46,9 @@ class formSearch extends PureComponent{
     }
     handleReset = (e) =>{
         this.props.form.resetFields();
-        this.props.query({});
+        this.props.formProps.dispatch({
+             type:'base/clearQueryConditions'
+        });
     }
      onTimeChange = (value, dateString) => {
         console.log('Selected Time: ', value);

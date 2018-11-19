@@ -8,36 +8,111 @@
  * @file 基数药--抢救车--抢救车库存
  */
 import React, { PureComponent } from 'react';
-import { Form, Row, Col, Input, Select, Button,Icon} from 'antd';
+import { Form, Row, Col, Select, Button, Icon} from 'antd';
 import { Link } from 'react-router-dom'
 import { formItemLayout } from '../../../../utils/commonStyles';
 import RemoteTable from '../../../../components/TableGrid/index'; 
 import salvageCar from '../../../../api/baseDrug/salvageCar';
+import FetchSelect from '../../../../components/FetchSelect';
 import {connect} from 'dva';
 
 const FormItem = Form.Item;
 const { Option } = Select;
+const IndexColumns = [
+    {
+      title: '通用名',
+      dataIndex: 'ctmmGenericName',
+      width: 160,
+      render: (text, record) => {
+        return (
+          <span>
+            <Link to={{pathname: `/baseDrug/salvageCar/salvageCarStock/details/dCode=${record.drugCode}&bCode=${record.bigDrugCode}`}}>{text}</Link>
+          </span>  
+        )
+      }
+    },{
+      title: '商品名',
+      dataIndex: 'ctmmTradeName',
+      width: 160
+    },{
+      title: '抢救车货位',
+      dataIndex: 'rescuecarDeptCodeName',
+      width: 112,
+    },{
+      title: '规格',
+      dataIndex: 'ctmmSpecification',
+      width: 112,
+    },{
+      title: '生产厂家',
+      dataIndex: 'ctmmManufacturerName',
+      width: 112,
+    },{
+      title: '包装规格',
+      dataIndex: 'packageSpecification',
+      width: 112,
+    },{
+      title: '单位',
+      dataIndex: 'replanUnit',
+      width: 112,
+    },{
+      title: '库存数量',
+      dataIndex: 'totalStoreNum',
+      width: 112,
+    },{
+      title: '可用库存',
+      dataIndex: 'usableQuantity',
+      width: 112,
+    },{
+      title: '剂型',
+      dataIndex: 'ctmmDosageFormDesc',
+      width: 112,
+    },{
+      title: '批准文号',
+      dataIndex: 'approvalNo',
+      width: 112,
+    }
+  ];
+  
 
 
 class formSearch extends PureComponent{
+    componentDidMount = () => {
+      
+        let { queryConditons } = this.props.formProps.base;
+        console.log(queryConditons)
+        //找出表单的name 然后set
+        let values = this.props.form.getFieldsValue();
+        values = Object.getOwnPropertyNames(values);
+        let value = {};
+        values.map(keyItem => {
+          value[keyItem] = queryConditons[keyItem];
+          return keyItem;
+        });
+        this.props.form.setFieldsValue(value);
+    }
     handlSearch = (e) =>{
         e.preventDefault();
         this.props.form.validateFields((err,values)=>{
             console.log(values);
             if(!err){
-                this.props.query(values);
+                this.props.formProps.dispatch({
+                    type:'base/updateConditions',
+                    payload: values
+                });
             }
         })
     }
     handleReset = (e) =>{
         this.props.form.resetFields();
-        this.props.query({});
+        this.props.formProps.dispatch({
+            type:'base/clearQueryConditions'
+       });
     }
-    render(props){
+    render(){
         const { getFieldDecorator } = this.props.form;
 
         return(
-            <Form className="ant-advanced-search-form" onSubmit={this.handlSearch}>
+            <Form className="ant-advanced-search-form" onSubmit={(e) => this.handlSearch(e)}>
                 <Row gutter={30}>
                     <Col span={8}>
                         <FormItem {...formItemLayout} label={`抢救出货位：`}>
@@ -54,7 +129,7 @@ class formSearch extends PureComponent{
                                 >
                                      <Option value=''>请选择...</Option> 
                                     { 
-                                        this.props.typeListData.map((item,index)=>
+                                        this.props.formProps.typeListData.map((item,index)=>
                                             <Option value={item.id} key={index}>{item.name}</Option>
                                         )
                                     }
@@ -69,9 +144,14 @@ class formSearch extends PureComponent{
                             getFieldDecorator(`keys`,{
                                 initialValue: ''
                            })(
-                               <Input 
-                                  placeholder="通用名/商品名/规格/厂家"
-                               />
+                             
+
+                               <FetchSelect
+                                    allowClear={true}
+                                    placeholder='通用名/商品名'
+                                    query={{queryType: 3}}
+                                    url={salvageCar.QUERY_DRUGBY_LIST}
+                                />
                            )
                         }
                         </FormItem>
@@ -113,87 +193,36 @@ class salvageStockList extends PureComponent{
         this.setState({ query });
         this.refs.salvageCarTable.fetch(query);
     }
+    _tableChange = values => {
+        this.props.dispatch({
+          type:'base/setQueryConditions',
+          payload: values
+        });
+      }
     render(){
-        // const mocData = [
-        //     {
-        //         id: '1',
-        //         tym:'注射用复方甘草酸苷',
-        //         spm:'注射用复方甘草酸苷',
-        //         qjchw:'',
-        //         gg:'甘草酸苷80mg',
-        //         sccj:'湖北药业公司',
-        //         bzgg:'0.25gX12片',
-        //         dw:'瓶',
-        //         kcsl:'1655',
-        //         kykc:'1500',
-        //         jx:'注射剂(冻干粉针剂)',
-        //         pzwh:'86900234000039',
-        //     }
-        // ]
-        const IndexColumns = [
-            {
-              title: '通用名',
-              dataIndex: 'tym',
-              width: 160,
-              render: (text, record) => {
-                return (
-                  <span>
-                    <Link to={{pathname: `/baseDrug/salvageCar/salvageCarStock/details/dCode=${record.drugCode}&bCode=${record.bigDrugCode}`}}>{text}</Link>
-                  </span>  
-                )
-              }
-            },{
-              title: '商品名',
-              dataIndex: 'spm',
-              width: 160
-            },{
-              title: '抢救车货位',
-              dataIndex: 'qjchw',
-              width: 112,
-            },{
-              title: '规格',
-              dataIndex: 'gg',
-              width: 112,
-            },{
-              title: '生产厂家',
-              dataIndex: 'sccj',
-              width: 112,
-            },{
-              title: '包装规格',
-              dataIndex: 'bzgg',
-              width: 112,
-            },{
-              title: '单位',
-              dataIndex: 'dw',
-              width: 112,
-            },{
-              title: '库存数量',
-              dataIndex: 'kcsl',
-              width: 112,
-            },{
-              title: '可用库存',
-              dataIndex: 'kykc',
-              width: 112,
-            },{
-              title: '剂型',
-              dataIndex: 'jx',
-              width: 112,
-            },{
-              title: '批准文号',
-              dataIndex: 'pzwh',
-              width: 112,
-            }
-          ];
-          
+
+        let query = this.props.base.queryConditons;
+        query = {...query};
+        delete query.key;
+        delete query.backTime;
+
+
+        
       return(
           <div>
-              <WrappSearchForm query={this.queryHandle}  typeListData={this.state.typeListData}/>
+              <WrappSearchForm 
+                //query={this.queryHandle}  
+                //typeListData={this.state.typeListData}
+                formProps={{...this.props,query:query,typeListData:this.state.typeListData}} 
+              />
               <RemoteTable
-               query={this.state.query}
+               onChange={this._tableChange}
+               isJson
+               query={query}
                ref="salvageCarTable"
                columns={IndexColumns}
                scroll={{x: '100%'}}
-               rowKey={'id'}
+               rowKey={'batchNo'}
                style={{marginTop: 20}}
                url={salvageCar.GET_SALVGECAR_LIST}
                loading={false}
