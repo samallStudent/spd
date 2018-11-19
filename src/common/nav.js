@@ -1776,7 +1776,7 @@ export const getNavData = app => [
     {
       name: "抢救车台账",
       icon: "setting",
-      path: '/baseDrug/salvageCar/salvageCarStock/ledger',
+      path: '/baseDrug/salvageCar/salvageCarLedger',
       component: dynamicWrapper(app, ['baseDrug/salvageCar'], () => import('../routes/BaseDrug/salvageCar/salvageCarLedger')),
     },
   ]
