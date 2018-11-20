@@ -1765,19 +1765,19 @@ export const getNavData = app => [
       name: "抢救车库存",
       icon: "setting",
       path: '/baseDrug/salvageCar/salvageCarStock',
-      component: dynamicWrapper(app, [], () => import('../routes/BaseDrug/salvageCar/salvageCarStock')),
+      component: dynamicWrapper(app, ['baseDrug/salvageCar'], () => import('../routes/BaseDrug/salvageCar/salvageCarStock')),
     },
     {
       name: "抢救车库存-详情",
       icon: "setting",
       path: '/baseDrug/salvageCar/salvageCarStock/details/:id',
-      component: dynamicWrapper(app, [], () => import('../routes/BaseDrug/salvageCar/salvageCarStock/details')),
+      component: dynamicWrapper(app, ['baseDrug/salvageCar'], () => import('../routes/BaseDrug/salvageCar/salvageCarStock/details')),
     },
     {
       name: "抢救车台账",
       icon: "setting",
       path: '/baseDrug/salvageCar/salvageCarLedger',
-      component: dynamicWrapper(app, [], () => import('../routes/BaseDrug/salvageCar/salvageCarLedger')),
+      component: dynamicWrapper(app, ['baseDrug/salvageCar'], () => import('../routes/BaseDrug/salvageCar/salvageCarLedger')),
     },
   ]
 }]

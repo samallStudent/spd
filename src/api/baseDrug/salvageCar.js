@@ -9,9 +9,6 @@ export default {
     /*通用名商品名模糊查询*/
     QUERY_DRUGBY_LIST: `${_local}/a/common/queryDrugByList`,
 
-    /*货位下拉框*/
-    FIND_DEPTLIST:`${_local}/ a/rescuecardetail/findDeptlist`, 
-
     /* 库存详情查询头部*/
     GET_RESCUECAR_MEDICEINE_DETAIL:`${_local}/a/rescuecardetail/getRescuecarMedicineDetail`,   
 

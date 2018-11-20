@@ -52,19 +52,18 @@ class Details extends PureComponent{
         })
     }
     componentDidMount(){
-        //获取抢救车详情，暂无接口，后期添加
-        let info = {
-            approvalNo: "",
-            dosageDesc: null,
-            genericName: "替莫唑胺胶囊(50mg*5粒/盒)",
-            manufactureName: "江苏天士力帝益药业有限公司",
-            packageSpecification: null,
-            specification: "50mg*5粒/盒",
-            tradeName: "替莫唑胺胶囊(50mg*5粒/盒)"
+        console.log(this.props);
+        if (this.props.match.params.backNo) {
+            let { backNo } = this.props.match.params;
+            this.setState({ spinning: true });
+            this.props.dispatch({
+                type:'base/getBackStorageDetail',
+                payload: { backNo },
+                callback:(data)=>{
+                    this.setState({ detailsData: data,dataSource: data.list, spinning: false });
+                }
+            });
         }
-        this.setState({
-            info
-        })
     }
     render(){
         let {query, info} = this.state;
@@ -138,7 +137,7 @@ class Details extends PureComponent{
              <div className='detailCard'>
                     <h3 style={{marginBottom: 16}}>库存信息</h3>
                     <RemoteTable
-                        rowKey="id"
+                        rowKey="batchNo"
                         query={query}
                         url={salvageCar.GET_RESCUECAR_MEDICEINE_DETAIL_LIST}
                         columns={columns}

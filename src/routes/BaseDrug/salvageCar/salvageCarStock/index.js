@@ -211,8 +211,6 @@ class salvageStockList extends PureComponent{
       return(
           <div>
               <WrappSearchForm 
-                //query={this.queryHandle}  
-                //typeListData={this.state.typeListData}
                 formProps={{...this.props,query:query,typeListData:this.state.typeListData}} 
               />
               <RemoteTable
