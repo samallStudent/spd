@@ -10,11 +10,11 @@ import {difference} from 'lodash';
 const supplyFormItemLayout = {
   labelCol: {
     xs: { span: 24 },
-    sm: { span: 4 },
+    sm: { span: 5 },
   },
   wrapperCol: {
     xs: { span: 24 },
-    sm: { span: 20 }
+    sm: { span: 19 }
   },
 }
 const formItemLayout ={
@@ -453,7 +453,7 @@ class EditDrugDirectory extends PureComponent{
                 }
               </FormItem>
             </Col>
-            <Col span={8}>
+            <Col offset={2} span={6}>
               <FormItem {...supplyFormItemLayout} style={{display: 'inline-block',marginRight:8}}>
                 {
                   getFieldDecorator(`supplier[${index}].whetherDefault`,{

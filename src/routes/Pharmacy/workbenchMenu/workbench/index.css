@@ -1,8 +1,6 @@
 .backlog-warp {
   display: flex;
   justify-content: space-between;
-  margin: 10px 10px 0;
-  padding: 10px 0;
 }
 .icon-common {
   font-size: 26px;
@@ -10,16 +8,17 @@
   display: flex;
   align-items: center;
   margin: 10px 0;
+  color: #bfbfbf;
 }
 .left-icon {
   composes: icon-common;
 }
 .left-icon:hover {
-  background: rgba(0,0,0,.3);
+  background: #f5f5f5;
   border-radius: 4px;
 }
 .right-icon:hover {
-  background: rgba(0,0,0,.3);
+  background: #f5f5f5;  
   border-radius: 4px;
 }
 .right-icon {
@@ -29,8 +28,6 @@
 .item-list-warp {
   width: 100%;
   overflow: hidden;
-  margin: 0 12px;
-  padding-bottom: 8px;
 }
 
 .item-list {
@@ -43,7 +40,7 @@
 .item {
   float: left;
   box-sizing: border-box;
-  padding: 18px 10px;
+  padding: 20px 10px;
   background: #fafafa;
   border-radius: 8px;
   margin: 0px 12px;
@@ -53,12 +50,17 @@
   align-items: center;
 }
 .item-active {
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-  background: #F0F2FC;
+  box-shadow: 0 2px 8px #fde3bd;
+  border: 1px solid #f2a11c;
+  color: #f2a11c;
+}
+.item-active span {
+  color: #f2a11c !important;
 }
 .item:hover {
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-  background: #F0F2FC;
+  /* box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15); */
+  /* background: #fffbeb; */
+  border: 1px solid #f2a11c;
 }
 .item .item-icon {
   width: 35%;
@@ -76,7 +78,6 @@
 
 .item .item-text p {
   font-size: 16px;
-  color: rgba(0,0,0, .6);
   font-weight: 600;
   margin: 0;
 }
@@ -88,8 +89,7 @@
 
 .card-item-info {
   background: #fff;
-  min-height: 112px;
-  padding: 25px 16px;
+  padding: 24px 20px;
   border-radius: 4px;
   justify-content: space-between;
   flex-direction: column;
@@ -115,7 +115,7 @@
   font-family: 平方;
 }
 .item-module, .item-date {
-  font-size: 16px;
+  font-size: 14px;
   color: rgba(0, 0, 0, .45);
 }
 .item-module {

@@ -12,6 +12,15 @@ export function getRescuecarMedicineDetail(options) {
  //抢救车库存-货位-下拉框
  export function findDeptlist(options) {
   return request(`${_local}/a/rescuecardetail/findDeptlist`, {
+    method: 'GET',
+    type: 'formData',
+    body: options 
+  })
+}
+
+//抢救车新建退库详情
+export function rescuecarBackInfo(options) {
+  return request(`${_local}/a/rescueCar/rescuecarBack/rescuecarBackInfo`, {
     method: 'POST',
     type: 'formData',
     body: options 

@@ -43,6 +43,7 @@ class Workplace extends Component {
     let itemWidth,
         itemListWarpWidth = this.itemList.offsetWidth;
     itemWidth = (itemListWarpWidth - 24*itemQuantity) / itemQuantity;
+    itemWidth = itemWidth - itemWidth/20;
     this.setState({
       itemWidth,
       itemQuantity
@@ -150,10 +151,9 @@ class Workplace extends Component {
     const {left, leftVisibility, rightVisibility, itemWidth, matterList, backlogLoading, initHeight, activeIndex, billsList, billsLoading} = this.state;
     const itemsWidth = matterList.length ? (itemWidth + 24) * matterList.length : '100%';
     return (
-      <div style={{background: '#fff', margin: -24, paddingTop: 12}}>
+      <div style={{background: '#fff', margin: '-31px -32px', paddingTop: 12}}>
         <div>
-          <h1 style={{fontSize: 28, margin: '0 0 0 24px'}}>您好，今日的代办事项</h1>
-          <hr className="hr"/>
+          <h1 style={{fontSize: 26, margin: '20px 0px 40px 24px'}}>您好，今日的待办事项</h1>
           <div className={S['backlog-warp']}>
             <div style={{visibility: leftVisibility}} onClick={this.leftScroll} className={S['left-icon']}>
               <Icon type="left" />
@@ -194,23 +194,22 @@ class Workplace extends Component {
             </div>
           </div>
         </div>
-        <Row style={{background: '#fff', padding: '0 20px'}}>
-          <Col span={8} style={{lineHeight: '36px'}}>
-            <span
-              style={{
-                fontSize: 16,
-                fontWeight: 'bold',
-                borderBottom: '8px solid #f2a11c'
-              }}
-            >最新单据</span>
-          </Col>
+        <Row style={{padding: '0 24px', margin: '24px 0 16px'}}>
+          <span
+            style={{
+              fontSize: 16,
+              fontWeight: 'bold',
+              paddingBottom: 15,
+              borderBottom: '2px solid #f2a11c',
+            }}
+          >最新单据</span>
         </Row>
         <Spin spinning={billsLoading}>
           <Row 
             gutter={10}
             style={{
               background: '#f0f2f5',
-              padding: '24px 12px',
+              padding: '20px 20px 0',
               minHeight: `${matterList.length ? 'calc(100vh - 380px)' : 'calc(100vh - 325px)'}`
             }}
           >
@@ -220,7 +219,7 @@ class Workplace extends Component {
                 <Col
                   key={item.categoryCode}
                   style={{
-                    marginBottom: 20,
+                    marginBottom: 16,
                   }}
                   xl={6}
                   lg={8}

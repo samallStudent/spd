@@ -14,4 +14,7 @@ export default {
 
     /* 库存详情查询列表*/
     GET_RESCUECAR_MEDICEINE_DETAIL_LIST:`${_local}/a/rescuecardetail/getRescuecarMedicineDetailList`,   
+
+    /* 抢救车新建退库列表 */
+    GET_RESCUECAR_BACK_LIST: `${_local}/a/rescueCar/rescuecarBack/rescuecarBackList`,
   }

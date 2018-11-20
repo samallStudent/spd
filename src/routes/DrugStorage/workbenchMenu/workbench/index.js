@@ -83,19 +83,19 @@ class Workplace extends Component {
       },
       callback: ({data, code, msg}) => {
         if(code === 200) {
-          // data = data.map(item => {
-          //   item.createTime = item.createTime.split(' ');
-          //   let data = item.createTime[0];
-          //   let time = item.createTime[1];
-          //   data = data.split('-');
-          //   data.shift();
-          //   time = time.split(':');
-          //   time.pop();
-          //   data = data.join('-');
-          //   time = time.join(':');
-          //   item.createTime = `${data} ${time}`;
-          //   return item;
-          // });
+          data = data.map(item => {
+            item.createTime = item.createTime.split(' ');
+            let data = item.createTime[0];
+            let time = item.createTime[1];
+            data = data.split('-');
+            data.shift();
+            time = time.split(':');
+            time.pop();
+            data = data.join('-');
+            time = time.join(':');
+            item.createTime = `${data} ${time}`;
+            return item;
+          });
           this.setState({
             billsList: data,
             billsLoading: false
@@ -153,7 +153,7 @@ class Workplace extends Component {
     return (
       <div style={{background: '#fff', margin: '-31px -32px', paddingTop: 12}}>
         <div>
-          <h1 style={{fontSize: 26, margin: '20px 0px 40px 24px'}}>您好，今日的代办事项</h1>
+          <h1 style={{fontSize: 26, margin: '20px 0px 40px 24px'}}>您好，今日的待办事项</h1>
           <div className={S['backlog-warp']}>
             <div style={{visibility: leftVisibility}} onClick={this.leftScroll} className={S['left-icon']}>
               <Icon type="left" />

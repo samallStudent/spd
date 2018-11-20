@@ -4,17 +4,17 @@
 * @Last Modified time: 2018-07-24 10:58:49 
  */
 import React, { PureComponent } from 'react';
-import { Form , Row , Button , Col , Select , InputNumber , Input, Modal , Icon , Collapse , Radio , message, Table} from 'antd';
+import { Form , Row , Button , Col , Select , InputNumber , Input, Modal , Collapse , Radio , message, Table} from 'antd';
 import { connect } from 'dva';
 import {difference} from 'lodash';
 const supplyFormItemLayout = {
   labelCol: {
     xs: { span: 24 },
-    sm: { span: 8 },
+    sm: { span: 5 },
   },
   wrapperCol: {
     xs: { span: 24 },
-    sm: { span: 16 }
+    sm: { span: 19 }
   },
 }
 const formItemLayout ={
@@ -421,7 +421,7 @@ class EditDrugDirectory extends PureComponent{
       return (
         <Col span={12} key={index}>
           <Row>
-            <Col span={8}>
+            <Col span={16}>
               <FormItem {...supplyFormItemLayout} label={`供应商`}  key={k}>
                 {
                   medDrugType===1?
@@ -433,7 +433,6 @@ class EditDrugDirectory extends PureComponent{
                       required:true,message:"必填！"
                     }]
                   })(
-                    
                     <Select style={{width: '100%'}}>
                       {
                         supplierSelect && supplierSelect.length?supplierSelect.map((item)=>(
@@ -445,7 +444,7 @@ class EditDrugDirectory extends PureComponent{
                 }
               </FormItem>
             </Col>
-            <Col span={6}>
+            <Col offset={2} span={6}>
               <FormItem {...supplyFormItemLayout} style={{display: 'inline-block',marginRight:8}}>
                 {
                   getFieldDecorator(`supplier[${index}].whetherDefault`,{
@@ -458,7 +457,7 @@ class EditDrugDirectory extends PureComponent{
                 }
               </FormItem>
             </Col>
-            <Col span={2} style={{lineHeight: '40px'}}>
+            {/* <Col span={2} style={{lineHeight: '40px'}}>
               {supplierList.length > 1 && medDrugType===2 ? (
                   <Icon
                     style={{marginRight:8}}
@@ -474,7 +473,7 @@ class EditDrugDirectory extends PureComponent{
                     onClick={() => this.addSupply(k)}
                   />
               ) : null}
-            </Col>
+            </Col> */}
           </Row>
         </Col>
       )

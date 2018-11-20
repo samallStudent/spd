@@ -192,11 +192,11 @@ class RemarksForm extends PureComponent{
             <FormItem label={`${showText}原因`} {...formRemarkLayout}>
               {getFieldDecorator('recallReasonType', {
                 rules: [{
-                  required: true, message: `请选择${showText}召回原因`,
+                  required: true, message: `请选择${showText}原因`,
                 }]
               })(
                 <Select
-                  placeholder={`请选择${showText}召回原因`}
+                  placeholder={`请选择${showText}原因`}
                   onChange={(value) => {
                     this.setState({
                       remarks: value

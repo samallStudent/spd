@@ -1779,6 +1779,18 @@ export const getNavData = app => [
       path: '/baseDrug/salvageCar/salvageCarLedger',
       component: dynamicWrapper(app, ['baseDrug/salvageCar'], () => import('../routes/BaseDrug/salvageCar/salvageCarLedger')),
     },
+    {
+      name: "新建退库",
+      icon: "setting",
+      path: '/baseDrug/salvageCar/refund',
+      component: dynamicWrapper(app, ['baseDrug/salvageCar'], () => import('../routes/BaseDrug/salvageCar/refund')),
+    },
+    {
+      name: "新建退库",
+      icon: "setting",
+      path: '/baseDrug/salvageCar/refund/details/:id',
+      component: dynamicWrapper(app, ['baseDrug/salvageCar'], () => import('../routes/BaseDrug/salvageCar/refund/details')),
+    },
   ]
 }]
 

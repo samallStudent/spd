@@ -4,14 +4,17 @@
 * @Last Modified time: 2018-07-24 13:13:55 
  */
 import React, { PureComponent } from 'react';
-import { Table ,Row, Col, Modal, Tooltip, Spin, message } from 'antd';
+import { Table ,Row, Col, Tooltip, Spin, message } from 'antd';
 import { connect } from 'dva';
-const Conform = Modal.confirm;
 const columns = [
   {
     title: '通用名称',
     width: 224,
     dataIndex: 'ctmmGenericName',
+    className:'ellipsis',
+    render:(text)=>(
+      <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+    )
   },
   {
     title: '规格',
@@ -34,7 +37,7 @@ const columns = [
   },
   {
     title: '单位',
-    width: 60,
+    width: 112,
     dataIndex: 'replanUnit',
   },
   {
@@ -86,43 +89,28 @@ class DetailsRefund extends PureComponent{
     }
   }
   componentDidMount = () =>{
-    if (this.props.match.params.backNo) {
-      let { backNo } = this.props.match.params;
+    if (this.props.match.params.id) {
+      let { id } = this.props.match.params;
       this.setState({ spinning: true });
         this.props.dispatch({
-          type:'base/getBackStorageDetail',
-          payload: { backNo },
-          callback:(data)=>{
-            this.setState({ detailsData: data,dataSource: data.list, spinning: false });
+          type:'salvageCar/rescuecarBackInfo',
+          payload: { backNo: id },
+          callback:({data, code, msg})=>{
+            if(code === 200) {
+              this.setState({ 
+                detailsData: data,
+                dataSource: data.list, 
+                spinning: false 
+              });
+            }else {
+              message.error(msg);
+              this.setState({
+                spinning: false 
+              });
+            };
           }
         });
       }
-  }
-  // 确认退货
-  backStroage = () =>{
-    Conform({
-      content:"是否确认退货？",
-      onOk:()=>{
-        this.setState({ loading: true });
-        const { dispatch, history } = this.props;
-        const {  dataSource, detailsData } = this.state;
-        let postData = {}, backDrugList = [];
-        dataSource.map(item => backDrugList.push({ backNum: item.backNum, drugCode: item.drugCode }));
-        postData.backDrugList = backDrugList;
-        postData.backcause = detailsData.backCause;
-        console.log(postData,'postData')
-        dispatch({
-          type: 'base/submitBackStorage',
-          payload: { ...postData },
-          callback: () => {
-            message.success('退货成功');
-            this.setState({ loading: false });
-            history.push({pathname:"/drugStorage/outStorage/backStorage"})
-          }
-        })
-      },
-      onCancel:()=>{}
-    })
   }
 
   render(){
@@ -145,22 +133,12 @@ class DetailsRefund extends PureComponent{
               </Col>
               <Col span={8}>
                   <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
-                      <label>状态</label>
-                  </div>
-                  <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18">
-                    <div className='ant-form-item-control'>{ detailsData.backStatusName }</div>
-                  </div>
-              </Col>
-              <Col span={8}>
-                  <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
-                      <label>受理部门</label>
+                      <label>退库货位</label>
                   </div>
                   <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18">
                     <div className='ant-form-item-control'>{ detailsData.backDpetName }</div>
                   </div>
               </Col>
-            </Row>
-            <Row>
               <Col span={8}>
                   <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
                       <label>退库人</label>
@@ -169,45 +147,27 @@ class DetailsRefund extends PureComponent{
                     <div className='ant-form-item-control'>{ detailsData.createUserName }</div>
                   </div>
               </Col>
+            </Row>
+            <Row>
               <Col span={8}>
                   <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
                       <label>退库时间</label>
                   </div>
                   <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18">
-                    <div className='ant-form-item-control'>{ detailsData.createDate }
-                    </div>
-                  </div>
-              </Col>
-              <Col span={8}>
-                  <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
-                      <label>复核人</label>
-                  </div>
-                  <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18">
-                    <div className='ant-form-item-control'>{ detailsData.reviewUserName }</div>
+                    <div className='ant-form-item-control'>{ detailsData.createDate }</div>
                   </div>
               </Col>
             </Row>
-            <Row>
-              <Col span={8}>
-                  <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
-                      <label>复核时间</label>
-                  </div>
-                  <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18">
-                    <div className='ant-form-item-control'>{ detailsData.reviewDate }</div>
-                  </div>
-              </Col>
-            </Row>
-          
-          <hr className='hr'/>
-          <h3>产品信息</h3>
-          <Table  
-            bordered
-            dataSource={dataSource}
-            scroll={{x: 1904}}
-            columns={columns}
-            rowKey={'drugCode'}
-            pagination={false}
-          />
+            <hr className='hr'/>
+            <h3>产品信息</h3>
+            <Table  
+              bordered
+              dataSource={dataSource}
+              scroll={{x: 1904}}
+              columns={columns}
+              rowKey={'drugCode'}
+              pagination={false}
+            />
           </div>
         </Spin>
       </div>
