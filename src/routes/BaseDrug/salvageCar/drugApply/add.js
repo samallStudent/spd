@@ -5,71 +5,37 @@
  * @Last Modified time: 2018-08-31 00:06:02
  */
 /**
- * @file 药房 - 申领 - 新建
+ * @file 基数药 - 申领 - 新建
  */
 import React, { PureComponent } from 'react';
-import { Row, Spin, Col, Button, Table, Modal, Icon, Tooltip, message, Select, InputNumber } from 'antd';
+import { Row, Col, Button, Table, Modal, Icon, Tooltip, message } from 'antd';
 import {wareHouse} from '../../../../api/pharmacy/wareHouse';
 import RemoteTable from '../../../../components/TableGrid';
 import FetchSelect from '../../../../components/FetchSelect/index';
 import _ from 'lodash';
 import {connect} from 'dva';
 
-const { Option } = Select;
-
 class NewAdd extends PureComponent {
   state = {
     modalLoading: false,
-    spinLoading: true,
-    isShow: false,
     visible: false,
     loading: false,
-    deptModules: [],// 补货部门
     query: {
-      deptCode: undefined,
       existDrugCodeList: [],
       hisDrugCodeList: []
     },
-    fetching: false,
     selected: [],
     selectedRows: [],
     modalSelected: [],
     modalSelectedRows: [],
-    info: {},
     dataSource: [],
     btnLoading: false,
     saveLoading: false,
     applyType: '1',        //补货方式
-    fetchValue: undefined,
-    addDrugType: 1
-  }
-  componentDidMount = () =>{
-    this.getReplenishList('1');
-  };
-  getReplenishList = (type) => {
-    const { dispatch } = this.props;
-    let {query} = this.state;
-    this.setState({
-      query: {
-        ...query,
-        deptCode: undefined
-      },
-      fetching: true,
-      deptModules: []
-    })
-    dispatch({
-      type: 'base/selectApplyDept',
-      payload: { applyType : type },
-      callback: (data) =>{
-        this.setState({ 
-          fetching: true,
-          deptModules: data
-        })
-      }
-    });
+    value: undefined
   }
   handleOk = () => {
-    let {modalSelectedRows, query, addDrugType} = this.state;
+    let {modalSelectedRows, query} = this.state;
     if(modalSelectedRows.length === 0) {
       message.warning('至少选择一条信息');
       return;
@@ -77,15 +43,14 @@ class NewAdd extends PureComponent {
     this.setState({btnLoading: true});
     modalSelectedRows = modalSelectedRows.map(item=>item.drugCode);
     this.props.dispatch({
-      type: 'base/applyAddDrug',
+      type: 'base/baseapplyAddDrug',
       payload: {
         deptCode: query.deptCode,
-        drugCodeList: modalSelectedRows,
-        addDrugType
+        drugCodeList: modalSelectedRows
       },
       callback: (data) => {
         this.setState({
-          dataSource: [...this.state.dataSource, ...data],
+          dataSource: data,
           btnLoading: false,
           visible: false,
           modalSelected: []
@@ -93,35 +58,16 @@ class NewAdd extends PureComponent {
       }
     })
   }
-  showModal = () => { //普通添加
+  showModal = () => {
     let {query, dataSource} = this.state;
-    if(!query.deptCode) {
-      message.warning('请选择部门');
-      return;
-    };
     query = {
       ...query,
+      hisDrugCodeList: [],
+      value: undefined,
       existDrugCodeList: dataSource.map(item=>item.drugCode)
     };
     this.setState({
       visible: true, 
-      addDrugType: 1,
-      query: {...query}
-    });
-  }
-  autoShowModal = () => { //一键添加零库存
-    let {query, dataSource} = this.state;
-    if(!query.deptCode) {
-      message.warning('请选择部门');
-      return;
-    };
-    query = {
-      ...query,
-      existDrugCodeList: dataSource.map(item=>item.drugCode)
-    };
-    this.setState({
-      visible: true, 
-      addDrugType: 2,
       query: {...query}
     });
   }
@@ -142,8 +88,8 @@ class NewAdd extends PureComponent {
   submit = (applyStatus) => {   //提交  保存
     let {dataSource, applyType, query} = this.state;
     let isNull = dataSource.every(item => {
-      if(!item.applyNum) {
-        message.warning('申领数量不能为空');
+      if(item.baseApplyNum < 0) {
+        message.warning('当前提交数据中存在库存不足的数据!');
         return false;
       };
       return true
@@ -151,7 +97,7 @@ class NewAdd extends PureComponent {
     if(!isNull) return;
     dataSource = dataSource.map(item => {
       return {
-        applyNum: item.applyNum,
+        applyNum: item.baseApplyNum,
         drugCode: item.drugCode,
       }
     });
@@ -166,7 +112,7 @@ class NewAdd extends PureComponent {
     };
     
     this.props.dispatch({
-      type: 'base/applySubmit',
+      type: 'base/baseapplySave',
       payload: body,
       callback: ()=>{
         message.success(`${applyStatus === '0'? '保存' : '提交'}成功`);
@@ -174,27 +120,35 @@ class NewAdd extends PureComponent {
       }
     });
   }
+  setSelectList = (value) => {
+    let {query} = this.state;
+    query = {
+      ...query,
+      hisDrugCodeList: value ? [value] : []
+    };
+    this.setState({
+      query,
+      value
+    });
+  }
   render() {
     let { 
       visible, 
-      deptModules, 
       query,  
       dataSource, 
       loading, 
       modalLoading,
       btnLoading,
       saveLoading,
-      fetching,
-      fetchValue
+      value
     } = this.state;
     const columns = [
       {
         title: '通用名称',
         dataIndex: 'ctmmGenericName',
-        fixed: 'left',
         width: 224,
         className: 'ellipsis',
-        render:(text)=>(
+        render: (text) => (
           <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
         )
       }, {
@@ -202,21 +156,17 @@ class NewAdd extends PureComponent {
         dataIndex: 'ctmmTradeName',
         width: 224,
         className: 'ellipsis',
-        render:(text)=>(
+        render: (text) => (
           <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
         )
       }, {
         title: '规格',
         dataIndex: 'ctmmSpecification',
-        width: 168,
-        className: 'ellipsis',
-        render: (text) => (
-          <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
-        )
+        width: 168
       }, {
         title: '剂型',
         dataIndex: 'ctmmDosageFormDesc',
-        width: 168
+        width: 168,
       }, {
         title: '生产厂家',
         dataIndex: 'ctmmManufacturerName',
@@ -235,36 +185,18 @@ class NewAdd extends PureComponent {
         width: 112,
       }, {
         title: '申领数量',
-        dataIndex: 'applyNum',
+        dataIndex: 'baseApplyNum',
         width: 120,
-        render: (text, record, i) => {
-          return <InputNumber
-                    defaultValue={text}
-                    min={1}
-                    max={record.locaUpperQuantity}
-                    precision={0}
-                    onChange={(value)=>{
-                      if(value > record.locaUpperQuantity) {
-                        return message.warning('申领数量不得大于库存上限!');
-                      };
-                      dataSource = JSON.parse(JSON.stringify(dataSource));
-                      dataSource[i].applyNum = value;
-                      this.setState({dataSource});
-                    }} 
-                 />
-        }
+        render: (text) => (
+          text < 0 ? 0 : text
+        )
       }, {
         title: '可用库存',
         dataIndex: 'localUsableQuantity',
         width: 112,
-        render: (text) => text ? text : 0
       }, {
-        title: '库存上限',
-        dataIndex: 'locaUpperQuantity',
-        width: 112,
-      }, {
-        title: '库存下限',
-        dataIndex: 'localDownQuantity',
+        title: '库存基数',
+        dataIndex: 'stockBase',
         width: 112,
       }, {
         title: '批准文号',
@@ -278,7 +210,7 @@ class NewAdd extends PureComponent {
         dataIndex: 'ctmmGenericName',
         width: 224,
         className: 'ellipsis',
-        render:(text)=>(
+        render: (text) => (
           <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
         )
       }, {
@@ -286,7 +218,7 @@ class NewAdd extends PureComponent {
         dataIndex: 'ctmmTradeName',
         width: 224,
         className: 'ellipsis',
-        render:(text)=>(
+        render: (text) => (
           <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
         )
       }, {
@@ -326,68 +258,9 @@ class NewAdd extends PureComponent {
               <span style={{ cursor: 'pointer' }} onClick={() => this.props.history.go(-1)}><Icon type="close" style={{ fontSize: 26, marginTop: 8 }} /></span>
             </Col>
           </Row>
-          <Row gutter={30}>
-            <Col span={6}>
-              <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
-                <label>补货方式</label>
-              </div>
-              <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-19">
-                <div className='ant-form-item-control'>
-                  <Select
-                    showSearch
-                    disabled={dataSource.length === 0? false : true}
-                    style={{width: "100%"}}
-                    onChange={(value) => {
-                      this.setState({
-                        applyType: value
-                      });
-                      this.getReplenishList(value);
-                    }}
-                    defaultValue="1"
-                    optionFilterProp="children"
-                    filterOption={(input, option) => option.props.children.indexOf(input) >= 0}
-                    placeholder="请选择"
-                  >
-                    <Option key="1" value="1">申领</Option>
-                  </Select>
-                </div>
-              </div>
-            </Col>
-            <Col span={6}>
-              <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
-                <label>补货部门</label>
-              </div>
-              <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-19">
-                <div className='ant-form-item-control'>
-                  <Select
-                    showSearch
-                    disabled={dataSource.length === 0? false : true}
-                    style={{width: "100%"}}
-                    value={query.deptCode}
-                    onChange={(value) => {
-                      let {query} = this.state;
-                      query = {
-                        ...query,
-                        deptCode: value
-                      };
-                      this.setState({query});
-                    }}
-                    notFoundContent={fetching ? <Spin size="small" /> : null}
-                    optionFilterProp="children"
-                    filterOption={(input, option) => option.props.children.indexOf(input) >= 0} 
-                    placeholder="请选择"
-                  >
-                    {
-                      deptModules.map((item,index)=> <Option key={index} value={item.id}>{ item.deptName }</Option>)
-                    }
-                  </Select>
-                </div>
-              </div>
-            </Col>
-          </Row>
           <Row style={{marginTop: '10px'}}>
-            <Button type='primary' icon='plus' onClick={this.showModal}>添加产品</Button>
-            <Button type='default' onClick={this.autoShowModal} style={{ margin: '0 8px' }}>一键添加低库存产品</Button>
+            <Button type='primary' icon='plus' style={{marginRight: 8}} onClick={this.showModal}>添加产品</Button>
+            {/* <Button type='default' onClick={this.autoShowModal} style={{ margin: '0 8px' }}>一键添加低库存产品</Button> */}
             <Button onClick={this.delete} type='default'>删除</Button>
           </Row>
         </div>
@@ -406,30 +279,24 @@ class NewAdd extends PureComponent {
           <Row>
             <Col span={7} style={{ marginLeft: 4 }}>
               <FetchSelect
-                value={fetchValue}
+                allowClear
+                value={value}
                 style={{ width: 248 }}
                 placeholder='通用名/商品名'
                 url={wareHouse.QUERY_DRUG_BY_LIST}
-                cb={(value, option) => {
-                  let {query} = this.state;
-                  query = {
-                    ...query,
-                    hisDrugCodeList: [value]
-                  };
-                  this.setState({query, fetchValue: value});
-                }}
+                cb={this.setSelectList}
               />
             </Col>
           </Row>
           <div className='detailCard'>
             <RemoteTable
               query={query}
-              url={wareHouse.QUERYDRUGBYDEPT_PHARMACY}
+              url={wareHouse.QUERYDRUGBYDEPT}
               isJson={true}
               ref="table"
               modalLoading={modalLoading}
               columns={modalColumns}
-              scroll={{ x: 1450 }}
+              scroll={{ x: 1448 }}
               rowKey='drugCode'
               rowSelection={{
                 selectedRowKeys: this.state.modalSelected,
@@ -441,14 +308,14 @@ class NewAdd extends PureComponent {
             />
           </div>
         </Modal>
-        <div className='detailCard' style={{margin: '-12px -8px 0px -8px'}}>
+        <div className='detailCard' style={{margin: '-12px -8px -6px', minHeight: 'calc(100vh - 152px)'}}>
           <Table
             title={()=>'产品信息'}
             loading={loading}
             bordered
             columns={columns}
             dataSource={dataSource}
-            scroll={{ x: 2050 }}
+            scroll={{ x: 1900 }}
             rowKey='drugCode'
             rowSelection={{
               selectedRowKeys: this.state.selected,
@@ -461,17 +328,17 @@ class NewAdd extends PureComponent {
             }}
             pagination={false}
           />
+          {
+            dataSource.length === 0? null : 
+              <Row>
+                <Col style={{ textAlign: 'right', marginTop: '10px' }}>
+                  <Button loading={saveLoading} onClick={()=>{this.submit('1')}} type='primary'>提交</Button>
+                  {/* <Button loading={saveLoading} onClick={()=>{this.submit('0')}} type='danger' style={{ marginLeft: 8 }} ghost>保存</Button> */}
+                  <Button onClick={()=>{this.props.history.go(-1)}} type='danger' style={{ marginLeft: 8 }} ghost>取消</Button>
+                </Col>
+              </Row>
+          }
         </div>
-        {
-          dataSource.length === 0? null : 
-          <div className="detailCard" style={{margin: '-12px -8px 0px -8px'}}>
-            <Row>
-              <Col style={{ textAlign: 'right', padding: '10px' }}>
-                <Button loading={saveLoading} onClick={()=>{this.submit('1')}} type='primary'>提交</Button>
-              </Col>
-            </Row>
-          </div>
-        }
       </div>
     )
   }

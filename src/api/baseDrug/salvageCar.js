@@ -17,4 +17,10 @@ export default {
 
     /* 抢救车新建退库列表 */
     GET_RESCUECAR_BACK_LIST: `${_local}/a/rescueCar/rescuecarBack/rescuecarBackList`,
+
+    /* 抢救车新建申领主表 */
+    GET_RESCUECAR_APPLY_LIST: `${_local}/a/rescuecarapply/list`,  
+
+    /* 新建退库添加产品 */
+    RESCUECAR_BACK_ADD_LIST: `${_local}/a/rescueCar/rescuecarBack/addlist`,
   }

@@ -829,6 +829,18 @@ export const getNavData = app => [
       component: dynamicWrapper(app, ['pharmacy/configMgt'], () => import('../routes/Pharmacy/configMgt/baseMgt/drug'))
     },
     {
+      name: '抢救车目录管理',
+      icon: 'setting',
+      path: '/pharmacy/configMgt/salvageList',
+      component: dynamicWrapper(app, ['pharmacy/configMgt'], () => import('../routes/Pharmacy/configMgt/salvageList'))
+    },
+    {
+      name: '抢救车目录管理 - 药品',
+      icon: 'setting',
+      path: '/pharmacy/configMgt/salvageList/drug/:id',
+      component: dynamicWrapper(app, ['pharmacy/configMgt'], () => import('../routes/Pharmacy/configMgt/salvageList/drug'))
+    },
+    {
       name: '全院管理 - 基数药目录管理',
       icon: 'setting',
       path: '/sys/configMgt/baseMgt',
@@ -1790,6 +1802,12 @@ export const getNavData = app => [
       icon: "setting",
       path: '/baseDrug/salvageCar/refund/details/:id',
       component: dynamicWrapper(app, ['baseDrug/salvageCar'], () => import('../routes/BaseDrug/salvageCar/refund/details')),
+    },
+    {
+      name: "新建申领",
+      icon: "setting",
+      path: '/baseDrug/salvageCar/drugApply',
+      component: dynamicWrapper(app, ['baseDrug/salvageCar'], () => import('../routes/BaseDrug/salvageCar/drugApply')),
     },
   ]
 }]

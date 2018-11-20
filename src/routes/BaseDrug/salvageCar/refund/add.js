@@ -5,7 +5,7 @@
  */
 import React, { PureComponent } from 'react';
 import { Table , Col, Button, Icon, Modal , message, InputNumber, Input , Affix , Row , Tooltip, Spin, Form, Select } from 'antd';
-import { outStorage } from '../../../../api/drugStorage/outStorage';
+import salvageCar from '../../../../api/baseDrug/salvageCar';
 import { Link } from 'react-router-dom';
 import RemoteTable from '../../../../components/TableGrid';
 import _ from 'lodash';
@@ -111,7 +111,7 @@ class RemarksForm extends PureComponent{
     this.props.dispatch({
       type: 'base/orderStatusOrorderType',
       payload: {
-        type: 'back_cause_room'
+        type: 'back_cause_car'
       },
       callback: (data) => {
         data = data.filter(item => item.value !== '');
@@ -190,7 +190,9 @@ class AddSalvageTruck extends PureComponent{
       selected: [],  // 新建, 编辑 table 勾选
       selectedRows: [],
       modalSelectedRows: [], // 模态框内勾选
-      modalSelected: []
+      modalSelected: [],
+      deptList: [],
+      deptCode: ''
     }
   }
   toggle = () => {
@@ -201,7 +203,17 @@ class AddSalvageTruck extends PureComponent{
     })
   }
   componentDidMount = () =>{
-
+    const { dispatch } = this.props;
+    dispatch({
+      type: 'base/findDeptlist',
+      callback: ({data, code, msg}) =>{
+        if(code === 200) {
+          this.setState({ deptList: data });
+        }else {
+          message.error(msg);
+        };
+      }
+    });
   }
   // 模态框表单搜索
   handleSearch = e => {
@@ -229,6 +241,7 @@ class AddSalvageTruck extends PureComponent{
           content:"是否确认退库",
           onOk:()=>{
             const { dispatch, history } = this.props;
+            const { deptCode } = this.state;
             let postData = {}, backDrugList = [];
             dataSource.map(item => backDrugList.push({ 
               backNum: item.backNum, 
@@ -242,13 +255,17 @@ class AddSalvageTruck extends PureComponent{
             if(values.backcauseOther) {
               postData.backcauseOther = values.backcauseOther;
             }
-            console.log(postData,'postData')
+            postData.deptCode = deptCode;
             dispatch({
-              type: 'base/backSubmit',
+              type: 'base/rescueCarBackSubmit',
               payload: { ...postData },
-              callback: () => {
-                message.success('新建退库成功');
-                history.push({pathname:"/baseDrug/outStorage/refund"})
+              callback: ({data, code, msg}) => {
+                if(code === 200) {
+                  message.success('新建退库成功');
+                history.push({pathname:"/baseDrug/salvageCar/refund"});
+                }else {
+                  message.error(msg);
+                };
               }
             })
           },
@@ -271,6 +288,25 @@ class AddSalvageTruck extends PureComponent{
     let newDataSource = [];
     newDataSource = [ ...dataSource, ...modalSelectedRows ];
     this.setState({ dataSource: newDataSource, visible: false, modalSelected: [], modalSelectedRows: [] }) 
+  }
+  //
+  addProduct = () => {
+    const {deptCode, dataSource, query} = this.state;
+    if(deptCode === "") {
+      return message.warning('请选择退库抢救车');
+    };
+    // if(this.refs.table){
+      let existInstoreCodeList = [];
+      dataSource.map(item => existInstoreCodeList.push(item.inStoreCode));
+      this.setState({
+        query: {
+          ...query,
+          existInstoreCodeList,
+          deptCode
+        }
+      })
+    // }
+    this.setState({visible:true});
   }
   delete = () => {  //删除
     let { selectedRows, dataSource, query } = this.state;
@@ -310,7 +346,7 @@ class AddSalvageTruck extends PureComponent{
       },
       {
         title: '单位',
-        width: 60,
+        width: 112,
         dataIndex: 'unit',
       },
       {
@@ -331,11 +367,19 @@ class AddSalvageTruck extends PureComponent{
         title: '通用名称',
         width: 224,
         dataIndex: 'ctmmGenericName',
+        className:'ellipsis',
+        render:(text)=>(
+          <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+        )
       },
       {
         title: '商品名称',
         width: 224,
         dataIndex: 'ctmmTradeName',
+        className:'ellipsis',
+        render:(text)=>(
+          <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+        )
       },
       {
         title: '规格',
@@ -377,7 +421,7 @@ class AddSalvageTruck extends PureComponent{
         dataIndex: 'supplierName',
       }
     ];
-    const { visible, dataSource, query, spinLoading, display } = this.state; 
+    const { visible, dataSource, query, spinLoading, display, deptList } = this.state; 
     const { getFieldDecorator } = this.props.form;
     return (
     <Spin spinning={spinLoading} size="large">
@@ -393,16 +437,9 @@ class AddSalvageTruck extends PureComponent{
           </Row>
           <Row style={{ marginTop: 10 }}>
             <Col  span={4}>
-              <Button type='primary' className='button-gap' onClick={()=>{
-                if(this.refs.table){
-                  let existDrugCodeList = [];
-                  dataSource.map(item => existDrugCodeList.push(item.drugCode));
-                  this.refs.table.fetch({ ...query, existDrugCodeList });
-                }
-                this.setState({visible:true});
-              }}>
+              <Button type='primary' className='button-gap' onClick={this.addProduct}>
                 添加产品
-                </Button>
+              </Button>
               <Button onClick={this.delete} >移除</Button>
             </Col>
           </Row>
@@ -416,15 +453,18 @@ class AddSalvageTruck extends PureComponent{
                   <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18">
                     <div className='ant-form-item-control'>
                       <Select
+                        disabled={dataSource.length !== 0}
                         placeholder="请选择退库抢救车"
                         onChange={(value) => {
                           this.setState({
-                            remarks: value
-                          })
+                            deptCode: value
+                          });
                         }}
                         style={{width: '100%'}}
                       >
-                        <Option key="" value="">全部</Option>
+                        {
+                          deptList.map((item)=> <Option key={item.id} value={item.id}>{item.deptName}</Option>)
+                        }
                       </Select>
                     </div>
                   </div>
@@ -537,7 +577,7 @@ class AddSalvageTruck extends PureComponent{
               ref="table"
               bordered
               isJson={true}
-              url={outStorage.BACKSTORAGE_ADDPRODUCT_LIST}
+              url={salvageCar.RESCUECAR_BACK_ADD_LIST}
               scroll={{x: 1900}}
               columns={modalColumns}
               rowKey={'id'}

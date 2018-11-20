@@ -45,6 +45,31 @@ export function getHisMedicineBound(options) {
 }
 
 /*-- end --*/
+//抢救车目录管理抢救车下拉
+export function findRoomDeptlist(options) {
+  return request(`${_local}/a/rescuecardetail/findRoomDeptlist`, {
+    method: 'GET',
+    type: 'formData',
+    body: options
+  })
+}
+
+//抢救车目录详情
+export function rescuecarGetDeptNameByCode(options) {
+  return request(`${_local}/a/rescuecardetail/getDeptNameByCode`, {
+    method: 'POST',
+    type: 'formData',
+    body: options
+  })
+}
+
+export function editRescuecarQuantity(options) {
+  return request(`${_local}/a/rescuecardetail/getHisMedicineBound`, {
+    method: 'POST',
+    type: 'formData',
+    body: options
+  })
+}
 
 export function findAllCardinalMedicineDeptList(options) {
   return request(`${_local}/a/basemedicinedetail/findAllCardinalMedicineDeptList`, {

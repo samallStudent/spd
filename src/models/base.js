@@ -10,6 +10,7 @@ import * as goodsAdjust from '../services/drugStorage/goodsAdjust';
 import * as baseDrug from '../services/baseDrug/wareHouse';
 import * as settlementMgt from '../services/purchase/settlementMgt';
 import * as drugPricing from '../services/purchase/drugPricing';
+import * as salvageCar from '../services/baseDrug/salvageCar';
 import { message } from 'antd';
 
 export default {
@@ -288,6 +289,20 @@ export default {
       if(callback && typeof callback === 'function') {
         callback(data);
       };
+    },
+    //新建退库抢救车货位
+    *findDeptlist({payload, callback}, {call}) {
+        const data = yield call(salvageCar.findDeptlist, payload);
+        if(callback && typeof callback === 'function') {
+          callback(data);
+        };
+    },
+    //抢救车新建退库确认提交
+    *rescueCarBackSubmit({payload, callback}, {call}) {
+        const data = yield call(salvageCar.rescueCarBackSubmit, payload);
+        if(callback && typeof callback === 'function') {
+          callback(data);
+        };
     },
     //公用---产品搜索下拉框
     *SearchProductSelect({ payload,callback },{ call }){

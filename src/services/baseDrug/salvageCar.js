@@ -26,3 +26,12 @@ export function rescuecarBackInfo(options) {
     body: options 
   })
 }
+
+//抢救车新建退库确认
+export function rescueCarBackSubmit(options) {
+  return request(`${_local}/a/rescueCar/rescuecarBack/backSubmit`, {
+    method: 'POST',
+    type: 'json',
+    body: options 
+  })
+}

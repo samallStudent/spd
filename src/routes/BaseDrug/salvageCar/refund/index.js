@@ -27,7 +27,6 @@ class SearchFormWrapper extends PureComponent {
   }
   componentDidMount = () =>{
     const { dispatch } = this.props.formProps;
-    // 状态下拉框
     dispatch({
       type: 'salvageCar/findDeptlist',
       callback: ({data, code, msg}) =>{

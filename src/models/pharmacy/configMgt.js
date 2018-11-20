@@ -59,9 +59,29 @@ export default {
     //全院管理 - 基数药目录 - 药房部门
     *findAllCardinalMedicineDeptList({payload, callback}, {call}) {
       const data = yield call(configMgt.findAllCardinalMedicineDeptList, payload);
-      if(typeof callback === 'function') {
+      if(callback && typeof callback === 'function') {
         callback(data);
       }
-    }
+    },
+    /* 药房抢救车目录管理抢救车下拉 */
+    *findRoomDeptlist({payload, callback}, {call}) {
+      const data = yield call(configMgt.findRoomDeptlist, payload);
+      if(callback && typeof callback === 'function') {
+        callback(data);
+      };
+    },
+    //抢救车目录编辑库存上下限
+    *editRescuecarQuantity({payload, callback}, {call}) {
+      const data = yield call(configMgt.editRescuecarQuantity, payload);
+      if(callback && typeof callback === 'function') {
+        callback(data);
+      };
+    },
+    *rescuecarGetDeptNameByCode({payload, callback}, {call}) {
+      const data = yield call(configMgt.rescuecarGetDeptNameByCode, payload);
+      if(callback && typeof callback === 'function') {
+        callback(data);
+      };
+    },
   }
 }
