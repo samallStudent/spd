@@ -8,6 +8,7 @@ import { Table , Col, Button, Icon, Modal , message, InputNumber, Input , Affix 
 import { outStorage } from '../../../../api/drugStorage/outStorage';
 import { Link } from 'react-router-dom';
 import RemoteTable from '../../../../components/TableGrid';
+import FetchSelect from '../../../../components/FetchSelect';
 import _ from 'lodash';
 import { connect } from 'dva';
 const FormItem = Form.Item;
@@ -108,7 +109,8 @@ class RemarksForm extends PureComponent{
     remarks: ''
   }
   componentDidMount() {
-    this.props.dispatch({
+    const {dispatch} = this.props;
+    dispatch({
       type: 'base/orderStatusOrorderType',
       payload: {
         type: 'back_cause_room'
@@ -199,7 +201,8 @@ class AddRefund extends PureComponent{
       selected: [],  // 新建, 编辑 table 勾选
       selectedRows: [],
       modalSelectedRows: [], // 模态框内勾选
-      modalSelected: []
+      modalSelected: [],
+      supplierList: []
     }
   }
   toggle = () => {
@@ -231,7 +234,19 @@ class AddRefund extends PureComponent{
           });
         }
       });
-    }
+    };
+    this.props.dispatch({
+      type: 'base/genSupplierList',
+      callback: ({data, code, msg}) => {
+        if(code === 200) {
+          this.setState({
+            supplierList: data
+          });
+        }else {
+          message.error(msg);
+        };
+      }
+    });
   }
   // 模态框表单搜索
   handleSearch = e => {
@@ -248,7 +263,8 @@ class AddRefund extends PureComponent{
     this.props.form.resetFields();
     let values = this.props.form.getFieldsValue();
     let { query } = this.state;
-    this.refs.table.fetch({ ...query, ...values });
+    values.hisDrugCodeList = values.hisDrugCodeList ? [values.hisDrugCodeList] : [];
+    this.setState({ ...query, ...values });
   }
   //提交该出库单
   backStroage = () =>{
@@ -407,7 +423,7 @@ class AddRefund extends PureComponent{
         dataIndex: 'supplierName',
       }
     ];
-    const { visible, isEdit, dataSource, query, spinLoading, display, detailsData } = this.state; 
+    const { supplierList, visible, isEdit, dataSource, query, spinLoading, display, detailsData } = this.state; 
     const { getFieldDecorator } = this.props.form;
     return (
     <Spin spinning={spinLoading} size="large">
@@ -496,10 +512,13 @@ class AddRefund extends PureComponent{
               <Row gutter={30}>
                 <Col span={8}>
                   <FormItem label={`通用名/商品名`} {...formItemLayout}>
-                    {getFieldDecorator('paramName', {
-                      initialValue: ''
-                    })(
-                      <Input placeholder='通用名/商品名'/>
+                    {getFieldDecorator('hisDrugCodeList')(
+                      <FetchSelect
+                        style={{width: '100%'}}
+                        allowClear
+                        placeholder='通用名/商品名'
+                        url={outStorage.QUERY_DRUG_BY_LIST}
+                      />
                     )}
                   </FormItem>
                 </Col>
@@ -514,10 +533,19 @@ class AddRefund extends PureComponent{
                 </Col>
                 <Col span={8} style={{display: display}}>
                   <FormItem label={`供应商`} {...formItemLayout}>
-                    {getFieldDecorator('supplierName',{
-                      initialValue: ''
-                    })(
-                      <Input placeholder='供应商'/>
+                    {getFieldDecorator('supplierCode')(
+                      <Select 
+                        showSearch
+                        placeholder={'请选择'}
+                        optionFilterProp="children"
+                        filterOption={(input, option) => option.props.children.indexOf(input) >= 0}
+                      >
+                        {
+                          supplierList.map(item => (
+                            <Option key={item.ctmaSupplierCode} value={item.ctmaSupplierCode}>{item.ctmaSupplierName}</Option>
+                          ))
+                        }
+                      </Select>
                     )}
                   </FormItem>
                 </Col>

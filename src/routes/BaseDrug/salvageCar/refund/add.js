@@ -8,6 +8,7 @@ import { Table , Col, Button, Icon, Modal , message, InputNumber, Input , Affix 
 import salvageCar from '../../../../api/baseDrug/salvageCar';
 import { Link } from 'react-router-dom';
 import RemoteTable from '../../../../components/TableGrid';
+import FetchSelect from '../../../../components/FetchSelect';
 import _ from 'lodash';
 import { connect } from 'dva';
 const FormItem = Form.Item;
@@ -192,7 +193,8 @@ class AddSalvageTruck extends PureComponent{
       modalSelectedRows: [], // 模态框内勾选
       modalSelected: [],
       deptList: [],
-      deptCode: ''
+      deptCode: '',
+      supplierList: []
     }
   }
   toggle = () => {
@@ -214,6 +216,18 @@ class AddSalvageTruck extends PureComponent{
         };
       }
     });
+    dispatch({
+      type: 'base/genSupplierList',
+      callback: ({data, code, msg}) => {
+        if(code === 200) {
+          this.setState({
+            supplierList: data
+          });
+        }else {
+          message.error(msg);
+        };
+      }
+    });
   }
   // 模态框表单搜索
   handleSearch = e => {
@@ -222,6 +236,7 @@ class AddSalvageTruck extends PureComponent{
       if (!err) {
         console.log(values, '查询条件');  
         let { query } = this.state;
+        values.hisDrugCodeList = values.hisDrugCodeList ? [values.hisDrugCodeList] : [];
         this.setState({ query: { ...query, ...values } })
       }
     })
@@ -295,17 +310,15 @@ class AddSalvageTruck extends PureComponent{
     if(deptCode === "") {
       return message.warning('请选择退库抢救车');
     };
-    // if(this.refs.table){
-      let existInstoreCodeList = [];
-      dataSource.map(item => existInstoreCodeList.push(item.inStoreCode));
-      this.setState({
-        query: {
-          ...query,
-          existInstoreCodeList,
-          deptCode
-        }
-      })
-    // }
+    let existInstoreCodeList = [];
+    dataSource.map(item => existInstoreCodeList.push(item.inStoreCode));
+    this.setState({
+      query: {
+        ...query,
+        existInstoreCodeList,
+        deptCode
+      }
+    })
     this.setState({visible:true});
   }
   delete = () => {  //删除
@@ -421,7 +434,7 @@ class AddSalvageTruck extends PureComponent{
         dataIndex: 'supplierName',
       }
     ];
-    const { visible, dataSource, query, spinLoading, display, deptList } = this.state; 
+    const { supplierList, visible, dataSource, query, spinLoading, display, deptList } = this.state; 
     const { getFieldDecorator } = this.props.form;
     return (
     <Spin spinning={spinLoading} size="large">
@@ -529,10 +542,13 @@ class AddSalvageTruck extends PureComponent{
               <Row gutter={30}>
                 <Col span={8}>
                   <FormItem label={`通用名/商品名`} {...formItemLayout}>
-                    {getFieldDecorator('paramName', {
-                      initialValue: ''
-                    })(
-                      <Input placeholder='通用名/商品名'/>
+                    {getFieldDecorator('hisDrugCodeList')(
+                      <FetchSelect
+                        style={{width: '100%'}}
+                        allowClear
+                        placeholder='通用名/商品名'
+                        url={salvageCar.QUERY_DRUGBY_LIST}
+                      />
                     )}
                   </FormItem>
                 </Col>
@@ -547,10 +563,19 @@ class AddSalvageTruck extends PureComponent{
                 </Col>
                 <Col span={8} style={{display: display}}>
                   <FormItem label={`供应商`} {...formItemLayout}>
-                    {getFieldDecorator('supplierName',{
-                      initialValue: ''
-                    })(
-                      <Input placeholder='供应商'/>
+                    {getFieldDecorator('supplierCode')(
+                      <Select 
+                        showSearch
+                        placeholder={'请选择'}
+                        optionFilterProp="children"
+                        filterOption={(input, option) => option.props.children.indexOf(input) >= 0}
+                      >
+                        {
+                          supplierList.map(item => (
+                            <Option key={item.ctmaSupplierCode} value={item.ctmaSupplierCode}>{item.ctmaSupplierName}</Option>
+                          ))
+                        }
+                      </Select>
                     )}
                   </FormItem>
                 </Col>

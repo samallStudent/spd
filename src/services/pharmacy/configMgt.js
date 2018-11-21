@@ -78,3 +78,12 @@ export function findAllCardinalMedicineDeptList(options) {
     body: options
   })
 }
+
+//抢救车目录药品新增
+export function pitchOnCardinalRescuecar(options) {
+  return request(`${_local}/a/rescuecardetail/pitchOnCardinalMedicine`, {
+    method: 'POST',
+    type: 'json',
+    body: options
+  })
+}

@@ -27,6 +27,7 @@ class NewAdd extends PureComponent {
     deptModules: [],// 补货部门
     query: {
       deptCode: undefined,
+      applyFlag: true,
       existDrugCodeList: [],
       hisDrugCodeList: []
     },

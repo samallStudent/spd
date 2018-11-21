@@ -660,7 +660,10 @@ class Details extends PureComponent {
       {
         title: '盈亏金额',
         dataIndex: 'mount',
-        width: 112
+        width: 112,
+        render: (text, record) => {
+          return Number(record.referencePrice) * Number(record.checkNum);
+        }
       },
     ];
     if(info.checkStatus === 2) {

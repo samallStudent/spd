@@ -31,6 +31,7 @@ import BaseAddNewAcceptance from './routes/BaseDrug/wareHouse/acceptance/add';
 import NewRecon from './routes/Purchase/settlementMgt/dayStatements/newRecon';
 import PriceAdjustment from './routes/Purchase/drugPricing/pricingConfirmation/add';
 import AddSalvageTruck from './routes/BaseDrug/salvageCar/refund/add';
+import AddRescuecarApply from './routes/BaseDrug/salvageCar/drugApply/add';
 import { getNavData } from './common/nav';
 import { getPlainNode } from './utils/utils';
 
@@ -118,6 +119,7 @@ function RouterConfig({ history, app }) {
           <Route path="/createSinceOutCatalog" component={SinceOutCatalog}/>
           <Route path="/addPriceAdjustment" component={PriceAdjustment}/>          
           <Route path="/addSalvageTruck" component={AddSalvageTruck}/>          
+          <Route path="/baseAddRescuecarApply" component={AddRescuecarApply}/>
           {/* <Route path="/home" component={Home}/> */}
           {/* <Route path="/app" render={props => <WorkplaceLayout {...props} {...passProps} />} /> */}
           <Route path="/" exact render={()=> (

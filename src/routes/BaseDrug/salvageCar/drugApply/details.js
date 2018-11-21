@@ -5,7 +5,7 @@
   基数药 - 申领 - 详情
  */
 import React, { PureComponent } from 'react';
-import { Table ,Row, Col , Tooltip  } from 'antd';
+import { Table ,Row, Col , Tooltip, message } from 'antd';
 import {connect} from 'dva';
 const columns = [
   {
@@ -74,22 +74,23 @@ class DetailsApplyAccept extends PureComponent{
   componentDidMount() {
     let applyCode = this.props.match.params.id;
     this.props.dispatch({
-      type: 'pharmacy/baseDrugsForInfo',
+      type: 'salvageCar/rescuecarApplyDetail',
       payload: { applyCode },
-      callback: (data) => {
-        console.log(data);
-        this.setState({
-          drugsForInfo: data,
-          loading: false
-        })
+      callback: ({data, code, msg}) => {
+        if(code === 200) {
+          this.setState({
+            drugsForInfo: data,
+            loading: false
+          });
+        }else {
+          message.error(msg);
+        };
       }
     })
   }
   render(){
     let {drugsForInfo, loading} = this.state;
     let dataSource = drugsForInfo.detailList || [];
-    
-    
     return (
       <div className='fullCol'>
         <div className='fullCol-fullChild'>
@@ -121,7 +122,7 @@ class DetailsApplyAccept extends PureComponent{
             </Col>
             <Col span={8}>
                 <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
-                    <label>发起人</label>
+                    <label>入库人</label>
                 </div>
                 <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18">
                   <div className='ant-form-item-control'>{drugsForInfo.createUserName || ''}</div>
@@ -133,14 +134,6 @@ class DetailsApplyAccept extends PureComponent{
                 </div>
                 <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18">
                   <div className='ant-form-item-control'>{drugsForInfo.createDate || ''}</div>
-                </div>
-            </Col>
-            <Col span={8}>
-                <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
-                    <label>联系电话</label>
-                </div>
-                <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18">
-                  <div className='ant-form-item-control'>13020082008</div>
                 </div>
             </Col>
           </Row>

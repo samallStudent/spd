@@ -25,4 +25,5 @@ export const outStorage = {
   PICKING_PRINT: `${_local}/a/pickingDetail/print/printDetail`,     //拣货下架打印
   PRINT_BACK_DETAIL: `${_local}/a/backsdetail/print/printBackDetail`,     //退货打印
   ROOMRECALL_SHEVE_LIST: `${_local}/a/roomrecall/sheveList`,      //全院管理召回锁定复核列表
+  QUERY_DRUG_BY_LIST: `${_local}/a/common/queryDrugByList`,
 }

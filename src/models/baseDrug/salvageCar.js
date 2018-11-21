@@ -11,26 +11,40 @@ export default {
     effects: {
         //抢救车库存-详情 - 表头
       *getRescuecarMedicineDetail({payload, callback}, {call}) {
-          const data = yield call(salvageCar.getRescuecarMedicineDetail, payload);
-          if(data.code === 200 && data.msg === 'success') {
-              callback && callback(data.data);
-          }else {
-                message.error(data.msg);
-          }
+        const data = yield call(salvageCar.getRescuecarMedicineDetail, payload);
+        if(data.code === 200 && data.msg === 'success') {
+            callback && callback(data.data);
+        }else {
+              message.error(data.msg);
+        }
       },
       //新建退库抢救车货位
       *findDeptlist({payload, callback}, {call}) {
-          const data = yield call(salvageCar.findDeptlist, payload);
-          if(callback && typeof callback === 'function') {
-            callback(data);
-          };
+        const data = yield call(salvageCar.findDeptlist, payload);
+        if(callback && typeof callback === 'function') {
+          callback(data);
+        };
       },
       //抢救车新建退库详情
       *rescuecarBackInfo({payload, callback}, {call}) {
-          const data = yield call(salvageCar.rescuecarBackInfo, payload);
-          if(callback && typeof callback === 'function') {
-            callback(data);
-          };
+        const data = yield call(salvageCar.rescuecarBackInfo, payload);
+        if(callback && typeof callback === 'function') {
+          callback(data);
+        };
+      },
+      //抢救车新建申领抢救车下拉
+      *applyRescuecarList({payload, callback}, {call}) {
+        const data = yield call(salvageCar.applyRescuecarList, payload);
+        if(callback && typeof callback === 'function') {
+          callback(data);
+        };
+      },
+      //抢救车申领详情
+      *rescuecarApplyDetail({payload, callback}, {call}) {
+        const data = yield call(salvageCar.rescuecarApplyDetail, payload);
+        if(callback && typeof callback === 'function') {
+          callback(data);
+        };
       },
     },
     reducers: {

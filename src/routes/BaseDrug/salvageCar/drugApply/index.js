@@ -5,7 +5,7 @@
  */
 
 import React, { PureComponent } from 'react';
-import {Form, Input , Row, Col, Button, Icon, Select, DatePicker } from 'antd';
+import {Form, Input , Row, Col, Button, Icon, Select, DatePicker, message } from 'antd';
 import {Link} from 'react-router-dom';
 import {formItemLayout} from '../../../../utils/commonStyles';
 import RemoteTable from '../../../../components/TableGrid/index';
@@ -23,8 +23,8 @@ class DrugsFor extends PureComponent{
       query:{
         queryType: 1
       },
-      messageError:"",
-      selectedRowKeys:[]
+      messageError: "",
+      selectedRowKeys: [],
     }
   }
 
@@ -36,37 +36,33 @@ class DrugsFor extends PureComponent{
   }
 
   render(){
+    const {match} = this.props;
     const columns = [
       {
-      title: '申领单',
-      width:150,
-      dataIndex: 'applyCode',
-      render:(text, record)=>(<Link to={{pathname: `/baseDrug/wareHouse/drugApply/details/${record.applyCode}`}}>{text}</Link>)
+        title: '申领单',
+        width: 168,
+        dataIndex: 'applyCode',
+        render:(text, record)=>(<Link to={{pathname: `${match.path}/details/${record.applyCode}`}}>{text}</Link>)
       },
       {
-        title: '申领部门',
-        width:100,
+        title: '申领抢救车',
+        width: 168,
         dataIndex: 'applyDeptName',
       },
       {
-        title: '配货部门',
-        width:100,
-        dataIndex: 'distributeDeptName',
-      },
-      {
         title: '状态',
-        width:100,
+        width: 112,
         dataIndex: 'applyStatusName'
       },
       {
-        title: '发起人',
-        width:100,
+        title: '入库人',
+        width: 112,
         dataIndex: 'createUserName',
       },
       {
         title: '发起时间',
-        width:150,
-        dataIndex: 'createDate'
+        width: 168,
+        dataIndex: 'distributeDate'
       },
     ];
     let query = this.props.base.queryConditons;
@@ -78,7 +74,7 @@ class DrugsFor extends PureComponent{
         <SearchForm formProps={{...this.props}} />
         <Row>
           <Button type='primary' className='button-gap'>
-            <Link to={{pathname:`/baseAddDrugsApply`}}>新建申领</Link>
+            <Link to={{pathname:`/baseAddRescuecarApply`}}>新建申领</Link>
           </Button>
         </Row>
         <RemoteTable
@@ -100,10 +96,12 @@ export default connect(state=>state)(DrugsFor);
 /* 搜索 - 表单 */
 class SearchFormWrapper extends PureComponent {
   state = {
-    status: []
+    status: [],
+    applyRescuecarList: []
   }
   componentDidMount() {
-    this.props.formProps.dispatch({
+    const {dispatch} = this.props.formProps;
+    dispatch({
       type: 'base/orderStatusOrorderType',
       payload: {
         type: 'apply_status'
@@ -114,6 +112,18 @@ class SearchFormWrapper extends PureComponent {
         });
       }
     });
+    dispatch({
+      type: 'salvageCar/applyRescuecarList',
+      callback: ({data, code, msg}) => {
+        if(code === 200) {
+          this.setState({
+            applyRescuecarList: data
+          });
+        }else {
+          message.error(msg);
+        };
+      }
+    })
     let { queryConditons } = this.props.formProps.base;
     //找出表单的name 然后set
     let values = this.props.form.getFieldsValue();
@@ -155,16 +165,33 @@ class SearchFormWrapper extends PureComponent {
   }
 
   render() {
-    let { status } = this.state;
+    let { status, applyRescuecarList } = this.state;
     const { getFieldDecorator } = this.props.form;
-    status = status.map(item=>{
-      return <Option key={item.value} value={item.value}>{item.label}</Option>
-    });
+    status = status.map(item=>(
+      <Option key={item.value} value={item.value}>{item.label}</Option>
+    ));
+    applyRescuecarList = applyRescuecarList.map(item => (
+      <Option key={item.id} value={item.id}>{item.deptName}</Option>
+    ))
     const {display} = this.props.formProps.base;
     const expand = display === 'block';
     return (
       <Form onSubmit={this.handleSearch}>
         <Row gutter={30}>
+          <Col span={8}>
+            <FormItem label={`抢救车`} {...formItemLayout}>
+              {getFieldDecorator('applyDeptCode', {})(
+                <Select 
+                  showSearch
+                  placeholder={'请选择'}
+                  optionFilterProp="children"
+                  filterOption={(input, option) => option.props.children.indexOf(input) >= 0}
+                  >
+                    {applyRescuecarList}
+                </Select>
+              )}
+            </FormItem>
+          </Col>
           <Col span={8}>
             <FormItem label={`申领单`} {...formItemLayout}>
               {getFieldDecorator('applyCode', {})(
@@ -172,7 +199,7 @@ class SearchFormWrapper extends PureComponent {
               )}
             </FormItem>
           </Col>
-          <Col span={8}>
+          <Col span={8} style={{display: display}}>
             <FormItem label={`状态`} {...formItemLayout}>
               {getFieldDecorator('applyStatus', {})(
                 <Select 
@@ -181,7 +208,7 @@ class SearchFormWrapper extends PureComponent {
                   optionFilterProp="children"
                   filterOption={(input, option) => option.props.children.indexOf(input) >= 0}
                   >
-                      {status}
+                    {status}
                 </Select>
               )}
             </FormItem>

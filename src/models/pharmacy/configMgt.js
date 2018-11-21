@@ -83,5 +83,12 @@ export default {
         callback(data);
       };
     },
+    //确认新增药品
+    *pitchOnCardinalRescuecar({payload, callback}, {call}) {
+      const data = yield call(configMgt.pitchOnCardinalRescuecar, payload);
+      if(callback && typeof callback === 'function') {
+        callback(data);
+      };
+    },
   }
 }

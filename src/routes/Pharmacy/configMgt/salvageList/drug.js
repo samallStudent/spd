@@ -23,7 +23,6 @@ class BaseMgt extends PureComponent{
       info: {},
       medalQuery: {
         deptCode: info.code,
-        mate: ''
       },
       query: {
         deptCode: info.code
@@ -81,7 +80,7 @@ class BaseMgt extends PureComponent{
     this.setState({
       okLoading: true
     });
-    let baseMedicineDetails = modalSelectedRows.map((item) => {
+    let rescuecarMedicineDetails = modalSelectedRows.map((item) => {
       return {
         bigDrugCode: item.bigDrugCode,
         drugCode: item.drugCode
@@ -89,15 +88,17 @@ class BaseMgt extends PureComponent{
     });
     
     this.props.dispatch({
-      type: 'configMgt/pitchOnCardinalMedicine',
+      type: 'configMgt/pitchOnCardinalRescuecar',
       payload: {
         ...query,
-        baseMedicineDetails
+        rescuecarMedicineDetails
       },
       callback: (data) => {
         this.setState({
           okLoading: false,
-          visible: false
+          visible: false,
+          modalSelectedRows: [],
+          modalSelected: []
         });
         this.refs.table.fetch(query);
       }
@@ -157,6 +158,9 @@ class BaseMgt extends PureComponent{
       upperQuantity === "" || 
       upperQuantity === undefined
     ) return message.warning('请输入库存上下限');
+    if(downQuantity > upperQuantity) {
+      return message.warning('库存上限不允许小于库存下限');
+    };
     this.props.dispatch({
       type: 'configMgt/editRescuecarQuantity',
       payload: {
@@ -255,7 +259,7 @@ class BaseMgt extends PureComponent{
         }
       },
       {
-        title: '库存上限',
+        title: '库存下限',
         dataIndex: 'downQuantity',
         width: 120,
         fixed: 'right',
@@ -376,7 +380,7 @@ class BaseMgt extends PureComponent{
           <RemoteTable
             query={medalQuery}
             isJson={true}
-            // url={baseMgt.ADD_CARDINAL_MEDICINE}
+            url={baseMgt.ADD_RESCUECAR_MEDICINE}
             style={{ marginTop: 16 }} 
             columns={modalColumns}
             scroll={{ x: 1350 }}

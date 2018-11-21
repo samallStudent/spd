@@ -43,14 +43,13 @@ class Workplace extends Component {
     let itemWidth,
         itemListWarpWidth = this.itemList.offsetWidth;
     itemWidth = (itemListWarpWidth - 24*itemQuantity) / itemQuantity;
-    itemWidth = itemWidth - itemWidth/20;
     this.setState({
       itemWidth,
       itemQuantity
     });
     const {dispatch} = this.props;
     dispatch({
-      type: 'workbench/consoleDepotlist',
+      type: 'workbench/purchaseConsoleList',
       payload: {},
       callback: ({data, code, msg}) => {
         if(code === 200) {
@@ -77,7 +76,7 @@ class Workplace extends Component {
   }
   getBillsList = (categoryCode) => {
     this.props.dispatch({
-      type: 'workbench/consoleDepotdetail',
+      type: 'workbench/commonConsoleDetail',
       payload: {
         categoryCode
       },
@@ -217,7 +216,7 @@ class Workplace extends Component {
               billsList.length ? 
               billsList.map(item => (
                 <Col
-                  key={item.categoryCode}
+                  key={item.numberNo}
                   style={{
                     marginBottom: 16,
                   }}
@@ -228,11 +227,11 @@ class Workplace extends Component {
                 >
                   <div className={S['card-item-info']}>
                     <div className={S['item-odd-status']}>
-                      <span className={S['item-odd']}>{item.categoryCode}</span>
+                      <span className={S['item-odd']}>{item.numberNo}</span>
                       <span className={S['item-status']}>{item.statusName}</span>
                     </div>
                     <div className={S['item-module-date']}>
-                      <span className={S['item-module']}>{item.categoryName}</span>
+                      <span className={S['item-module']}>{item.typeName}</span>
                       <span className={S['item-date']}>{item.createTime}</span>
                     </div>
                   </div>

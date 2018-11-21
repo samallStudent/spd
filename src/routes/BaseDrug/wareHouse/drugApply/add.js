@@ -21,6 +21,7 @@ class NewAdd extends PureComponent {
     visible: false,
     loading: false,
     query: {
+      applyFlag: true,
       existDrugCodeList: [],
       hisDrugCodeList: []
     },

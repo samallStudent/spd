@@ -35,3 +35,21 @@ export function rescueCarBackSubmit(options) {
     body: options 
   })
 }
+
+//新建申领抢救车下拉
+export function applyRescuecarList(options) {
+  return request(`${_local}/a/rescuecarapply/rescuecarlist`, {
+    method: 'GET',
+    type: 'formData',
+    body: options 
+  })
+}
+
+//抢救车申领详情
+export function rescuecarApplyDetail(options) {
+  return request(`${_local}/a/rescuecarapply/detail`, {
+    method: 'GET',
+    type: 'formData',
+    body: options 
+  })
+}

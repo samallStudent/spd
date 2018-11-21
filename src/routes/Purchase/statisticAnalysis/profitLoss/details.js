@@ -123,7 +123,10 @@ const columns = [
   {
     title: '实际损益金额',
     width: 168,
-    dataIndex: 'excessiveMoney'
+    dataIndex: 'excessiveMoney',
+    render: (text, record) => {
+      return Number(record.referencePrice) * Number(record.checkNum);
+    }
   },
 ];
 

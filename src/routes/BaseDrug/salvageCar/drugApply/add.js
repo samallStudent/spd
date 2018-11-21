@@ -260,7 +260,6 @@ class NewAdd extends PureComponent {
           </Row>
           <Row style={{marginTop: '10px'}}>
             <Button type='primary' icon='plus' style={{marginRight: 8}} onClick={this.showModal}>添加产品</Button>
-            {/* <Button type='default' onClick={this.autoShowModal} style={{ margin: '0 8px' }}>一键添加低库存产品</Button> */}
             <Button onClick={this.delete} type='default'>删除</Button>
           </Row>
         </div>

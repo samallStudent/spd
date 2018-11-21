@@ -8,6 +8,7 @@ import { Table , Col, Button, Icon, Modal , message, Input, InputNumber , Affix 
 import { outStorage } from '../../../../api/drugStorage/outStorage';
 import { Link } from 'react-router-dom';
 import RemoteTable from '../../../../components/TableGrid';
+import FetchSelect from '../../../../components/FetchSelect';
 import _ from 'lodash';
 import { connect } from 'dva';
 const FormItem = Form.Item;
@@ -32,9 +33,8 @@ const formRemarkLayout = {
     xs: { span: 24 },
     sm: { span: 18 },//17
   },
-}
+};
 const modalColumns = [
-  
   {
     title: '通用名称',
     dataIndex: 'ctmmGenericName',
@@ -93,7 +93,7 @@ const modalColumns = [
     dataIndex: 'supplierName',
     width: 224,
   }
-]
+];
 class RemarksForm extends PureComponent{
   state = {
     recallReason: [],
@@ -191,7 +191,8 @@ class AddRefund extends PureComponent{
       selected: [],  // 新建, 编辑 table 勾选
       selectedRows: [],
       modalSelectedRows: [], // 模态框内勾选
-      modalSelected: []
+      modalSelected: [],
+      supplierList: []
     }
   }
   toggle = () => {
@@ -201,7 +202,7 @@ class AddRefund extends PureComponent{
       expand: !expand
     })
   }
-  componentWillMount = () =>{
+  componentDidMount = () =>{
     if(this.props.match.path === "/editBackStoragePlan/:backNo") {
       let { backNo } = this.props.match.params;
       this.setState({spinLoading: true});
@@ -224,7 +225,19 @@ class AddRefund extends PureComponent{
           });
         }
       });
-    }
+    };
+    this.props.dispatch({
+      type: 'base/genSupplierList',
+      callback: ({data, code, msg}) => {
+        if(code === 200) {
+          this.setState({
+            supplierList: data
+          });
+        }else {
+          message.error(msg);
+        };
+      }
+    });
   }
   // 模态框表单搜索
   handleSearch = e => {
@@ -233,7 +246,8 @@ class AddRefund extends PureComponent{
       if (!err) {
         console.log(values, '查询条件');  
         let { query } = this.state;
-        this.refs.table.fetch({ ...query, ...values });
+        values.hisDrugCodeList = values.hisDrugCodeList ? [values.hisDrugCodeList] : [];
+        // this.refs.table.fetch({ ...query, ...values });
         this.setState({ query: { ...query, ...values } })
       }
     })
@@ -246,7 +260,7 @@ class AddRefund extends PureComponent{
   }
   
   //提交该出库单
-  backStroage = () =>{
+  backStroage = () => {
     const { dataSource } = this.state;
     this.refs.remarksForm.validateFields((err, values) => {
       if(!err) {
@@ -402,7 +416,7 @@ class AddRefund extends PureComponent{
         dataIndex: 'supplierName',
       }
     ];
-    const { visible, isEdit, dataSource, query, spinLoading, display, detailsData } = this.state; 
+    const { visible, isEdit, dataSource, query, spinLoading, display, detailsData, supplierList } = this.state; 
     const { getFieldDecorator } = this.props.form;
     return (
     <Spin spinning={spinLoading} size="large">
@@ -420,9 +434,9 @@ class AddRefund extends PureComponent{
             <Col  span={4}>
               <Button type='primary' className='button-gap' onClick={()=>{
                 if(this.refs.table){
-                  let existDrugCodeList = [];
-                  dataSource.map(item => existDrugCodeList.push(item.drugCode));
-                  this.refs.table.fetch({ ...query, existDrugCodeList });
+                  let existInstoreCodeList = [];
+                  dataSource.map(item => existInstoreCodeList.push(item.inStoreCode));
+                  this.refs.table.fetch({ ...query, existInstoreCodeList });
                 }
                 this.setState({visible:true});
               }}>
@@ -491,10 +505,13 @@ class AddRefund extends PureComponent{
               <Row gutter={30}>
                 <Col span={8}>
                   <FormItem label={`通用名/商品名`} {...formItemLayout}>
-                    {getFieldDecorator('paramName', {
-                      initialValue: ''
-                    })(
-                      <Input placeholder='通用名/商品名'/>
+                    {getFieldDecorator('hisDrugCodeList')(
+                      <FetchSelect
+                        style={{width: '100%'}}
+                        allowClear
+                        placeholder='通用名/商品名'
+                        url={outStorage.QUERY_DRUG_BY_LIST}
+                      />
                     )}
                   </FormItem>
                 </Col>
@@ -503,16 +520,25 @@ class AddRefund extends PureComponent{
                     {getFieldDecorator('lot',{
                       initialValue: ''
                     })(
-                    <Input placeholder='生产批号'/>
+                      <Input placeholder='生产批号'/>
                     )}
                   </FormItem>
                 </Col>
                 <Col span={8} style={{display: display}}>
                   <FormItem label={`供应商`} {...formItemLayout}>
-                    {getFieldDecorator('supplierName',{
-                      initialValue: ''
-                    })(
-                      <Input placeholder='供应商'/>
+                    {getFieldDecorator('supplierCode')(
+                      <Select 
+                        showSearch
+                        placeholder={'请选择'}
+                        optionFilterProp="children"
+                        filterOption={(input, option) => option.props.children.indexOf(input) >= 0}
+                        >
+                          {
+                            supplierList.map(item => (
+                              <Option key={item.ctmaSupplierCode} value={item.ctmaSupplierCode}>{item.ctmaSupplierName}</Option>
+                            ))
+                          }
+                      </Select>
                     )}
                   </FormItem>
                 </Col>

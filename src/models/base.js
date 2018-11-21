@@ -245,7 +245,13 @@ export default {
       }
       if(callback) callback(data.data)
     },
-
+    //公共供应商下拉
+    *genSupplierList({ payload,callback },{ call }){
+      const data = yield call(outStorageService.genSupplierList, payload);
+      if(callback && typeof callback === 'function') {
+        callback(data);
+      };
+    },
     //补登单据 - 新建出库单
     *InsertMakeup({ payload,callback },{ call }){
       const data = yield call(base.InsertMakeup, payload);

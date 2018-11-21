@@ -38,6 +38,7 @@ class GoodsAllocation extends PureComponent{
     },
     goosTypeSelect:[],//货位类型接口下拉框
     getUserListSelect:[],//责任人下拉框
+    addLocLoading: false,
   }
 
   componentDidMount(){
@@ -77,6 +78,9 @@ class GoodsAllocation extends PureComponent{
   onSubmitModal = () => {
     this.props.form.validateFields((err,values)=>{
       if(!err){
+        this.setState({
+          addLocLoading: true
+        });
         values.deptCode = this.props.match.params.id;
         if(values.positionType){
           values.positionType=Number(values.positionType);
@@ -97,7 +101,11 @@ class GoodsAllocation extends PureComponent{
   //新加货位 -关闭弹窗
   onCancelModal = () => {
     this.props.form.resetFields();
-    this.setState({visible:false, record: {}})
+    this.setState({
+      visible:false, 
+      record: {},
+      addLocLoading: false
+    })
   }
 
   //编辑货位-
@@ -108,7 +116,7 @@ class GoodsAllocation extends PureComponent{
   }
 
   render(){
-    const { visible , modalTitle , query , goosTypeSelect , getUserListSelect } = this.state;
+    const { visible , modalTitle , query , goosTypeSelect , getUserListSelect, addLocLoading } = this.state;
     const { getFieldDecorator } = this.props.form;
     const columns = [
       {
@@ -186,7 +194,8 @@ class GoodsAllocation extends PureComponent{
           title={modalTitle}
           onOk={this.onSubmitModal}
           onCancel={this.onCancelModal}
-          >
+          okButtonProps={{loading: addLocLoading}}
+        >
           <Form onSubmit={this.onSubmit}>
             <FormItem {...singleFormItemLayout} label={`货位名称`}>
               {

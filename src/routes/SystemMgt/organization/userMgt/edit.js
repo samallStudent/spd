@@ -9,14 +9,14 @@
  */
 import React, { PureComponent } from 'react';
 import { Row, Col, Button, Table, Input, message } from 'antd';
-import { DeptSelect } from '../../../../common/dic';
+import { DeptSelectFilter } from '../../../../common/dic';
 import { connect } from 'dva';
 
 const deptColumns = [{
   title: '部门类别',
   dataIndex: 'deptType',
   render: (text,record)=>{
-    return DeptSelect.filter(item => item.value === Number(text))[0].text
+    return DeptSelectFilter.filter(item => item.value === Number(text))[0].text
   }
 },{
   title: '部门名称',
