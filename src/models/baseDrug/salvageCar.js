@@ -1,5 +1,4 @@
 import * as salvageCar from '../../services/baseDrug/salvageCar';
-import { message } from 'antd';
 
 export default {
     namespace: 'salvageCar',
@@ -12,11 +11,9 @@ export default {
         //抢救车库存-详情 - 表头
       *getRescuecarMedicineDetail({payload, callback}, {call}) {
         const data = yield call(salvageCar.getRescuecarMedicineDetail, payload);
-        if(data.code === 200 && data.msg === 'success') {
-            callback && callback(data.data);
-        }else {
-              message.error(data.msg);
-        }
+        if(callback && typeof callback === 'function') {
+          callback(data);
+        };
       },
       //新建退库抢救车货位
       *findDeptlist({payload, callback}, {call}) {
@@ -46,6 +43,35 @@ export default {
           callback(data);
         };
       },
+       //抢救车--台账--供应商
+       *getSuppliers({payload, callback}, {call}) {
+        const data = yield call(salvageCar.getSuppliers, payload);
+        if(callback && typeof callback === 'function') {
+          callback(data);
+        };
+      },
+      //抢救车--台账--抢救车货位
+      *getDepts({payload, callback}, {call}) {
+        const data = yield call(salvageCar.getDepts, payload);
+        if(callback && typeof callback === 'function') {
+          callback(data);
+        };
+      },
+      //抢救车--台账--类型
+      *getType({payload, callback}, {call}) {
+        const data = yield call(salvageCar.getType, payload);
+        if(callback && typeof callback === 'function') {
+          callback(data);
+        };
+      },
+       //抢救车--台账--导出
+       *exportList({payload, callback}, {call}) {
+        const data = yield call(salvageCar.exportList, payload);
+        if(callback && typeof callback === 'function') {
+          callback(data);
+        };
+      },
+
     },
     reducers: {
       save(state, action) {

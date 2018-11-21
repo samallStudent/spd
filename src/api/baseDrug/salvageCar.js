@@ -23,4 +23,7 @@ export default {
 
     /* 新建退库添加产品 */
     RESCUECAR_BACK_ADD_LIST: `${_local}/a/rescueCar/rescuecarBack/addlist`,
+
+    /* 台账查询列表*/
+    GET_DRUG_LEDGER:`${_local}/a/statics/rescuecar/drugLedger`,
   }

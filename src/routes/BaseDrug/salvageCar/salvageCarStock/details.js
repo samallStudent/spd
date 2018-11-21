@@ -1,5 +1,5 @@
 import React, {PureComponent} from 'react';
-import {Row, Col} from 'antd';
+import {Row, Col,message,Spin} from 'antd';
 import RemoteTable from '../../../../components/TableGrid';
 import salvageCar from '../../../../api/baseDrug/salvageCar';
 import {connect} from 'dva';
@@ -7,28 +7,36 @@ import querystring from 'querystring';
 const columns = [
     {
         title: '生产批号',
-        dataIndex: 'lot'
+        dataIndex: 'lot',
+        width: 168,
     },{
         title: '生产日期',
-        dataIndex: 'productDate'
+        dataIndex: 'productDate',
+        width: 168,
     },{
         title: '有效期至',
-        dataIndex: 'validEndDate'
+        dataIndex: 'validEndDate',
+        width: 168,
     },{
         title: '货位',
-        dataIndex: 'storeLocName'
+        dataIndex: 'storeLocName',
+        width: 112,
     },{
         title: '货位类型',
-        dataIndex: 'storeType'
+        dataIndex: 'storeType',
+        width: 168,
     },{
         title: '单位',
-        dataIndex: 'unit'
+        dataIndex: 'unit',
+        width: 60,
     },{
         title: '数量',
-        dataIndex: 'totalQuantity'
+        dataIndex: 'totalQuantity',
+        width: 112,
     },{
         title: '供应商',
-        dataIndex: 'supplierName'
+        dataIndex: 'supplierName',
+        width: 224,
     }
 ]
 
@@ -38,29 +46,26 @@ class Details extends PureComponent{
             drugCode:''
         },
         hisDrugCode:'',
-        info: {}
-    }
-    componentWillMount() {
-        let info = this.props.match.params.id;
-        info = querystring.parse(info);
-        let query = {
-            drugCode : info.dCode
-        }
-        this.setState({
-            query,
-            hisDrugCode: info.bCode
-        })
+        info: {},
+        loading: false
     }
     componentDidMount(){
-        console.log(this.props);
-        if (this.props.match.params.backNo) {
-            let { backNo } = this.props.match.params;
-            this.setState({ spinning: true });
+        if (this.props.match.params.id) {
+            let _this = this;
+            let { id } = this.props.match.params;
+            let paramsInfo = querystring.parse(id);
+            let qurey = {bigDrugCode:paramsInfo.bCode};
+            this.setState({ loading: true });
             this.props.dispatch({
-                type:'base/getBackStorageDetail',
-                payload: { backNo },
-                callback:(data)=>{
-                    this.setState({ detailsData: data,dataSource: data.list, spinning: false });
+                type:'salvageCar/getRescuecarMedicineDetail',
+                payload: qurey,
+                callback:(res)=>{
+                    if(res.code === 200){
+                        _this.setState({ info: res.data });
+                        this.setState({ loading: false });
+                    }else{
+                        message.error(res.msg);
+                    }
                 }
             });
         }
@@ -70,6 +75,7 @@ class Details extends PureComponent{
         return(
             <div className="fullCol">
              <div className="fullCol-fullChild">
+             <Spin spinning={this.state.loading}>
                 <h3>基本信息</h3>
                 <Row>
                     <Col span={8}>
@@ -133,6 +139,7 @@ class Details extends PureComponent{
                         </div>
                     </Col>
                 </Row>
+             </Spin>
              </div>
              <div className='detailCard'>
                     <h3 style={{marginBottom: 16}}>库存信息</h3>

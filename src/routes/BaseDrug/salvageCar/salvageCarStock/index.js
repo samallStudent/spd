@@ -8,7 +8,7 @@
  * @file 基数药--抢救车--抢救车库存
  */
 import React, { PureComponent } from 'react';
-import { Form, Row, Col, Select, Button, Icon} from 'antd';
+import { Form, Row, Col, Select, Button, Icon, message,Tooltip} from 'antd';
 import { Link } from 'react-router-dom'
 import { formItemLayout } from '../../../../utils/commonStyles';
 import RemoteTable from '../../../../components/TableGrid/index'; 
@@ -22,38 +22,49 @@ const IndexColumns = [
     {
       title: '通用名',
       dataIndex: 'ctmmGenericName',
-      width: 160,
+      width: 224,
+      className:'ellipsis',
       render: (text, record) => {
         return (
-          <span>
-            <Link to={{pathname: `/baseDrug/salvageCar/salvageCarStock/details/dCode=${record.drugCode}&bCode=${record.bigDrugCode}`}}>{text}</Link>
-          </span>  
+            <Tooltip placement="topLeft" title={text}>
+                <span>
+                    <Link to={{pathname: `/baseDrug/salvageCar/salvageCarStock/details/dCode=${record.drugCode}&bCode=${record.bigDrugCode}`}}>{text}</Link>
+                </span>  
+            </Tooltip>
         )
       }
     },{
       title: '商品名',
       dataIndex: 'ctmmTradeName',
-      width: 160
+      width: 224,
+      className:'ellipsis',
+      render: (text)=>(
+        <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+      )
     },{
       title: '抢救车货位',
       dataIndex: 'rescuecarDeptCodeName',
-      width: 112,
+      width: 168,
     },{
       title: '规格',
       dataIndex: 'ctmmSpecification',
-      width: 112,
+      width: 168,
     },{
       title: '生产厂家',
       dataIndex: 'ctmmManufacturerName',
-      width: 112,
+      width: 224,
+      className:'ellipsis',
+      render: (text)=>(
+        <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+      )
     },{
       title: '包装规格',
       dataIndex: 'packageSpecification',
-      width: 112,
+      width: 168,
     },{
       title: '单位',
       dataIndex: 'replanUnit',
-      width: 112,
+      width: 60,
     },{
       title: '库存数量',
       dataIndex: 'totalStoreNum',
@@ -65,35 +76,54 @@ const IndexColumns = [
     },{
       title: '剂型',
       dataIndex: 'ctmmDosageFormDesc',
-      width: 112,
+      width: 168,
     },{
       title: '批准文号',
       dataIndex: 'approvalNo',
-      width: 112,
+      width: 224,
     }
   ];
   
 
 
 class formSearch extends PureComponent{
+    state = {
+        findDeptlist: [],
+        value: undefined
+    }
+    
     componentDidMount = () => {
+        const { dispatch } = this.props.formProps;
+        let _this = this;
+        dispatch({
+            type: 'salvageCar/findDeptlist',
+            payload: {},
+            callback: (res) =>{
+                if(res.code === 200){
+                    _this.setState({ findDeptlist: res.data });
+                }else{
+                    message.error(res.msg);
+                }
+            }
+        })
       
         let { queryConditons } = this.props.formProps.base;
-        console.log(queryConditons)
         //找出表单的name 然后set
         let values = this.props.form.getFieldsValue();
         values = Object.getOwnPropertyNames(values);
         let value = {};
         values.map(keyItem => {
-          value[keyItem] = queryConditons[keyItem];
-          return keyItem;
+            if(keyItem !== 'keys'){
+                value[keyItem] = queryConditons[keyItem];
+            }
+            return keyItem;
         });
         this.props.form.setFieldsValue(value);
     }
     handlSearch = (e) =>{
         e.preventDefault();
         this.props.form.validateFields((err,values)=>{
-            console.log(values);
+            values.hisDrugCodeList = this.state.value ? [this.state.value] : [];
             if(!err){
                 this.props.formProps.dispatch({
                     type:'base/updateConditions',
@@ -110,12 +140,11 @@ class formSearch extends PureComponent{
     }
     render(){
         const { getFieldDecorator } = this.props.form;
-
         return(
             <Form className="ant-advanced-search-form" onSubmit={(e) => this.handlSearch(e)}>
                 <Row gutter={30}>
                     <Col span={8}>
-                        <FormItem {...formItemLayout} label={`抢救出货位：`}>
+                        <FormItem {...formItemLayout} label={`抢救车货位：`}>
                         {
                             getFieldDecorator(`type`,{
                                 initialValue: ''
@@ -129,8 +158,8 @@ class formSearch extends PureComponent{
                                 >
                                      <Option value=''>请选择...</Option> 
                                     { 
-                                        this.props.formProps.typeListData.map((item,index)=>
-                                            <Option value={item.id} key={index}>{item.name}</Option>
+                                        this.state.findDeptlist.map((item,index)=>
+                                            <Option value={item.id} key={index}>{item.deptName}</Option>
                                         )
                                     }
                                 </Select>
@@ -141,11 +170,7 @@ class formSearch extends PureComponent{
                     <Col span={8}>
                         <FormItem {...formItemLayout} label={`关键字：`}>
                         {
-                            getFieldDecorator(`keys`,{
-                                initialValue: ''
-                           })(
-                             
-
+                            getFieldDecorator(`keys`)(
                                <FetchSelect
                                     allowClear={true}
                                     placeholder='通用名/商品名'
@@ -171,24 +196,10 @@ class salvageStockList extends PureComponent{
     state = {
         visible: false,
         isDisabled: true,
-        query: {},
         ModalTitle: '',
         record: {},
         loading: false,
-        typeListData:[]
     };
-    componentDidMount=()=>{
-        const mosTypeListData =  [{
-            id:'1',
-            name:'张三'
-        },{
-            id:'2',
-            name:'李四'
-        }];
-        this.setState({
-            typeListData:mosTypeListData
-        })
-    }
     queryHandle = (query) =>{
         this.setState({ query });
         this.refs.salvageCarTable.fetch(query);
@@ -200,15 +211,11 @@ class salvageStockList extends PureComponent{
         });
       }
     render(){
-
         let query = this.props.base.queryConditons;
         query = {...query};
         delete query.key;
         delete query.backTime;
-
-
-        
-      return(
+        return(
           <div>
               <WrappSearchForm 
                 formProps={{...this.props,query:query,typeListData:this.state.typeListData}} 
@@ -219,14 +226,14 @@ class salvageStockList extends PureComponent{
                query={query}
                ref="salvageCarTable"
                columns={IndexColumns}
-               scroll={{x: '100%'}}
+               scroll={{x: '1740px'}}
                rowKey={'batchNo'}
                style={{marginTop: 20}}
                url={salvageCar.GET_SALVGECAR_LIST}
                loading={false}
               />
           </div>
-      )
+        )
     }
 }
 

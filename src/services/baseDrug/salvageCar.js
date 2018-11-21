@@ -53,3 +53,40 @@ export function rescuecarApplyDetail(options) {
     body: options 
   })
 }
+
+//抢救车-台账-供应商
+export function getSuppliers(options) {
+  return request(`${_local}/a/statics/rescuecar/getSuppliers`, {
+    method: 'GET',
+    type: 'json',
+    body: options 
+  })
+}
+
+//抢救车-台账-抢救车货位
+export function getDepts(options) {
+  return request(`${_local}/a/statics/rescuecar/getDepts`, {
+    method: 'GET',
+    type: 'json',
+    body: options 
+  })
+}
+
+//抢救车-台账-类型
+export function getType(options) {
+  return request(`${_local}/a/spd/dict/type`, {
+    method: 'POST',
+    type: 'json',
+    body: options 
+  })
+}
+
+//抢救车-台账-导出
+export function exportList(options) {
+  return request(`${_local}/a/statics/rescuecar/export`, {
+    method: 'POST',
+    type: 'json',
+    body: options ,
+    export: true
+  })
+}

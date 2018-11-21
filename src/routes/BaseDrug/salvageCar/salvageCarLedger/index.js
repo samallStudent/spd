@@ -8,11 +8,11 @@
  * @file 基数药--抢救车--抢救车台账
  */
 import React, { PureComponent } from 'react';
-import { Form, Row, Col, Input, Select, Button , Icon , DatePicker } from 'antd';
-import { Link } from 'react-router-dom'
+import { Form, Row, Col, Select, Button, Icon, DatePicker, message } from 'antd';
 import { formItemLayout } from '../../../../utils/commonStyles';
 import RemoteTable from '../../../../components/TableGrid/index'; 
 import salvageCar from '../../../../api/baseDrug/salvageCar';
+import FetchSelect from '../../../../components/FetchSelect';
 import {connect} from 'dva';
 const { RangePicker } = DatePicker;
 const FormItem = Form.Item;
@@ -29,75 +29,132 @@ const singleFormItemLayout = {
   }
   const IndexColumns = [
     {
-      title: '通用名',
-      dataIndex: 'tym',
+      title: '类型',
+      dataIndex: 'type',
       width: 160,
-      render: (text, record) => {
-        return (
-          <span>
-            <Link to={{pathname: `/baseDrug/salvageCar/salvageCarStock/details/dCode=${record.drugCode}&bCode=${record.bigDrugCode}`}}>{text}</Link>
-          </span>  
-        )
-      }
     },{
-      title: '商品名',
-      dataIndex: 'spm',
+      title: '通用名',
+      dataIndex: 'ctmmGenericName',
       width: 160
     },{
-      title: '抢救车货位',
-      dataIndex: 'qjchw',
+      title: '商品名',
+      dataIndex: 'ctmmTradeName',
       width: 112,
     },{
       title: '规格',
-      dataIndex: 'gg',
+      dataIndex: 'ctmmSpecification',
       width: 112,
     },{
       title: '生产厂家',
-      dataIndex: 'sccj',
-      width: 112,
-    },{
-      title: '包装规格',
-      dataIndex: 'bzgg',
+      dataIndex: 'ctmmManufacturerName',
       width: 112,
     },{
       title: '单位',
-      dataIndex: 'dw',
+      dataIndex: 'replanUnit',
       width: 112,
     },{
-      title: '库存数量',
-      dataIndex: 'kcsl',
+      title: '生产批号',
+      dataIndex: 'lot',
       width: 112,
     },{
-      title: '可用库存',
-      dataIndex: 'kykc',
+      title: '生产日期',
+      dataIndex: 'productDate',
+      width: 112,
+    },{
+      title: '有效期止',
+      dataIndex: 'validEndDate',
+      width: 112,
+    },{
+      title: '包装规格',
+      dataIndex: 'packageSpecification',
       width: 112,
     },{
       title: '剂型',
-      dataIndex: 'jx',
+      dataIndex: 'ctmmDosageFormDesc',
       width: 112,
     },{
-      title: '批准文号',
-      dataIndex: 'pzwh',
-      width: 112,
-    }
+        title: '供应商',
+        dataIndex: 'supplierName',
+        width: 112,
+      }
+      ,{
+        title: '批准文号',
+        dataIndex: 'hisDrugCode',
+        width: 112,
+      }
+      ,{
+        title: '库存数量',
+        dataIndex: 'stockNum',
+        width: 112,
+      }
+      ,{
+        title: '入库数量',
+        dataIndex: 'inStockNum',
+        width: 112,
+      }
+      ,{
+        title: '出库数量',
+        dataIndex: 'outStockNum',
+        width: 112,
+      }
+      ,{
+        title: '结存数量',
+        dataIndex: 'balanceNum',
+        width: 112,
+      }
   ];
 
 class formSearch extends PureComponent{
     state={
-        typeListData: []
+        typeListData: [],
+        suppliersListData: [],
+        deptsListData: []
     }
     componentDidMount=()=>{
-        const mosTypeListData =  [{
-            id:'1',
-            name:'张三'
-        },{
-            id:'2',
-            name:'李四'
-        }];
-        this.setState({
-            typeListData:mosTypeListData
+        const { dispatch } = this.props.formProps;
+        let _this = this;
+        dispatch({
+            type: 'base/orderStatusOrorderType',
+            payload: { type: 'medicine_standing' },
+            callback: (res) =>{
+                if(res.code === 200){
+                    _this.setState({ typeListData: res.data });
+                }else{
+                    message.error(res.msg);
+                }
+            }
         })
+
+        dispatch({
+            type: 'salvageCar/getDepts',
+            payload: {},
+            callback: (res) =>{
+                if(res.code === 200){
+                    _this.setState({ deptsListData: res.data });
+                }else{
+                    message.error(res.msg);
+                }
+            }
+        })
+
+        dispatch({
+            type: 'salvageCar/getSuppliers',
+            payload: {},
+            callback: (res) =>{
+                if(res.code === 200){
+                    _this.setState({ suppliersListData: res.data });
+                }else{
+                    message.error(res.msg);
+                }
+            }
+        })
+
     }
+    toggle = () => {
+        this.props.formProps.dispatch({
+          type:'base/setShowHide'
+        });
+      }
     handlSearch = (e) =>{
         e.preventDefault();
         this.props.form.validateFields((err,values)=>{
@@ -124,14 +181,30 @@ class formSearch extends PureComponent{
              type:'base/clearQueryConditions'
         });
     }
+    //导出
+    export = () => {
+        let {queryConditons} = this.props.base;
+        queryConditons = {...queryConditons};
+        delete queryConditons.pageSize;
+        delete queryConditons.pageNo;
+        delete queryConditons.sortField;
+        delete queryConditons.sortOrder;
+        delete queryConditons.key;
+        this.props.dispatch({
+        type: 'salvageCar/exportList',
+        payload: queryConditons,
+        });
+    }
     render(){
         const { getFieldDecorator } = this.props.form;
+        const {display} = this.props.formProps.base;
+        const expand = display === 'block'; 
 
         return(
             <Form className="ant-advanced-search-form" onSubmit={this.handlSearch}>
                 <Row gutter={30}>
                     <Col span={8}>
-                        <FormItem {...formItemLayout} label={`抢救车`}>
+                        <FormItem {...formItemLayout} label={`抢救车货位`}>
                         {
                             getFieldDecorator(`salvageCar`,{
                                 initialValue: ''
@@ -145,8 +218,8 @@ class formSearch extends PureComponent{
                                 >
                                      <Option value=''>请选择...</Option> 
                                     { 
-                                        this.state.typeListData.map((item,index)=>
-                                            <Option value={item.id} key={index}>{item.name}</Option>
+                                        this.state.deptsListData.map((item,index)=>
+                                            <Option value={item.id} key={index}>{item.deptName}</Option>
                                         )
                                     }
                                 </Select>
@@ -169,8 +242,8 @@ class formSearch extends PureComponent{
                                 >
                                      <Option value=''>请选择...</Option> 
                                     { 
-                                        this.state.typeListData.map((item,index)=>
-                                            <Option value={item.id} key={index}>{item.name}</Option>
+                                        this.state.suppliersListData.map((item,index)=>
+                                            <Option value={item.id} key={index}>{item.ctmaSupplierName}</Option>
                                         )
                                     }
                                 </Select>
@@ -178,20 +251,21 @@ class formSearch extends PureComponent{
                         }
                         </FormItem>
                     </Col>
-                    <Col span={8}>
+                    <Col span={8}  style={{display: display}}>
                         <FormItem {...singleFormItemLayout} label={`商品名/通用名`}>
                         {
-                            getFieldDecorator(`sp`,{
-                                initialValue: ''
-                           })(
-                               <Input style={{width:'90%'}}
-                                  placeholder="通用名/商品名"
-                               />
+                            getFieldDecorator(`sp`,{})(
+                            <FetchSelect
+                                allowClear={true}
+                                placeholder='通用名/商品名'
+                                query={{queryType: 3}}
+                                url={salvageCar.QUERY_DRUGBY_LIST}
+                            />
                            )
                         }
                         </FormItem>
                     </Col>
-                    <Col span={8}>
+                    <Col span={8}  style={{display: display}}>
                         <FormItem {...formItemLayout} label={`类型`}>
                         {
                             getFieldDecorator(`type`,{
@@ -207,7 +281,7 @@ class formSearch extends PureComponent{
                                      <Option value=''>请选择...</Option> 
                                     { 
                                         this.state.typeListData.map((item,index)=>
-                                            <Option value={item.id} key={index}>{item.name}</Option>
+                                            <Option value={item.value} key={index}>{item.label}</Option>
                                         )
                                     }
                                 </Select>
@@ -216,7 +290,7 @@ class formSearch extends PureComponent{
                         </FormItem>
                     </Col>
                   
-                    <Col span={8}>
+                    <Col span={8}  style={{display: display}}>
                         <FormItem {...formItemLayout} label={`统计时间`}>
                         {
                             getFieldDecorator(`time`,{
@@ -235,7 +309,9 @@ class formSearch extends PureComponent{
                     <Col style={{textAlign: 'right'}} span={8}>
                         <Button type="primary" htmlType="submit">查询</Button>
                         <Button style={{ marginLeft: 8 }} onClick={(e)=>this.handleReset(e)}>重置</Button>
-                        <a style={{marginLeft: 8,display:'none'}}>收起 <Icon type="down" /></a>
+                        <a style={{marginLeft: 8, fontSize: 14}} onClick={this.toggle}>
+                          {expand ? '收起' : '展开'} <Icon type={expand ? 'up' : 'down'} />
+                        </a>
                     </Col>
                 </Row>
             </Form>
@@ -262,14 +338,19 @@ class salvageLadgerList extends PureComponent{
       return(
           <div>
               <WrappSearchForm  formProps={{...this.props}}  />
+              <Row className='ant-row-bottom'>
+                <Col>
+                <Button type='default' onClick={this.export}>导出</Button>
+                </Col>
+              </Row>
               <RemoteTable
                query={query}
-               ref="salvageCarTable"
+               ref="salvageCarLedgerTable"
                columns={IndexColumns}
                scroll={{x: '100%'}}
                rowKey={'id'}
                style={{marginTop: 20}}
-               url={salvageCar.GET_SALVGECAR_LIST}
+               url={salvageCar.GET_DRUG_LEDGER}
                loading={false}
               />
           </div>
