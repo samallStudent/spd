@@ -8,7 +8,7 @@
  * @file 基数药--抢救车--抢救车台账
  */
 import React, { PureComponent } from 'react';
-import { Form, Row, Col, Select, Button, Icon, DatePicker, message } from 'antd';
+import { Form, Row, Col, Select, Button, Icon, DatePicker, message, Tooltip} from 'antd';
 import { formItemLayout } from '../../../../utils/commonStyles';
 import RemoteTable from '../../../../components/TableGrid/index'; 
 import salvageCar from '../../../../api/baseDrug/salvageCar';
@@ -35,11 +35,19 @@ const singleFormItemLayout = {
     },{
       title: '通用名',
       dataIndex: 'ctmmGenericName',
-      width: 160
+      width: 160,
+      className:'ellipsis',
+      render: (text)=>(
+        <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+      )
     },{
       title: '商品名',
       dataIndex: 'ctmmTradeName',
-      width: 112,
+      width: 160,
+      className:'ellipsis',
+      render: (text)=>(
+        <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+      )
     },{
       title: '规格',
       dataIndex: 'ctmmSpecification',
@@ -47,7 +55,7 @@ const singleFormItemLayout = {
     },{
       title: '生产厂家',
       dataIndex: 'ctmmManufacturerName',
-      width: 112,
+      width: 224,
     },{
       title: '单位',
       dataIndex: 'replanUnit',
@@ -80,7 +88,7 @@ const singleFormItemLayout = {
       ,{
         title: '批准文号',
         dataIndex: 'hisDrugCode',
-        width: 112,
+        width: 160,
       }
       ,{
         title: '库存数量',
@@ -112,16 +120,12 @@ class formSearch extends PureComponent{
     }
     componentDidMount=()=>{
         const { dispatch } = this.props.formProps;
-        let _this = this;
         dispatch({
             type: 'base/orderStatusOrorderType',
             payload: { type: 'medicine_standing' },
-            callback: (res) =>{
-                if(res.code === 200){
-                    _this.setState({ typeListData: res.data });
-                }else{
-                    message.error(res.msg);
-                }
+            callback: (data) =>{
+                data = data.filter(item => item.value !== '');
+                this.setState({ typeListData: data });
             }
         })
 
@@ -130,7 +134,8 @@ class formSearch extends PureComponent{
             payload: {},
             callback: (res) =>{
                 if(res.code === 200){
-                    _this.setState({ deptsListData: res.data });
+                    console.log(res.data);
+                    this.setState({ deptsListData: res.data });
                 }else{
                     message.error(res.msg);
                 }
@@ -142,7 +147,7 @@ class formSearch extends PureComponent{
             payload: {},
             callback: (res) =>{
                 if(res.code === 200){
-                    _this.setState({ suppliersListData: res.data });
+                    this.setState({ suppliersListData: res.data });
                 }else{
                     message.error(res.msg);
                 }
@@ -181,32 +186,19 @@ class formSearch extends PureComponent{
              type:'base/clearQueryConditions'
         });
     }
-    //导出
-    export = () => {
-        let {queryConditons} = this.props.base;
-        queryConditons = {...queryConditons};
-        delete queryConditons.pageSize;
-        delete queryConditons.pageNo;
-        delete queryConditons.sortField;
-        delete queryConditons.sortOrder;
-        delete queryConditons.key;
-        this.props.dispatch({
-        type: 'salvageCar/exportList',
-        payload: queryConditons,
-        });
-    }
+
     render(){
+        
         const { getFieldDecorator } = this.props.form;
         const {display} = this.props.formProps.base;
         const expand = display === 'block'; 
-
         return(
             <Form className="ant-advanced-search-form" onSubmit={this.handlSearch}>
                 <Row gutter={30}>
                     <Col span={8}>
                         <FormItem {...formItemLayout} label={`抢救车货位`}>
                         {
-                            getFieldDecorator(`salvageCar`,{
+                            getFieldDecorator(`deptCode`,{
                                 initialValue: ''
                             })(
                                 <Select 
@@ -230,7 +222,7 @@ class formSearch extends PureComponent{
                     <Col span={8}>
                         <FormItem {...formItemLayout} label={`供应商`}>
                         {
-                            getFieldDecorator(`gys`,{
+                            getFieldDecorator(`supplierCode`,{
                                 initialValue: ''
                             })(
                                 <Select 
@@ -254,7 +246,7 @@ class formSearch extends PureComponent{
                     <Col span={8}  style={{display: display}}>
                         <FormItem {...singleFormItemLayout} label={`商品名/通用名`}>
                         {
-                            getFieldDecorator(`sp`,{})(
+                            getFieldDecorator(`paramsName`,{})(
                             <FetchSelect
                                 allowClear={true}
                                 placeholder='通用名/商品名'
@@ -268,7 +260,7 @@ class formSearch extends PureComponent{
                     <Col span={8}  style={{display: display}}>
                         <FormItem {...formItemLayout} label={`类型`}>
                         {
-                            getFieldDecorator(`type`,{
+                            getFieldDecorator(`secondType`,{
                                 initialValue: ''
                             })(
                                 <Select 
@@ -281,7 +273,7 @@ class formSearch extends PureComponent{
                                      <Option value=''>请选择...</Option> 
                                     { 
                                         this.state.typeListData.map((item,index)=>
-                                            <Option value={item.value} key={index}>{item.label}</Option>
+                                            <Option value={item.value||item.value} key={index}>{item.label}</Option>
                                         )
                                     }
                                 </Select>
@@ -327,13 +319,26 @@ class salvageLadgerList extends PureComponent{
         record: {},
         loading: false
     };
+        //导出
+        export = () => {
+            let query = this.props.base.queryConditons;
+            query = {
+                ...query,
+            }
+            delete query.time;
+            delete query.key;
+            this.props.dispatch({
+            type: 'salvageCar/exportList',
+                payload: query,
+            });
+        }
     
     render(){
     let query = this.props.base.queryConditons;
     query = {
         ...query,
     }
-    delete query.sponsorDate;
+    delete query.time;
     delete query.key;
       return(
           <div>

@@ -146,7 +146,7 @@ class formSearch extends PureComponent{
                     <Col span={8}>
                         <FormItem {...formItemLayout} label={`抢救车货位：`}>
                         {
-                            getFieldDecorator(`type`,{
+                            getFieldDecorator(`rescuecarDeptCode`,{
                                 initialValue: ''
                             })(
                                 <Select 
@@ -213,6 +213,10 @@ class salvageStockList extends PureComponent{
     render(){
         let query = this.props.base.queryConditons;
         query = {...query};
+        query.hisDrugCodeList = query.keys ? [query.keys] : [];
+        console.log(query);
+        delete query.pageNo;
+        delete query.keys;
         delete query.key;
         delete query.backTime;
         return(
