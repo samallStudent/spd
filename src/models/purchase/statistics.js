@@ -222,6 +222,12 @@ export default {
             callback && callback(data);
         };
     },
-
+    //库存查询表头
+    *getRoomRepertoryDetail({payload, callback}, {call}) {
+        const data = yield call(statistics.getRoomRepertoryDetail, payload);
+        if(typeof callback === 'function') {
+            callback && callback(data);
+        };
+    },
   } 
 }

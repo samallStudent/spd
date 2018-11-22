@@ -310,6 +310,34 @@ export default {
           callback(data);
         };
     },
+    //抢救车新建申领抢救车下拉
+    *applyRescuecarList({payload, callback}, {call}) {
+      const data = yield call(salvageCar.applyRescuecarList, payload);
+      if(callback && typeof callback === 'function') {
+        callback(data);
+      };
+    },
+    //抢救车申领确认添加
+    *rescuecarApplyAddDrug({payload, callback}, {call}) {
+      const data = yield call(salvageCar.rescuecarApplyAddDrug, payload);
+      if(callback && typeof callback === 'function') {
+        callback(data);
+      };
+    },
+    //新建申领保存
+    *rescuecarApplySave({payload, callback}, {call}) {
+      const data = yield call(salvageCar.rescuecarApplySave, payload);
+      if(callback && typeof callback === 'function') {
+        callback(data);
+      };
+    },
+    //抢救车药品验收
+    *rescuecarSaveCheck({payload, callback}, {call}) {
+      const data = yield call(salvageCar.rescuecarSaveCheck, payload);
+      if(callback && typeof callback === 'function') {
+        callback(data);
+      };
+    },
     //公用---产品搜索下拉框
     *SearchProductSelect({ payload,callback },{ call }){
       const data = yield call(base.SearchProductSelect, payload);

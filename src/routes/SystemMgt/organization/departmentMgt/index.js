@@ -186,10 +186,10 @@ class DepartmentMgt extends PureComponent{
         });
         const { subModalSelectRowCache , goodsModalSelectRowCache } = this.state;
         values.openDeptCode = subModalSelectRowCache.ctdCode;//ctdCode为编码 
-        if(values.deptType===5){//选择基数药的时候获取选中的Id
+        if(values.deptType === 5 || values.deptType === 6){//选择基数药的时候获取选中的Id
           values.parentId = goodsModalSelectRowCache.deptCode;
           values.baseDeptCode = goodsModalSelectRowCache.id;
-        }
+        };
         delete values['openDeptName'];
         console.log(JSON.stringify(values))
         this.props.dispatch({
@@ -301,7 +301,18 @@ class DepartmentMgt extends PureComponent{
       callback(new Error('必须选择补货指示货位!'));
     };
   }
-
+  //校验抢救车货位
+  verifyRescuecar = (rule, value, callback) => {
+    callback();
+  }
+  changeQueryGoods = (value) => {
+    this.setState({
+      queryGoods: {
+        deptType: value
+      }
+    });
+    this.props.form.resetFields(['positionName', 'storeType']);
+  }
   render(){
     const columns = [
       {
@@ -338,7 +349,7 @@ class DepartmentMgt extends PureComponent{
           return <span>
             <Link className='button-gap' to={{pathname:`/sys/organization/departmentMgt/edit/${record.id}`,state:record}}>编辑</Link>
             {
-              (record.deptType === '3'||record.deptType === '4')
+              (record.isEditLocation === 1)
               &&
               <Link to={{pathname:`/sys/organization/departmentMgt/goodsAllocation/${record.id}`,state:record}}>货位 </Link>
             }
@@ -370,8 +381,14 @@ class DepartmentMgt extends PureComponent{
     const { getFieldDecorator, getFieldsValue } = this.props.form;
     let query = this.props.base.queryConditons;
     delete query.key;
+    if(getFieldsValue(['deptType']).deptType === 4) {
+      storeList = storeList.filter((item, i) => i !== 5);
+    };
     if(getFieldsValue(['deptType']).deptType === 3) {
       storeList = storeList.filter((item, i) => i === 0);
+    };
+    if(getFieldsValue(['deptType']).deptType === 5) {
+      storeList = storeList.filter((item, i) => i === 5);
     };
     return (
       <div className='ysynet-main-content'>
@@ -404,14 +421,14 @@ class DepartmentMgt extends PureComponent{
           okButtonProps={{
             loading: OKLoading
           }}
-          >
+        >
           <Form onSubmit={this.onSubmit}>
             <FormItem {...singleFormItemLayout} label={`部门性质`}>
               {
                 getFieldDecorator(`deptType`,{
-                  rules: [{ required: true,message: '请输入部门性质' }]
+                  rules: [{ required: true,message: '请选择部门性质' }]
                 })(
-                  <Select onSelect={(val)=>this.props.form.setFieldsValue({deptType:val})}>
+                  <Select placeholder="请选择部门性质" onChange={this.changeQueryGoods}>
                     {
                       DeptSelect.map(item=>(
                         <Option value={item.value} key={item.value}>{item.text}</Option>
@@ -422,35 +439,42 @@ class DepartmentMgt extends PureComponent{
               }
             </FormItem>
             {
-              getFieldsValue(['deptType']).deptType !== 1 && getFieldsValue(['deptType']).deptType !== 2 ?
-              [<FormItem key="1" {...singleFormItemLayout} label={`科室名称`}>
+              getFieldsValue(['deptType']).deptType !== 1 && 
+              getFieldsValue(['deptType']).deptType !== 2 &&
+              getFieldsValue(['deptType']).deptType !== 6 ?
+              <FormItem {...singleFormItemLayout} label={`科室名称`}>
                 {
                   getFieldDecorator(`openDeptName`,{
                     rules: [{ required: true,message: '请输入科室名称' }]
                   })(
-                    <Input onClick={this.showDeptModal} readOnly/>
+                    <Input placeholder="请输入科室名称" onClick={this.showDeptModal} readOnly/>
                   )
                 }
-              </FormItem>,
+              </FormItem> : null
+            }
+            {
+              getFieldsValue(['deptType']).deptType !== 1 && 
+              getFieldsValue(['deptType']).deptType !== 2 ?
               <FormItem key="2" {...singleFormItemLayout} label={`部门名称`}>
                 {
                   getFieldDecorator(`deptName`,{
                     rules: [{ required: true,message: '请输入部门名称' }]
                   })(
-                    <Input />
+                    <Input placeholder="请输入部门名称" />
                   )
                 }
-              </FormItem>] : null
+              </FormItem> : null
             }
-            
             {
-              getFieldsValue(['deptType']).deptType === 3 || getFieldsValue(['deptType']).deptType === 4 ?
+              getFieldsValue(['deptType']).deptType === 3 || 
+              getFieldsValue(['deptType']).deptType === 4 ||
+              getFieldsValue(['deptType']).deptType === 5 ?
               <FormItem {...singleFormItemLayout} label={`货位设置`}>
                 {
                   getFieldDecorator(`storeType`,{
                     rules: [
-                      { required: true,message: '请选择货位设置' },
-                      { validator: this.verifyStore }
+                      { required: getFieldsValue(['deptType']).deptType !== 5, message: '请选择货位设置' },
+                      { validator: getFieldsValue(['deptType']).deptType !== 5 ? this.verifyStore : this.verifyRescuecar }
                     ]
                   })(
                     <CheckboxGroup style={{ width: '100%', marginTop: 10 }}>
@@ -468,26 +492,29 @@ class DepartmentMgt extends PureComponent{
                 }
               </FormItem> : null
             }
-            
             {
-              getFieldsValue(['deptType']).deptType === 5?
+              getFieldsValue(['deptType']).deptType === 5 || 
+              getFieldsValue(['deptType']).deptType === 6 ?
               <FormItem {...singleFormItemLayout} label={`货位`}>
-              {
-                getFieldDecorator(`positionName`,{
-                  rules: [{ required: true,message: '请输入货位' }]
-                })(
-                  <Input onClick={this.showGoodsModal} readOnly/>
-                )
-              }
-            </FormItem>:null
+                {
+                  getFieldDecorator(`positionName`,{
+                    rules: [{ required: true,message: '请输入货位' }]
+                  })(
+                    <Input placeholder="请输入货位" onClick={this.showGoodsModal} readOnly/>
+                  )
+                }
+              </FormItem>:null
             }
-            <FormItem {...singleFormItemLayout} label={`地址`}>
-              {
-                getFieldDecorator(`deptLocation`)(
-                  <Input/>
-                )
-              }
-            </FormItem>
+            {
+              getFieldsValue(['deptType']).deptType !== 6 ? 
+              <FormItem {...singleFormItemLayout} label={`地址`}>
+                {
+                  getFieldDecorator(`deptLocation`)(
+                    <Input placeholder="请输入地址"/>
+                  )
+                }
+              </FormItem> : null
+            }
           </Form>
         </Modal>
         {/* 新增部门 - 科室 - 弹窗  */}
@@ -496,6 +523,7 @@ class DepartmentMgt extends PureComponent{
           visible={subModalVisible} 
           title='科室'     
           onOk={this.onSubmitSubModal}
+          width={600}
           onCancel={this.onCancelSubModal}
           >
             <Row>
@@ -550,7 +578,7 @@ class DepartmentMgt extends PureComponent{
               onRow={ (record, index) => {
                 return {
                   onClick: () => {
-                    this.setState({ hasStyle: index , goodsModalSelectRow:record })
+                    this.setState({ hasStyle: index , goodsModalSelectRow: record })
                   }
                 };
               }}

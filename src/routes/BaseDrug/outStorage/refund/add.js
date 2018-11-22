@@ -255,7 +255,8 @@ class AddRefund extends PureComponent{
       if (!err) {
         console.log(values, '查询条件');  
         let { query } = this.state;
-        this.setState({ query: { ...query, ...values } })
+        values.hisDrugCodeList = values.hisDrugCodeList ? [values.hisDrugCodeList] : [];
+        this.setState({ query: { ...query, ...values } });
       }
     })
   }
@@ -263,7 +264,6 @@ class AddRefund extends PureComponent{
     this.props.form.resetFields();
     let values = this.props.form.getFieldsValue();
     let { query } = this.state;
-    values.hisDrugCodeList = values.hisDrugCodeList ? [values.hisDrugCodeList] : [];
     this.setState({ ...query, ...values });
   }
   //提交该出库单

@@ -26,4 +26,10 @@ export default {
 
     /* 台账查询列表*/
     GET_DRUG_LEDGER:`${_local}/a/statics/rescuecar/drugLedger`,
+
+    /* 新建申领查询药品 */
+    RESCUECAR_APPLY_QUERY_DRUG: `${_local}/a/rescuecarapply/queryDrugByDept`, 
+
+    /* 药品验收列表 */
+    CHECK_RESCUECAR_LIST: `${_local}/a/checkaccept/rescuecarlist`,
   }

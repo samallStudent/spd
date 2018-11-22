@@ -29,13 +29,6 @@ export default {
           callback(data);
         };
       },
-      //抢救车新建申领抢救车下拉
-      *applyRescuecarList({payload, callback}, {call}) {
-        const data = yield call(salvageCar.applyRescuecarList, payload);
-        if(callback && typeof callback === 'function') {
-          callback(data);
-        };
-      },
       //抢救车申领详情
       *rescuecarApplyDetail({payload, callback}, {call}) {
         const data = yield call(salvageCar.rescuecarApplyDetail, payload);

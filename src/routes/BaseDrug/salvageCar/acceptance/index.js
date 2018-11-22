@@ -5,53 +5,15 @@
  */
 
 import React, { PureComponent } from 'react';
-import {Form, Row, Col, Button, Icon, Select , Input , DatePicker } from 'antd';
+import {Form, Row, Col, Button, Icon, Select , Input , DatePicker, message } from 'antd';
 import RemoteTable from '../../../../components/TableGrid/index';
-import {acceptance} from '../../../../api/baseDrug/wareHouse';
+import salvageCar from '../../../../api/baseDrug/salvageCar';
 import { Link } from 'react-router-dom';
 import {connect} from 'dva';
 import { formItemLayout } from '../../../../utils/commonStyles';
 const RangePicker = DatePicker.RangePicker;
 const FormItem = Form.Item;
 const Option = Select.Option;
-const columns = [
-  {
-   title: '出库单',
-   dataIndex: 'distributeCode',
-   width:150,
-   render:(text, record)=>(<Link to={{pathname: `/baseDrug/wareHouse/acceptance/details/${record.distributeCode}`}}>{text}</Link>)
-  },
-  {
-    title: '申领单',
-    width:150,
-    dataIndex: 'applyCode',
-  },
-  {
-    title: '配货部门',
-    width:100,
-    dataIndex: 'deptName'
-  },
-  {
-    title: '状态',
-    width:150,
-    dataIndex: 'statusName',
-  },
-  {
-    title: '发起人',
-    width:100,
-    dataIndex: 'createName'
-  },
-  {
-    title: '发起时间',
-    dataIndex: 'createDate',
-    width:120
-  },
-  {
-   title: '验收时间',
-   width:120,
-   dataIndex: 'receptionTime'
-  }
-];
 
 class Acceptance extends PureComponent{
 
@@ -59,7 +21,7 @@ class Acceptance extends PureComponent{
     super(props);
     this.state = {
       query:{
-        checkType: 3
+        checkType: 4
       },
     }
   }
@@ -71,6 +33,45 @@ class Acceptance extends PureComponent{
   }
   
   render(){
+    const {match} = this.props;
+    const columns = [
+      {
+        title: '出库单',
+        dataIndex: 'distributeCode',
+        width: 168,
+        render:(text, record)=>(<Link to={{pathname: `${match.path}/details/${record.distributeCode}`}}>{text}</Link>)
+      },
+      {
+        title: '申领单',
+        width: 168,
+        dataIndex: 'applyCode',
+      },
+      {
+        title: '申领抢救车',
+        width: 168,
+        dataIndex: 'deptName'
+      },
+      {
+        title: '状态',
+        width: 112,
+        dataIndex: 'statusName',
+      },
+      {
+        title: '出库人',
+        width: 112,
+        dataIndex: 'createName'
+      },
+      {
+        title: '发起时间',
+        dataIndex: 'createDate',
+        width: 168
+      },
+      {
+      title: '验收时间',
+      width: 168,
+      dataIndex: 'receptionTime'
+      }
+    ];
     let query = this.props.base.queryConditons;
     query = {...query, ...this.state.query};
     delete query.key;
@@ -81,7 +82,7 @@ class Acceptance extends PureComponent{
         <SearchForm formProps={{...this.props}} />
         <Row>
           <Button type='primary' className='button-gap'>
-            <Link to={{pathname:`/baseAddNewAcceptance`}}>新建验收</Link>
+            <Link to={{pathname:`/salvageCarAddNewAcceptance`}}>新建验收</Link>
           </Button>
         </Row>
         <RemoteTable
@@ -89,7 +90,7 @@ class Acceptance extends PureComponent{
           isJson
           query={query}
           ref="tab"
-          url={acceptance.CHECKACCEPT_LIST}
+          url={salvageCar.CHECK_RESCUECAR_LIST}
           scroll={{x: '100%'}}
           columns={columns}
           rowKey={'id'}
@@ -103,56 +104,70 @@ export default connect(state=>state)(Acceptance);
 /* 搜索 - 表单 */
 class SearchFormWrapper extends PureComponent {
   state = {
-    statusList: []
+    statusList: [],
+    applyRescuecarList: []
   }
   componentDidMount() {
-      this.props.formProps.dispatch({
-        type: 'base/orderStatusOrorderType',
-        payload: {
-          type: 'basemedic_check'
-        },
-        callback: (data) => {
-          this.setState({statusList: data});
-        }
-      });
-      let { queryConditons } = this.props.formProps.base;
-      //找出表单的name 然后set
-      let values = this.props.form.getFieldsValue();
-      values = Object.getOwnPropertyNames(values);
-      let value = {};
-      values.map(keyItem => {
-        value[keyItem] = queryConditons[keyItem];
-        return keyItem;
-      });
-      this.props.form.setFieldsValue(value);
-    }
+    const {dispatch} = this.props.formProps;
+    dispatch({
+      type: 'base/orderStatusOrorderType',
+      payload: {
+        type: 'basemedic_check'
+      },
+      callback: (data) => {
+        this.setState({statusList: data});
+      }
+    });
+    dispatch({
+      type: 'base/applyRescuecarList',
+      callback: ({data, code, msg}) => {
+        if(code === 200) {
+          this.setState({
+            applyRescuecarList: data
+          });
+        }else {
+          message.error(msg);
+        };
+      }
+    });
+    let { queryConditons } = this.props.formProps.base;
+    //找出表单的name 然后set
+    let values = this.props.form.getFieldsValue();
+    values = Object.getOwnPropertyNames(values);
+    let value = {};
+    values.map(keyItem => {
+      value[keyItem] = queryConditons[keyItem];
+      return keyItem;
+    });
+    this.props.form.setFieldsValue(value);
+  }
   toggle = () => {
     this.props.formProps.dispatch({
-        type:'base/setShowHide'
-      });
+      type:'base/setShowHide'
+    });
   }
   handleSearch = (e) => {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
-    let {initTime, checkTime} = values;
-    if(initTime && initTime.length !== 0){
-      values.launchStartTime = initTime[0].format('YYYY-MM-DD');
-      values.launchEndTime = initTime[1].format('YYYY-MM-DD');
-    }else {
-      values.launchStartTime = '';
-      values.launchEndTime = '';
-    };
-    if(checkTime && checkTime.length !== 0){
-      values.checkStartTime = checkTime[0].format('YYYY-MM-DD');
-      values.checkEndTime = checkTime[1].format('YYYY-MM-DD');
-    }else {
-      values.checkStartTime = '';
-      values.checkEndTime = '';
-    };
-    this.props.formProps.dispatch({
-      type:'base/updateConditions',
-      payload: values
-    });
+      let {initTime, checkTime} = values;
+      if(initTime && initTime.length !== 0){
+        values.startCreateTime = initTime[0].format('YYYY-MM-DD');
+        values.endCreateTime = initTime[1].format('YYYY-MM-DD');
+      }else {
+        values.startCreateTime = '';
+        values.endCreateTime = '';
+      };
+      if(checkTime && checkTime.length !== 0){
+        values.receptionStartTime = checkTime[0].format('YYYY-MM-DD');
+        values.receptionEndTime = checkTime[1].format('YYYY-MM-DD');
+      }else {
+        values.receptionStartTime = '';
+        values.receptionEndTime = '';
+      };
+      this.props.formProps.dispatch({
+        type:'base/updateConditions',
+        payload: values
+      });
     });
   }
   //重置
@@ -164,26 +179,43 @@ class SearchFormWrapper extends PureComponent {
   }
 
   render() {
-    let {statusList} = this.state;
+    let {statusList, applyRescuecarList} = this.state;
     const { getFieldDecorator } = this.props.form;
     statusList = statusList.map(item=>{
       return <Option key={item.value} value={item.value}>{item.label}</Option>
     });
+    applyRescuecarList = applyRescuecarList.map(item => (
+      <Option key={item.id} value={item.id}>{item.deptName}</Option>
+    ));
     const {display} = this.props.formProps.base;
     const expand = display === 'block';
     return (
       <Form onSubmit={this.handleSearch}>
         <Row gutter={30}>
           <Col span={8}>
+            <FormItem label={`申领抢救车`} {...formItemLayout}>
+              {getFieldDecorator('deptCode')(
+                <Select 
+                  showSearch
+                  placeholder={'请选择'}
+                  optionFilterProp="children"
+                  filterOption={(input, option) => option.props.children.indexOf(input) >= 0}
+                >
+                  {applyRescuecarList}
+                </Select>
+              )}
+            </FormItem>
+          </Col>
+          <Col span={8}>
             <FormItem label={`单据`} {...formItemLayout}>
-              {getFieldDecorator('bill', {})(
+              {getFieldDecorator('distributeCode')(
                 <Input placeholder='出库单/申领单'/>
               )}
             </FormItem>
           </Col>
-          <Col span={8} >
+          <Col span={8} style={{display: display}}>
             <FormItem label={`状态`} {...formItemLayout}>
-              {getFieldDecorator('status')(
+              {getFieldDecorator('auditStatus')(
                 <Select 
                   showSearch
                   placeholder={'请选择'}

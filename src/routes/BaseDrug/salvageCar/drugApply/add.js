@@ -8,13 +8,13 @@
  * @file 基数药 - 申领 - 新建
  */
 import React, { PureComponent } from 'react';
-import { Row, Col, Button, Table, Modal, Icon, Tooltip, message } from 'antd';
-import {wareHouse} from '../../../../api/pharmacy/wareHouse';
+import { Row, Col, Button, Table, Modal, Icon, Tooltip, message, Select } from 'antd';
+import salvageCar from '../../../../api/baseDrug/salvageCar';
 import RemoteTable from '../../../../components/TableGrid';
 import FetchSelect from '../../../../components/FetchSelect/index';
 import _ from 'lodash';
 import {connect} from 'dva';
-
+const {Option} = Select;
 class NewAdd extends PureComponent {
   state = {
     modalLoading: false,
@@ -32,42 +32,69 @@ class NewAdd extends PureComponent {
     btnLoading: false,
     saveLoading: false,
     applyType: '1',        //补货方式
-    value: undefined
+    value: undefined,
+    applyRescuecarList: [],
+    deptCode: ''
+  }
+  componentDidMount() {
+    this.props.dispatch({
+      type: 'base/applyRescuecarList',
+      callback: ({data, code, msg}) => {
+        if(code === 200) {
+          this.setState({
+            applyRescuecarList: data
+          });
+        }else {
+          message.error(msg);
+        };
+      }
+    });
   }
   handleOk = () => {
     let {modalSelectedRows, query} = this.state;
     if(modalSelectedRows.length === 0) {
-      message.warning('至少选择一条信息');
-      return;
-    }
+      return message.warning('至少选择一条信息');
+    };
     this.setState({btnLoading: true});
     modalSelectedRows = modalSelectedRows.map(item=>item.drugCode);
     this.props.dispatch({
-      type: 'base/baseapplyAddDrug',
+      type: 'base/rescuecarApplyAddDrug',
       payload: {
         deptCode: query.deptCode,
         drugCodeList: modalSelectedRows
       },
-      callback: (data) => {
-        this.setState({
-          dataSource: data,
-          btnLoading: false,
-          visible: false,
-          modalSelected: []
-        })
+      callback: ({data, code, msg}) => {
+        if(code === 200) {
+          this.setState({
+            dataSource: data,
+            btnLoading: false,
+            visible: false,
+            modalSelected: [],
+            modalSelectedRows: []
+          });
+        }else {
+          this.setState({
+            btnLoading: false,
+          });
+          message.error(msg);
+        };
       }
     })
   }
   showModal = () => {
-    let {query, dataSource} = this.state;
+    let {query, dataSource, deptCode} = this.state;
+    if(deptCode === '' || deptCode === undefined) {
+      return message.warning('请先选择补货抢救车');
+    };
     query = {
       ...query,
       hisDrugCodeList: [],
-      value: undefined,
-      existDrugCodeList: dataSource.map(item=>item.drugCode)
+      existDrugCodeList: dataSource.map(item=>item.drugCode),
+      deptCode
     };
     this.setState({
       visible: true, 
+      value: undefined,
       query: {...query}
     });
   }
@@ -82,7 +109,7 @@ class NewAdd extends PureComponent {
       query: {
         ...query,
         existDrugCodeList
-      }
+      },
     });
   }
   submit = (applyStatus) => {   //提交  保存
@@ -107,16 +134,23 @@ class NewAdd extends PureComponent {
     let body = {
       applyStatus,
       applyType,
-      distributeDeptCode: query.deptCode,
-      detaiList: dataSource
+      applyDeptCode: query.deptCode,
+      detaiList: dataSource,
+      rescuercarApplyFlag: true,
     };
-    
     this.props.dispatch({
-      type: 'base/baseapplySave',
+      type: 'base/rescuecarApplySave',
       payload: body,
-      callback: ()=>{
-        message.success(`${applyStatus === '0'? '保存' : '提交'}成功`);
-        this.props.history.go(-1);
+      callback: ({data, code, msg})=>{
+        if(code === 200) {
+          message.success(`${applyStatus === '0'? '保存' : '提交'}成功`);
+          this.props.history.go(-1);
+        }else {
+          this.setState({
+            saveLoading: false
+          });
+          message.error(msg);
+        };
       }
     });
   }
@@ -131,6 +165,12 @@ class NewAdd extends PureComponent {
       value
     });
   }
+  //抢救车部门
+  changeDept = (value) => {
+    this.setState({
+      deptCode: value
+    });
+  }
   render() {
     let { 
       visible, 
@@ -140,7 +180,8 @@ class NewAdd extends PureComponent {
       modalLoading,
       btnLoading,
       saveLoading,
-      value
+      value,
+      applyRescuecarList
     } = this.state;
     const columns = [
       {
@@ -191,12 +232,16 @@ class NewAdd extends PureComponent {
           text < 0 ? 0 : text
         )
       }, {
-        title: '可用库存',
+        title: '抢救车库存',
         dataIndex: 'localUsableQuantity',
         width: 112,
       }, {
-        title: '库存基数',
-        dataIndex: 'stockBase',
+        title: '库存上限',
+        dataIndex: 'locaUpperQuantity',
+        width: 112,
+      }, {
+        title: '库存下限',
+        dataIndex: 'localDownQuantity',
         width: 112,
       }, {
         title: '批准文号',
@@ -221,6 +266,10 @@ class NewAdd extends PureComponent {
         render: (text) => (
           <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
         )
+      }, {
+        title: '药品编码',
+        dataIndex: 'hisDrugCode',
+        width: 168,
       }, {
         title: '规格',
         dataIndex: 'ctmmSpecification',
@@ -259,8 +308,24 @@ class NewAdd extends PureComponent {
             </Col>
           </Row>
           <Row style={{marginTop: '10px'}}>
-            <Button type='primary' icon='plus' style={{marginRight: 8}} onClick={this.showModal}>添加产品</Button>
-            <Button onClick={this.delete} type='default'>删除</Button>
+            <Col span={4} style={{marginRight: 8}}>
+              <Select
+                disabled={dataSource.length !== 0}
+                onChange={this.changeDept}
+                placeholder="请选择补货抢救车" 
+                style={{width: '100%'}}
+              >
+                {
+                  applyRescuecarList.map(item => (
+                    <Option key={item.id} value={item.id}>{item.deptName}</Option>
+                  ))
+                }
+              </Select>
+            </Col>
+            <Col span={6}>
+              <Button type='primary' icon='plus' style={{marginRight: 8}} onClick={this.showModal}>添加产品</Button>
+              <Button onClick={this.delete} type='default'>删除</Button>
+            </Col>
           </Row>
         </div>
         <Modal
@@ -282,7 +347,7 @@ class NewAdd extends PureComponent {
                 value={value}
                 style={{ width: 248 }}
                 placeholder='通用名/商品名'
-                url={wareHouse.QUERY_DRUG_BY_LIST}
+                url={salvageCar.QUERY_DRUGBY_LIST}
                 cb={this.setSelectList}
               />
             </Col>
@@ -290,12 +355,12 @@ class NewAdd extends PureComponent {
           <div className='detailCard'>
             <RemoteTable
               query={query}
-              url={wareHouse.QUERYDRUGBYDEPT}
+              url={salvageCar.RESCUECAR_APPLY_QUERY_DRUG}
               isJson={true}
               ref="table"
               modalLoading={modalLoading}
               columns={modalColumns}
-              scroll={{ x: 1448 }}
+              scroll={{ x: 1616 }}
               rowKey='drugCode'
               rowSelection={{
                 selectedRowKeys: this.state.modalSelected,
@@ -314,7 +379,7 @@ class NewAdd extends PureComponent {
             bordered
             columns={columns}
             dataSource={dataSource}
-            scroll={{ x: 1900 }}
+            scroll={{ x: 2012 }}
             rowKey='drugCode'
             rowSelection={{
               selectedRowKeys: this.state.selected,

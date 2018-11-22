@@ -72,7 +72,10 @@ class Output extends PureComponent{
   constructor(props) {
     super(props);
     this.state = {
-      selected: []
+      selected: [],
+      query: {
+        queryType: 1
+      }
     }
   }
   _tableChange = values => {
@@ -108,6 +111,10 @@ class Output extends PureComponent{
   }
   render(){
     let query = this.props.base.queryConditons;
+    query = {
+      ...query,
+      ...this.state.query
+    }
     delete query.key;
     return (
       <div className='ysynet-main-content'>
@@ -152,7 +159,7 @@ class SearchFormWrapper extends PureComponent {
     this.props.formProps.dispatch({
       type: 'base/orderStatusOrorderType',
       payload: {
-        type: 'depot_out_store_type'
+        type: 'sg_out_store_type'
       },
       callback: (data) => {
         this.setState({type: data});

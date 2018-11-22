@@ -275,9 +275,18 @@ export function batchGetDispensing(options) {
 
 //批号追溯详情－非发药消耗
 export function batchGetMakeUp(options) {
-    return request(`${_local}/a/common/trace/getMakeUp`, {
-        method: 'POST',
-        type: 'formData',
-        body: options
-    })
+  return request(`${_local}/a/common/trace/getMakeUp`, {
+      method: 'POST',
+      type: 'formData',
+      body: options
+  })
+}
+
+//库存查询详情头部
+export function getRoomRepertoryDetail(options) {
+  return request(`${_local}/a/StoreDetail/getRoomRepertoryDetail`, {
+    method: 'POST',
+    type: 'formData',
+    body: options
+  })
 }

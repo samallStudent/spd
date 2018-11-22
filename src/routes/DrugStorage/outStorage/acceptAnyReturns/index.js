@@ -42,13 +42,13 @@ class SearchFormWrapper extends PureComponent {
       }
     });
     //拣货类型
-    // dispatch({
-    //   type: 'base/orderStatusOrorderType',
-    //   payload: { type : 'picking_type' },
-    //   callback: (data) =>{
-    //     this.setState({ picking_type: data })
-    //   }
-    // });
+    dispatch({
+      type: 'base/orderStatusOrorderType',
+      payload: { type : 'dept_picking_type' },
+      callback: (data) =>{
+        this.setState({ picking_type: data })
+      }
+    });
     let { queryConditons } = this.props.formProps.base;
     //找出表单的name 然后set
     let values = this.props.form.getFieldsValue();
@@ -94,7 +94,7 @@ class SearchFormWrapper extends PureComponent {
   }
  
   render() {
-    const { deptOptions, picking_status } = this.state;
+    const { deptOptions, picking_status, picking_type } = this.state;
     const { getFieldDecorator } = this.props.form;
     const {display} = this.props.formProps.base;
     const expand = display === 'block';
@@ -138,24 +138,22 @@ class SearchFormWrapper extends PureComponent {
               )}
             </FormItem>
           </Col>
-          {/* <Col span={8} style={{display: display}}>
+          <Col span={8} style={{display: display}}>
             <FormItem label={`类型`} {...formItemLayout}>
-              {getFieldDecorator('pickingType',{
-                initialValue: ''
-              })(
-               <Select 
-                 showSearch
-                 placeholder={'请选择'}
-                 optionFilterProp="children"
-                 filterOption={(input, option) => option.props.children.indexOf(input) >= 0}
-                 >
-                {
-                  picking_type.map((item,index)=> <Option key={index} value={item.value}>{item.label}</Option>)
-                }
-               </Select>
+              {getFieldDecorator('pickingType')(
+                <Select 
+                  showSearch
+                  placeholder={'请选择'}
+                  optionFilterProp="children"
+                  filterOption={(input, option) => option.props.children.indexOf(input) >= 0}
+                >
+                  {
+                    picking_type.map((item,index)=> <Option key={index} value={item.value}>{item.label}</Option>)
+                  }
+                </Select>
               )}
             </FormItem>
-          </Col> */}
+          </Col>
           <Col span={8} style={{display: display}}>
             <FormItem label={`单据号`} {...formItemLayout}>
               {getFieldDecorator('applyOrderNo',{

@@ -90,3 +90,30 @@ export function exportList(options) {
     export: true
   })
 }
+
+//申领确认添加产品
+export function rescuecarApplyAddDrug(options) {
+  return request(`${_local}/a/rescuecarapply/addDrug`, {
+    method: 'POST',
+    type: 'json',
+    body: options ,
+  })
+}
+
+//新建申领确认提交
+export function rescuecarApplySave(options) {
+  return request(`${_local}/a/rescuecarapply/save`, {
+    method: 'POST',
+    type: 'json',
+    body: options ,
+  })
+}
+
+//抢救车药品验收
+export function rescuecarSaveCheck(options) {
+  return request(`${_local}/a/checkacceptdetail/rescuecar`, {
+    method: 'POST',
+    type: 'json',
+    body: options ,
+  })
+}

@@ -1604,6 +1604,18 @@ export const getNavData = app => [
       path: '/purchase/statisticAnalysis/settlementAnalysis',
       component: dynamicWrapper(app, ['purchase/statistics'], () => import('../routes/Purchase/statisticAnalysis/settlementAnalysis')),
     },
+    {
+      name: "统计分析 - 库存查询",
+      icon: 'setting',
+      path: '/purchase/statisticAnalysis/stockInquiry',
+      component: dynamicWrapper(app, ['purchase/statistics'], () => import('../routes/Purchase/statisticAnalysis/stockInquiry')),
+    },
+    {
+      name: "统计分析 - 库存查询 - 详情",
+      icon: 'setting',
+      path: '/purchase/statisticAnalysis/stockInquiry/details/:deptCode/:drugCode/:hisDrugCode',
+      component: dynamicWrapper(app, ['purchase/statistics'], () => import('../routes/Purchase/statisticAnalysis/stockInquiry/details')),
+    },
     //采购结算 - 统计分析 - 药品台账
     {
       name: "药品台账",
@@ -1814,6 +1826,18 @@ export const getNavData = app => [
       icon: "setting",
       path: '/baseDrug/salvageCar/drugApply/details/:id',
       component: dynamicWrapper(app, ['baseDrug/salvageCar'], () => import('../routes/BaseDrug/salvageCar/drugApply/details')),
+    },
+    {
+      name: "药品验收",
+      icon: "setting",
+      path: '/baseDrug/salvageCar/acceptance',
+      component: dynamicWrapper(app, ['baseDrug/salvageCar'], () => import('../routes/BaseDrug/salvageCar/acceptance')),
+    },
+    {
+      name: "药品验收",
+      icon: "setting",
+      path: '/baseDrug/salvageCar/acceptance/details/:id',
+      component: dynamicWrapper(app, ['baseDrug/salvageCar'], () => import('../routes/BaseDrug/salvageCar/acceptance/details')),
     },
   ]
 }]

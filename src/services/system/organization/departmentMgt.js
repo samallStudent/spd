@@ -38,7 +38,7 @@ export function GetGoodsList(options){
  //部门管理-货位-新增货位 -获取所有货位类型
 export function GetGoodsType(options){
   return request(`${_local}/a/dept/getLocationType`,{ 
-    method: 'GET',
+    method: 'POST',
     type: 'json',
     body: options
   })

@@ -5,7 +5,7 @@
  */
 import React, { PureComponent } from 'react';
 import { Table ,Row, Col, Tabs, Tooltip, Button, message, Spin } from 'antd';
-import {_local} from '../../../../api/local';
+// import {_local} from '../../../../api/local';
 import {connect} from 'dva';
 const columns = [
   {
@@ -140,7 +140,7 @@ class DetailsNewLibrary extends PureComponent{
     });
     let detailList = selected.map(item => ({id: item}));
     this.props.dispatch({
-      type: 'base/baseSaveCheck',
+      type: 'base/rescuecarSaveCheck',
       payload: {
         detailList,
         distributeCode: id
@@ -166,9 +166,9 @@ class DetailsNewLibrary extends PureComponent{
 
   //打印
   print = () => {
-    const { distributeCode } = this.state.info;
-    const {activeKey} = this.state;
-    window.open(`${_local}/a/deliver/print/printBasicMedicDetail?distributeCode=${distributeCode}&status=${activeKey}`, '_blank');
+    // const { distributeCode } = this.state.info;
+    // const {activeKey} = this.state;
+    // window.open(`${_local}/a/deliver/print/printBasicMedicDetail?distributeCode=${distributeCode}&status=${activeKey}`, '_blank');
   }
 
   render(){

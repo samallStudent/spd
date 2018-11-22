@@ -42,11 +42,13 @@ class GoodsAllocation extends PureComponent{
   }
 
   componentDidMount(){
-
+    const {id} = this.props.match.params;
     //所有的货位类型
     this.props.dispatch({
       type:'Organization/GetGoodsType',
-      payload:null,
+      payload: {
+        deptCode: id
+      },
       callback:(data)=>{
         // console.log(data)
         this.setState({
@@ -162,10 +164,10 @@ class GoodsAllocation extends PureComponent{
         </div>
         <div className='detailCard'>
           <Row>
-            <Col span={6} style={{fontSize:18,marginTop:5}}>
-            货位信息
+            <Col span={4} style={{fontSize:18,marginTop:5}}>
+              货位信息
             </Col>
-            <Col span={18}>
+            <Col span={20}>
               <WrapperForm 
               query={(data)=>this.refs.tableGoods.fetch(data)} 
               goosTypeSelect={goosTypeSelect}
@@ -173,20 +175,21 @@ class GoodsAllocation extends PureComponent{
               ></WrapperForm>
             </Col>
           </Row>
-          <RemoteTable 
-              ref='tableGoods'
-              query={query}
-              style={{marginTop: 20}}
-              columns={columns}
-              scroll={{ x: '100%' }}
-              url={systemMgt.goodsAllocation}
-              rowSelection={{
-                onChange:(selectRowKeys, selectedRows)=>{
-                  this.setState({selectRowKeys})
-                }
-              }}
-              rowKey='id'
-            />
+          <RemoteTable
+            ref='tableGoods'
+            query={query}
+            style={{marginTop: 20}}
+            columns={columns}
+            scroll={{ x: '100%' }}
+            url={systemMgt.goodsAllocation}
+            rowSelection={{
+              onChange:(selectRowKeys, selectedRows)=>{
+                this.setState({selectRowKeys})
+              }
+            }}
+            size={"small"}
+            rowKey='id'
+          />
         </div>
 
         <Modal 
@@ -209,9 +212,9 @@ class GoodsAllocation extends PureComponent{
             <FormItem {...singleFormItemLayout} label={`货位类型`}>
               {
                 getFieldDecorator(`positionType`,{
-                  rules: [{ required: true,message: '请输入货位类型' }]
+                  rules: [{ required: true,message: '请选择货位类型' }]
                 })(
-                  <Select>
+                  <Select placeholder="请选择货位类型">
                     {
                       goosTypeSelect.map(item=>(
                         <Option key={item.id} value={item.id}>{item.locationName}</Option>
@@ -270,7 +273,8 @@ class SearchForm extends PureComponent{
     
     return (
       <Form className="ant-advanced-search-form" onSubmit={this.handleSearch}>
-          <Col span={9}>
+        <Row gutter={10}>
+          <Col span={8}>
             <FormItem {...formItemLayout} label={`货位名称`}>
               {
                 getFieldDecorator(`positionName`,{
@@ -281,13 +285,11 @@ class SearchForm extends PureComponent{
               }
             </FormItem>
           </Col>
-          <Col span={9}>
+          <Col span={8}>
             <FormItem {...formItemLayout} label={`货位类型`}>
               {
-                getFieldDecorator(`positionType`,{
-                  initialValue: ''
-                })(
-                  <Select>
+                getFieldDecorator(`positionType`)(
+                  <Select placeholder="请选择货位类型">
                     {
                       this.props.goosTypeSelect?
                       this.props.goosTypeSelect.map(item=>(
@@ -299,10 +301,11 @@ class SearchForm extends PureComponent{
               }
             </FormItem>
           </Col>
-          <Col span={6} style={{textAlign: 'right', marginTop: 4}}>
+          <Col span={8} style={{textAlign: 'right', marginTop: 4}}>
             <Button type="primary" className='button-gap'  htmlType="submit">搜索</Button>
             <Button type='default' className='button-gap' onClick={this.handleReset}>重置</Button>
            </Col>
+        </Row>
       </Form>
     )
   }

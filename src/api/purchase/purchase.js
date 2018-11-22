@@ -44,6 +44,8 @@ export const statisticAnalysis = {
   GYSPH_LIST: `${_local}/a/gysph/statics/list`,     //供应商排行
   OPERATIONLOG_LIST: `${_local}/a/operationlog/list`,     //绩效信息表
   BATCH_LIST: `${_local}/a/common/trace/tracePageList`,         //批号追溯列表
+  QUERY_DRUG_DEPT_LIST: `${_local}/a/StoreDetail/queryDrugByDeptAll`,   //库存查询
+  GET_ROOM_REPERTORY_LIST_ALL: `${_local}/a/StoreDetail/getRoomRepertoryListAll`,   //库存查询详情列表
 }
 //药品调价
 export const drugPricing = {

@@ -109,7 +109,7 @@ class Workplace extends Component {
     let {left, rightVisibility, leftVisibility, itemWidth, itemQuantity, matterList} = this.state;
     left -= (itemWidth + 24);
     let removableLeft = (matterList.length - itemQuantity) * (itemWidth + 24);
-    if(left <= removableLeft ) {
+    if(left <= -removableLeft ) {
       rightVisibility = 'hidden';
     };
     if(left < 0) {
@@ -127,8 +127,8 @@ class Workplace extends Component {
     left += (itemWidth + 24);
     if(left >= 0 ) {
       leftVisibility = 'hidden';
-      rightVisibility = '';
     };
+    rightVisibility = '';
     this.setState({
       left,
       leftVisibility,

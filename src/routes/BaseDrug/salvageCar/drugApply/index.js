@@ -62,7 +62,7 @@ class DrugsFor extends PureComponent{
       {
         title: '发起时间',
         width: 168,
-        dataIndex: 'distributeDate'
+        dataIndex: 'createDate'
       },
     ];
     let query = this.props.base.queryConditons;
@@ -113,7 +113,7 @@ class SearchFormWrapper extends PureComponent {
       }
     });
     dispatch({
-      type: 'salvageCar/applyRescuecarList',
+      type: 'base/applyRescuecarList',
       callback: ({data, code, msg}) => {
         if(code === 200) {
           this.setState({
@@ -123,7 +123,7 @@ class SearchFormWrapper extends PureComponent {
           message.error(msg);
         };
       }
-    })
+    });
     let { queryConditons } = this.props.formProps.base;
     //找出表单的name 然后set
     let values = this.props.form.getFieldsValue();
@@ -172,7 +172,7 @@ class SearchFormWrapper extends PureComponent {
     ));
     applyRescuecarList = applyRescuecarList.map(item => (
       <Option key={item.id} value={item.id}>{item.deptName}</Option>
-    ))
+    ));
     const {display} = this.props.formProps.base;
     const expand = display === 'block';
     return (

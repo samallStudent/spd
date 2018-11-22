@@ -165,7 +165,7 @@ class AddNewAcceptance extends PureComponent{
   }
  
   tabsChange = (activeKey) =>{
-    if(activeKey === '2') {
+    if(activeKey === '3') {
       this.setState({activeKey, btnShow: false});
     };
     if(activeKey === '1') {
@@ -286,7 +286,7 @@ class AddNewAcceptance extends PureComponent{
             </Row>
           </Spin>
         </div>
-        <div className='detailCard' style={{margin: '30px -6px'}}>
+        <div className='detailCard' style={{margin: '30px -6px -4px', minHeight: 'calc(100vh - 363px)'}}>
           <Tabs 
             activeKey={activeKey} 
             onChange={this.tabsChange} 
@@ -309,7 +309,7 @@ class AddNewAcceptance extends PureComponent{
                 }}
               />
             </TabPane>
-            <TabPane tab="已验收" key="2">
+            <TabPane tab="已验收" key="3">
               <Table
                 loading={loading}
                 bordered
