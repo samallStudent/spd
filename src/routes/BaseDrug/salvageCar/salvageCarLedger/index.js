@@ -35,7 +35,7 @@ const singleFormItemLayout = {
     },{
       title: '通用名',
       dataIndex: 'ctmmGenericName',
-      width: 160,
+      width: 224,
       className:'ellipsis',
       render: (text)=>(
         <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
@@ -43,7 +43,7 @@ const singleFormItemLayout = {
     },{
       title: '商品名',
       dataIndex: 'ctmmTradeName',
-      width: 160,
+      width: 224,
       className:'ellipsis',
       render: (text)=>(
         <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
