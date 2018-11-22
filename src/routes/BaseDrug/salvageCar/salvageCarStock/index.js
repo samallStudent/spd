@@ -215,7 +215,6 @@ class salvageStockList extends PureComponent{
         query = {...query};
         query.hisDrugCodeList = query.keys ? [query.keys] : [];
         console.log(query);
-        delete query.pageNo;
         delete query.keys;
         delete query.key;
         delete query.backTime;
