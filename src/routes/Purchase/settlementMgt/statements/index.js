@@ -3,7 +3,7 @@
  */
 import React, {PureComponent} from 'react';
 import {Link} from 'react-router-dom';
-import { Form, Row, Col, Input, Button, DatePicker } from 'antd';
+import { Form, Row, Col, Input, Button, DatePicker, Tooltip } from 'antd';
 import {settlementMgt} from '../../../../api/purchase/purchase';
 import RemoteTable from '../../../../components/TableGrid/index';
 import moment from 'moment';
@@ -27,7 +27,7 @@ const columns = [
     {
     title: '结算单',
     dataIndex: 'settleBillNo',
-    width: 280,
+    width: 168,
     render: (text, record) => (
         <span>
             <Link to={{ pathname: `/purchase/settlementMgt/statements/details/${text}`}}>{text}</Link>
@@ -37,6 +37,10 @@ const columns = [
         title: '供应商',
         dataIndex: 'ctmaSupplierName',
         width: 224,
+        className: 'ellipsis',
+        render:(text)=>(
+            <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+        )
     }, {
         title: '状态',
         dataIndex: 'settleStatusName',

@@ -17,7 +17,7 @@ const columns = [
   {
     title: '召回/锁定单号',
     dataIndex: 'recallNo',
-    width: 280,
+    width: 168,
     render: (text, record) => 
     <span>
       <Link to={{pathname: `/drugStorage/outStorage/recallAndLockedCheck/details/${text}/${record.recallStatus}`}}>{text}</Link>
@@ -261,7 +261,7 @@ class RecallAndLockedCheck extends PureComponent{
           query={query}
           bordered
           url={outStorage.ROOMRECALL_LIST}
-          scroll={{x: 1560}}
+          scroll={{x: 1448}}
           columns={columns}
           rowKey={'id'}
           style={{marginTop: 20}}

@@ -38,34 +38,34 @@ class DrugsFor extends PureComponent{
   render(){
     const columns = [
       {
-      title: '申领单',
-      width:150,
-      dataIndex: 'applyCode',
-      render:(text, record)=>(<Link to={{pathname: `/baseDrug/wareHouse/drugApply/details/${record.applyCode}`}}>{text}</Link>)
+        title: '申领单',
+        width: 168,
+        dataIndex: 'applyCode',
+        render:(text, record)=>(<Link to={{pathname: `/baseDrug/wareHouse/drugApply/details/${record.applyCode}`}}>{text}</Link>)
       },
       {
         title: '申领部门',
-        width:100,
+        width: 168,
         dataIndex: 'applyDeptName',
       },
       {
         title: '配货部门',
-        width:100,
+        width: 168,
         dataIndex: 'distributeDeptName',
       },
       {
         title: '状态',
-        width:100,
+        width: 112,
         dataIndex: 'applyStatusName'
       },
       {
         title: '发起人',
-        width:100,
+        width: 112,
         dataIndex: 'createUserName',
       },
       {
         title: '发起时间',
-        width:150,
+        width: 224,
         dataIndex: 'createDate'
       },
     ];

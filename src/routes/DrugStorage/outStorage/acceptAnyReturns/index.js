@@ -208,12 +208,18 @@ class PickSoldOut extends PureComponent{
     message.success('操作成功')
   }
 
+  //打印
+  print = (record) => {
+    const {pickingOrderNo} = this.props.match.params;
+    window.open(`${outStorage.PICKING_PRINT}?pickingOrderNo=${record.pickingOrderNo}`, '_blank');
+  }
+
   render(){
     const columns = [
       {
         title: '拣货单',
         dataIndex: 'pickingOrderNo',
-        width: 280,
+        width: 168,
         render:(text,record)=>(
           <span>
             <Link to={{pathname: `/drugStorage/outStorage/acceptAnyReturns/details/${text}/${record.pickingStatus}/${record.pickingType}`}}>{text}</Link>
@@ -254,16 +260,14 @@ class PickSoldOut extends PureComponent{
         title: '操作',
         width: 60,
         dataIndex: 'RN',
-        render: (text, record) => 
-          <span>
-            <Popconfirm title="确定打印吗？" okText="是" cancelText="否"  onConfirm={()=>message.warning('此功能暂未开放')}>
-              <a>打印</a>
-            </Popconfirm>
-          </span>  
+        render: (text, record) => <a onClick={this.print.bind(this, record)}>打印</a>
       }
     ];
     let query = this.props.base.queryConditons;
-    query = {...query, ...this.state.query};
+    query = {
+      ...this.state.query, 
+      ...query
+    };
     delete query.Time;
     delete query.key;
     return (
@@ -277,7 +281,7 @@ class PickSoldOut extends PureComponent{
           ref='table'
           query={query}
           url={outStorage.FINDPICKINGORDER_LIT}
-          scroll={{x: 1348}}
+          scroll={{x: 1236}}
           columns={columns}
           rowKey={'id'}
           style={{marginTop: 20}}

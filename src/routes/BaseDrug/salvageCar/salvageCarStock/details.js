@@ -1,5 +1,5 @@
 import React, {PureComponent} from 'react';
-import {Row, Col,message,Spin} from 'antd';
+import {Row, Col,message,Spin, Tooltip} from 'antd';
 import RemoteTable from '../../../../components/TableGrid';
 import salvageCar from '../../../../api/baseDrug/salvageCar';
 import {connect} from 'dva';
@@ -37,6 +37,10 @@ const columns = [
         title: '供应商',
         dataIndex: 'supplierName',
         width: 224,
+        className: 'ellipsis',
+        render:(text)=>(
+        <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+        )
     }
 ]
 

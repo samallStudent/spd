@@ -197,7 +197,7 @@ class RecallAndLocked extends PureComponent {
       {
         title: '召回及锁定单号',
         dataIndex: 'recallNo',
-        width: 280,
+        width: 168,
         render: (text, record) => 
         <span>
           <Link to={{pathname: `/drugStorage/outStorage/recallAndLocked/details/${text}/${record.recallStatus}`}}>{text}</Link>
@@ -249,7 +249,7 @@ class RecallAndLocked extends PureComponent {
           url={outStorage.ROOMRECALL_LIST}
           columns={columns}
           rowKey={'id'}
-          scroll={{ x: 1176 }}
+          scroll={{ x: '100%' }}
           style={{marginTop: 20}}
           rowSelection={{
             selectedRowKeys: this.state.selected,

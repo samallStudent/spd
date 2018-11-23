@@ -9,7 +9,7 @@
  * @file 采购计划 - 补货管理--补货计划
  */
 import React, { PureComponent } from 'react';
-import { Form, Row, Col, Button, DatePicker } from 'antd';
+import { Form, Row, Col, Button, DatePicker, Tooltip } from 'antd';
 import RemoteTable from '../../../../components/TableGrid';
 import { connect } from 'dva';
 import {statisticAnalysis} from '../../../../api/purchase/purchase';
@@ -131,7 +131,11 @@ class SupplierRank extends PureComponent {
       {
         title: '供应商',
         dataIndex: 'supplierName',
-        width: 168
+        width: 168,
+        className: 'ellipsis',
+        render:(text)=>(
+            <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+        )
       }, {
         title: '出库品类数',
         dataIndex: 'drugCount',

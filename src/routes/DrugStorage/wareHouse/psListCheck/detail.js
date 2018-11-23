@@ -340,7 +340,7 @@ class PslistCheck extends PureComponent{
   print = () => {
     const {distributeCode} = this.state.detailInfo;//printDetail
     const {defaultActiveKey} = this.state;
-    window.open(`${wareHouse.PRINT_DETAIL}?distributeCode=${distributeCode}&status=${defaultActiveKey}`);
+    window.open(`${wareHouse.PRINT_DETAIL}?distributeCode=${distributeCode}&status=${defaultActiveKey}`, '_blank');
   }
   render(){
     let {loading, defaultActiveKey, expandedRowKeys, btnShow, detailInfo, checkLoading} = this.state;
@@ -437,7 +437,7 @@ class PslistCheck extends PureComponent{
         render: (text,record,index)=>{
           let balanceAmount;
           if(record.realReceiveQuantity || record.realReceiveQuantity === 0) {
-            balanceAmount = record.realReceiveQuantity - record.realDeliveryQuantiry;
+            balanceAmount = record.realDeliveryQuantiry - record.realReceiveQuantity;
           }else {
             balanceAmount = 0;
           };
@@ -499,7 +499,11 @@ class PslistCheck extends PureComponent{
       {
         title: '供应商',
         dataIndex: 'supplierName',
-        width: 224
+        width: 224,
+        className: 'ellipsis',
+        render:(text)=>(
+            <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+        )
       },
       {
         title: '批准文号',
@@ -595,6 +599,10 @@ class PslistCheck extends PureComponent{
         title: '供应商',
         dataIndex: 'supplierName',
         width: 168,
+        className: 'ellipsis',
+        render:(text)=>(
+            <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+        )
       },
       {
         title: '批准文号',

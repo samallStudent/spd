@@ -184,7 +184,7 @@ class OutCatalogPurchase extends PureComponent{
       {
         title: '计划单号',
         dataIndex: 'planCode',
-        width: 280,
+        width: 168,
         render: (text,record) =>{
           return <span>
             <Link to={{pathname: `/purchase/replenishment/outCatalogPurchase/detail/${record.planCode}`}}>{text}</Link>
@@ -239,7 +239,7 @@ class OutCatalogPurchase extends PureComponent{
           onChange={this._tableChange}
           url={replenishmentPlan.PLANLIST}
           columns={columns}
-          scroll={{ x: 1176 }}
+          scroll={{ x: '100%' }}
           rowKey={'id'}
           rowSelection={{
             selectedRowKeys: this.state.selected,

@@ -174,7 +174,6 @@ class BaseMgt extends PureComponent{
     const columns = [
       {
         title: '通用名称',
-        fixed: 'left',
         dataIndex: 'ctmmGenericName',
         width: 224,
         className: 'ellipsis',
@@ -365,7 +364,7 @@ class BaseMgt extends PureComponent{
             ref='table'
             query={query}
             url={drugMgt.FIND_CARDINAL_MEDICINE_DETAIL}
-            scroll={{x: 1636}}
+            scroll={{x: 1644}}//1644
             columns={columns}
             rowKey={'id'}
           />

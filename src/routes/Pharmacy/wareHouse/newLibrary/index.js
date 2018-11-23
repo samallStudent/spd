@@ -18,17 +18,17 @@ const columns = [
   {
    title: '入库单',
    dataIndex: 'inStoreCode',
-   width: 280,
+   width: 168,
    render:(text, record)=>(<Link to={{pathname: `/pharmacy/wareHouse/newLibrary/details/${text}`}}>{text}</Link>)
   },
   {
     title: '出库单',
-    width: 280,
+    width: 168,
     dataIndex: 'orderCode',
   },
   {
     title: '申领单',
-    width: 280,
+    width: 168,
     dataIndex: 'applyCode',
   },
   {
@@ -73,7 +73,7 @@ class NewLibrary extends PureComponent{
             isJson
             query={query}
             url={wareHouse.FIND_STORE_PAGE}
-            scroll={{x: 1624}}
+            scroll={{x: 1288}}
             columns={columns}
             rowKey={'id'}
             style={{marginTop: 20}}

@@ -9,7 +9,7 @@
  * @file 采购计划 - 补货管理--补货计划
  */
 import React, { PureComponent } from 'react';
-import { Form, Row, Col, Button, Input, DatePicker, Icon } from 'antd';
+import { Form, Row, Col, Button, Input, DatePicker, Icon, Tooltip } from 'antd';
 import { Link } from 'react-router-dom';
 import RemoteTable from '../../../components/TableGrid';
 import { connect } from 'dva';
@@ -189,6 +189,10 @@ class ReplenishmentPlan extends PureComponent {
         title: '供应商',
         dataIndex: 'supplierName',
         width: 168,
+        className: 'ellipsis',
+        render:(text)=>(
+            <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+        )
       }, {
         title: '结算金额(元)',
         dataIndex: 'settleAmount',

@@ -180,7 +180,7 @@ class PickSoldOut extends PureComponent{
       {
         title: '拣货单',
         dataIndex: 'pickingOrderNo',
-        width: 280,
+        width: 168,
         render:(text,record)=>(
           <span>
             <Link to={{pathname: `/pharmacy/outStorage/withdraw/details/${text}/${record.pickingStatus}`}}>{text}</Link>
@@ -245,7 +245,7 @@ class PickSoldOut extends PureComponent{
           ref='table'
           query={query}
           url={outStorage.FINDPICKINGORDER_LIT}
-          scroll={{x: 1460}}
+          scroll={{x: 1348}}
           columns={columns}
           rowKey={'id'}
           style={{marginTop: 20}}

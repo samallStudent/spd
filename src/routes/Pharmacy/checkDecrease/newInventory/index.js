@@ -348,7 +348,7 @@ class NewInventory extends PureComponent {
       {
         title: '盘点单',
         dataIndex: 'checkBillNo',
-        width: 280,
+        width: 168,
         render: (text, record) => {
           return <span><Link to={{ pathname: `/pharmacy/checkDecrease/newInventory/details/${record.checkBillNo}`}}>{text}</Link></span>
         }
@@ -418,7 +418,7 @@ class NewInventory extends PureComponent {
           columns={columns}
           rowKey={'id'}
           ref="table"
-          scroll={{x: 1680}}
+          scroll={{x: 1568}}
           style={{marginTop: 20}}
           rowSelection={{
             selectedRowKeys: this.state.selected,

@@ -30,7 +30,7 @@ const columns = [
   {
    title: '配送单/验收单',
    dataIndex: 'distributeCode',
-   width: 280,
+   width: 168,
    render: (text,record) =>{
      return <span>
        {
@@ -45,12 +45,16 @@ const columns = [
   {
     title: '订单号',
     dataIndex: 'orderCode',
-    width: 280,
+    width: 168,
   },
   {
     title: '供应商',
     dataIndex: 'supplierName',
     width: 224,
+    className: 'ellipsis',
+    render:(text)=>(
+        <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+    )
   },
   {
     title: '状态',
@@ -65,7 +69,7 @@ const columns = [
   {
     title: '收货地址',
     dataIndex: 'deptAddress',
-    width: 280,
+    width: 224,
     className: 'ellipsis',
       render:(text)=>(
         <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
@@ -275,7 +279,7 @@ class DistributionCheck extends PureComponent{
           url={wareHouse.depotdistributeList}
           onChange={this._tableChange}
           columns={columns}
-          scroll={{ x: 1512 }}
+          scroll={{ x: 1232 }}
           rowKey={'id'}
         />
       </div>

@@ -456,6 +456,7 @@ class DrugDirectory extends PureComponent{
       </Modal>
       <Modal
         title='添加药品'
+        destroyOnClose
         width={1100}
         visible={addVisible}
         onCancel={()=>this.setState({ addVisible: false })}

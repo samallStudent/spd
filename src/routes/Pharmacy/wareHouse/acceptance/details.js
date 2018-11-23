@@ -92,6 +92,10 @@ const columns = [
     title: '供应商',
     width: 224,
     dataIndex: 'supplierName',
+    className: 'ellipsis',
+    render:(text)=>(
+        <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+    )
   }
 ];
 const {TabPane} = Tabs;
@@ -179,7 +183,7 @@ class DetailsNewLibrary extends PureComponent{
   print = () => {
     const { distributeCode } = this.state.info;
     const { defaultActiveKey } = this.state;
-    window.open(`${wareHouse.PRINT_ROOM_DETAIL}?distributeCode=${distributeCode}&status=${defaultActiveKey}`);
+    window.open(`${wareHouse.PRINT_ROOM_DETAIL}?distributeCode=${distributeCode}&status=${defaultActiveKey}`, '_blank');
   }
 
   render(){

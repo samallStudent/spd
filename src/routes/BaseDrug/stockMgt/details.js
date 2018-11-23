@@ -1,5 +1,5 @@
 import React, {PureComponent} from 'react';
-import {Row, Col, Table, Spin} from 'antd';
+import {Row, Col, Table, Spin, Tooltip} from 'antd';
 import {connect} from 'dva';
 import querystring from 'querystring';
 const columns = [
@@ -34,7 +34,11 @@ const columns = [
     }, {
         title: '供应商',
         dataIndex: 'supplierName',
-        width: 224
+        width: 224,
+        className: 'ellipsis',
+        render:(text)=>(
+            <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+        )
     }
 ]
 

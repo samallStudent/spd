@@ -128,6 +128,10 @@ class NewAdd extends PureComponent{
         title: '供应商',
         dataIndex: 'supplierName',
         width: 224,
+        className: 'ellipsis',
+        render:(text)=>(
+            <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+        )
       }, {
         title: '单位',
         dataIndex: 'ctmmValuationUnit',

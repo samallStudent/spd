@@ -118,7 +118,7 @@ class ReplenishmentDetail extends PureComponent{
   //打印
   print = () => {//printInstoreDetail
     const {id} = this.props.match.params;
-    window.open(`${wareHouse.PRINT_INSTORE_DETAIL}?inStoreCode=${id}`);
+    window.open(`${wareHouse.PRINT_INSTORE_DETAIL}?inStoreCode=${id}`, '_blank');
   }
   render(){
     let {data} = this.state;

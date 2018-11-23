@@ -299,6 +299,10 @@ class SectionAnalysis extends PureComponent {
         title: '供应商',
         dataIndex: 'ctmaSupplierName',
         width: 168,
+        className: 'ellipsis',
+        render:(text)=>(
+            <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+        )
       }, {
         title: '药品编号',
         dataIndex: 'hisDrugCode',

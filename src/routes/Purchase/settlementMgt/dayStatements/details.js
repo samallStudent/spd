@@ -61,7 +61,7 @@ class Details extends PureComponent {
   //打印
   print = () => {
     const {id} = this.props.match.params;
-    window.open(`${dayStatements.PRINT_DELIVERY_DETAIL}?sendId=${id}`);
+    window.open(`${dayStatements.PRINT_DELIVERY_DETAIL}?sendId=${id}`, '_blank');
   }
   render() {
     let {query, value, info} = this.state;

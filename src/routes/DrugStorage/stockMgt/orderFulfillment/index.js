@@ -9,7 +9,7 @@
  * @file 采购计划 - 统计分析--订单执行情况
  */
 import React, { PureComponent } from 'react';
-import { Form, Row, Col, Button, Input, Icon, Select, message } from 'antd';
+import { Form, Row, Col, Button, Input, Icon, Select, message, Tooltip } from 'antd';
 import { Link } from 'react-router-dom';
 import RemoteTable from '../../../../components/TableGrid';
 import { connect } from 'dva';
@@ -203,6 +203,10 @@ class OrderFulfillment extends PureComponent {
         title: '供应商',
         dataIndex: 'supplierName',
         width: 168,
+        className: 'ellipsis',
+        render:(text)=>(
+            <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+        )
       }, {
         title: '订单状态',
         dataIndex: 'orderStatusName',

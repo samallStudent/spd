@@ -682,6 +682,10 @@ class AddSupplementDocuments extends PureComponent{
         title: '供应商',
         width: 168,
         dataIndex: 'supplierName',
+        className: 'ellipsis',
+        render:(text)=>(
+            <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+        )
       },
     ];
     let rowKey = "";

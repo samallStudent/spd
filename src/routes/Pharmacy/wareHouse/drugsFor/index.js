@@ -38,7 +38,7 @@ class DrugsFor extends PureComponent{
     const columns = [
       {
       title: '申领单',
-      width: 280,
+      width: 168,
       dataIndex: 'applyCode',
       render:(text, record)=>(<Link to={{pathname: `/pharmacy/wareHouse/drugsFor/details/${record.applyCode}`}}>{text}</Link>)
       },

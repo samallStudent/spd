@@ -40,7 +40,7 @@ class Putaway extends PureComponent{
       {
         title: '移库单号',
         dataIndex: 'locAdjustNo',
-        width: 280,
+        width: 168,
         render: (text,record) =>{
           return <span>
             <Link to={{pathname: `/drugStorage/goodsAdjust/adjust/detail/${text}`}}>{text}</Link>

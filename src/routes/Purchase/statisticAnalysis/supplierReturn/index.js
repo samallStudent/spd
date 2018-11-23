@@ -9,7 +9,7 @@
  * @file 采购计划 - 补货管理--补货计划
  */
 import React, { PureComponent } from 'react';
-import { Form, Row, Col, Button, DatePicker, Select, message } from 'antd';
+import { Form, Row, Col, Button, DatePicker, Select, message, Tooltip } from 'antd';
 import RemoteTable from '../../../../components/TableGrid';
 import { connect } from 'dva';
 import {statisticAnalysis} from '../../../../api/purchase/purchase';
@@ -150,6 +150,10 @@ class SupplierReturn extends PureComponent {
         title: '供应商',
         dataIndex: 'ctmaSupplierName',
         width: 168,
+        className: 'ellipsis',
+        render:(text)=>(
+            <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+        )
       }, {
         title: '退货总单数',
         dataIndex: 'backCount',

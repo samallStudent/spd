@@ -9,7 +9,7 @@
  * @file 采购计划 - 统计分析--损益分析
  */
 import React, { PureComponent } from 'react';
-import { Form, Row, Col, Button, Input, Icon, Select, DatePicker, message } from 'antd';
+import { Form, Row, Col, Button, Input, Icon, Select, DatePicker, message, Tooltip } from 'antd';
 import { Link } from 'react-router-dom';
 import RemoteTable from '../../../../components/TableGrid';
 import { connect } from 'dva';
@@ -265,6 +265,10 @@ class OrderRetrospect extends PureComponent {
         title: '供应商',
         dataIndex: 'supplierName',
         width: 168,
+        className: 'ellipsis',
+        render:(text)=>(
+            <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+        )
       }, {
         title: '订单状态',
         dataIndex: 'orderStatusName',

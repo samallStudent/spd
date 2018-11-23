@@ -18,7 +18,7 @@ const columns = [
   {
     title: '退库单',
     dataIndex: 'backNo',
-    width: 280,
+    width: 168,
     render: (text, record) => 
     <span>
       <Link to={{pathname: `/pharmacy/outStorage/refund/details/${text}`}}>{text}</Link>
@@ -227,7 +227,7 @@ class Refund extends PureComponent{
           query={query}
           bordered
           url={outStorage.FINDCOMMONBACK_LIST}
-          scroll={{x: 1512}}
+          scroll={{x: 1400}}
           columns={columns}
           rowKey={'id'}
           style={{marginTop: 20}}

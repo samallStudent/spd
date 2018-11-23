@@ -165,6 +165,10 @@ const columns = [
     title: '供应商',
     dataIndex: 'supplierName',
     width: 168,
+    className: 'ellipsis',
+    render:(text)=>(
+        <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+    )
   },
   {
     title: '通用名',

@@ -155,47 +155,54 @@ class OrderRetrospect extends PureComponent {
       {
         title: '通用名',
         dataIndex: 'ctmmGenericName',
-        width: 240
+        width: 224,
+        className: 'ellipsis',
+        render:(text)=>(
+            <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+        )
       },
-        {
-            title: '商品名',
-            dataIndex: 'ctmmTradeName',
-            width: 240,
-        },
-        {
-            title: '规格',
-            dataIndex: 'ctmmSpecification',
-            width: 220,
-            className: 'ellipsis',
-            render:(text)=>(
-                <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
-            )
-        },
-        {
-            title: '生产厂家',
-            dataIndex: 'ctmmManufacturerName',
-            width: 224,
-            className: 'ellipsis',
-            render:(text)=>(
-                <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
-            )
-        },
-        {
-            title: '批号',
-            dataIndex: 'lot',
-            width: 140,
-        },
-        {
-            title: '使用追溯',
-            dataIndex: 'ctmmdeil',
-            fixed: 'right',
-            width: 100,
-            render: (text,record) =>{
-                return <span>
+      {
+        title: '商品名',
+        dataIndex: 'ctmmTradeName',
+        width: 224,
+        className: 'ellipsis',
+        render:(text)=>(
+            <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+        )
+      },
+      {
+        title: '规格',
+        dataIndex: 'ctmmSpecification',
+        width: 168,
+        className: 'ellipsis',
+        render:(text)=>(
+            <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+        )
+      },
+      {
+        title: '生产厂家',
+        dataIndex: 'ctmmManufacturerName',
+        width: 224,
+        className: 'ellipsis',
+        render:(text)=>(
+            <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+        )
+      },
+      {
+        title: '批号',
+        dataIndex: 'lot',
+        width: 112,
+      },
+      {
+        title: '使用追溯',
+        dataIndex: 'ctmmdeil',
+        width: 112,
+        render: (text,record) =>(
+          <span>
             <Link to={{pathname: `${match.path}/details/${record.bigDrugCode}/${record.drugCode}/${record.hisDrugCode}/${record.lot}`}}>追溯</Link>
           </span>
-            }
-        },
+        )
+      },
     ];
     let query = this.props.base.queryConditons;
     query = {

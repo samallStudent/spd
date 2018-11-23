@@ -56,7 +56,7 @@ class Details extends PureComponent {
   //打印
   print = () => {
     const {causticExcessiveNo} = this.state;
-    window.open(`${profiLossRecord.CAUSTIC_EXCESSIVE_PRINT}?causticExcessiveNo=${causticExcessiveNo}`)
+    window.open(`${profiLossRecord.CAUSTIC_EXCESSIVE_PRINT}?causticExcessiveNo=${causticExcessiveNo}`, '_blank')
   }
   render() {//causticExcessivePrint
     let {info, query} = this.state;

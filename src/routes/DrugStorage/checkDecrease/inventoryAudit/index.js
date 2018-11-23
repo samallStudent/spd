@@ -183,7 +183,7 @@ class InventoryAudit extends PureComponent {
       {
         title: '盘点单',
         dataIndex: 'checkBillNo',
-        width: 280,
+        width: 168,
         render: (text, record) => {
           return <span><Link to={{ pathname: `/drugStorage/checkDecrease/inventoryAudit/details/${record.checkBillNo}`}}>{text}</Link></span>
         }
@@ -253,7 +253,7 @@ class InventoryAudit extends PureComponent {
           columns={columns}
           rowKey={'id'}
           ref="table"
-          scroll={{x: 1736}}
+          scroll={{x: 1624}}
           style={{marginTop: 20}}
         />
       </div>
