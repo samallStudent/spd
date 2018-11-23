@@ -208,7 +208,7 @@ class PickSoldOut extends PureComponent{
   //打印
   print = (record) => {
     const {pickingOrderNo} = record;
-    window.open(`${outStorage.PICKING_PRINT}?pickingOrderNo=${pickingOrderNo}`);
+    window.open(`${outStorage.PICKING_PRINT}?pickingOrderNo=${pickingOrderNo}`, '_blank');
   }
 
   //单行确认 
@@ -221,7 +221,7 @@ class PickSoldOut extends PureComponent{
       {
         title: '拣货单',
         dataIndex: 'pickingOrderNo',
-        width: 280,
+        width: 168,
         render:(text,record)=>(
           <span>
             <Link to={{pathname: `/drugStorage/outStorage/pickingUnderShelve/details/${text}/${record.pickingType}/${record.pickingType}`}}>{text}</Link>
@@ -281,7 +281,7 @@ class PickSoldOut extends PureComponent{
           ref='table'
           query={query}
           url={outStorage.FINDPICKINGORDER_LIT}
-          scroll={{x: 1348}}
+          scroll={{x: '100%'}}
           columns={columns}
           rowKey={'id'}
           style={{marginTop: 20}}

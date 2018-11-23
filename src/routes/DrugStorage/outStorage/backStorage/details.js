@@ -130,7 +130,7 @@ class DetailsRefund extends PureComponent{
   //打印
   print = () => {
     const {backNo} = this.props.match.params;//printBackDetail
-    window.open(`${outStorage.PRINT_BACK_DETAIL}?backNo=${backNo}`);
+    window.open(`${outStorage.PRINT_BACK_DETAIL}?backNo=${backNo}`, '_blank');
   }
 
   render(){

@@ -92,6 +92,10 @@ const modalColumns = [
     title: '供应商',
     dataIndex: 'supplierName',
     width: 224,
+    className: 'ellipsis',
+    render:(text)=>(
+        <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+    )
   }
 ];
 class RemarksForm extends PureComponent{
@@ -248,6 +252,8 @@ class AddRefund extends PureComponent{
         let { query } = this.state;
         values.hisDrugCodeList = values.hisDrugCodeList ? [values.hisDrugCodeList] : [];
         // this.refs.table.fetch({ ...query, ...values });
+        console.log(query);
+        
         this.setState({ query: { ...query, ...values } })
       }
     })
@@ -297,7 +303,28 @@ class AddRefund extends PureComponent{
     })
     
   }
-
+  //显示
+  showAddModal = () => {
+    const {dataSource} = this.state;
+    this.setState({visible:true});
+    let existInstoreCodeList = [];
+    dataSource.map(item => existInstoreCodeList.push(item.inStoreCode));
+    this.setState({
+      query: {
+        existInstoreCodeList
+      },
+      visible: true
+    });
+  }
+  //取消
+  onCancel = () => {
+    this.setState({
+      visible: false,
+      modalSelected: [],
+      modalSelectedRows: []
+    })
+    this.props.form.resetFields();
+  }
   //添加产品 到 主表
   handleOk = () => {
     let { modalSelectedRows } = this.state;
@@ -309,7 +336,12 @@ class AddRefund extends PureComponent{
     modalSelectedRows.map(item => item.backNum = 1);
     let newDataSource = [];
     newDataSource = [ ...dataSource, ...modalSelectedRows ];
-    this.setState({ dataSource: newDataSource, visible: false, modalSelected: [], modalSelectedRows: [] }) 
+    this.setState({ 
+      dataSource: newDataSource, 
+      visible: false, 
+      modalSelected: [], modalSelectedRows: [] 
+    });
+    this.props.form.resetFields();
   }
   delete = () => {  //删除
     let { selectedRows, dataSource, query } = this.state;
@@ -359,13 +391,21 @@ class AddRefund extends PureComponent{
       },
       {
         title: '通用名称',
-        width: 168,
+        width: 224,
         dataIndex: 'ctmmGenericName',
+        className:'ellipsis',
+        render:(text)=>(
+          <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+        )
       },
       {
         title: '商品名称',
         width: 224,
         dataIndex: 'ctmmTradeName',
+        className:'ellipsis',
+        render:(text)=>(
+          <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+        )
       },
       {
         title: '规格',
@@ -381,10 +421,6 @@ class AddRefund extends PureComponent{
         title: '包装规格',
         width: 168,
         dataIndex: 'packageSpecification',
-        className:'ellipsis',
-        render:(text)=>(
-          <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
-        )
       },
       {
         title: '生产批号',
@@ -414,6 +450,10 @@ class AddRefund extends PureComponent{
         title: '供应商',
         width: 224,
         dataIndex: 'supplierName',
+        className: 'ellipsis',
+        render:(text)=>(
+            <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+        )
       }
     ];
     const { visible, isEdit, dataSource, query, spinLoading, display, detailsData, supplierList } = this.state; 
@@ -432,14 +472,7 @@ class AddRefund extends PureComponent{
           </Row>
           <Row style={{ marginTop: 10 }}>
             <Col  span={4}>
-              <Button type='primary' className='button-gap' onClick={()=>{
-                if(this.refs.table){
-                  let existInstoreCodeList = [];
-                  dataSource.map(item => existInstoreCodeList.push(item.inStoreCode));
-                  this.refs.table.fetch({ ...query, existInstoreCodeList });
-                }
-                this.setState({visible:true});
-              }}>
+              <Button type='primary' className='button-gap' onClick={this.showAddModal}>
                 添加产品
                 </Button>
               <Button onClick={this.delete} >移除</Button>
@@ -495,10 +528,10 @@ class AddRefund extends PureComponent{
             visible={visible}
             width={1200}
             style={{ top: 20 }}
-            onCancel={() => this.setState({ visible: false, modalSelected: [] })}
+            onCancel={this.onCancel}
             footer={[
               <Button key="submit" type="primary" onClick={this.handleOk}>确认</Button>,
-              <Button key="back" onClick={() => this.setState({ visible: false })}>取消</Button>
+              <Button key="back" onClick={this.onCancel}>取消</Button>
             ]}
           >
             <Form onSubmit={this.handleSearch}>
@@ -566,7 +599,7 @@ class AddRefund extends PureComponent{
               bordered
               isJson={true}
               url={outStorage.BACKSTORAGE_ADDPRODUCT_LIST}
-              scroll={{x: 1900}}
+              scroll={{x: 1956}}
               columns={modalColumns}
               rowKey={'id'}
               rowSelection={{

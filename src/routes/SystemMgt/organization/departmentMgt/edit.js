@@ -85,6 +85,10 @@ class EditDepartmentMgt extends PureComponent {
       callback(new Error('必须选择补货指示货位!'));
     };
   }
+  //校验抢救车货位
+  verifyRescuecar = (rule, value, callback) => {
+    callback();
+  }
   render(){
     const { record, storeInitialValue } = this.state;
     const { getFieldDecorator } = this.props.form;
@@ -162,15 +166,18 @@ class EditDepartmentMgt extends PureComponent {
             <Form className="ant-advanced-search-form" onSubmit={this.onSubmit}>
               <Row>
                 <Col span={24}>
-                  <FormItem {...formItemLayout} label={`地址`}>
-                    {
-                      getFieldDecorator(`deptLocation`,{
-                        initialValue: record.deptLocation
-                      })(
-                        <Input.TextArea style={{ marginTop: 10 }} />
-                      )
-                    }
-                  </FormItem>
+                  {
+                    record.deptType !== "6" ? 
+                    <FormItem {...formItemLayout} label={`地址`}>
+                      {
+                        getFieldDecorator(`deptLocation`,{
+                          initialValue: record.deptLocation
+                        })(
+                          <Input.TextArea style={{ marginTop: 10 }} />
+                        )
+                      }
+                    </FormItem> : null
+                  }
                 </Col>
               </Row>
               <Row>
@@ -182,8 +189,8 @@ class EditDepartmentMgt extends PureComponent {
                         getFieldDecorator(`storeType`,{
                           initialValue: storeInitialValue,
                           rules: [
-                            { required: true,message: '请选择货位设置' },
-                            { validator: this.verifyStore }
+                            { required: record.deptType !== '5', message: '请选择货位设置' },
+                            { validator: record.deptType !== "5" ? this.verifyStore : this.verifyRescuecar }
                           ]
                         })(
                           <CheckboxGroup style={{ width: '100%', marginTop: 10 }}>

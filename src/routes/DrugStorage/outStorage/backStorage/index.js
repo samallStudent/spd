@@ -5,7 +5,7 @@
  */
 
 import React, { PureComponent } from 'react';
-import { Form, Row, Col, Button, Icon, Select , Input ,DatePicker } from 'antd';
+import { Form, Row, Col, Button, Icon, Select , Input ,DatePicker, Tooltip } from 'antd';
 import { Link } from 'react-router-dom';
 import { formItemLayout } from '../../../../utils/commonStyles';
 import RemoteTable from '../../../../components/TableGrid';
@@ -18,7 +18,7 @@ const columns = [
   {
     title: '退货单',
     dataIndex: 'backNo',
-    width: 280,
+    width: 168,
     render: (text, record) => 
     <span>
       <Link to={{pathname: `/drugStorage/outStorage/backStorage/details/${text}`}}>{text}</Link>
@@ -43,6 +43,10 @@ const columns = [
     title: '供应商',
     width: 224,
     dataIndex: 'supplierName',
+    className: 'ellipsis',
+    render:(text)=>(
+        <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+    )
   },
   {
     title: '退货人',
@@ -246,7 +250,7 @@ class Refund extends PureComponent{
           query={query}
           bordered
           url={outStorage.FINDCOMMONBACK_LIST}
-          scroll={{x: 1416}}
+          scroll={{x: 1304}}
           columns={columns}
           rowKey={'id'}
           style={{marginTop: 20}}

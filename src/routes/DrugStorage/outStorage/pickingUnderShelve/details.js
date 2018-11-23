@@ -113,7 +113,7 @@ class DetailsPickSoldOut extends PureComponent{
   //打印
   print = () => {
     const {pickingOrderNo} = this.props.match.params;
-    window.open(`${outStorage.PICKING_PRINT}?pickingOrderNo=${pickingOrderNo}`);
+    window.open(`${outStorage.PICKING_PRINT}?pickingOrderNo=${pickingOrderNo}`, '_blank');
   }
 
   changeTabs = (key) => {

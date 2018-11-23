@@ -18,37 +18,37 @@ const columns = [
   {
    title: '出库单',
    dataIndex: 'distributeCode',
-   width:150,
+   width: 168,
    render:(text, record)=>(<Link to={{pathname: `/baseDrug/wareHouse/acceptance/details/${record.distributeCode}`}}>{text}</Link>)
   },
   {
     title: '申领单',
-    width:150,
+    width: 168,
     dataIndex: 'applyCode',
   },
   {
     title: '配货部门',
-    width:100,
+    width: 168,
     dataIndex: 'deptName'
   },
   {
     title: '状态',
-    width:150,
+    width: 112,
     dataIndex: 'statusName',
   },
   {
     title: '发起人',
-    width:100,
+    width: 112,
     dataIndex: 'createName'
   },
   {
     title: '发起时间',
     dataIndex: 'createDate',
-    width:120
+    width: 224
   },
   {
    title: '验收时间',
-   width:120,
+   width: 224,
    dataIndex: 'receptionTime'
   }
 ];
@@ -90,7 +90,7 @@ class Acceptance extends PureComponent{
           query={query}
           ref="tab"
           url={acceptance.CHECKACCEPT_LIST}
-          scroll={{x: '100%'}}
+          scroll={{x: 1176}}
           columns={columns}
           rowKey={'id'}
           style={{marginTop: 20}}

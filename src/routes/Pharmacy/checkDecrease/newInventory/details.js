@@ -493,7 +493,7 @@ class Details extends PureComponent {
   //打印
   print = () => {
     const {checkBillNo} = this.state.query;
-    window.open(`${checkDecrease.CHECK_BILL_PRINT}?checkBillNo=${checkBillNo}`)
+    window.open(`${checkDecrease.CHECK_BILL_PRINT}?checkBillNo=${checkBillNo}`, '_blank')
   }
   render() {
     let {info, submitLoading, checkLoading} = this.state;

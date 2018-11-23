@@ -18,7 +18,7 @@ const columns = [
   {
     title: '申领号',
     dataIndex: 'applyCode',
-    width: 280,
+    width: 168,
     render:(text,record)=>
     <span>
       <Link to={{pathname: `/pharmacy/outStorage/acceptDistribution/details/${record.applyCode}/${record.applyStatus}`}}>{text}</Link>

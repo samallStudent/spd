@@ -18,7 +18,7 @@ const columns = [
   {
     title: '申领号',
     dataIndex: 'applyCode',
-    width: 280,
+    width: 168,
     render:(text,record)=>
     <span>
       <Link to={{pathname: `/drugStorage/outStorage/acceptDistribution/details/${record.applyCode}`}}>{text}</Link>
@@ -252,7 +252,7 @@ class Picking extends PureComponent{
           ref='table'
           query={query}
           url={outStorage.FINDDISTRIBUTE_LIST}
-          scroll={{x: 1064}}
+          scroll={{x: '100%'}}
           columns={columns}
           rowKey={'id'}
           style={{marginTop: 20}}

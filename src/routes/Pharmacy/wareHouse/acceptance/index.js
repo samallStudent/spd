@@ -18,12 +18,12 @@ const columns = [
   {
    title: '配送单/验收单',
    dataIndex: 'distributeCode',
-   width: 280,
+   width: 168,
    render:(text, record)=>(<Link to={{pathname: `/pharmacy/wareHouse/acceptance/details/id=${record.distributeCode}&state=${record.auditStatus}`}}>{text}</Link>)
   },
   {
     title: '申领单',
-    width: 280,
+    width: 168,
     dataIndex: 'applyCode',
   },
   {
@@ -89,7 +89,7 @@ class Acceptance extends PureComponent{
           query={query}
           ref="tab"
           url={wareHouse.CHECKACCEPT_LIST}
-          scroll={{x: 1400}}
+          scroll={{x: 1176}}
           columns={columns}
           rowKey={'id'}
           style={{marginTop: 20}}

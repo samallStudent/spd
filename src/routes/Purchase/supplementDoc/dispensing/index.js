@@ -61,7 +61,7 @@ class Putaway extends PureComponent{
     const columns = [
       {
        title: '发药单',
-       width: 280,
+       width: 168,
        dataIndex: 'storeCode',
        render: (text,record) =>{
         return <span>
@@ -114,7 +114,7 @@ class Putaway extends PureComponent{
           style={{marginTop: 20}}
           columns={columns}
           loading={this.state.loading}
-          scroll={{ x: 1904 }}
+          scroll={{ x: 1792 }}
           url={supplementDoc.makeList}
           rowSelection={{
             selectedRowKeys: this.state.selected, 

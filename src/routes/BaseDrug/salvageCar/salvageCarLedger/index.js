@@ -84,6 +84,10 @@ const singleFormItemLayout = {
         title: '供应商',
         dataIndex: 'supplierName',
         width: 112,
+        className: 'ellipsis',
+        render:(text)=>(
+            <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+        )
       }
       ,{
         title: '批准文号',

@@ -4,7 +4,7 @@
 * @Last Modified time: 2018-08-06 15:31:15 
  */
 import React, { PureComponent } from 'react';
-import { DatePicker, Form, Input , Row, Col, Button, Icon, Select } from 'antd';
+import { DatePicker, Form, Input , Row, Col, Button, Icon, Select, Tooltip } from 'antd';
 import { formItemLayout } from '../../../../utils/commonStyles';
 import { Link } from 'react-router-dom';
 import RemoteTable from '../../../../components/TableGrid';
@@ -36,7 +36,7 @@ class Putaway extends PureComponent{
     const columns = [
       {
        title: '入库单',
-       width: 280,
+       width: 168,
        dataIndex: 'inStoreCode',
        render: (text,record) =>{
         return <span>
@@ -46,12 +46,12 @@ class Putaway extends PureComponent{
       },
       {
         title: '配送单',
-        width: 280,
+        width: 168,
         dataIndex: 'distributeCode',
       },
       {
         title: '订单',
-        width: 280,
+        width: 168,
         dataIndex: 'orderCode',
       },
       {
@@ -63,6 +63,10 @@ class Putaway extends PureComponent{
         title: '供应商',
         width: 224,
         dataIndex: 'ctmaSupplierName',
+        className: 'ellipsis',
+        render:(text)=>(
+            <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+        )
       },
       {
         title: '上架时间',
@@ -85,7 +89,7 @@ class Putaway extends PureComponent{
           query={query}
           url={wareHouse.depotinstoreList}
           ref="tab"
-          scroll={{x: 1456}}
+          scroll={{x: 1120}}
           columns={columns}
           rowKey={'id'}
           style={{marginTop: 24}}

@@ -16,7 +16,7 @@ const columns = [
   {
    title: '出库单',
    dataIndex: 'backNo',
-   width: 280,
+   width: 168,
    render:(text)=>(
     <Link to={{pathname: `/pharmacy/outStorage/output/details/${text}`}}>{text}</Link>
    )
@@ -24,7 +24,7 @@ const columns = [
   {
     title: '发药确认单',
     dataIndex: 'dispensingCode',
-    width: 280
+    width: 168
    },
   {
     title: '内部药房',
@@ -92,7 +92,7 @@ class Output extends PureComponent{
           onChange={this._tableChange}
           query={query}
           url={outStorage.BILLOUTSOTRE_LIST}
-          scroll={{x: 1624}}
+          scroll={{x: 1400}}
           columns={columns}
           rowKey={'id'}
           style={{marginTop: 20}}

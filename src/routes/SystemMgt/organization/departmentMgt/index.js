@@ -262,11 +262,14 @@ class DepartmentMgt extends PureComponent{
   }
   //搜索货位弹窗
   searchGoodsModal = (value) => {
-    let postData = {
-      positionName: value
-    }
+    const {queryGoods} = this.state;
     //在此处发出请求，并且刷新货位弹窗中的table
-    this.refs.tableGoods.fetch(postData)
+    this.setState({
+      queryGoods: {
+        ...queryGoods,
+        positionName: value
+      }
+    });
   }
 
   //选择货位 - 确定

@@ -88,7 +88,11 @@ const columns = [
   {
     title: '供应商',
     width: 168,
-    dataIndex: 'supplierName'
+    dataIndex: 'supplierName',
+    className: 'ellipsis',
+    render:(text)=>(
+        <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+    )
   },
   {
     title: '药品编码',

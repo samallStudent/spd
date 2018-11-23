@@ -30,7 +30,7 @@ const columns = [
     {
     title: '对账单',
     dataIndex: 'balanceCode',
-    width: 280,
+    width: 168,
     render: (text) => (
         <span>
             <Link to={{ pathname: `/purchase/settlementMgt/dayStatements/details/${text}`}}>{text}</Link>

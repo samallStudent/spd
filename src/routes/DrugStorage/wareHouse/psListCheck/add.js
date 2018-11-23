@@ -433,7 +433,11 @@ class PslistAdd extends PureComponent{
       {
         title: '供应商',
         dataIndex: 'supplierName',
-        width: 224
+        width: 224,
+        className: 'ellipsis',
+        render:(text)=>(
+            <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+        )
       },
       {
         title: '批准文号',
@@ -529,6 +533,10 @@ class PslistAdd extends PureComponent{
         title: '供应商',
         dataIndex: 'supplierName',
         width: 168,
+        className: 'ellipsis',
+        render:(text)=>(
+            <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+        )
       },
       {
         title: '批准文号',

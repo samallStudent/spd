@@ -149,7 +149,7 @@ class ProfiLossRecord extends PureComponent {
       {
         title: '损益单',
         dataIndex: 'causticExcessiveNo',
-        width: 280,
+        width: 168,
         render: (text, record) => {
           return <span><Link to={{ pathname: `/pharmacy/checkDecrease/profiLossRecord/details/checkBillNo=${record.checkBillNo}&causticExcessiveNo=${record.causticExcessiveNo}`}}>{text}</Link></span>
         }
@@ -157,7 +157,7 @@ class ProfiLossRecord extends PureComponent {
       {
         title: '盘点单',
         dataIndex: 'checkBillNo',
-        width: 280,
+        width: 168,
       },
       {
         title: '盘点类型',
@@ -206,7 +206,7 @@ class ProfiLossRecord extends PureComponent {
           columns={columns}
           rowKey={'id'}
           ref="table"
-          scroll={{x: 1344}}
+          scroll={{x: 1120}}
           style={{marginTop: 20}}
         />
       </div>

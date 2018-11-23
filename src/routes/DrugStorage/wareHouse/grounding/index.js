@@ -34,7 +34,7 @@ class Putaway extends PureComponent{
     const columns = [
       {
        title: '配送单',
-       width: 280,
+       width: 168,
        dataIndex: 'distributeCode',
        render: (text, record) => 
        <span>
@@ -79,7 +79,7 @@ class Putaway extends PureComponent{
           query={query}
           ref="tab"
           url={wareHouse.ROOMACCEPTANCE}
-          scroll={{x: 1068}}
+          scroll={{x: '100%'}}
           columns={columns}
           rowKey={'id'}
           style={{marginTop: 24}}

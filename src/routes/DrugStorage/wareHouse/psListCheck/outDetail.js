@@ -339,7 +339,7 @@ class PslistCheck extends PureComponent{
   print = () => {
     const {distributeCode} = this.state.detailInfo;
     const {defaultActiveKey} = this.state;
-    window.open(`${wareHouse.PRINT_DETAIL}?distributeCode=${distributeCode}&status=${defaultActiveKey}`);
+    window.open(`${wareHouse.PRINT_DETAIL}?distributeCode=${distributeCode}&status=${defaultActiveKey}`, '_blank');
   }
   render(){
     let {loading, defaultActiveKey, expandedRowKeys, btnShow, detailInfo, checkLoading} = this.state;
@@ -426,7 +426,11 @@ class PslistCheck extends PureComponent{
       {
         title: '供应商',
         dataIndex: 'supplierName',
-        width: 224
+        width: 224,
+        className: 'ellipsis',
+        render:(text)=>(
+            <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+        )
       }
       ];
     if(detailInfo.isShowTemprature === 1) {

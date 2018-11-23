@@ -59,7 +59,7 @@ class Details extends PureComponent {
   //打印
   print = () => {
     const {settleBillNo} = this.state.query;
-    window.open(`${settlementMgt.PRINT_DELIVERY_DETAIL}?sendId=${settleBillNo}`);
+    window.open(`${settlementMgt.PRINT_DELIVERY_DETAIL}?sendId=${settleBillNo}`, '_blank');
   }
   render() {
     let {info, query, value} = this.state;

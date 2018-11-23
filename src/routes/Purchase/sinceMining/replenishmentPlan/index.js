@@ -199,7 +199,7 @@ class ReplenishmentPlan extends PureComponent {
       {
         title: '计划单号',
         dataIndex: 'planCode',
-        width: 280,
+        width: 168,
         render: (text, record) => {
           return <span>
             <Link to={{ pathname: `/purchase/sinceMining/replenishmentPlan/detail/${record.planCode}` }}>{text}</Link>
@@ -252,7 +252,7 @@ class ReplenishmentPlan extends PureComponent {
           onChange={this._tableChange}
           query={query}
           columns={columns}
-          scroll={{x: 1392}}
+          scroll={{x: 1280}}
           style={{marginTop: 20}}
           ref='table'
           rowKey={'id'}

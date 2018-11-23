@@ -70,7 +70,7 @@ class Putaway extends PureComponent{
     const columns = [
       {
        title: '补登单号',
-       width: 280,
+       width: 168,
        dataIndex: 'makeupCode',
        render: (text,record) =>{
         return <span>
@@ -80,7 +80,7 @@ class Putaway extends PureComponent{
       },
       {
         title: '入库/出库单',
-        width: 280,
+        width: 168,
         dataIndex: 'storeCode',
       },
       {
@@ -140,7 +140,7 @@ class Putaway extends PureComponent{
           style={{marginTop: 20}}
           columns={columns}
           loading={this.state.loading}
-          scroll={{ x: 1904 }}
+          scroll={{ x: 1680 }}
           url={supplementDoc.list}
           rowSelection={{
             selectedRowKeys: this.state.selected, 

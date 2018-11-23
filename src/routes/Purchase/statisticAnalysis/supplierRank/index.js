@@ -129,7 +129,7 @@ class SupplierRank extends PureComponent {
   render() {
     const columns = [
       {
-        title: '供应商',
+        title: '',
         dataIndex: 'supplierName',
         width: 168
       }, {

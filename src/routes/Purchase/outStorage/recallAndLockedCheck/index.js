@@ -4,7 +4,7 @@
 * @Last Modified time: 2018-07-24 13:12:15 
  */
 import React, { PureComponent } from 'react';
-import { Form, Row, Col, Button, Icon, Select , message , Input ,DatePicker } from 'antd';
+import { Form, Row, Col, Button, Icon, Select , message , Input ,DatePicker, Tooltip } from 'antd';
 import { Link } from 'react-router-dom';
 import { formItemLayout } from '../../../../utils/commonStyles';
 import RemoteTable from '../../../../components/TableGrid';
@@ -17,7 +17,7 @@ const columns = [
   {
     title: '召回/锁定单号',
     dataIndex: 'recallNo',
-    width: 280,
+    width: 168,
     render: (text, record) => 
     <span>
       <Link to={{pathname: `/purchase/outStorage/recallAndLockedCheck/details/${text}/${record.recallStatus}`}}>{text}</Link>
@@ -42,6 +42,10 @@ const columns = [
     title: '供应商',
     width: 224,
     dataIndex: 'supplierName',
+    className: 'ellipsis',
+    render:(text)=>(
+        <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+    )
   },
   {
     title: '发起人',
@@ -304,7 +308,7 @@ class RecallAndLockedCheck extends PureComponent{
           ref='table'
           query={query}
           url={outStorage.ROOMRECALL_SHEVE_LIST}
-          scroll={{x: 1952}}
+          scroll={{x: 1840}}
           columns={columns}
           rowKey={'id'}
           style={{marginTop: 20}}

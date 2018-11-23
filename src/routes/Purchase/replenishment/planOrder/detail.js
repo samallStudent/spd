@@ -93,6 +93,10 @@ const columns = [
     title: '供应商',
     width: 224,
     dataIndex: 'supplierName',
+    className: 'ellipsis',
+    render:(text)=>(
+        <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+    )
   },
   {
     title: '计划单号',
@@ -121,6 +125,10 @@ const sendColumns = [
     title: '供应商',
     width: 224,
     dataIndex: 'supplierName',
+    className: 'ellipsis',
+    render:(text)=>(
+        <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+    )
   }
 ]
 

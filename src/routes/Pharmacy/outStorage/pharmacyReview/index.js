@@ -18,7 +18,7 @@ const columns = [
   {
    title: '出库单',
    dataIndex: 'backNo',
-   width: 280,
+   width: 168,
    render:(text, record)=>
    <span>
       <Link to={{pathname: `/pharmacy/outStorage/pharmacyReview/details/id=${record.backNo}&state=${record.outStoreStatus}`}}>{text}</Link>
@@ -26,7 +26,7 @@ const columns = [
   },
   {
     title: '拣货单',
-    width: 280,
+    width: 168,
     dataIndex: 'pickingNo',
   },
   {
@@ -86,7 +86,7 @@ class Output extends PureComponent{
           query={query}
           url={outStorage.OUTSTORELIST}
           ref="tab"
-          scroll={{x: 1624}}
+          scroll={{x: 1400}}
           columns={columns}
           rowKey={'id'}
           style={{marginTop: 20}}
