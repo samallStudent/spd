@@ -345,6 +345,10 @@ class NewAddGoodsAdjust extends PureComponent{
 		    width: 168,
         dataIndex: 'lot'
       },{
+        title: '单位',
+		    width: 112,
+        dataIndex: 'replanUnit'
+      },{
         title: '生产日期',
 		    width: 168,
         dataIndex: 'productDate'
@@ -395,7 +399,7 @@ class NewAddGoodsAdjust extends PureComponent{
             <Button type='default' onClick={this.delete} style={{ marginLeft: 8 }}>删除</Button>
           </Row>
         </div>
-        <div className='detailCard' style={{margin: '-10px -6px'}}>
+        <div className='detailCard' style={{margin: '-10px -6px', minHeight: 'calc(100vh - 170px)'}}>
           <h3>产品信息</h3>
           <Table 
             columns={columns}
@@ -465,7 +469,7 @@ class NewAddGoodsAdjust extends PureComponent{
             url={goodsAdjust.roomDrugList}
             style={{ marginTop: 16 }} 
             columns={modalColumns}
-            scroll={{ x: 2350 }}
+            scroll={{ x: 2462 }}
             rowKey='id'
             rowSelection={{
               selectedRowKeys: this.state.modalSelected,

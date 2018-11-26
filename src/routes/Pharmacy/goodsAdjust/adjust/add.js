@@ -353,6 +353,11 @@ class NewAddGoodsAdjust extends PureComponent{
         width: 168,
       },
       {
+        title: '单位',
+		    width: 112,
+        dataIndex: 'replanUnit'
+      },
+      {
         title: '批准文号',
         dataIndex: 'approvalNo',
         width: 224,
@@ -400,7 +405,7 @@ class NewAddGoodsAdjust extends PureComponent{
             }}
           />
         </div>
-        <div className="detailCard" style={{margin: '-10px -6px'}}>
+        <div className="detailCard" style={{margin: '-10px -6px', minHeight: 'calc(100vh - 170px)'}}>
           {
             dataSource.length > 0?
             <Row gutter={30}>
@@ -453,7 +458,7 @@ class NewAddGoodsAdjust extends PureComponent{
             url={goodsAdjust.roomDrugList}
             style={{ marginTop: 16 }} 
             columns={modalColumns}
-            scroll={{ x: 1900 }}
+            scroll={{ x: 2012 }}
             rowKey='id'
             rowSelection={{
               selectedRowKeys: this.state.modalSelected,

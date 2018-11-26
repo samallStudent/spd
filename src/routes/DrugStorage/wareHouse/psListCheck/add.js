@@ -592,7 +592,7 @@ class PslistAdd extends PureComponent{
                   <Icon style={{transform: 'scale(1.5,1.5)', paddingRight: 10}} type="barcode" />
               </div>
               <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18">
-                  <Search onSearch={this.search} placeholder="扫描或输入配送单/补货计划单号"/>
+                  <Search onSearch={this.search} placeholder="扫描或输入配送单/订单号"/>
               </div>
             </Col>
           </Row>

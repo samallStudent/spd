@@ -293,6 +293,14 @@ class NearlyEffective extends PureComponent {
         dataIndex: 'ctmmDosageFormDesc',
         width: 168,
       }, {
+        title: '采购方式',
+        width: 112,
+        dataIndex: 'purchaseType',
+      }, {
+        title: '价格',
+        width: 112,
+        dataIndex: 'price',
+      }, {
         title: '供应商',
         dataIndex: 'supplierName',
         width: 168,

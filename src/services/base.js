@@ -55,3 +55,13 @@ export function submitBadFlowList(options) {
     body: options
   })
 }
+
+//自采计划导出
+export function depotplanDetailExport(options) {
+  return request(`${_local}/a/depotdetail/depotplandetail/export`, {
+    method: 'POST',
+    type: 'json',
+    body: options,
+    export: true
+  })
+}

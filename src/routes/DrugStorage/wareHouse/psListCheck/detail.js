@@ -492,6 +492,16 @@ class PslistCheck extends PureComponent{
         width: 168
       },
       {
+        title: '价格',
+        dataIndex: 'price',
+        width: 112
+      },{
+        title: '金额',
+        dataIndex: 'amount',
+        width: 112,
+        render: (text, record) => record.price * record.realReceiveQuantity
+      },
+      {
         title: '剂型',
         dataIndex: 'ctmmDosageFormDesc',
         width: 168
@@ -589,6 +599,16 @@ class PslistCheck extends PureComponent{
         title: '包装规格',
         dataIndex: 'packageSpecification',
         width: 168,
+      },
+      {
+        title: '价格',
+        dataIndex: 'price',
+        width: 112
+      },{
+        title: '金额',
+        dataIndex: 'amount',
+        width: 112,
+        render: (text, record) => record.price * record.realReceiveQuantity
       },
       {
         title: '剂型',
@@ -717,7 +737,7 @@ class PslistCheck extends PureComponent{
               <Table
                 bordered
                 loading={loading}
-                scroll={{x: 2700}}
+                scroll={{x: 2724}}
                 columns={columnsUnVerfiy}
                 dataSource={unVerfiyList || []}
                 pagination={false}
@@ -739,7 +759,7 @@ class PslistCheck extends PureComponent{
               <Table
                 loading={loading}
                 bordered
-                scroll={{x: 2500}}
+                scroll={{x: 2724}}
                 columns={columnsVerify || []}
                 dataSource={verifyList}
                 rowKey={'key'}

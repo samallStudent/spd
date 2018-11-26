@@ -70,7 +70,21 @@ const columns = [
     title: '有效期至',
     width: 168,
     dataIndex: 'validEndDate',
-  }
+  },
+  {
+    title: '采购方式',
+    width: 112,
+    dataIndex: 'purchaseType',
+  },
+  {
+    title: '供应商',
+    width: 224,
+    dataIndex: 'supplierName',
+    className: 'ellipsis',
+    render:(text)=>(
+        <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+    )
+  },
 ];
 
 class ReplenishmentDetail extends PureComponent{
@@ -210,7 +224,7 @@ class ReplenishmentDetail extends PureComponent{
             bordered
             columns={columns}
             pagination={false}
-            scroll={{ x: 1750 }}
+            scroll={{ x: 2086 }}
             rowKey='drugCode'
             dataSource={baseInfo?baseInfo.list:[]}
           />

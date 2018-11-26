@@ -133,7 +133,7 @@ class BaseMgt extends PureComponent{
       }
     })
   }
-  //库存上下限
+  //库存基数
   changeStockBase = (key, value) => {
     this.setState({
       [key]: value
@@ -143,39 +143,32 @@ class BaseMgt extends PureComponent{
   editRow = (record) => {
     this.setState({
       editingKey: record.id,
-      downQuantity: record.downQuantity,
-      upperQuantity: record.upperQuantity
+      stockBase: record.stockBase,
     });
   }
   //保存
   saveStockBase = () => {
-    const {downQuantity, upperQuantity, editingKey} = this.state;
+    const {stockBase, editingKey} = this.state;
     if(
-      downQuantity === null || 
-      downQuantity === "" || 
-      downQuantity === undefined || 
-      upperQuantity === null || 
-      upperQuantity === "" || 
-      upperQuantity === undefined
-    ) return message.warning('请输入库存上下限');
-    if(downQuantity > upperQuantity) {
-      return message.warning('库存上限不允许小于库存下限');
-    };
+      stockBase === null || 
+      stockBase === "" || 
+      stockBase === undefined
+    ) return message.warning('请输入库存基数');
     this.props.dispatch({
       type: 'configMgt/editRescuecarQuantity',
       payload: {
         id: editingKey,
-        downQuantity,
-        upperQuantity
+        stockBase,
       },
-      callback: (data) => {
-        if(data.code === 200) {
+      callback: ({data, code, msg}) => {
+        if(code === 200) {
           this.setState({
             editingKey: '',
-            downQuantity: '',
-            upperQuantity: ''
+            stockBase: ''
           });
           this.refs.table.fetch();
+        }else {
+          message.error(msg);
         }
       }
     })
@@ -184,8 +177,7 @@ class BaseMgt extends PureComponent{
   cancelStockBase = () => {
     this.setState({
       editingKey: '',
-      downQuantity: '',
-      upperQuantity: ''
+      stockBase: ''
     });
   }
   render(){
@@ -193,9 +185,8 @@ class BaseMgt extends PureComponent{
     const columns = [
       {
         title: '通用名称',
-        fixed: 'left',
         dataIndex: 'ctmmGenericName',
-        width: 224,
+        width: 224, 
         className: 'ellipsis',
         render:(text)=>(
           <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
@@ -240,8 +231,8 @@ class BaseMgt extends PureComponent{
         )
       },
       {
-        title: '库存上限',
-        dataIndex: 'upperQuantity',
+        title: '库存基数',
+        dataIndex: 'stockBase',
         width: 120,
         fixed: 'right',
         render:(text, record)=>{
@@ -251,26 +242,7 @@ class BaseMgt extends PureComponent{
                     min={1}
                     max={999999}
                     precision={0}
-                    onChange={this.changeStockBase.bind(this, 'upperQuantity')}
-                   />
-          }else {
-            return <span>{text}</span>
-          }
-        }
-      },
-      {
-        title: '库存下限',
-        dataIndex: 'downQuantity',
-        width: 120,
-        fixed: 'right',
-        render:(text, record)=>{
-          if(record.id === editingKey) {
-            return <InputNumber
-                    defaultValue={text}
-                    min={1}
-                    max={999999}
-                    precision={0}
-                    onChange={this.changeStockBase.bind(this, 'downQuantity')}                    
+                    onChange={this.changeStockBase.bind(this, 'stockBase')}                    
                    />
           }else {
             return <span>{text}</span>
@@ -289,7 +261,7 @@ class BaseMgt extends PureComponent{
                     <a onClick={this.cancelStockBase}>取消</a>
                    </span>
           }else {
-            return <a onClick={this.editRow.bind(this, record)}>编辑库存上下限</a>
+            return <a onClick={this.editRow.bind(this, record)}>编辑库存基数</a>
           }
         }
       }
@@ -402,7 +374,7 @@ class BaseMgt extends PureComponent{
             ref='table'
             query={query}
             url={baseMgt.FIND_RESCUECA_CARDINAL_MADICINE}
-            scroll={{x: 1772}}
+            scroll={{x: 1660}}
             columns={columns}
             rowKey={'id'}
           />

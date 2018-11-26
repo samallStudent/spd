@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { Form, Row, Col, DatePicker, Input, Select, Button, Icon, message } from 'antd';
+import { Form, Row, Col, DatePicker, Input, Select, Button, Icon, message, Tooltip } from 'antd';
 import { Link } from 'react-router-dom';
 import { formItemLayout } from '../../../../utils/commonStyles';
 import RemoteTable from '../../../../components/TableGrid';
@@ -214,6 +214,15 @@ class RecallAndLocked extends PureComponent {
         dataIndex: 'recallTypeName',
       },
       {
+        title: '供应商',
+        width: 224,
+        dataIndex: 'supplierName',
+        className: 'ellipsis',
+        render:(text)=>(
+            <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+        )
+      },
+      {
         title: '召回原因',
         width: 280,
         dataIndex: 'remarks',
@@ -249,7 +258,7 @@ class RecallAndLocked extends PureComponent {
           url={outStorage.ROOMRECALL_LIST}
           columns={columns}
           rowKey={'id'}
-          scroll={{ x: '100%' }}
+          scroll={{ x: 1288 }}
           style={{marginTop: 20}}
           rowSelection={{
             selectedRowKeys: this.state.selected,

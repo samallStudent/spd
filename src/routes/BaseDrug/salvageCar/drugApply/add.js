@@ -236,12 +236,8 @@ class NewAdd extends PureComponent {
         dataIndex: 'localUsableQuantity',
         width: 112,
       }, {
-        title: '库存上限',
-        dataIndex: 'locaUpperQuantity',
-        width: 112,
-      }, {
-        title: '库存下限',
-        dataIndex: 'localDownQuantity',
+        title: '库存基数',
+        dataIndex: 'stockBase',
         width: 112,
       }, {
         title: '批准文号',
@@ -379,7 +375,7 @@ class NewAdd extends PureComponent {
             bordered
             columns={columns}
             dataSource={dataSource}
-            scroll={{ x: 2012 }}
+            scroll={{ x: 1900 }}
             rowKey='drugCode'
             rowSelection={{
               selectedRowKeys: this.state.selected,

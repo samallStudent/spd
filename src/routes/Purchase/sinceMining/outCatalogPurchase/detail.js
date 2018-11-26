@@ -64,6 +64,17 @@ const columns = [
     )
   },
   {
+    title: '价格',
+    dataIndex: 'price',
+    width: 112
+  },
+  {
+    title: '金额',
+    dataIndex: 'amount',
+    width: 112,
+    render: (text, record) => record.price * record.demandQuantity
+  },
+  {
     title: '供应商',
     width: 224,
     dataIndex: 'supplierName',
@@ -199,7 +210,7 @@ class OutCatalogPurchase extends PureComponent{
           <Table
             bordered
             title={()=>'产品信息'}
-            scroll={{x: 1900}}
+            scroll={{x: 2124}}
             columns={columns}
             rowKey={'id'}
             dataSource={detailsData ? detailsData.list : []}

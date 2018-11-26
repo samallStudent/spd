@@ -91,7 +91,7 @@ class NewAdd extends PureComponent {
     if(modalSelectedRows.length === 0) {
       message.warning('至少选择一条信息');
       return;
-    }
+    };
     this.setState({btnLoading: true});
     modalSelectedRows = modalSelectedRows.map(item=>item.drugCode);
     this.props.dispatch({
@@ -183,7 +183,8 @@ class NewAdd extends PureComponent {
         demandQuantity: item.demandQuantity,
         drugCode: item.drugCode,
         drugPrice: item.drugPrice,
-        supplierCode: item.supplierCode
+        supplierCode: item.supplierCode,
+        hisDrugCode: item.hisDrugCode
       }
     })
     if(auditStatus === 1){

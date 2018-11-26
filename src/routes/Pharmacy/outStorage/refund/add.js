@@ -201,7 +201,8 @@ class AddRefund extends PureComponent{
       selectedRows: [],
       modalSelectedRows: [], // 模态框内勾选
       modalSelected: [],
-      supplierList: []
+      supplierList: [],
+      deptList: [], //所有药库部门
     }
   }
   toggle = () => {
@@ -212,6 +213,7 @@ class AddRefund extends PureComponent{
     })
   }
   componentDidMount = () =>{
+    const {dispatch} = this.props;
     if(this.props.match.path === "/editPharmacyBackStoragePlan/:backNo") {
       let { backNo } = this.props.match.params;
       this.setState({spinLoading: true});
@@ -228,18 +230,31 @@ class AddRefund extends PureComponent{
             spinLoading: false,
             query: {
               ...query,
+              deptCode: data.acceptDeptCode,
               existDrugCodeList
             }
           });
         }
       });
     };
-    this.props.dispatch({
+    dispatch({
       type: 'base/genSupplierList',
       callback: ({data, code, msg}) => {
         if(code === 200) {
           this.setState({
             supplierList: data
+          });
+        }else {
+          message.error(msg);
+        };
+      }
+    });
+    dispatch({
+      type: "base/findDepotDeptlist",
+      callback: ({code, msg, data}) => {
+        if(code === 200) {
+          this.setState({
+            deptList: data
           });
         }else {
           message.error(msg);
@@ -266,9 +281,10 @@ class AddRefund extends PureComponent{
     let { query } = this.state;
     this.refs.table.fetch({ ...query, ...values });
   }
+
   //提交该出库单
   backStroage = () =>{
-    const {  dataSource } = this.state;
+    const {  dataSource, query } = this.state;
     this.refs.remarksForm.validateFields((err, values) => {
       if(!err) {
         Conform({
@@ -285,6 +301,7 @@ class AddRefund extends PureComponent{
             }));
             postData.backDrugList = backDrugList;
             postData.backcause = values.backCause;
+            postData.deptCode = query.deptCode;
             if(values.backcauseOther) {
               postData.backcauseOther = values.backcauseOther;
             }
@@ -329,6 +346,33 @@ class AddRefund extends PureComponent{
       query: {
         ...query,
         existDrugCodeList
+      }
+    });
+  }
+  //选择指向药库
+  changePointToDrugStorage = (value) => {
+    const {query} = this.state;
+
+    this.setState({
+      query: {
+        ...query,
+        deptCode: value
+      }
+    })
+  }
+  //showMoadl
+  showAddDrugModal = () => {
+    const {dataSource, query} = this.state;
+    if(query.deptCode === undefined || query.deptCode === "") {
+      return message.warning('请先选择指向药库');
+    };
+    let existInstoreCodeList = [];
+    dataSource.map(item => existInstoreCodeList.push(item.inStoreCode));
+    this.setState({
+      visible:true,
+      query: {
+        ...query, 
+        existInstoreCodeList
       }
     });
   }
@@ -435,7 +479,7 @@ class AddRefund extends PureComponent{
         )
       }
     ];
-    const { supplierList, visible, isEdit, dataSource, query, spinLoading, display, detailsData } = this.state; 
+    const { supplierList, visible, isEdit, dataSource, query, spinLoading, display, detailsData, deptList } = this.state; 
     const { getFieldDecorator } = this.props.form;
     return (
     <Spin spinning={spinLoading} size="large">
@@ -451,20 +495,31 @@ class AddRefund extends PureComponent{
           </Row>
           <Row style={{ marginTop: 10 }}>
             <Col  span={4}>
-              <Button type='primary' className='button-gap' onClick={()=>{
-                if(this.refs.table){
-                  let existInstoreCodeList = [];
-                  dataSource.map(item => existInstoreCodeList.push(item.inStoreCode));
-                  this.refs.table.fetch({ ...query, existInstoreCodeList });
-                }
-                this.setState({visible:true});
-              }}>
+              <Button type='primary' className='button-gap' onClick={this.showAddDrugModal}>
                 添加产品
                 </Button>
               <Button onClick={this.delete} >移除</Button>
             </Col>
           </Row>
           <Row style={{ marginTop: 10 }}>
+            <Col span={4}>
+              <Select
+                placeholder="请选择退库指向药库"
+                onChange={this.changePointToDrugStorage}
+                style={{
+                  width: '100%',
+                  marginTop: 4
+                }}
+                disabled={dataSource.length > 0}
+                value={query.deptCode}
+              >
+                {
+                  deptList.map(item => (
+                    <Option key={item.id} value={item.id}>{item.deptName}</Option>
+                  ))
+                }
+              </Select>
+            </Col>
             <Col span={12}>
               <RemarksFormWarp
                 detailsData={detailsData}

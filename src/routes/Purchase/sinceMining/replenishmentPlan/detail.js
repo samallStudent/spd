@@ -148,6 +148,16 @@ class ReplenishmentDetail extends PureComponent{
       }
     })
   }
+  //导出
+  export = () => {
+    let { planCode } = this.props.match.params;
+    this.props.dispatch({
+      type: 'base/depotplanDetailExport',
+      payload: {
+        list: [planCode]
+      }
+    })
+  }
   render(){
     const { detailsData } = this.state;
     return (
@@ -155,13 +165,18 @@ class ReplenishmentDetail extends PureComponent{
         <div className='fullCol-fullChild'>
           <div style={{ display: 'flex',justifyContent: 'space-between' }}>
             <h3>单据信息</h3>
-            {
-              (detailsData.auditStatus === 1 || detailsData.auditStatus === 3) &&
-              <div>
-                <Link to={{pathname: `/editReplenishmentPlan/${this.props.match.params.planCode}`}}><Button type='default'>编辑</Button></Link>
-                <Button type='primary' onClick={this.submit} style={{ marginLeft: 8 }}>提交</Button>
-              </div>
-            }
+            <div>
+              <Button type='default' onClick={this.export}>导出</Button>
+              {
+                (detailsData.auditStatus === 1 || detailsData.auditStatus === 3) &&
+                [
+                  <Link style={{ margin: '0 8px' }} key="edit" to={{pathname: `/editReplenishmentPlan/${this.props.match.params.planCode}`}}>
+                    <Button type='default'>编辑</Button>
+                  </Link>,
+                  <Button key="submit" type='primary' onClick={this.submit}>提交</Button>
+                ]
+              }
+            </div>
           </div>
           <Row>
             <Col span={8}>

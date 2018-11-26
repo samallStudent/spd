@@ -241,3 +241,11 @@ export function getDeptInfoAndStore(options) {
     body: options
   })
 }
+
+export function findDepotDeptlist(options) {
+  return request(`${_local}/a/commonback/backdetail/findDepotDeptlist`,{
+    method: 'GET',
+    type: 'formData',
+    body: options
+  })
+}

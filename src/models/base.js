@@ -229,6 +229,13 @@ export default {
       }
       if(callback) callback(data.data)
     },
+    //药房新建退库药库部门下拉框
+    *findDepotDeptlist({ payload,callback },{ call }){
+      const data = yield call(outStorageService.findDepotDeptlist, payload);
+      if(callback && typeof callback === 'function') {
+        callback(data);
+      };
+    },
     // 基数药确认新建退库
     *backSubmit({ payload,callback },{ call }){
       const data = yield call(outStorageService.backSubmit, payload);
@@ -353,6 +360,13 @@ export default {
     // 删除存储条件
     *clearQueryConditions({ payload },{ put }){
       yield put({ type: 'clearConditions' });
+    },
+    //自采计划导出
+    *depotplanDetailExport({ payload,callback },{ call }){
+      const data = yield call(base.depotplanDetailExport, payload);
+      if(callback && typeof callback === 'function') {
+        callback(data);
+      };
     }
   },
   reducers: {

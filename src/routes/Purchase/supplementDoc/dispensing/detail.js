@@ -53,6 +53,11 @@ const columns = [
     dataIndex: 'lot',
   },
   {
+    title: '采购方式',
+    width: 112,
+    dataIndex: 'purchaseType',
+  },
+  {
     title: '生产日期',
     width: 168,
     dataIndex: 'productDate',
@@ -171,7 +176,7 @@ class ReplenishmentDetail extends PureComponent{
             title={()=>'产品信息'}
             style={{marginTop: 20}}
             columns={columns}
-            scroll={{ x: 1600 }}
+            scroll={{ x: 1712 }}
             rowKey='batchNo'
             dataSource={baseInfo?baseInfo.list:[]}
             pagination={false}

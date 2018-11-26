@@ -18,7 +18,7 @@ const columns = [
     }, {
         title: '货位',
         dataIndex: "storeLocName",
-        width: 112
+        width: 168
     }, {
         title: '货位类型',
         dataIndex: "storeType",
@@ -26,10 +26,18 @@ const columns = [
     }, {
         title: '单位',
         dataIndex: "unit",
-        width: 60
+        width: 112
     }, {
         title: '数量',
         dataIndex: "usableQuantity",
+        width: 112
+    }, {
+        title: '采购类型',
+        dataIndex: "purchaseType",
+        width: 112
+    }, {
+        title: '价格',
+        dataIndex: "price",
         width: 112
     }, {
         title: '供应商',
@@ -155,6 +163,7 @@ class Details extends PureComponent{
                         loading={loading}
                         rowKey="id"
                         columns={columns}
+                        scroll={{x: 1512}}
                         dataSource={list}
                         bordered
                         pagination={false}

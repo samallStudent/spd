@@ -4,7 +4,7 @@
 * @Last Modified time: 2018-07-24 13:12:15 
  */
 import React, { PureComponent } from 'react';
-import { Form, Row, Col, Button, Icon, Select , message , Input ,DatePicker } from 'antd';
+import { Form, Row, Col, Button, Icon, Select , message , Input ,DatePicker, Tooltip } from 'antd';
 import { Link } from 'react-router-dom';
 import { formItemLayout } from '../../../../utils/commonStyles';
 import RemoteTable from '../../../../components/TableGrid';
@@ -32,6 +32,15 @@ const columns = [
     title: '类型',
     width: 168,
     dataIndex: 'recallTypeName',
+  },
+  {
+    title: '供应商',
+    width: 224,
+    dataIndex: 'supplierName',
+    className: 'ellipsis',
+    render:(text)=>(
+        <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+    )
   },
   {
     title: '召回原因',
@@ -261,7 +270,7 @@ class RecallAndLockedCheck extends PureComponent{
           query={query}
           bordered
           url={outStorage.ROOMRECALL_LIST}
-          scroll={{x: 1448}}
+          scroll={{x: 1624}}
           columns={columns}
           rowKey={'id'}
           style={{marginTop: 20}}

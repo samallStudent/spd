@@ -171,7 +171,10 @@ class DetailsNewLibrary extends PureComponent{
   //打印
   print = () => {
     const { distributeCode } = this.state.info;
-    const {activeKey} = this.state;
+    let {activeKey} = this.state;
+    if(activeKey === "3") {
+      activeKey = "2";
+    };
     window.open(`${_local}/a/deliver/print/printBasicMedicDetail?distributeCode=${distributeCode}&status=${activeKey}`, '_blank');
   }
 

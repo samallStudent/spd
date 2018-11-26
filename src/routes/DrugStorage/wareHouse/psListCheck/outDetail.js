@@ -424,6 +424,16 @@ class PslistCheck extends PureComponent{
         width: 168
       },
       {
+        title: '采购方式',
+        dataIndex: 'purchaseType',
+        width: 112,
+      },
+      {
+        title: '价格',
+        dataIndex: 'price',
+        width: 112
+      },
+      {
         title: '供应商',
         dataIndex: 'supplierName',
         width: 224,
@@ -521,7 +531,7 @@ class PslistCheck extends PureComponent{
               <Table
                 bordered
                 loading={loading}
-                scroll={{x: 2600}}
+                scroll={{x: 2824}}
                 columns={columns}
                 dataSource={unVerfiyList || []}
                 pagination={false}
@@ -543,7 +553,7 @@ class PslistCheck extends PureComponent{
               <Table
                 loading={loading}
                 bordered
-                scroll={{x: 2600}}
+                scroll={{x: 2824}}
                 columns={columns || []}
                 dataSource={verifyList}
                 rowKey={'key'}

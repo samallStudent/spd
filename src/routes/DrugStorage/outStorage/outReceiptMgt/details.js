@@ -78,6 +78,16 @@ const columns = [
     )
   },
   {
+    title: '采购方式',
+    dataIndex: 'purchaseType',
+    width: 112,
+  },
+  {
+    title: '价格',
+    dataIndex: 'price',
+    width: 112
+  },
+  {
     title: '供应商',
     width: 224,
     dataIndex: 'supplierName',
@@ -282,7 +292,7 @@ class DetailsOutput extends PureComponent{
             bordered
             loading={loading}
             dataSource={detailVo || []}
-            scroll={{x: 2200}}
+            scroll={{x: 2424}}
             columns={columns}
             rowKey={'batchNo'}
             pagination={false}

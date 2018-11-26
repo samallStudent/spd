@@ -1,5 +1,5 @@
 import React, {PureComponent} from 'react';
-import {Row, Col} from 'antd';
+import {Row, Col, Tooltip} from 'antd';
 import RemoteTable from '../../../../components/TableGrid';
 import drugStorage from '../../../../api/drugStorage/stockInquiry';
 import {connect} from 'dva';
@@ -7,28 +7,48 @@ import querystring from 'querystring';
 const columns = [
     {
         title: '生产批号',
-        dataIndex: 'lot'
+        dataIndex: 'lot',
+        width: 168
     }, {
         title: '生产日期',
-        dataIndex: 'productDate'
+        dataIndex: 'productDate',
+        width: 168
     }, {
         title: '有效期至',
         dataIndex: 'validEndDate',
+        width: 168
     }, {
         title: '货位',
-        dataIndex: "storeLocName"
+        dataIndex: "storeLocName",
+        width: 168
     }, {
         title: '货位类型',
         dataIndex: "storeType",
+        width: 168
     }, {
         title: '单位',
         dataIndex: "unit",
+        width: 112
     }, {
         title: '数量',
-        dataIndex: "usableQuantity"
+        dataIndex: "usableQuantity",
+        width: 112
+    }, {
+        title: '采购类型',
+        dataIndex: "purchaseType",
+        width: 112
+    }, {
+        title: '价格',
+        dataIndex: "price",
+        width: 112
     }, {
         title: '供应商',
-        dataIndex: 'supplierName'
+        dataIndex: 'supplierName',
+        width: 224,
+        className: 'ellipsis',
+        render:(text)=>(
+            <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+        )
     }
 ]
 
@@ -127,6 +147,7 @@ class Details extends PureComponent{
                     <RemoteTable
                         rowKey="batchNo"
                         query={query}
+                        scroll={{x: 1512}}
                         url={drugStorage.getDetailList}
                         columns={columns}
                     />

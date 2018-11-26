@@ -5,7 +5,7 @@
  */
 
 import React, { PureComponent } from 'react';
-import { Form, Row, Col, Button, Icon , message , Popconfirm, Select , Input , DatePicker ,} from 'antd';
+import { Form, Row, Col, Button, Icon , message , Select , Input , DatePicker ,} from 'antd';
 import { Link } from 'react-router-dom';
 import { formItemLayout } from '../../../../utils/commonStyles';
 import RemoteTable from '../../../../components/TableGrid';
@@ -191,7 +191,6 @@ class PickSoldOut extends PureComponent{
       messageError:"",
       selectedRowKeys:[],
       query: {
-        pickingType: "4",
         queryType: 1
       }
     }
@@ -210,7 +209,6 @@ class PickSoldOut extends PureComponent{
 
   //打印
   print = (record) => {
-    const {pickingOrderNo} = this.props.match.params;
     window.open(`${outStorage.PICKING_PRINT}?pickingOrderNo=${record.pickingOrderNo}`, '_blank');
   }
 

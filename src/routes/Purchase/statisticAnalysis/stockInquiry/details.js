@@ -45,13 +45,6 @@ const columns = [
         dataIndex: "price",
         width: 112,
     }, {
-        title: '金额',
-        dataIndex: "amount",
-        width: 112,
-        render: (text, record) => {
-            return record.price * record.totalQuantity;
-        }
-    }, {
         title: '供应商',
         dataIndex: 'supplierName',
         width: 224,
@@ -159,7 +152,7 @@ class Details extends PureComponent{
                     <h3 style={{marginBottom: 16}}>库存信息</h3>
                     <RemoteTable
                         rowKey="batchNo"
-                        scroll={{x: 1792}}
+                        scroll={{x: 1680}}
                         query={query}
                         url={statisticAnalysis.GET_ROOM_REPERTORY_LIST_ALL}
                         columns={columns}

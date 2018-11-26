@@ -176,7 +176,7 @@ class SearchFormWrapper extends PureComponent {
         <Row gutter={30}>
           <Col span={8}>
             <FormItem label={`单据`} {...formItemLayout}>
-              {getFieldDecorator('bill', {})(
+              {getFieldDecorator('distributeCode', {})(
                 <Input placeholder='出库单/申领单'/>
               )}
             </FormItem>

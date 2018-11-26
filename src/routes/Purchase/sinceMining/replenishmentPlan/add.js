@@ -180,7 +180,8 @@ class NewAdd extends PureComponent {
         demandQuantity: item.demandQuantity,
         drugCode: item.drugCode,
         drugPrice: item.drugPrice,
-        supplierCode: item.supplierCode
+        supplierCode: item.supplierCode,
+        hisDrugCode: item.hisDrugCode
       }
     })
     if(auditStatus === '1'){
