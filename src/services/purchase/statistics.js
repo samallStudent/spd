@@ -290,3 +290,20 @@ export function getRoomRepertoryDetail(options) {
     body: options
   })
 }
+//台账供应商
+export function getSuppliers(options) {
+  return request(`${_local}/a/statics/medicineStanding/getSuppliers`, {
+    method: 'GET',
+    type: 'formData',
+    body: options
+  })
+}
+
+//台账部门
+export function getDepts(options) {
+  return request(`${_local}/a/statics/medicineStanding/getDepts`, {
+    method: 'GET',
+    type: 'formData',
+    body: options
+  })
+}

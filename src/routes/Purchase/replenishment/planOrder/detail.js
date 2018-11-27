@@ -8,8 +8,9 @@
   @file 补货计划 详情
 */
 import React, { PureComponent } from 'react';
-import { Table ,Row, Col, Tooltip } from 'antd';
+import { Table ,Row, Col, Tooltip, Button } from 'antd';
 import { connect } from 'dva';
+import { replenishmentPlan } from '../../../../api/replenishment/replenishmentPlan';
 const columns = [
   {
     title: '通用名称',
@@ -130,7 +131,7 @@ const sendColumns = [
         <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
     )
   }
-]
+];
 
 class PlanOrderDetail extends PureComponent{
   state = {
@@ -150,6 +151,11 @@ class PlanOrderDetail extends PureComponent{
       });
     }
   }
+  //打印
+  print = () => {
+    let { orderCode } = this.props.match.params;
+    window.open(`${replenishmentPlan.PRINT_DETAIL}?orderCode=${orderCode}`, '_blank');
+  }
   render(){
     const { detailsData, loading } = this.state;
     return (
@@ -157,6 +163,7 @@ class PlanOrderDetail extends PureComponent{
         <div className='fullCol-fullChild'>
           <div style={{ display: 'flex',justifyContent: 'space-between' }}>
             <h3>单据信息</h3>
+            <Button onClick={this.print}>打印</Button>
           </div>
           <Row>
             <Col span={8}>

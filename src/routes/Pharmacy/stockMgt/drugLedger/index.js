@@ -37,7 +37,7 @@ class SearchForm extends PureComponent{
   componentDidMount() {
     const {dispatch} = this.props.formProps;
     dispatch({
-      type: 'statistics/supplierAll',
+      type: 'statistics/getSuppliers',
       callback: ({data, code, msg}) => {
         if(code === 200) {
           this.setState({
@@ -47,7 +47,7 @@ class SearchForm extends PureComponent{
       }
     });
     dispatch({
-      type: 'statistics/getDeptByParam',
+      type: 'statistics/getDepts',
       callback: ({data, code, msg}) => {
         if(code === 200) {
           this.setState({

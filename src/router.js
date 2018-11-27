@@ -96,6 +96,7 @@ function RouterConfig({ history, app }) {
           <Route path="/createReplenishment" component={NewAdd}/>
           <Route path="/editReplenishment/:planCode" component={NewAdd}/>
           <Route path="/editReplenishmentPlan/:planCode" component={SinceReplenishment}/>
+          <Route path="/editOutCatalogPurcahsePlan/:planCode" component={CatalogAdd}/>
           <Route path="/createOutCatalogPurcahsePlan" component={CatalogAdd}/>
           <Route path="/addDrugsFor" component={AddDrugsFor}/>
           <Route path="/addNewAcceptance" component={AddNewAcceptance}/>
@@ -118,6 +119,7 @@ function RouterConfig({ history, app }) {
           <Route path="/newRecon" component={NewRecon}/>
           <Route path="/createSinceReplenishment" component={SinceReplenishment}/>
           <Route path="/createSinceOutCatalog" component={SinceOutCatalog}/>
+          <Route path="/editSinceOutCatalog/:planCode" component={SinceOutCatalog}/>
           <Route path="/addPriceAdjustment" component={PriceAdjustment}/>          
           <Route path="/addSalvageTruck" component={AddSalvageTruck}/>          
           <Route path="/baseAddRescuecarApply" component={AddRescuecarApply}/>

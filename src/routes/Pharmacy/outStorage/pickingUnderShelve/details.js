@@ -92,7 +92,6 @@ class DetailsPickSoldOut extends PureComponent{
       {
         title: '通用名称',
         width: 224,
-        fixed: 'left',
         dataIndex: 'ctmmGenericName',
         className: 'ellipsis',
         render:(text)=>(

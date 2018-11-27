@@ -180,6 +180,7 @@ class OutCatalogPurchase extends PureComponent{
     })
   }
   render(){
+    const {match} = this.props;
     const columns = [
       {
         title: '计划单号',
@@ -187,7 +188,7 @@ class OutCatalogPurchase extends PureComponent{
         width: 168,
         render: (text,record) =>{
           return <span>
-            <Link to={{pathname: `/purchase/replenishment/outCatalogPurchase/detail/${record.planCode}`}}>{text}</Link>
+            <Link to={{pathname: `${match.path}/detail/${record.planCode}`}}>{text}</Link>
           </span>  
         }
       },{

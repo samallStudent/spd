@@ -41,7 +41,7 @@ export const statisticAnalysis = {
   SUPPLIER_ANALYZE: `${_local}/a/orderexecute/supplierAnalyze`,     //供应商供货分析列表trace
   TRACE_LIST: `${_local}/a/orderexecute/trace`,         //订单追溯列表
   ORDER_DETAIL_TRACE: `${_local}/a/orderexecute/orderDetailTrace`,    //订单追溯详情分页
-  GYSPH_LIST: `${_local}/a/gysph/statics/list`,     //供应商排行
+  GYSPH_LIST: `${_local}/a/gysph/statics/supplierlist`,     //供应商排行/a/gysph/statics/list
   OPERATIONLOG_LIST: `${_local}/a/operationlog/list`,     //绩效信息表
   BATCH_LIST: `${_local}/a/common/trace/tracePageList`,         //批号追溯列表
   QUERY_DRUG_DEPT_LIST: `${_local}/a/StoreDetail/queryDrugByDeptAll`,   //库存查询

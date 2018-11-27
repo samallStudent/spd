@@ -10,4 +10,6 @@ export  const replenishmentPlan = {
     
     QUERYDRUGBYDEPT: `${_local}/a/depot/depotplan/queryDrugByDept`,  //添加产品查询产品信息列表
     QUERY_DRUG_BY_LIST: `${_local}/a/common/queryDrugByList`,  //添加产品 - 下拉框
+    PRINT_DETAIL: `${_local}/a/orderdetail/print/printDetail`,      //订单管理打印
+    PLAN_DETAIL_PRINT: `${_local}/a/plandetail/print/printDetail`,      //补货计划打印
 }

@@ -8,7 +8,8 @@
   @file 补货计划 详情
 */
 import React, { PureComponent } from 'react';
-import { Table ,Row, Col, Tooltip, } from 'antd';
+import { Table ,Row, Col, Tooltip, Button, message } from 'antd';
+import {Link} from 'react-router-dom';
 import { connect } from 'dva';
 const columns = [
   {
@@ -48,6 +49,11 @@ const columns = [
     title: '单位',
     width: 112,
     dataIndex: 'replanUnit',
+  },
+  {
+    title: '报告药申请单号',
+    dataIndex: 'reportApplicationCode',
+    width: 168,
   },
   {
     title: '需求数量',
@@ -92,31 +98,76 @@ const columns = [
 
 class OutCatalogPurchase extends PureComponent{
   state = {
-    detailsData: {}
+    detailsData: {},
+    submitLoading: false
   }
   componentDidMount = () => {
+    this.getDetail();
+  }
+  getDetail = () => {
     let { planCode } = this.props.match.params;
-    if (this.props.match.params) {
-      this.props.dispatch({
-        type:'base/ReplenishDetails',
-        payload: { planCode },
-        callback:(data)=>{
-          this.setState({ detailsData: data });
-        }
-      });
-    }
+    this.props.dispatch({
+      type:'base/ReplenishDetails',
+      payload: { planCode },
+      callback:(data)=>{
+        this.setState({ detailsData: data });
+      }
+    });
+  }
+  submit = () => {
+    this.setState({
+      submitLoading: true
+    });
+    let {detailsData} = this.state;
+    let dataSource = detailsData.list.map(item => {
+      return {
+        bigDrugCode: item.bigDrugCode,
+        demandQuantity: item.demandQuantity,
+        drugCode: item.drugCode,
+        drugPrice: item.drugPrice,
+        hisDrugCode: item.hisDrugCode,
+        supplierCode: item.supplierCode
+      }
+    });
+    this.props.dispatch({
+      type: 'base/submit',
+      payload: {
+        auditStatus: 2,
+        id: detailsData.id,
+        planType: detailsData.planType,
+        list: dataSource,
+        deptCode: detailsData.deptCode
+      },
+      callback: ({data, code, msg}) => {
+        if(code === 200) {
+          message.success('提交成功');
+          this.setState({
+            submitLoading: false
+          });
+          this.getDetail();
+        }else {
+          this.setState({
+            submitLoading: false
+          });
+          message.error(msg);
+        };
+      }
+    });
   }
   render(){
-    const { detailsData } = this.state;
+    const { detailsData, submitLoading } = this.state;
     return (
       <div className='fullCol fadeIn'>
         <div className='fullCol-fullChild'>
           <div style={{ display: 'flex',justifyContent: 'space-between' }}>
             <h3>单据信息</h3>
-            {/* <div>
-              <Button type='default'>编辑</Button>
-              <Button type='primary' style={{ marginLeft: 8 }}>发起申请</Button>
-            </div> */}
+            {
+              (detailsData.auditStatus === 1 || detailsData.auditStatus === 3) &&
+              <div>
+                <Link to={{pathname: `/editOutCatalogPurcahsePlan/${this.props.match.params.planCode}`}}><Button type='default'>编辑</Button></Link>
+                <Button type='primary' loading={submitLoading} onClick={this.submit} style={{ marginLeft: 8 }}>提交</Button>
+              </div>
+            }
           </div>
           <Row>
             <Col span={8}>
@@ -210,7 +261,7 @@ class OutCatalogPurchase extends PureComponent{
           <Table
             bordered
             title={()=>'产品信息'}
-            scroll={{x: 2124}}
+            scroll={{x: 2292}}
             columns={columns}
             rowKey={'id'}
             dataSource={detailsData ? detailsData.list : []}

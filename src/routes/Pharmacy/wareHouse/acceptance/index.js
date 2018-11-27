@@ -29,7 +29,7 @@ const columns = [
   {
     title: '配货部门',
     width: 168,
-    dataIndex: 'deptName'
+    dataIndex: 'originDeptName'
   },
   {
     title: '状态',
@@ -102,16 +102,27 @@ export default connect(state=>state)(Acceptance);
 /* 搜索 - 表单 */
 class SearchFormWrapper extends PureComponent {
 state = {
-  statusList: []
+  statusList: [],
+  typeList: []
 }
 componentDidMount() {
-  this.props.formProps.dispatch({
+  const {dispatch} = this.props.formProps;
+  dispatch({
     type: 'base/orderStatusOrorderType',
     payload: {
       type: 'acceptance_checkVo'
     },
     callback: (data) => {
       this.setState({statusList: data});
+    }
+  });
+  dispatch({
+    type: 'base/orderStatusOrorderType',
+    payload: {
+      type: 'acceptance_type'
+    },
+    callback: (data) => {
+      this.setState({typeList: data});
     }
   });
   let { queryConditons } = this.props.formProps.base;
@@ -156,20 +167,23 @@ handleSearch = (e) => {
 }
 //重置
 handleReset = () => {
-this.props.form.resetFields();
-this.props.formProps.dispatch({
-  type:'base/clearQueryConditions'
-});
- }
+  this.props.form.resetFields();
+  this.props.formProps.dispatch({
+    type:'base/clearQueryConditions'
+  });
+}
 
 render() {
-  let {statusList} = this.state;
+  let {statusList, typeList} = this.state;
   const { getFieldDecorator } = this.props.form;
   const {display} = this.props.formProps.base;
   const expand = display === 'block';
   statusList = statusList.map(item=>{
     return <Option key={item.value} value={item.value}>{item.label}</Option>
-  })
+  });
+  typeList = typeList.map(item=>{
+    return <Option key={item.value} value={item.value}>{item.label}</Option>
+  });
   return (
     <Form onSubmit={this.handleSearch}>
       <Row gutter={30}>
@@ -204,7 +218,21 @@ render() {
         <Col span={8} style={{display: display}}>
           <FormItem label={`验收时间`} {...formItemLayout}>
             {getFieldDecorator('checkTime', {})(
-            <RangePicker/>
+              <RangePicker/>
+            )}
+          </FormItem>
+        </Col>
+        <Col span={8} style={{display: display}}>
+          <FormItem label={`类型`} {...formItemLayout}>
+            {getFieldDecorator('type')(
+              <Select 
+                showSearch
+                placeholder={'请选择'}
+                optionFilterProp="children"
+                filterOption={(input, option) => option.props.children.indexOf(input) >= 0}
+                >
+                {typeList}
+              </Select>
             )}
           </FormItem>
         </Col>

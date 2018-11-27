@@ -68,6 +68,20 @@ export default {
         callback && callback(data);
       };
     },
+    //台账供应商
+    *getSuppliers({payload, callback}, {call}) {
+      const data = yield call(statistics.getSuppliers, payload);
+      if(typeof callback === 'function') {
+        callback && callback(data);
+      };
+    },
+    //台账部门
+    *getDepts({payload, callback}, {call}) {
+      const data = yield call(statistics.getDepts, payload);
+      if(typeof callback === 'function') {
+        callback && callback(data);
+      };
+    },
     //药品分析导出
     *medicineStandingExport({payload, callback}, {call}) {
       const data = yield call(statistics.medicineStandingExport, payload);

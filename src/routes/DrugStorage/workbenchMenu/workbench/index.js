@@ -15,7 +15,7 @@ class Workplace extends Component {
     leftVisibility: 'hidden',
     rightVisibility: 'hidden',
     itemWidth: 180,
-    matterList: [],
+    matterList: null,
     billsList: [],
     backlogLoading: true,
     billsLoading: false,
@@ -148,7 +148,7 @@ class Workplace extends Component {
 
   render() {
     const {left, leftVisibility, rightVisibility, itemWidth, matterList, backlogLoading, initHeight, activeIndex, billsList, billsLoading} = this.state;
-    const itemsWidth = matterList.length ? (itemWidth + 24) * matterList.length : '100%';
+    const itemsWidth = matterList ? matterList.length ? (itemWidth + 24) * matterList.length : '100%' : 99999;
     return (
       <div style={{background: '#fff', margin: '-31px -32px', paddingTop: 12}}>
         <div>
@@ -162,7 +162,7 @@ class Workplace extends Component {
                 <Spin spinning={backlogLoading}>
                   <div style={{left, width: itemsWidth, height: initHeight}} className={S['item-list']}>
                     {
-                      matterList.length ?                     
+                      matterList && matterList.length ?                     
                       matterList.map((item, index) => (
                         <div 
                           onClick={this.toggleActive.bind(this, item, index)} 
@@ -209,7 +209,7 @@ class Workplace extends Component {
             style={{
               background: '#f0f2f5',
               padding: '20px 20px 0',
-              minHeight: `${matterList.length ? 'calc(100vh - 380px)' : 'calc(100vh - 325px)'}`
+              minHeight: `${matterList && matterList.length ? 'calc(100vh - 380px)' : 'calc(100vh - 325px)'}`
             }}
           >
             {

@@ -10,6 +10,7 @@
 import React, { PureComponent } from 'react';
 import { Table ,Row, Col,Tooltip, Button, message } from 'antd';
 import { connect } from 'dva';
+import { replenishmentPlan } from '../../../../api/replenishment/replenishmentPlan';
 import {Link} from 'react-router-dom';
 const columns = [
   {
@@ -93,7 +94,8 @@ const columns = [
 
 class ReplenishmentDetail extends PureComponent{
   state = {
-    detailsData: {}
+    detailsData: {},
+    submitLoading: false
   }
   componentDidMount = () => {
     this.getDetail();
@@ -114,6 +116,9 @@ class ReplenishmentDetail extends PureComponent{
   }
   //提交
   submit = () => {
+    this.setState({
+      submitLoading: true
+    });
     let {detailsData} = this.state;
     let dataSource = detailsData.list.map(item => {
       return {
@@ -121,6 +126,7 @@ class ReplenishmentDetail extends PureComponent{
         demandQuantity: item.demandQuantity,
         drugCode: item.drugCode,
         drugPrice: item.drugPrice,
+        hisDrugCode: item.hisDrugCode,
         supplierCode: item.supplierCode
       }
     });
@@ -131,13 +137,28 @@ class ReplenishmentDetail extends PureComponent{
         id: detailsData.id,
         planType: detailsData.planType,
         list: dataSource,
-        deptCode: detailsData.deptCode
+        deptCode: detailsData.deptCode,
       },
-      callback: (data) => {
-        message.success('提交成功');
-        this.getDetail();
+      callback: ({data, code, msg}) => {
+        if(code === 200) {
+          this.setState({
+            submitLoading: false
+          });
+          message.success('提交成功');
+          this.getDetail();
+        }else {
+          this.setState({
+            submitLoading: false
+          });
+          message.error(msg);
+        };
       }
-    })
+    });
+  }
+  //打印
+  print = () => {
+    let { planCode } = this.props.match.params;
+    window.open(`${replenishmentPlan.PLAN_DETAIL_PRINT}?planCode=${planCode}`, '_blank');
   }
   render(){
     const { detailsData } = this.state;
@@ -146,13 +167,20 @@ class ReplenishmentDetail extends PureComponent{
         <div className='fullCol-fullChild'>
           <div style={{ display: 'flex',justifyContent: 'space-between' }}>
             <h3>单据信息</h3>
-            {
-              (detailsData.auditStatus === 1 || detailsData.auditStatus === 3) &&
               <div>
-                <Link to={{pathname: `/editReplenishment/${this.props.match.params.planCode}`}}><Button type='default'>编辑</Button></Link>
-                <Button type='primary' onClick={this.submit} style={{ marginLeft: 8 }}>提交</Button>
+                {
+                  detailsData.auditStatus === 1 || 
+                  detailsData.auditStatus === 3 ? 
+                  [
+                    <Link key="edit" to={{pathname: `/editReplenishment/${this.props.match.params.planCode}`}}>
+                      <Button type='default'>编辑</Button>
+                    </Link>,
+                    <Button key="submit" type='primary' onClick={this.submit} style={{ marginLeft: 8 }}>提交</Button>
+                  ]
+                  : 
+                  <Button onClick={this.print}>打印</Button>
+                }
               </div>
-            }
           </div>
           <Row>
             <Col span={8}>

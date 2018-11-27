@@ -34,7 +34,7 @@
   position: relative;
   top: 0;
   left: 0;
-  transition: all .6s ease-in-out;
+  transition: top .6s ease-in-out, left .6s ease-in-out;
 }
 
 .item {

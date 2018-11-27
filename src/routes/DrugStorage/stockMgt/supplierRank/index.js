@@ -45,7 +45,7 @@ class SearchForm extends PureComponent{
       return keyItem;
     });
     if(!value.closeDate) {
-      value.closeDate = [moment(), moment().subtract(-1, 'months')];
+      value.closeDate = [moment().subtract(1, 'months'), moment()];
     };
     this.props.form.setFieldsValue(value);
   }
@@ -103,8 +103,8 @@ const WrapperForm = Form.create()(SearchForm);
 class SupplierRank extends PureComponent {
   state = {
     query: {
-      startTime: moment().format(dateFormat),
-      endTime: moment().subtract(-1, 'months').format(dateFormat)
+      endTime: moment().format(dateFormat),
+      startTime: moment().subtract(1, 'months').format(dateFormat)
     },
   }
   export = () => {

@@ -12,7 +12,6 @@ const columns = [
   {
     title: '通用名',
     width: 224,
-    fixed: 'left',
     dataIndex: 'ctmmGenericName',
     className: 'ellipsis',
     render:(text)=>(

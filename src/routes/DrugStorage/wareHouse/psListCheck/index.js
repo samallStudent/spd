@@ -34,7 +34,10 @@ const columns = [
    render: (text,record) =>{
      return <span>
        {
-         record.type === 1 || record.type === 2 || record.type === 4?  // 1 ,2,4 配送单详情  3  出库单详情
+         record.type === 101 || 
+         record.type === 102 || 
+         record.type === 104 || 
+         record.type === 103?  // 101, 102, 104, 103 配送单详情
          <Link to={{pathname: `/drugStorage/wareHouse/psListCheck/detail/id=${record.distributeCode}&state=${record.auditStatus}`}}>{text}</Link>
          :
          <Link to={{pathname: `/drugStorage/wareHouse/psListCheck/outDetail/id=${record.distributeCode}&state=${record.auditStatus}`}}>{text}</Link>

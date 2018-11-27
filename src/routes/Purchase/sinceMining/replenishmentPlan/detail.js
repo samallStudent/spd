@@ -102,7 +102,8 @@ const columns = [
 
 class ReplenishmentDetail extends PureComponent{
   state = {
-    detailsData: {}
+    detailsData: {},
+    submitLoading: false
   }
   componentDidMount = () => {
     this.getDetail();
@@ -142,9 +143,19 @@ class ReplenishmentDetail extends PureComponent{
         list: dataSource,
         deptCode: detailsData.deptCode
       },
-      callback: (data) => {
-        message.success('提交成功');
-        this.getDetail();
+      callback: ({data, code, msg}) => {
+        if(code === 200) {
+          this.setState({
+            submitLoading: false
+          });
+          message.success('提交成功');
+          this.getDetail();
+        }else {
+          this.setState({
+            submitLoading: false
+          });
+          message.error(msg);
+        };
       }
     })
   }
@@ -159,7 +170,7 @@ class ReplenishmentDetail extends PureComponent{
     })
   }
   render(){
-    const { detailsData } = this.state;
+    const { detailsData, submitLoading } = this.state;
     return (
       <div className='fullCol fadeIn'>
         <div className='fullCol-fullChild'>
@@ -173,7 +184,7 @@ class ReplenishmentDetail extends PureComponent{
                   <Link style={{ margin: '0 8px' }} key="edit" to={{pathname: `/editReplenishmentPlan/${this.props.match.params.planCode}`}}>
                     <Button type='default'>编辑</Button>
                   </Link>,
-                  <Button key="submit" type='primary' onClick={this.submit}>提交</Button>
+                  <Button key="submit" loading={submitLoading} type='primary' onClick={this.submit}>提交</Button>
                 ]
               }
             </div>

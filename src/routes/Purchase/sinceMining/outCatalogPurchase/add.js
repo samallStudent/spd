@@ -32,7 +32,11 @@ class NewAdd extends PureComponent{
     modalSelected: [],
     modalSelectedRows: [],
     value: undefined,
-    addDrugType: 1
+    addDrugType: 1,
+    submitLoading: false,
+    saveLoading: false,
+    loading: false,
+    isEdit: false, 
   }
   componentWillMount = () =>{
     const { dispatch } = this.props;
@@ -44,11 +48,43 @@ class NewAdd extends PureComponent{
       }
     })
   }
+  componentDidMount = () => {
+    if(this.props.match.path === "/editSinceOutCatalog/:planCode") {
+      let { planCode } = this.props.match.params;
+      this.setState({loading: true});
+      this.props.dispatch({
+        type:'base/ReplenishDetails',
+        payload: { planCode },
+        callback:(data)=>{
+          let deptCode;
+          let {deptModules, query} = this.state;
+          deptModules.map(item=>{
+            if(data.deptCode === item.id) {
+              deptCode = item.id
+            };
+            return item;
+          });
+          let existDrugCodeList = data.list.map(item => item.drugCode);
+          this.setState({ 
+            info: data, 
+            isEdit: true, 
+            dataSource: data.list,
+            loading: false,
+            query: {
+              ...query,
+              deptCode,
+              existDrugCodeList
+            },
+          });
+        }
+      });
+    }
+  }
   handleOk = () => {
-    let { modalSelectedRows, query, addDrugType } = this.state;
+    let { modalSelectedRows, query, addDrugType, dataSource } = this.state;
     if(modalSelectedRows.length === 0) {
       return message.warning('至少选择一条信息');
-    }
+    };
     this.setState({ btnLoading: true });
     let drugCodeList = [];
     modalSelectedRows.map(item => drugCodeList.push(item.drugCode))
@@ -61,13 +97,21 @@ class NewAdd extends PureComponent{
       },
       callback: (data) => {
         this.setState({
-          dataSource: data,
+          dataSource: [...dataSource, ...data],
           btnLoading: false,
           visible: false,
-          modalSelectedRows: []
-        })
+          modalSelectedRows: [],
+          modalSelected: []
+        });
       }
     })
+  }
+  onCancel = () => {
+    this.setState({
+      visible: false,
+      modalSelectedRows: [],
+      modalSelected: []
+    });
   }
   setRowInput = (val, record, i) => {
     let {usableQuantity} = record;
@@ -100,13 +144,16 @@ class NewAdd extends PureComponent{
     });
   }
   autoShowModal = () => {
-    let {query} = this.state;
+    let {query, dataSource} = this.state;
     if(!query.deptCode) {
       message.warning('请选择部门');
       return;
     };
+    let existDrugCodeList = [];
+    dataSource.map(item => existDrugCodeList.push(item.drugCode));
     this.setState({ 
       visible: true,
+      query: { ...query, existDrugCodeList },
       addDrugType: 2
     });
   }
@@ -143,7 +190,7 @@ class NewAdd extends PureComponent{
     this.updateFstate('1')
   }
   updateFstate = (auditStatus) =>{
-    let { dataSource, query } = this.state;
+    let { dataSource, query, submitLoading, saveLoading,isEdit, info } = this.state;
     let isNull = dataSource.every(item => {
       if(!item.supplierCode) {
         message.warning('供应商不能为空');
@@ -153,13 +200,23 @@ class NewAdd extends PureComponent{
         message.warning('需求数量不能为空');
         return false;
       };
-      if(!item.planNo) {
+      if(!item.reportApplicationCode) {
         message.warning('报告药申请单号不能为空');
         return false;
       }
       return true
     });
     if(!isNull) return;
+    if(submitLoading || saveLoading) return;
+    if(auditStatus === "1") {
+      this.setState({
+        saveLoading: true
+      });
+    }else {
+      this.setState({
+        submitLoading: true
+      });
+    };
     let { dispatch, history } = this.props;
     let list = [], postData = {};
     dataSource.map(item => list.push({
@@ -168,24 +225,38 @@ class NewAdd extends PureComponent{
       drugCode: item.drugCode,
       drugPrice: item.drugPrice,
       supplierCode: item.supplierCode,
-      hisDrugCode: item.hisDrugCode
+      hisDrugCode: item.hisDrugCode,
+      reportApplicationCode: item.reportApplicationCode
     }));
     postData.list = list;
     postData.auditStatus = auditStatus;
     postData.planType = '4';
     postData.purchaseType = 2;
     postData.deptCode = query.deptCode;
+    postData.id = isEdit ? info.id : '';
     dispatch({
       type: 'base/submit',
       payload: { ...postData },
-      callback: () =>{
-        message.success(`${auditStatus === "1" ? '保存' : '提交'}成功，该计划已到补货计划模块`);
-        history.push({ pathname: '/purchase/replenishment/outCatalogPurchase' });
+      callback: ({code, msg, data}) =>{
+        if(code === 200) {
+          message.success(`${auditStatus === "1" ? '保存' : '提交'}成功!`);
+          history.push({ pathname: '/purchase/sinceMining/outCatalogPurchase' });
+          this.setState({
+            saveLoading: false,
+            submitLoading: false
+          });
+        }else {
+          this.setState({
+            saveLoading: false,
+            submitLoading: false
+          });
+          message.error(msg);
+        };
       }
     })
   }
   render(){
-    const { visible, deptModules, query, btnLoading, dataSource, value } = this.state;
+    const { visible, deptModules, query, btnLoading, dataSource, value, submitLoading, saveLoading, loading } = this.state;
     const columns = [
       {
         title: '通用名称',
@@ -258,12 +329,12 @@ class NewAdd extends PureComponent{
         width: 168,
       }, {
         title: '报告药申请单号',
-        dataIndex: 'planNo',
+        dataIndex: 'reportApplicationCode',
         width: 168,
         render: (text,record) =>{
           return (
             <Input onChange={(e) => {
-              record.planNo = e.target.value;
+              record.reportApplicationCode = e.target.value;
             }}/>
           )
         }
@@ -363,6 +434,7 @@ class NewAdd extends PureComponent{
                   <Select
                     style={{ width: '100%' }}
                     showSearch
+                    value={query.deptCode}
                     placeholder="请选择"
                     optionFilterProp="children"
                     disabled={dataSource.length ? true: false}
@@ -390,10 +462,10 @@ class NewAdd extends PureComponent{
           visible={visible}
           width={1100}
           style={{ top: 20 }}
-          onCancel={()=>this.setState({ visible: false })}
+          onCancel={this.onCancel}
           footer={[
             <Button key="submit" type="primary" loading={btnLoading} onClick={this.handleOk}>确认</Button>,
-            <Button key="back" onClick={() => this.setState({ visible: false })}>取消</Button>
+            <Button key="back" onClick={this.onCancel}>取消</Button>
           ]}
         >
           <Row>
@@ -442,6 +514,7 @@ class NewAdd extends PureComponent{
             title={()=>'产品信息'}
             columns={columns}
             bordered
+            loading={loading}
             rowKey='drugCode'
             dataSource={dataSource}
             scroll={{ x: 2200 }}
@@ -457,8 +530,8 @@ class NewAdd extends PureComponent{
             dataSource.length > 0 ? 
             <Row>
               <Col style={{ textAlign:'right', padding: '20px' }}>
-                <Button type='primary' onClick={this.submit}>提交</Button>
-                <Button type='danger' onClick={this.save} style={{ marginLeft: 8 }} ghost>保存</Button>
+                <Button type='primary' loading={submitLoading} onClick={this.submit}>提交</Button>
+                <Button type='danger' loading={saveLoading} onClick={this.save} style={{ marginLeft: 8 }} ghost>保存</Button>
               </Col>
             </Row>
             : null

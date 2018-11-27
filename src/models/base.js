@@ -177,11 +177,9 @@ export default {
     *submit({payload, callback}, {put, call}) {
       const data = yield call(replenishment.submit, payload);
       console.log(data, '保存');
-      if(data.code === 200 && data.msg === 'success') {
-        callback && callback(data.data);
-      }else {
-        message.error(data.msg);
-      }
+      if(callback && typeof callback === 'function') {
+        callback(data);
+      };
     },
     //出库单管理 - 新建 - 申领部门
     *findAllDeptsAndType({callback}, {call}) {

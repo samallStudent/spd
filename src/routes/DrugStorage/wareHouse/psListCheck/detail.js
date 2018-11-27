@@ -393,7 +393,8 @@ class PslistCheck extends PureComponent{
         title: '实到数量',
         dataIndex: 'realReceiveQuantity',
         render: (text, record, index)=>{
-          return <InputNumber
+          return record.isUsual === 0 ? 
+                  <InputNumber
                     value={text}
                     onChange={(value)=>{
                       let pIndex;
@@ -427,7 +428,7 @@ class PslistCheck extends PureComponent{
                         detailInfo: {...detailInfo}
                       });
                     }} 
-                  />
+                  /> : text;
         },
         width: 120
       },
@@ -449,12 +450,13 @@ class PslistCheck extends PureComponent{
         title: '生产批号',
         dataIndex: 'productBatchNo',
         render: (text,record,index)=>{
-          return <Input 
-                  onChange={(e)=>{
-                    record.productBatchNo = e.target.value;
-                  }} 
-                  defaultValue={text}
-                  />
+          return record.isUsual === 0 ? 
+                  <Input 
+                    onChange={(e)=>{
+                      record.productBatchNo = e.target.value;
+                    }} 
+                    defaultValue={text}
+                  /> : text;
         },
         width: 168
       },
@@ -462,13 +464,14 @@ class PslistCheck extends PureComponent{
         title: '生产日期',
         dataIndex: 'realProductTime',
         render: (text,record,index)=> {
-          return <DatePicker
+          return record.isUsual === 0 ? 
+                <DatePicker
                   disabledDate={(current) => current && current > moment(record.realValidEndDate)}
                   onChange={(dates, moment) => {
                     record.realProductTime = moment;
                   }}
                   defaultValue={moment(text, 'YYYY-MM-DD')}
-                />
+                /> : text;
         },
         width: 168
       },
@@ -476,13 +479,14 @@ class PslistCheck extends PureComponent{
         title: '有效期至',
         dataIndex: 'realValidEndDate',
         render: (text,record,index)=> {
-          return <DatePicker
+          return record.isUsual === 0 ? 
+                <DatePicker
                   disabledDate={(current) => current && current < moment(record.realProductTime)}
                   onChange={(dates, moment) => {
                     record.realValidEndDate = moment;
                   }}
                   defaultValue={moment(text, 'YYYY-MM-DD')}
-                />
+                /> : text
         },
         width: 168
       },
@@ -500,6 +504,19 @@ class PslistCheck extends PureComponent{
         dataIndex: 'amount',
         width: 112,
         render: (text, record) => record.price * record.realReceiveQuantity
+      },
+      {
+        title: '是否异常',
+        dataIndex: 'isUsual',
+        width: 112,
+        render: (text, record) => {
+          if(text === 1) {
+            return <span>是</span>
+          };
+          if(text === 0) {
+            return <span>否</span>
+          };
+        }
       },
       {
         title: '剂型',
@@ -525,10 +542,15 @@ class PslistCheck extends PureComponent{
         dataIndex: 'RN',
         width: 112,
         render: (text, record, i)=>{
-          return record.id ? 
-                 <a onClick={this.addBatch.bind(this, record, i)}>增加验收批号</a> 
-                 : 
-                 <a onClick={this.removeBatch.bind(this, record, i)}>删除</a>
+          if(record.isUsual === 1) {
+            return "";
+          };
+          if(record.isUsual === 0) {
+              return record.id ? 
+                      <a onClick={this.addBatch.bind(this, record, i)}>增加验收批号</a>
+                      : 
+                      <a onClick={this.removeBatch.bind(this, record, i)}>删除</a>;
+          };
         }
       }
     ];
@@ -608,7 +630,20 @@ class PslistCheck extends PureComponent{
         title: '金额',
         dataIndex: 'amount',
         width: 112,
-        render: (text, record) => record.price * record.realReceiveQuantity
+        render: (text, record) => record.price * record.realReceiveQuantiry
+      },
+      {
+        title: '是否异常',
+        dataIndex: 'isUsual',
+        width: 112,
+        render: (text, record) => {
+          if(text === 1) {
+            return <span>是</span>
+          };
+          if(text === 0) {
+            return <span>否</span>
+          };
+        }
       },
       {
         title: '剂型',
@@ -689,6 +724,8 @@ class PslistCheck extends PureComponent{
                 <div className='ant-form-item-control'>{detailInfo.statusName || ''}</div>
               </div>
             </Col>
+          </Row>
+          <Row>
             <Col span={8}>
               <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
                 <label>类型</label>
@@ -705,6 +742,16 @@ class PslistCheck extends PureComponent{
                 <div className='ant-form-item-control'>{detailInfo.supplierName || ''}</div>
               </div>
             </Col>
+            <Col span={8}>
+              <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
+                <label>配货日期</label>
+              </div>
+              <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18">
+                <div className='ant-form-item-control'>{ detailInfo.deliveryTime || ''}</div>
+              </div>
+            </Col>
+          </Row>
+          <Row>
             <Col span={8}>
               <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
                 <label>配送日期</label>
@@ -737,7 +784,7 @@ class PslistCheck extends PureComponent{
               <Table
                 bordered
                 loading={loading}
-                scroll={{x: 2724}}
+                scroll={{x: 2836}}
                 columns={columnsUnVerfiy}
                 dataSource={unVerfiyList || []}
                 pagination={false}
@@ -759,7 +806,7 @@ class PslistCheck extends PureComponent{
               <Table
                 loading={loading}
                 bordered
-                scroll={{x: 2724}}
+                scroll={{x: 2836}}
                 columns={columnsVerify || []}
                 dataSource={verifyList}
                 rowKey={'key'}

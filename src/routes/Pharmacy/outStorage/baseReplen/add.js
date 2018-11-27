@@ -4,7 +4,7 @@
 * @Last Modified time: 2018-07-24 13:13:55 
  */
 import React, { PureComponent } from 'react';
-import {Table, Col, Button, Modal, Icon, message, Input, InputNumber, Select, Row, Spin, Tooltip} from 'antd';
+import {Table, Col, Button, Modal, Icon, message, Input, InputNumber, Select, Row, Tooltip} from 'antd';
 import {connect} from 'dva';
 import RemoteTable from '../../../../components/TableGrid/index';
 import {outStorage} from '../../../../api/drugStorage/outStorage';
@@ -317,7 +317,6 @@ class AddOutput extends PureComponent{
             <Col span={6}>
                 接收部门：
                 <Select
-                  notFoundContent={<Spin size="small" />}
                   onChange={this.deptChange}
                   style={{width:'70%'}}
                   showSearch

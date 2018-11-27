@@ -546,8 +546,8 @@ class NewAdd extends PureComponent {
             <div className="detailCard" style={{margin: '-12px -8px 0px -8px'}}>
               <Row>
                 <Col style={{ textAlign: 'right', padding: '10px' }}>
-                  <Button loading={saveLoading} onClick={()=>{this.submit('2')}} type='primary'>提交</Button>
-                  <Button loading={submitLoading} onClick={()=>{this.submit('1')}} type='danger' style={{ marginLeft: 8 }} ghost>保存</Button>
+                  <Button loading={saveLoading} onClick={()=>{this.submit(2)}} type='primary'>提交</Button>
+                  <Button loading={submitLoading} onClick={()=>{this.submit(1)}} type='danger' style={{ marginLeft: 8 }} ghost>保存</Button>
                 </Col>
               </Row>
             </div>
