@@ -90,7 +90,9 @@ const columns = [
 class ReplenishmentDetail extends PureComponent{
 
   state ={
-    baseInfo:{}
+    baseInfo:{},
+    checkLoading: false,
+    rejectLoading: false
   }
   componentDidMount(){
     console.log(this.props.match.params.id)
@@ -107,6 +109,15 @@ class ReplenishmentDetail extends PureComponent{
     
   }
   onCheck = (state)=>{
+    if(state === 1){
+      this.setState({
+        checkLoading:true
+      })
+    }else if(state === 2){
+      this.setState({
+        rejectLoading:true
+      })
+    }
     Comfirm({
       title:"确定执行此操作？",
       onOk:()=>{
@@ -123,7 +134,16 @@ class ReplenishmentDetail extends PureComponent{
           payload:postData,
           callback:(data)=>{
             message.success('审核状态变更成功！');
-            this.props.history.push({pathname:"/pharmacy/supplementDoc/supplementDocCheck"})
+            this.props.history.push({pathname:"/pharmacy/supplementDoc/supplementDocCheck"});
+            if(state === 1){
+              this.setState({
+                checkLoading:false
+              })
+            }else if(state === 2){
+              this.setState({
+                rejectLoading:false
+              })
+            }
           }
         })
       }
@@ -132,6 +152,7 @@ class ReplenishmentDetail extends PureComponent{
 
   render(){
     const {  baseInfo} = this.state;
+    let {checkLoading, rejectLoading} = this.state;
     return ( 
       <div className='fullCol fadeIn'>
         <div className='fullCol-fullChild'>
@@ -140,8 +161,8 @@ class ReplenishmentDetail extends PureComponent{
             <Row>
               <Col span={8}><h3>单据信息</h3></Col>
               <Col span={16} style={{textAlign:'right'}}>
-                <Button type='primary' onClick={()=>this.onCheck(1)} >审核通过</Button>
-                <Button type='default' onClick={()=>this.onCheck(2)} style={{ marginLeft: 8 }}>不通过</Button>
+                <Button type='primary' onClick={()=>this.onCheck(1)}  loading={checkLoading}>审核通过</Button>
+                <Button type='default' onClick={()=>this.onCheck(2)} style={{ marginLeft: 8 }} loading={rejectLoading}>不通过</Button>
               </Col>
             </Row>: <h3>单据信息</h3>
           }

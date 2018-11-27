@@ -89,7 +89,8 @@ const IndexColumns = [
 class formSearch extends PureComponent{
     state = {
         findDeptlist: [],
-        value: undefined
+        value: undefined,
+
     }
     
     componentDidMount = () => {

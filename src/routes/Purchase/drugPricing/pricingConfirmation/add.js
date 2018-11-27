@@ -24,6 +24,7 @@ class NewAdd extends PureComponent{
     modalSelected: [],
     modalSelectedRows: [],
     value: undefined,
+    loading: false,
   }
   handleOk = () => {
     let { modalSelectedRows, dataSource } = this.state;
@@ -80,6 +81,9 @@ class NewAdd extends PureComponent{
       toDate: item.toDate,
       unitCode: item.unitCode
     }));
+    this.setState({
+      loading : true
+    })
     this.props.dispatch({
       type: 'base/checkpriceDetaiConfrim',
       payload: {
@@ -90,6 +94,9 @@ class NewAdd extends PureComponent{
           message.success('操作成功');
           this.props.history.push('/purchase/drugPricing/pricingConfirmation');
         }
+        this.setState({
+          loading : false
+        })
       }
     })
   }
@@ -236,7 +243,7 @@ class NewAdd extends PureComponent{
             dataSource.length > 0 ? 
             <Row>
               <Col style={{ textAlign:'right', padding: '20px' }}>
-                <Button type='primary' onClick={this.submitPricing}>提交调价</Button>
+                <Button type='primary' onClick={this.submitPricing} loading={this.state.loading}>提交调价</Button>
               </Col>
             </Row>
             : null

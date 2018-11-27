@@ -113,7 +113,8 @@ class DetailsOutput extends PureComponent{
       info: {},
       loading: false,
       id: info.id,
-      banLoading: false
+      banLoading: false,
+      checkLoading: false
     }
   }
   componentDidMount() {
@@ -166,6 +167,9 @@ class DetailsOutput extends PureComponent{
         drugCode: item.drugCode
       }
     });
+    this.setState({
+      checkLoading: true
+    });
     this.props.dispatch({
       type: 'outStorage/checkOutStore',
       payload: {
@@ -176,6 +180,9 @@ class DetailsOutput extends PureComponent{
       callback: (data) => {
         this.props.history.push('/purchase/supplementDoc/pharmacyReview');
         message.success('复核成功');
+        this.setState({
+          checkLoading: false
+        });
       }
     })
   }
@@ -187,7 +194,7 @@ class DetailsOutput extends PureComponent{
   }
 
   render(){
-    let {info, loading, banLoading} = this.state;
+    let {info, loading, banLoading, checkLoading} = this.state;
     let {detailVo} = info;
     return (
       <div className='fullCol fadeIn'>
@@ -201,8 +208,8 @@ class DetailsOutput extends PureComponent{
               <Col style={{textAlign:'right', float: 'right'}} span={6}>
                 {
                   info.status && info.status === 1? (
-                      [<Button type='primary' key="1" className='button-gap' style={{marginRight: 8}} onClick={()=>this.onSubmit()}>复核通过</Button>,
-                      <Button loading={banLoading} key="2" onClick={()=>this.onBan()} >不通过</Button>]
+                      [<Button loading={checkLoading}  type='primary' key="1" className='button-gap' style={{marginRight: 8}} onClick={()=>this.onSubmit()}>复核通过</Button>,
+                      <Button loading={banLoading} key="2" onClick={()=>this.onBan()}>不通过</Button>]
                   ) : null
                 }
                 {

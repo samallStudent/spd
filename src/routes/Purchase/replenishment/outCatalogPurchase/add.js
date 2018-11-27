@@ -31,7 +31,8 @@ class NewAdd extends PureComponent{
     selectedRows: [],
     modalSelected: [],
     modalSelectedRows: [],
-    value: undefined
+    value: undefined,
+    saveLoading: false
   }
   componentWillMount = () =>{
     const { dispatch } = this.props;
@@ -110,6 +111,7 @@ class NewAdd extends PureComponent{
   //提交
   submit = () => {   
     let { dataSource } = this.state;
+   
     if(dataSource.length === 0) {
       message.warning('请添加产品');
       return;
@@ -143,6 +145,9 @@ class NewAdd extends PureComponent{
       return true
     });
     if(!isNull) return;
+    this.setState({
+      saveLoading: true
+    })
     let { dispatch, history } = this.props;
     let list = [], postData = {};
     dataSource.map(item => list.push({
@@ -164,6 +169,9 @@ class NewAdd extends PureComponent{
       callback: () =>{
         message.success(`${auditStatus === "1" ? '保存' : '提交'}成功，该计划已到补货计划模块`);
         history.push({ pathname: '/purchase/replenishment/outCatalogPurchase' });
+        this.setState({
+          saveLoading: false
+        })
       }
     })
   }
@@ -438,7 +446,7 @@ class NewAdd extends PureComponent{
             dataSource.length > 0 ? 
             <Row>
               <Col style={{ textAlign:'right', padding: '20px' }}>
-                <Button type='primary' onClick={this.submit}>提交</Button>
+                <Button type='primary' onClick={this.submit} loading={this.state.saveLoading}>提交</Button>
                 <Button type='danger' onClick={this.save} style={{ marginLeft: 8 }} ghost>保存</Button>
               </Col>
             </Row>

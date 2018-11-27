@@ -24,7 +24,9 @@ class Putaway extends PureComponent{
     query:{
       makeupStatus: 2,
       type: 1
-    }
+    },
+    checkLoading: false,
+    rejectLoading: false
   }
 
   _tableChange = values => {
@@ -36,6 +38,15 @@ class Putaway extends PureComponent{
 
   onCheck = (state)=>{
     const selected = this.state.selected;
+    if(state === 1){
+      this.setState({
+        checkLoading:true
+      })
+    }else if(state === 2){
+      this.setState({
+        rejectLoading:true
+      })
+    }
     if (selected.length === 0) {
       message.warn('请至少选择一条数据')
     } else {
@@ -52,7 +63,16 @@ class Putaway extends PureComponent{
             callback:(data)=>{
               message.success('审核状态变更成功！');
               this.refs.table.fetch(this.state.query)
-              this.setState({selected:[],selectedRows:[]})
+              this.setState({selected:[],selectedRows:[]});
+              if(state === 1){
+                this.setState({
+                  checkLoading:false
+                })
+              }else if(state === 2){
+                this.setState({
+                  rejectLoading:false
+                })
+              }
             }
           })
         }
@@ -67,6 +87,7 @@ class Putaway extends PureComponent{
     delete query.key;
     delete query.Time;
     delete query.reviewTime;
+    let {checkLoading, rejectLoading} = this.state;
     const columns = [
       {
        title: '补登单号',
@@ -130,8 +151,8 @@ class Putaway extends PureComponent{
       <div className='ysynet-main-content'>
         <SearchForm formProps={{...this.props}}/>
         <div className='ant-row-bottom'>
-          <Button type='primary' onClick={()=>this.onCheck(1)} >批量通过</Button>
-          <Button type='default' onClick={()=>this.onCheck(2)} style={{ marginLeft: 8 }}>批量驳回</Button>
+          <Button type='primary' onClick={()=>this.onCheck(1)} loading={checkLoading}>批量通过</Button>
+          <Button type='default' onClick={()=>this.onCheck(2)} style={{ marginLeft: 8 }} loading={rejectLoading}>批量驳回</Button>
         </div>
         <RemoteTable 
           onChange={this._tableChange}

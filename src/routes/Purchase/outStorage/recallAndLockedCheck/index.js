@@ -264,7 +264,8 @@ class RecallAndLockedCheck extends PureComponent{
     super(props);
     this.state = {
       selected: [],
-      selectedRows: []
+      selectedRows: [],
+      batchLoading: false,
     }
   }
   _tableChange = values => {
@@ -280,12 +281,18 @@ class RecallAndLockedCheck extends PureComponent{
     }
     let detailList = [];
     selectedRows.map(item => detailList.push({ recallNo: item.recallNo }));
+    this.setState({
+      batchLoading: true
+    })
     this.props.dispatch({
       type: 'outStorage/batchAudit',
       payload: { detailList },
       callback: () =>{
         message.success('批量处理成功');
         this.refs.table.fetch(query);
+        this.setState({
+          batchLoading: false
+        })
       }
     })
 
@@ -295,6 +302,7 @@ class RecallAndLockedCheck extends PureComponent{
     query = {...query};
     delete query.makingTime;
     delete query.key;
+    let {batchLoading} = this.state;
     
     return (
       <div className='ysynet-main-content'>
@@ -302,7 +310,7 @@ class RecallAndLockedCheck extends PureComponent{
           formProps={{...this.props}}
         />
         <Row>
-          <Button type='primary' className='button-gap'onClick={this.bitchPass} > 批量通过</Button>
+          <Button type='primary' className='button-gap'onClick={this.bitchPass} loading={batchLoading}> 批量通过</Button>
         </Row>
         <RemoteTable
           ref='table'

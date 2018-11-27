@@ -23,7 +23,8 @@ class Putaway extends PureComponent{
     query:{
       makeupType: 3,
       type: 1
-    }
+    },
+    batchloading: false
   }
 
   batchSend = () => {
@@ -31,6 +32,9 @@ class Putaway extends PureComponent{
     if(selectedRows.length === 0) {
       return message.warning('请选择一条数据');
     };
+    this.setState({
+      batchloading: true
+    })
     const dispenseCodeList = selectedRows.map(item => item.storeCode);
     this.props.dispatch({
       type: 'pharmacy/batchSend',
@@ -39,8 +43,14 @@ class Putaway extends PureComponent{
         if(code === 200) {
           message.success('发送成功');
           this.refs.table.fetch();
+          this.setState({
+            batchloading: false
+          });
         }else {
           message.error(msg);
+          this.setState({
+            batchloading: false
+          });
         };
       }
     });
@@ -58,6 +68,7 @@ class Putaway extends PureComponent{
     query = {...query, ...this.state.query};
     delete query.key;
     delete query.Time;
+    let {batchloading} = this.state; 
     const columns = [
       {
        title: '发药单',
@@ -105,7 +116,7 @@ class Putaway extends PureComponent{
       <div className='ysynet-main-content'>
         <SearchForm formProps={{...this.props}}/>
         <div className='ant-row-bottom'>
-          <Button type='primary' onClick={this.batchSend} >批量发送</Button>
+          <Button type='primary' onClick={this.batchSend} loading={batchloading}>批量发送</Button>
         </div>
         <RemoteTable 
           onChange={this._tableChange}
