@@ -109,7 +109,8 @@ class DetailsOutput extends PureComponent{
       loading: false,
       id: info.id,
       status: null,
-      checkLoading: false
+      checkLoading: false,
+      rejectLoading: false
     }
   }
   componentDidMount() {
@@ -117,6 +118,9 @@ class DetailsOutput extends PureComponent{
   }
   //不通过
   onBan = () =>{
+    this.setState({
+      rejectLoading: true
+    })
     this.props.dispatch({
       type: 'outStorage/rejectOutStore',
       payload: {
@@ -126,6 +130,9 @@ class DetailsOutput extends PureComponent{
         if(data.msg === 'success') {
           message.success('操作成功');
           this.getDatail();
+          this.setState({
+            rejectLoading: false
+          })
         }
       }
     })
@@ -183,7 +190,7 @@ class DetailsOutput extends PureComponent{
   }
 
   render(){
-    let {info, loading, status, checkLoading} = this.state;
+    let {info, loading, status, checkLoading,rejectLoading} = this.state;
     let {detailVo} = info;
     return (
       <div className='fullCol fadeIn'>
@@ -198,7 +205,7 @@ class DetailsOutput extends PureComponent{
                 {
                   status === 1 ? (
                     [<Button type='primary' key="1" loading={checkLoading} className='button-gap' onClick={()=>this.onSubmit()}>复核通过</Button>,
-                    <Button style={{margin: '0 8px'}} key="2" onClick={()=>this.onBan()} >不通过</Button>]
+                    <Button style={{margin: '0 8px'}} key="2" onClick={()=>this.onBan()} loading={rejectLoading}>不通过</Button>]
                   ) : null
                 }
                 {

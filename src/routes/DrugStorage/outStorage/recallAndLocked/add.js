@@ -247,7 +247,8 @@ class AddRefund extends PureComponent{
       selected: [],  // 新建, 编辑 table 勾选
       selectedRows: [],
       modalSelectedRows: [], // 模态框内勾选
-      modalSelected: []
+      modalSelected: [],
+      okLoading: false
     }
   }
   componentDidMount = () =>{
@@ -296,6 +297,9 @@ class AddRefund extends PureComponent{
             if(values.remarksValue) {
               postData.remarks = `其他(${values.remarksValue})`;
             };
+            this.setState({
+              okLoading: true
+            })
             console.log(postData,'postData')
             dispatch({
               type: 'base/createRecallOrLocked',
@@ -303,6 +307,9 @@ class AddRefund extends PureComponent{
               callback: () => {
                 message.success(`操作成功`);
                 history.push({pathname:"/drugStorage/outStorage/recallAndLocked"});
+                this.setState({
+                  okLoading: false
+                })
               }
             })
           },
@@ -370,7 +377,7 @@ class AddRefund extends PureComponent{
     });
   }
   render(){
-    let { visible, isRecall, dataSource, query, spinLoading } = this.state;
+    let { visible, isRecall, dataSource, query, spinLoading ,okLoading} = this.state;
     const { getFieldDecorator } = this.props.form;
     return (
     <Spin spinning={spinLoading} size="large">
@@ -430,7 +437,7 @@ class AddRefund extends PureComponent{
                 <Col span={12}>
                 </Col>
                 <Col span={12} style={{ textAlign: 'right', padding: '10px' }}>
-                  <Button onClick={this.backStroage} type='primary' style={{ marginRight: 8 }}>确定</Button>
+                  <Button onClick={this.backStroage} type='primary' style={{ marginRight: 8 }} loading={okLoading}>确定</Button>
                   <Button type='primary' ghost>
                     <Link to={{pathname:`/drugStorage/outStorage/backStorage`}}>取消</Link>
                   </Button>

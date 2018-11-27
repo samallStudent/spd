@@ -15,7 +15,9 @@ class RecallAndLockedDetail extends PureComponent {
     this.state={
 			spinning: false,
       detailsData: {},
-      dataSource: []
+	  dataSource: [],
+	  checkLoading: false,
+      rejectLoading: false
     }
   }
 	componentWillMount = () =>{
@@ -38,12 +40,18 @@ class RecallAndLockedDetail extends PureComponent {
       onOk: () => {
         const { dispatch, history } = this.props;
 				const { recallNo } = this.props.match.params;
+				this.setState({
+					rejectLoading: true		
+				})
 				dispatch({
 					type: 'outStorage/auditReject',
 					payload: { recallNo },
 					callback: () =>{
 						message.success('审核不通过成功');
 						history.push({pathname:"/drugStorage/outStorage/recallAndLockedCheck"});
+						this.setState({
+							rejectLoading: false		
+						})
 					}
 				})
       },
@@ -57,12 +65,18 @@ class RecallAndLockedDetail extends PureComponent {
 			onOk : () =>{
 				let detailList = [ {recallNo:this.props.match.params.recallNo} ];
 				let { dispatch, history } = this.props;
+				this.setState({
+					checkLoading: true
+				})
 				dispatch({
 					type: 'outStorage/batchAudit',
 					payload: { detailList },
 					callback: () =>{
 						message.success('审核通过成功');
-						history.push({ pathname: '/drugStorage/outStorage/recallAndLockedCheck' })
+						history.push({ pathname: '/drugStorage/outStorage/recallAndLockedCheck' });
+						this.setState({
+							checkLoading: false
+						})
 					}
 				})
 			},
@@ -74,6 +88,7 @@ class RecallAndLockedDetail extends PureComponent {
 	render() {
 		const { detailsData, dataSource, spinning } = this.state;
 		const { recallStatus } = this.props.match.params;
+		let { checkLoading,rejectLoading} = this.state;
 		const columns = [
 			{
 				title: '通用名',
@@ -154,8 +169,8 @@ class RecallAndLockedDetail extends PureComponent {
 									recallStatus === '1'
 									&&
 									<Col span={12} style={{ textAlign: 'right' }}>
-										<Button type='primary' style={{ marginRight: 10 }} onClick={this.pass} >审核通过</Button>
-										<Button type='danger' onClick={this.reject} >不通过</Button>
+										<Button type='primary' style={{ marginRight: 10 }} onClick={this.pass} loading={checkLoading}>审核通过</Button>
+										<Button type='danger' onClick={this.reject} loading={rejectLoading}>不通过</Button>
 									</Col>
 								}
 							</Row>

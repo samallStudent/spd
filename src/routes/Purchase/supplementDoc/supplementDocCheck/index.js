@@ -38,15 +38,7 @@ class Putaway extends PureComponent{
 
   onCheck = (state)=>{
     const selected = this.state.selected;
-    if(state === 1){
-      this.setState({
-        checkLoading:true
-      })
-    }else if(state === 2){
-      this.setState({
-        rejectLoading:true
-      })
-    }
+   
     if (selected.length === 0) {
       message.warn('请至少选择一条数据')
     } else {
@@ -56,6 +48,15 @@ class Putaway extends PureComponent{
           let postData = {
             makeuplist:selected.map(item=>{ return {makeupCode:item}}),
             type:state
+          }
+          if(state === 1){
+            this.setState({
+              checkLoading:true
+            })
+          }else if(state === 2){
+            this.setState({
+              rejectLoading:true
+            })
           }
           this.props.dispatch({
             type:'pharmacy/CheckMakeupDetail',

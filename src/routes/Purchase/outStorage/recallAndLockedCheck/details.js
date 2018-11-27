@@ -40,12 +40,18 @@ class RecallAndLockedDetail extends PureComponent {
       onOk: () => {
         const { dispatch, history } = this.props;
 				const { recallNo } = this.props.match.params;
+				this.setState({
+					rejectLoading: true
+				})
 				dispatch({
 					type: 'outStorage/auditReject',
 					payload: { recallNo },
 					callback: () =>{
 						message.success('审核不通过成功');
 						history.push({pathname:"/drugStorage/outStorage/recallAndLockedCheck"});
+						this.setState({
+							rejectLoading: false
+						})
 					}
 				})
       },
@@ -59,12 +65,18 @@ class RecallAndLockedDetail extends PureComponent {
 			onOk : () =>{
 				let detailList = [ {recallNo:this.props.match.params.recallNo} ];
 				let { dispatch, history } = this.props;
+				this.setState({
+					checkLoading: true
+				})
 				dispatch({
 					type: 'outStorage/batchAudit',
 					payload: { detailList },
 					callback: () =>{
 						message.success('审核通过成功');
-						history.push({ pathname: '/drugStorage/outStorage/recallAndLockedCheck' })
+						history.push({ pathname: '/drugStorage/outStorage/recallAndLockedCheck' });
+						this.setState({
+							checkLoading: false
+						})
 					}
 				})
 			},
