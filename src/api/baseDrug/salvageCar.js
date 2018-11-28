@@ -32,4 +32,7 @@ export default {
 
     /* 药品验收列表 */
     CHECK_RESCUECAR_LIST: `${_local}/a/checkaccept/rescuecarlist`,
+
+    /* 调价查询 */
+    GET_PRICE_STATIC_LIST: `${_local}/a/priceStatic/list`,   //列表
   }
