@@ -374,6 +374,10 @@ class NewAdd extends PureComponent {
           <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
         )
       }, {
+        title: '药品编码',
+        dataIndex: 'hisDrugCode',
+        width: 224,
+      }, {
         title: '规格',
         dataIndex: 'ctmmSpecification',
         width: 168
@@ -496,7 +500,7 @@ class NewAdd extends PureComponent {
                 ref="table"
                 modalLoading={modalLoading}
                 columns={modalColumns}
-                scroll={{ x: 1600 }}
+                scroll={{ x: 1824 }}
                 rowKey='drugCode'
                 rowSelection={{
                   selectedRowKeys: this.state.modalSelected,

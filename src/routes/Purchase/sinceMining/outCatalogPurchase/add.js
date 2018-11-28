@@ -388,6 +388,10 @@ class NewAdd extends PureComponent{
           <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
         )
       }, {
+        title: '药品编码',
+        dataIndex: 'hisDrugCode',
+        width: 224,
+      }, {
         title: '规格',
         dataIndex: 'ctmmSpecification',
         width: 168,
@@ -498,7 +502,7 @@ class NewAdd extends PureComponent{
               isJson={true}
               columns={modalColumns}
               url={replenishmentPlan.QUERYDRUGBYDEPT}
-              scroll={{ x: 1400 }}
+              scroll={{ x: 1624 }}
               rowKey='bigDrugCode'
               rowSelection={{
                 selectedRowKeys: this.state.modalSelected,

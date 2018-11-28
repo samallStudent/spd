@@ -4,7 +4,7 @@
 * @Last Modified time: 2018-09-01 09:40:37 
  */
 import React, { PureComponent } from 'react';
-import { Form , Row , Button , Col , Select , Input , Modal , Collapse , message, InputNumber, Table, Radio } from 'antd';
+import { Form , Row , Button , Col , Select , Input , Modal , Collapse , message, InputNumber, Table, Radio, Icon, Tooltip } from 'antd';
 import { connect } from 'dva';
 import {difference} from 'lodash';
 const formItemLayout ={
@@ -671,7 +671,12 @@ class EditDrugDirectory extends PureComponent{
                         ]
                       })(
                         <RadioGroup>
-                          <Radio value={1}>补固定量</Radio>
+                          <Radio value={1}>
+                            <span style={{paddingRight: 8}}>补固定量</span>
+                            <Tooltip placement="bottom" title="采购的数量为补固定的数量">
+                              <Icon type="exclamation-circle" />
+                            </Tooltip>
+                          </Radio>
                           <Radio value={2}>补基准水位</Radio>
                         </RadioGroup>
                       )

@@ -8,7 +8,7 @@
  * @file 药库 - 补货管理--补货计划--新建计划
  */
 import React, { PureComponent } from 'react';
-import { Row, Col, Button, Table, Modal, Icon, Tooltip, message, Select, Spin, InputNumber } from 'antd';
+import { Row, Col, Button, Table, Modal, Icon, Tooltip, message, Select, Spin, InputNumber, Checkbox } from 'antd';
 import {replenishmentPlan} from '../../../../api/replenishment/replenishmentPlan';
 import RemoteTable from '../../../../components/TableGrid';
 import FetchSelect from '../../../../components/FetchSelect/index';
@@ -39,7 +39,8 @@ class NewAdd extends PureComponent {
     dataSource: [],
     btnLoading: false,
     saveLoading: false,
-    addDrugType: 1    //添加库存方式
+    addDrugType: 1,    //添加库存方式
+    value: undefined
   }
   componentWillMount = () =>{
     const { dispatch } = this.props;
@@ -112,40 +113,39 @@ class NewAdd extends PureComponent {
           };
           return item;
         });
-        let existDrugCodeList = dataSource.map((item) => item.drugCode);
         this.setState({
           dataSource: [...dataSource],
           btnLoading: false,
           visible: false,
-          modalSelected: [],
-          query: {
-            ...query,
-            existDrugCodeList
-          }
         })
       }
     })
   }
   showModal = () => {
-    let {query} = this.state;
-    if(!query.deptCode) {
-      message.warning('请选择部门');
-      return;
-    };
-    this.setState({ 
-      visible: true,
-      addDrugType: 1
-    });
+    this.showModalLogic(1);
   }
   autoShowModal = () => {
-    let {query} = this.state;
+    this.showModalLogic(2);
+  }
+  showModalLogic = (addDrugType) => {
+    let {query, dataSource} = this.state;
     if(!query.deptCode) {
       message.warning('请选择部门');
       return;
     };
+    let existDrugCodeList = dataSource.map((item) => item.drugCode);
     this.setState({ 
       visible: true,
-      addDrugType: 2
+      addDrugType: 1,
+      modalSelected: [],
+      modalSelectedRows: [],
+      query: {
+        ...query,
+        existDrugCodeList,
+        hisDrugCodeList: [],
+        filterThreeMonthFlag: false
+      },
+      value: undefined
     });
   }
   delete = () => {  //删除
@@ -228,6 +228,20 @@ class NewAdd extends PureComponent {
     }else {
       this.setState({dataSource});
     }
+  }
+  changeQuery = (e) => {
+    const {query} = this.state;
+    this.setState({
+      query: {
+        ...query,
+        filterThreeMonthFlag: e.target.checked
+      }
+    });
+  }
+  onCancel = () => {
+    this.setState({ 
+      visible: false,
+    });
   }
   render() {
     let { 
@@ -382,6 +396,10 @@ class NewAdd extends PureComponent {
           <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
         )
       }, {
+        title: '药品编码',
+        dataIndex: 'hisDrugCode',
+        width: 224,
+      }, {
         title: '规格',
         dataIndex: 'ctmmSpecification',
         width: 168
@@ -472,13 +490,13 @@ class NewAdd extends PureComponent {
             visible={visible}
             width={1100}
             style={{height: 630, top: 20 }}
-            onCancel={() => this.setState({ visible: false, modalSelected: [] })}
+            onCancel={this.onCancel}
             footer={[
               <Button key="submit" type="primary" loading={btnLoading} onClick={this.handleOk}>确认</Button>,
-              <Button key="back" onClick={() => this.setState({ visible: false, modalSelected: [] })}>取消</Button>
+              <Button key="back" onClick={this.onCancel}>取消</Button>
             ]}
           >
-            <Row>
+            <Row style={{display: 'flex', alignItems: 'center'}}>
               <Col span={7} style={{ marginLeft: 4 }}>
                 <FetchSelect
                   allowClear
@@ -499,6 +517,11 @@ class NewAdd extends PureComponent {
                   }}
                 />
               </Col>
+              <Col span={7} style={{ marginLeft: 4 }}>
+                <Checkbox checked={query.filterThreeMonthFlag} onChange={this.changeQuery}>
+                  不显示三个月内无采购的药品
+                </Checkbox>
+              </Col>
             </Row>
             <div className='detailCard'>
               <RemoteTable
@@ -508,7 +531,7 @@ class NewAdd extends PureComponent {
                 ref="table"
                 modalLoading={modalLoading}
                 columns={modalColumns}
-                scroll={{ x: 1700 }}
+                scroll={{ x: 1924 }}
                 rowKey='drugCode'
                 rowSelection={{
                   selectedRowKeys: this.state.modalSelected,

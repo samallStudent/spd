@@ -8,7 +8,7 @@
  * @file 药库 - 补货管理--补货计划--新建计划
  */
 import React, { PureComponent } from 'react';
-import { Row, Col, Button, Input, Modal, Icon, Select, Tooltip, message, Table, InputNumber  } from 'antd';
+import { Row, Col, Button, Input, Modal, Icon, Select, Tooltip, message, Table, InputNumber, Checkbox } from 'antd';
 import RemoteTable from '../../../../components/TableGrid';
 import { replenishmentPlan } from '../../../../api/replenishment/replenishmentPlan';
 import {validAmount} from '../../../../utils/utils';
@@ -95,11 +95,13 @@ class NewAdd extends PureComponent{
         drugCodeList
       },
       callback: (data) => {
+        
         this.setState({
           dataSource: [...dataSource, ...data],
           btnLoading: false,
           visible: false,
-          modalSelectedRows: []
+          modalSelected: [],
+          modalSelectedRows: [],
         })
       }
     })
@@ -124,11 +126,19 @@ class NewAdd extends PureComponent{
   addProduct = () =>{
     if(!this.state.query.deptCode){
       return message.warning('请选择部门');
-    }
-    let { dataSource, query } = this.state;
-    let existDrugCodeList = [];
-    dataSource.map(item => existDrugCodeList.push(item.drugCode));
-    this.setState({ visible: true,query: { ...query, existDrugCodeList } });
+    };
+    const {query, dataSource} = this.state;
+    let existDrugCodeList = dataSource.map((item) => item.drugCode);
+    this.setState({ 
+      visible: true,
+      query: {
+        ...query,
+        existDrugCodeList,
+        hisDrugCodeList: [],
+        filterThreeMonthFlag: false
+      },
+      value: undefined
+    });
   }
   delete = () => {  //删除
     let {selectedRows, dataSource, query} = this.state;
@@ -224,6 +234,22 @@ class NewAdd extends PureComponent{
         };
       }
     })
+  }
+  changeQuery = (e) => {
+    const {query} = this.state;
+    this.setState({
+      query: {
+        ...query,
+        filterThreeMonthFlag: e.target.checked
+      }
+    });
+  }
+  onCancel = () => {
+    this.setState({ 
+      visible: false, 
+      modalSelected: [],
+      modalSelectedRows: [],
+    });
   }
   render(){
     const { visible, deptModules, query, btnLoading, dataSource, value, loading, saveLoading, submitLoading } = this.state;
@@ -358,6 +384,10 @@ class NewAdd extends PureComponent{
           <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
         )
       }, {
+        title: '药品编码',
+        dataIndex: 'hisDrugCode',
+        width: 224,
+      }, {
         title: '规格',
         dataIndex: 'ctmmSpecification',
         width: 168,
@@ -424,19 +454,18 @@ class NewAdd extends PureComponent{
             <Button type='default' onClick={this.delete} style={{ marginLeft: 8 }}>删除</Button>
           </Row>
         </div>
-        
         <Modal
           title={'添加产品'}
           visible={visible}
           width={1100}
           style={{ top: 20 }}
-          onCancel={()=>this.setState({ visible: false })}
+          onCancel={this.onCancel}
           footer={[
             <Button key="submit" type="primary" loading={btnLoading} onClick={this.handleOk}>确认</Button>,
-            <Button key="back" onClick={() => this.setState({ visible: false })}>取消</Button>
+            <Button key="back" onClick={this.onCancel}>取消</Button>
           ]}
         >
-        <Row>
+        <Row style={{display: 'flex', alignItems: 'center'}}>
           <Col span={7} style={{marginLeft: 4}}>
             <FetchSelect
               allowClear
@@ -457,6 +486,11 @@ class NewAdd extends PureComponent{
               }}
             />
           </Col>
+          <Col span={7} style={{ marginLeft: 4 }}>
+            <Checkbox checked={query.filterThreeMonthFlag} onChange={this.changeQuery}>
+              不显示三个月内无采购的药品
+            </Checkbox>
+          </Col>
         </Row>
         <div className='detailCard'>
           <RemoteTable
@@ -466,7 +500,7 @@ class NewAdd extends PureComponent{
             isJson={true}
             columns={modalColumns}
             url={replenishmentPlan.QUERYDRUGBYDEPT}
-            scroll={{ x: 1400 }}
+            scroll={{ x: 1624 }}
             rowKey='bigDrugCode'
             rowSelection={{
               selectedRowKeys: this.state.modalSelected,

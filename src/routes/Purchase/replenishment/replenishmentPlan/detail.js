@@ -32,6 +32,11 @@ const columns = [
     )
   },
   {
+    title: '药品编码',
+    dataIndex: 'hisDrugCode',
+    width: 224,
+  },
+  {
     title: '规格',
     width: 168,
     dataIndex: 'ctmmSpecification',
@@ -270,7 +275,7 @@ class ReplenishmentDetail extends PureComponent{
         <div className='detailCard'>
           <Table
             title={()=>'产品信息'}
-            scroll={{x: 2124}}
+            scroll={{x: 2348}}
             columns={columns}
             rowKey={'drugCode'}
             bordered

@@ -31,6 +31,11 @@ const columns = [
     )
   },
   {
+    title: '药品编码',
+    dataIndex: 'hisDrugCode',
+    width: 224,
+  },
+  {
     title: '规格',
     width: 168,
     dataIndex: 'ctmmSpecification',
@@ -275,7 +280,7 @@ class OutCatalogPurchase extends PureComponent{
           <Table
             bordered
             title={()=>'产品信息'}
-            scroll={{x: 2292}}
+            scroll={{x: 2516}}
             columns={columns}
             rowKey={'id'}
             dataSource={detailsData ? detailsData.list : []}

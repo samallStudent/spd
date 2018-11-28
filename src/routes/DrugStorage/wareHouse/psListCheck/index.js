@@ -70,6 +70,11 @@ const columns = [
     width: 168,
   },
   {
+    title: '验收时间',
+    width: 168,
+    dataIndex: 'receptionTime',
+  },
+  {
     title: '收货地址',
     dataIndex: 'deptAddress',
     width: 224,
@@ -78,11 +83,6 @@ const columns = [
         <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
       )
   },
-  {
-    title: '验收时间',
-    width: 168,
-    dataIndex: 'receptionTime',
-  }
 ];
 
 class SearchForm extends PureComponent{

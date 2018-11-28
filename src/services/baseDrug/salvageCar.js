@@ -65,7 +65,7 @@ export function getSuppliers(options) {
 
 //抢救车-台账-抢救车货位
 export function getDepts(options) {
-  return request(`${_local}/a/statics/rescuecar/getDepts`, {
+  return request(`${_local}/a/rescuecarapply/rescuecarlist`, {
     method: 'GET',
     type: 'json',
     body: options 

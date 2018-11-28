@@ -31,7 +31,7 @@ const singleFormItemLayout = {
     {
       title: '类型',
       dataIndex: 'type',
-      width: 160,
+      width: 168,
     },{
       title: '通用名',
       dataIndex: 'ctmmGenericName',
@@ -51,7 +51,7 @@ const singleFormItemLayout = {
     },{
       title: '规格',
       dataIndex: 'ctmmSpecification',
-      width: 112,
+      width: 168,
     },{
       title: '生产厂家',
       dataIndex: 'ctmmManufacturerName',
@@ -67,53 +67,48 @@ const singleFormItemLayout = {
     },{
       title: '生产日期',
       dataIndex: 'productDate',
-      width: 112,
+      width: 168,
     },{
       title: '有效期止',
       dataIndex: 'validEndDate',
-      width: 112,
+      width: 168,
     },{
       title: '包装规格',
       dataIndex: 'packageSpecification',
-      width: 112,
+      width: 168,
     },{
       title: '剂型',
       dataIndex: 'ctmmDosageFormDesc',
-      width: 112,
+      width: 168,
     },{
         title: '供应商',
         dataIndex: 'supplierName',
-        width: 112,
+        width: 224,
         className: 'ellipsis',
         render:(text)=>(
             <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
         )
-      }
-      ,{
+    },{
         title: '批准文号',
         dataIndex: 'hisDrugCode',
-        width: 160,
-      }
-      ,{
+        width: 168,
+    },{
         title: '库存数量',
         dataIndex: 'stockNum',
         width: 112,
-      }
-      ,{
+    },{
         title: '入库数量',
         dataIndex: 'inStockNum',
         width: 112,
-      }
-      ,{
+    },{
         title: '出库数量',
         dataIndex: 'outStockNum',
         width: 112,
-      }
-      ,{
+    },{
         title: '结存数量',
         dataIndex: 'balanceNum',
         width: 112,
-      }
+    }
   ];
 
 class formSearch extends PureComponent{
@@ -192,7 +187,6 @@ class formSearch extends PureComponent{
     }
 
     render(){
-        
         const { getFieldDecorator } = this.props.form;
         const {display} = this.props.formProps.base;
         const expand = display === 'block'; 
@@ -212,7 +206,7 @@ class formSearch extends PureComponent{
                                     placeholder="请选择..."
                                     filterOption={(input, option) => option.props.children.indexOf(input) >= 0}
                                 >
-                                     <Option value=''>请选择...</Option> 
+                                     <Option value=''>全部</Option> 
                                     { 
                                         this.state.deptsListData.map((item,index)=>
                                             <Option value={item.id} key={index}>{item.deptName}</Option>
@@ -233,10 +227,10 @@ class formSearch extends PureComponent{
                                     style={{width:'100%'}}
                                     showSearch
                                     optionFilterProp="children"
-                                    placeholder="请选择..."
+                                    placeholder="请选择"
                                     filterOption={(input, option) => option.props.children.indexOf(input) >= 0}
                                 >
-                                     <Option value=''>请选择...</Option> 
+                                     <Option value=''>全部</Option> 
                                     { 
                                         this.state.suppliersListData.map((item,index)=>
                                             <Option value={item.id} key={index}>{item.ctmaSupplierName}</Option>
@@ -356,7 +350,7 @@ class salvageLadgerList extends PureComponent{
                query={query}
                ref="salvageCarLedgerTable"
                columns={IndexColumns}
-               scroll={{x: '100%'}}
+               scroll={{x: 2744}}
                rowKey={'id'}
                style={{marginTop: 20}}
                url={salvageCar.GET_DRUG_LEDGER}
