@@ -1828,16 +1828,29 @@ export const getNavData = app => [
       component: dynamicWrapper(app, ['baseDrug/salvageCar'], () => import('../routes/BaseDrug/salvageCar/drugApply/details')),
     },
     {
-      name: "药品验收",
+      name: "抢救车库存",
       icon: "setting",
       path: '/baseDrug/salvageCar/acceptance',
       component: dynamicWrapper(app, ['baseDrug/salvageCar'], () => import('../routes/BaseDrug/salvageCar/acceptance')),
     },
     {
-      name: "药品验收",
+      name: "抢救车库存 - 详情",
       icon: "setting",
       path: '/baseDrug/salvageCar/acceptance/details/:id',
       component: dynamicWrapper(app, ['baseDrug/salvageCar'], () => import('../routes/BaseDrug/salvageCar/acceptance/details')),
+    },
+     /*全院管理-统计分析-调价查询*/
+    {
+      name: "调价查询",
+      icon: "setting",
+      path: '/purchase/statisticAnalysis/modifyPrice',
+      component: dynamicWrapper(app, ['purchase/statistics'], () => import('../routes/Purchase/statisticAnalysis/modifyPrice')),
+    },
+    {
+      name: "调价查询 - 详情",
+      icon: "setting",
+      path: '/purchase/statisticAnalysis/modifyPrice/details/:id',
+      component: dynamicWrapper(app, ['purchase/statistics'], () => import('../routes/Purchase/statisticAnalysis/modifyPrice/details')),
     },
   ]
 }]
