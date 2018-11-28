@@ -307,3 +307,12 @@ export function getDepts(options) {
     body: options
   })
 }
+
+//调价查询详情头部
+export function getPriceStaticGet(options) {
+  return request(`${_local}/a/priceStatic/get`, {
+    method: 'POST',
+    type: 'formData',
+    body: options
+  })
+}

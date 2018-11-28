@@ -6,24 +6,28 @@ import {connect} from 'dva';
 import querystring from 'querystring';
 const columns = [
     {
+        title: '部门',
+        dataIndex: 'deptName',
+        width: 168,
+    },{
         title: '生产批号',
         dataIndex: 'lot',
-        width: 168,
+        width: 90,
     },{
         title: '生产日期',
         dataIndex: 'productDate',
-        width: 168,
+        width: 112,
     },{
         title: '有效期至',
         dataIndex: 'validEndDate',
-        width: 168,
-    },{
-        title: '货位',
-        dataIndex: 'storeLocName',
         width: 112,
     },{
+        title: '货位',
+        dataIndex: 'locName',
+        width: 168,
+    },{
         title: '货位类型',
-        dataIndex: 'storeType',
+        dataIndex: 'locTypeName',
         width: 168,
     },{
         title: '单位',
@@ -33,6 +37,14 @@ const columns = [
         title: '数量',
         dataIndex: 'totalQuantity',
         width: 112,
+    },{
+        title: '单价',
+        dataIndex: 'newPrice',
+        width: 60,
+    },{
+        title: '金额',
+        dataIndex: 'totalPrice',
+        width: 60,
     },{
         title: '供应商',
         dataIndex: 'supplierName',
@@ -45,28 +57,32 @@ const columns = [
 ]
 
 class Details extends PureComponent{
-    state = {
-        query: {
-            drugCode:''
-        },
-        hisDrugCode:'',
-        info: {},
-        loading: false
+    constructor(props) {
+        super(props);
+        let { id } = this.props.match.params;
+        let paramsInfo = querystring.parse(id);
+        this.state = {
+            id: paramsInfo.id,
+            query: {
+                updatePriceId: paramsInfo.id
+            },
+            info: {},
+            loading: false
+        }
     }
     componentDidMount(){
+        let qurey = {id:this.state.id}
         if (this.props.match.params.id) {
-            let _this = this;
-            let { id } = this.props.match.params;
-            let paramsInfo = querystring.parse(id);
-            console.log(paramsInfo);
-            let qurey = {bigDrugCode:paramsInfo.id};
-            this.setState({ loading: true });
+            this.setState({ 
+                loading: true ,
+            });
             this.props.dispatch({
-                type:'salvageCar/getPriceStaticDatails',
+                type:'statistics/getPriceStaticGet',
                 payload: qurey,
                 callback:(res)=>{
                     if(res.code === 200){
-                        _this.setState({ info: res.data });
+                        console.log(res.data)
+                        this.setState({ info: res.data });
                         this.setState({ loading: false });
                     }else{
                         message.error(res.msg);
@@ -77,6 +93,7 @@ class Details extends PureComponent{
     }
     render(){
         let {query, info} = this.state;
+        console.log(JSON.stringify(info));
         return(
             <div className="fullCol">
              <div className="fullCol-fullChild">
@@ -85,33 +102,33 @@ class Details extends PureComponent{
                 <Row>
                     <Col span={8}>
                         <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
-                            <label>通用名：</label>
+                            <label>通用名</label>
                         </div>
                         <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18">
-                            <div className='ant-form-item-control'>{info.genericName || ''}</div>
+                            <div className='ant-form-item-control'>{info.ctmmGenericName || ''}</div>
                         </div>
                     </Col>
                     <Col span={8}>
                         <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
-                            <label>商品名：</label>
+                            <label>商品名</label>
                         </div>
                         <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18">
-                            <div className='ant-form-item-control'>{info.tradeName || ''}</div>
+                            <div className='ant-form-item-control'>{info.ctmmTradeName || ''}</div>
                         </div>
                     </Col>
                     <Col span={8}>
                         <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
-                            <label>规格：</label>
+                            <label>规格</label>
                         </div>
                         <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18">
-                            <div className='ant-form-item-control'>{info.specification || ''}</div>
+                            <div className='ant-form-item-control'>{info.ctmmSpecification || ''}</div>
                         </div>
                     </Col>
                 </Row>
                 <Row>
                     <Col span={8}>
                         <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
-                            <label>剂型：</label>
+                            <label>剂型</label>
                         </div>
                         <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18">
                             <div className='ant-form-item-control'>{info.approvalNo || ''}</div>
@@ -119,39 +136,39 @@ class Details extends PureComponent{
                     </Col>
                     <Col span={8}>
                         <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
-                            <label>包装规格：</label>
+                            <label>包装规格</label>
                         </div>
                         <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18">
-                            <div className='ant-form-item-control'>{info.dosageDesc || ''}</div>
+                            <div className='ant-form-item-control'>{info.ctmmDosageFormDesc || ''}</div>
                         </div>
                     </Col>
                     <Col span={8}>
                         <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
-                            <label>生产厂家：</label>
+                            <label>生产厂家</label>
                         </div>
                         <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18">
-                            <div className='ant-form-item-control'>{info.manufactureName || ''}</div>
+                            <div className='ant-form-item-control'>{info.ctmmManufacturerName || ''}</div>
                         </div>
                     </Col>
                 </Row>
                 <Row>
                     <Col span={8}>
                         <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
-                            <label>批准文号：</label>
+                            <label>批准文号</label>
                         </div>
                         <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18">
                             <div className='ant-form-item-control'>{info.packageSpecification || ''}</div>
                         </div>
                     </Col>
-                </Row>
+                </Row>      
              </Spin>
              </div>
              <div className='detailCard'>
-                    <h3 style={{marginBottom: 16}}>库存信息</h3>
+                    <h3 style={{marginBottom: 16}}>调价基本信息</h3>
                     <RemoteTable
                         rowKey="batchNo"
                         query={query}
-                        url={statisticAnalysis.GET_PRICE_STATIC_DETAILS}
+                        url={statisticAnalysis.GET_PRICE_STATIC_DETAIL}
                         columns={columns}
                     />
                 </div>

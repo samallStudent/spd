@@ -243,5 +243,12 @@ export default {
             callback && callback(data);
         };
     },
+    //调价查询表头
+    *getPriceStaticGet({payload, callback}, {call}) {
+      const data = yield call(statistics.getPriceStaticGet, payload);
+      if(typeof callback === 'function') {
+          callback && callback(data);
+      };
+  },
   } 
 }
