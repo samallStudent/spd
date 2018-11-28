@@ -243,12 +243,5 @@ export default {
             callback && callback(data);
         };
     },
-    //统计分析  调价查询  详情  表头
-    *getPriceStaticDatails({payload, callback}, {call}) {
-      const data = yield call(statistics.getPriceStaticDatails, payload);
-      if(typeof callback === 'function') {
-          callback && callback(data);
-      };
-    },
   } 
 }
