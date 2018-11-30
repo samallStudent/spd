@@ -150,7 +150,7 @@ class SupplierSupply extends PureComponent {
   }
   _tableCallback = () => {
     const {supplierCodeList} = this.props.base.queryConditons;
-    if(supplierCodeList.length > 0) {
+    if(supplierCodeList !== undefined&&supplierCodeList.length > 0) {
       this.props.dispatch({
         type: 'statistics/supplierAnalyze',
         payload: {
@@ -221,6 +221,10 @@ class SupplierSupply extends PureComponent {
         dataIndex: 'actualNum',
         width: 168,
         sorter: () => false
+      }, {
+        title: '到货比',
+        dataIndex: 'arrivalRatio',
+        width: 112,
       }
     ];
     const {tableFooter} = this.state;
@@ -244,7 +248,7 @@ class SupplierSupply extends PureComponent {
           query={query}
           isJson
           columns={columns}
-          scroll={{x: 1288}}
+          scroll={{x: 1400}}
           style={{marginTop: 20}}
           ref='table'
           rowKey={'orderCode'}

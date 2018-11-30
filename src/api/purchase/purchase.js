@@ -38,7 +38,7 @@ export const statisticAnalysis = {
   SUPPLIER_RETURN_LIST: `${_local}/a/statics/supplierReturn/list`,  //供应商退货分析列表
   ORDER_EXECUTE: `${_local}/a/orderexecute/count`,      //订单执行情况列表
   EXECUTE_DETAIL_LIST: `${_local}/a/orderexecute/executedetail`,    //订单执行情况详情列表
-  SUPPLIER_ANALYZE: `${_local}/a/orderexecute/supplierAnalyze`,     //供应商供货分析列表trace
+  SUPPLIER_ANALYZE: `${_local}/a/orderexecute/supplierofmaterial`,     //供应商供货分析列表trace
   TRACE_LIST: `${_local}/a/orderexecute/trace`,         //订单追溯列表
   ORDER_DETAIL_TRACE: `${_local}/a/orderexecute/orderDetailTrace`,    //订单追溯详情分页
   GYSPH_LIST: `${_local}/a/gysph/statics/supplierlist`,     //供应商排行/a/gysph/statics/list

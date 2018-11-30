@@ -175,7 +175,11 @@ class PlanCheckDetail extends PureComponent{
       type: 'replenish/updateStatus',
       payload: { ...values },
       callback: () =>{
-        this.getDetail()
+        this.getDetail();
+        this.setState({
+          visible: false,
+          value: ''
+        })
       } 
     })
 

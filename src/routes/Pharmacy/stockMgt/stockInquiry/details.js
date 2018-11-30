@@ -37,6 +37,9 @@ const columns = [
         title: '采购类型',
         dataIndex: "purchaseType",
         width: 112,
+        render:(text)=>(
+            <span>{text===1?'零库存':'自采'}</span>
+        )
     }, {
         title: '价格',
         dataIndex: "price",

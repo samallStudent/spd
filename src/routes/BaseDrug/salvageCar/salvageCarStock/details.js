@@ -22,6 +22,13 @@ const columns = [
         dataIndex: 'storeLocName',
         width: 112,
     },{
+        title: '采购类型',
+        dataIndex: "purchaseType",
+        width: 112,
+        render:(text)=>(
+            <span>{text===1?'零库存':'自采'}</span>
+        )
+    },{
         title: '货位类型',
         dataIndex: 'storeType',
         width: 168,
@@ -152,6 +159,7 @@ class Details extends PureComponent{
                         query={query}
                         url={salvageCar.GET_RESCUECAR_MEDICEINE_DETAIL_LIST}
                         columns={columns}
+                        scroll={{x: 1292}}
                     />
                 </div>
             </div>
