@@ -19,13 +19,13 @@ import {connect} from 'dva';
 const { RangePicker } = DatePicker;
 const FormItem = Form.Item;
 
-  const IndexColumns = [
+const IndexColumns = [
     {
-      title: '药品',
-      dataIndex: 'ctmmGenericName',
-      width: 224,
-      className:'ellipsis',
-      render: (text, record) => {
+        title: '药品',
+        dataIndex: 'ctmmGenericName',
+        width: 224,
+        className:'ellipsis',
+        render: (text, record) => {
         return (
             <Tooltip placement="topLeft" title={text}>
                 <span>
@@ -33,15 +33,15 @@ const FormItem = Form.Item;
                 </span>  
             </Tooltip>
         )
-      }
+        }
     },{
-      title: '调价单号',
-      dataIndex: 'updatePriceNo',
-      width: 224,
-      className:'ellipsis',
-      render: (text)=>(
+        title: '调价单号',
+        dataIndex: 'updatePriceNo',
+        width: 224,
+        className:'ellipsis',
+        render: (text)=>(
         <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
-      )
+        )
     },{
         title: '调价时间',
         dataIndex: 'fromDate',
@@ -51,11 +51,11 @@ const FormItem = Form.Item;
         dataIndex: 'createUserName',
         width: 168,
     },{
-      title: '生成时间',
-      dataIndex: 'createDate',
-      width: 168,
+        title: '生成时间',
+        dataIndex: 'createDate',
+        width: 168,
     }
-  ];
+];
 
 
 class formSearch extends PureComponent{
@@ -103,9 +103,9 @@ class formSearch extends PureComponent{
     }
     toggle = () => {
         this.props.formProps.dispatch({
-          type:'base/setShowHide'
+            type:'base/setShowHide'
         });
-      }
+    }
     handlSearch = (e) =>{
         e.preventDefault();
         this.props.form.validateFields((err,values)=>{

@@ -31,7 +31,6 @@ const formItemLayout = {
 class SearchForm extends PureComponent{
   state = {
     supplierList: [],
-    orderStatusList: [],
     storeHouseList: []
   }
   toggle = () => {
@@ -63,17 +62,6 @@ class SearchForm extends PureComponent{
         }else {
           message.error(msg);
         }
-      }
-    });
-    dispatch({
-      type: 'base/orderStatusOrorderType',
-      payload: {
-        type: 'order_status'
-      },
-      callback: (data) => {
-        this.setState({
-          orderStatusList: data
-        });
       }
     });
     dispatch({
@@ -115,7 +103,7 @@ class SearchForm extends PureComponent{
     const { getFieldDecorator } = this.props.form;
     const {display} = this.props.formProps.base;
     const expand = display === 'block';
-    const { supplierList, orderStatusList, storeHouseList } = this.state;
+    const { supplierList, storeHouseList } = this.state;
     return (
       <Form className="ant-advanced-search-form" onSubmit={this.handleSearch}>
         <Row gutter={30}>
@@ -145,26 +133,6 @@ class SearchForm extends PureComponent{
               {
                 getFieldDecorator(`orderCode`)(
                   <Input placeholder='请输入' />
-                )
-              }
-            </FormItem>
-          </Col>
-          <Col span={8} style={{ display: display }}>
-            <FormItem {...formItemLayout} label={`订单状态`}>
-              {
-                getFieldDecorator(`orderStatus`)(
-                  <Select
-                    placeholder="请选择"
-                    style={{
-                      width: '100%'
-                    }}
-                  >
-                    {
-                      orderStatusList.map(item => (
-                        <Option key={item.value} value={item.value}>{item.label}</Option>
-                      ))
-                    }
-                  </Select>
                 )
               }
             </FormItem>

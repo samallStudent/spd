@@ -29,7 +29,7 @@ const columns = [
   {
     title: '配货部门',
     width: 168,
-    dataIndex: 'originDeptName'
+    dataIndex: 'deptName'
   },
   {
     title: '状态',
@@ -196,7 +196,7 @@ render() {
         </Col>
         <Col span={8} >
           <FormItem label={`状态`} {...formItemLayout}>
-            {getFieldDecorator('auditStatus')(
+            {getFieldDecorator('acceptanceType')(
             <Select 
               showSearch
               placeholder={'请选择'}

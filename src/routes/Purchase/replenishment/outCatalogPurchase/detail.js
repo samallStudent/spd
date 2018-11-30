@@ -114,8 +114,12 @@ class OutCatalogPurchase extends PureComponent{
     this.props.dispatch({
       type:'base/ReplenishDetails',
       payload: { planCode },
-      callback:(data)=>{
-        this.setState({ detailsData: data });
+      callback:({data, code, msg})=>{
+        if(code === 200) {
+          this.setState({ detailsData: data });
+        }else {
+          message.error(msg);
+        };
       }
     });
   }

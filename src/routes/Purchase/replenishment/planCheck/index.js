@@ -198,6 +198,7 @@ class PlanCheck extends PureComponent{
     selectedRows.map(item => list.push(item.planCode));
     values.opType = '4' // 审核通过;
     values.list = list;
+    values.purchaseType = 1;
     this.setState({ loading: true });
     this.props.dispatch({
       type: 'replenish/updateStatus',

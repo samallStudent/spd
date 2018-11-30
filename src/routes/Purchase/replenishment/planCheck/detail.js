@@ -8,7 +8,7 @@
   @file 补货计划  计划审核 -- 详情
 */
 import React, { PureComponent } from 'react';
-import { Table ,Row, Col,Tooltip, Button, Modal, Input, message } from 'antd';
+import { Table ,Row, Col,Tooltip, Button, Modal, Input, message, Spin } from 'antd';
 import { connect } from 'dva';
 const { TextArea } = Input;
 const columns = [
@@ -100,13 +100,26 @@ class PlanCheckDetail extends PureComponent{
     value: undefined,
   }
   componentDidMount = () => {
+    this.getDetail();
+  }
+  getDetail = () => {
     let { planCode } = this.props.match.params;
     this.setState({ loading: true });
     this.props.dispatch({
       type:'base/ReplenishDetails',
       payload: { planCode },
-      callback:(data)=>{
-        this.setState({ detailsData: data, loading: false });
+      callback:({data, code, msg})=>{
+        if(code === 200) {
+          this.setState({ 
+            detailsData: data, 
+            loading: false 
+          });
+        }else {
+          this.setState({
+            loading: false 
+          });
+          message.error(msg);
+        };
       }
     });
   }
@@ -156,148 +169,150 @@ class PlanCheckDetail extends PureComponent{
   update = (values) =>{
     let list = [ this.state.detailsData.planCode ];
     values.list = list;
-    let { dispatch, history } = this.props;
+    values.purchaseType = 1;
+    let { dispatch } = this.props;
     dispatch({
       type: 'replenish/updateStatus',
       payload: { ...values },
       callback: () =>{
-        history.push({ pathname: '/purchase/replenishment/planCheck' });
+        this.getDetail()
       } 
     })
 
   }
   render(){
     const { detailsData, loading, visible, value } = this.state;
-    const { auditStatus } = this.props.match.params;
     return (
-      <div className='fullCol fadeIn'>
-        <div className='fullCol-fullChild'>
-          <div style={{ display: 'flex',justifyContent: 'space-between' }}>
-            <h3>单据信息</h3>
-            {
-              auditStatus === '2'
-              &&
-              <div>
-                <Button type='primary' onClick={this.pass}>通过</Button>
-                <Button type='danger' onClick={this.reject} style={{ marginLeft: 8 }} ghost>驳回</Button>
-              </div>
-            }
-          </div>
-          <Row>
-            <Col span={8}>
-              <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
-                <label>计划单</label>
-              </div>
-              <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18">
-                <div className='ant-form-item-control'>{ detailsData.planCode }</div>
-              </div>
-            </Col>
-            <Col span={8}>
-              <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
-                <label>类型</label>
-              </div>
-              <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18">
-                <div className='ant-form-item-control'>{ detailsData.planTypeName }</div>
-              </div>
-            </Col>
-            <Col span={8}>
-              <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
-                <label>状态</label>
-              </div>
-              <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18">
-                <div className='ant-form-item-control'>{ detailsData.statusName }</div>
-              </div>
-            </Col>
+      <Spin spinning={loading}>
+        <div className='fullCol fadeIn'>
+          <div className='fullCol-fullChild'>
+            <div style={{ display: 'flex',justifyContent: 'space-between' }}>
+              <h3>单据信息</h3>
+              {
+                detailsData.auditStatus === 2
+                &&
+                <div>
+                  <Button type='primary' onClick={this.pass}>通过</Button>
+                  <Button type='danger' onClick={this.reject} style={{ marginLeft: 8 }} ghost>驳回</Button>
+                </div>
+              }
+            </div>
+            <Row>
+              <Col span={8}>
+                <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
+                  <label>计划单</label>
+                </div>
+                <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18">
+                  <div className='ant-form-item-control'>{ detailsData.planCode }</div>
+                </div>
+              </Col>
+              <Col span={8}>
+                <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
+                  <label>类型</label>
+                </div>
+                <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18">
+                  <div className='ant-form-item-control'>{ detailsData.planTypeName }</div>
+                </div>
+              </Col>
+              <Col span={8}>
+                <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
+                  <label>状态</label>
+                </div>
+                <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18">
+                  <div className='ant-form-item-control'>{ detailsData.statusName }</div>
+                </div>
+              </Col>
+              </Row>
+              <Row>
+              <Col span={8}>
+                <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
+                    <label>发起人</label>
+                </div>
+                <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18">
+                  <div className='ant-form-item-control'>{detailsData.createUserName}</div>
+                </div>
+              </Col>
+              <Col span={8}>
+                <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
+                    <label>发起时间</label>
+                </div>
+                <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18">
+                  <div className='ant-form-item-control'>{detailsData.createDate}
+                  </div>
+                </div>
+              </Col>
+              <Col span={8}>
+                <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
+                    <label>联系电话</label>
+                </div>
+                <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18">
+                  <div className='ant-form-item-control'>{detailsData.mobile}</div>
+                </div>
+              </Col>
             </Row>
             <Row>
-            <Col span={8}>
-              <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
-                  <label>发起人</label>
+              <Col span={8}>
+                <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
+                    <label>收货地址</label>
+                </div>
+                <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18">
+                  <div className='ant-form-item-control'>{detailsData.receiveAddress}</div>
+                </div>
+              </Col>
+              <Col span={8}>
+                <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
+                    <label>审核人</label>
+                </div>
+                <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18">
+                  <div className='ant-form-item-control'>{detailsData.sheveUserName}</div>
+                </div>
+              </Col>
+              <Col span={8}>
+                <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
+                    <label>审核时间</label>
+                </div>
+                <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18">
+                  <div className='ant-form-item-control'>{detailsData.sheveDate}</div>
+                </div>
+              </Col>
+            </Row>
+          </div>
+          <div className='detailCard'>
+            <Table
+              bordered
+              title={()=>'产品信息'}
+              scroll={{x: 2200}}
+              columns={columns}
+              dataSource={detailsData ? detailsData.list : []}
+              rowKey={'drugCode'}
+              pagination={{
+                size: 'small',
+                showQuickJumper: true,
+                showSizeChanger: true
+              }}
+            />
+          </div>
+          <Modal
+            title="驳回说明"
+            visible={visible}
+            onOk={this.handleOk}
+            onCancel={this.handleCancel}
+            maskClosable={false}
+          >
+            <Row>
+              <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-3">
+                <label>说明</label>
               </div>
-              <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18">
-                <div className='ant-form-item-control'>{detailsData.createUserName}</div>
-              </div>
-            </Col>
-            <Col span={8}>
-              <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
-                  <label>发起时间</label>
-              </div>
-              <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18">
-                <div className='ant-form-item-control'>{detailsData.createDate}
+              <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-21">
+                <div className='ant-form-item-control'>
+                  <TextArea value={value} onChange={this.rejectInput} rows={3} placeholder="输入驳回说明" />
                 </div>
               </div>
-            </Col>
-            <Col span={8}>
-              <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
-                  <label>联系电话</label>
-              </div>
-              <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18">
-                <div className='ant-form-item-control'>{detailsData.mobile}</div>
-              </div>
-            </Col>
-          </Row>
-          <Row>
-            <Col span={8}>
-              <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
-                  <label>收货地址</label>
-              </div>
-              <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18">
-                <div className='ant-form-item-control'>{detailsData.receiveAddress}</div>
-              </div>
-            </Col>
-            <Col span={8}>
-              <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
-                  <label>审核人</label>
-              </div>
-              <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18">
-                <div className='ant-form-item-control'>{detailsData.sheveUserName}</div>
-              </div>
-            </Col>
-            <Col span={8}>
-              <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
-                  <label>审核时间</label>
-              </div>
-              <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18">
-                <div className='ant-form-item-control'>{detailsData.sheveDate}</div>
-              </div>
-            </Col>
-          </Row>
+            </Row>
+          </Modal>
         </div>
-        <div className='detailCard'>
-          <Table
-            bordered
-            title={()=>'产品信息'}
-            scroll={{x: 2200}}
-            columns={columns}
-            loading={loading}
-            dataSource={detailsData ? detailsData.list : []}
-            rowKey={'drugCode'}
-            pagination={{
-              size: 'small',
-              showQuickJumper: true,
-              showSizeChanger: true
-            }}
-          />
-        </div>
-        <Modal
-          title="驳回说明"
-          visible={visible}
-          onOk={this.handleOk}
-          onCancel={this.handleCancel}
-          maskClosable={false}
-        >
-          <Row>
-            <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-3">
-              <label>说明</label>
-            </div>
-            <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-21">
-              <div className='ant-form-item-control'>
-                <TextArea value={value} onChange={this.rejectInput} rows={3} placeholder="输入驳回说明" />
-              </div>
-            </div>
-          </Row>
-        </Modal>
-      </div>
+      </Spin>
+      
     )
   }
 }

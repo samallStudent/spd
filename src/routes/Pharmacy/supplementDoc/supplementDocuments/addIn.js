@@ -119,6 +119,7 @@ class AddSupplementDocuments extends PureComponent{
       fetching: false,//远程fetch搜索状态
       typeList: [],
       typeValue: '',
+      addBtn: false,
       abnormalVisible: false,
       abnormalQuery: {},
       makeupCause: ''   //补登原因
@@ -177,9 +178,6 @@ class AddSupplementDocuments extends PureComponent{
   //提交
   onSubmit = () => {
     const { dataSource, typeValue, makeupCause } = this.state;
-    if( dataSource.length === 0 ){
-      return message.warning('请至少添加一条数据');
-    };
     if(!makeupCause.trim()) {
       return message.warning('请输入补登原因');
     };
@@ -200,6 +198,14 @@ class AddSupplementDocuments extends PureComponent{
         message.warning('有效期至不能为空！');
         return false;
       };
+      if(!item.supplierCode) {
+        message.warning('供应商不能为空！');
+        return false;
+      };
+      if(!item.purchaseType) {
+        message.warning('采购类型不能为空！');
+        return false;
+      };
       return true;
     });
     if(!isNull) return;
@@ -214,7 +220,9 @@ class AddSupplementDocuments extends PureComponent{
           productDate: item.productDate,
           totalQuantity: item.totalQuantity,
           validEndDate: item.validEndDate,
-          drugCode: item.drugCode 
+          drugCode: item.drugCode,
+          purchaseType: item.purchaseType,
+          supplierCode: item.supplierCode
         }));
         postData.makeupinsertlist = List;
         postData.makeupCause = makeupCause;
@@ -317,19 +325,44 @@ class AddSupplementDocuments extends PureComponent{
       return message.warning('至少选择一条信息');
     }
     let { dataSource } = this.state;
-    modalSelectedRows.map(item => item.totalQuantity = 1);
-    let newDataSource = [];
-    newDataSource = [ ...dataSource, ...modalSelectedRows ];
-    const existDrugCodeList = newDataSource.map(item => item.drugCode);
-    this.setState({ 
-      dataSource: newDataSource, 
-      visible: false, 
-      modalSelected: [], 
-      modalSelectedRows: [],
-      query: {
-        existDrugCodeList
+    const drugCodeList = modalSelectedRows.map(item => item.drugCode);
+    this.setState({
+      addBtn: true
+    });
+    this.props.dispatch({
+      type: 'base/roomMakeupDetail',
+      payload: {
+        drugCodeList
+      },
+      callback: ({code, msg, data}) => {
+        if(code === 200) {
+          data = data.map(item => {
+            item.purchaseType = item.dictVos[0].value;
+            item.supplierCode = item.supplierDataVos[0].ctmaSupplierCode;
+            item.totalQuantity = 1;
+            return item;
+          });
+          dataSource = [...dataSource, ...data];
+          const existDrugCodeList = dataSource.map(item => item.drugCode);
+          this.setState({ 
+            dataSource, 
+            visible: false, 
+            modalSelected: [], 
+            modalSelectedRows: [],
+            addBtn: false,
+            query: {
+              existDrugCodeList
+            }
+          });
+        }else {
+          this.setState({
+            addBtn: false,
+          });
+          message.error(msg);
+        };
       }
-    }) 
+    });
+    // modalSelectedRows.map(item => item.totalQuantity = 1);
   }
   //添加异常入库单到主表
   handleAbnormalOk = () => {
@@ -464,7 +497,8 @@ class AddSupplementDocuments extends PureComponent{
       typeList, 
       typeValue, 
       abnormalVisible, 
-      abnormalQuery
+      abnormalQuery,
+      addBtn
     } = this.state; 
     const columns = [
       {
@@ -536,7 +570,8 @@ class AddSupplementDocuments extends PureComponent{
         width: 168,
         dataIndex: 'productDate',
         render:(text,record,index) =>{
-          return <DatePicker 
+          return <DatePicker
+                  allowClear={false}
                   format={'YYYY-MM-DD'}
                   disabledDate={(startValue) => {
                     if(!startValue || !record.validEndDate) {
@@ -555,6 +590,7 @@ class AddSupplementDocuments extends PureComponent{
         dataIndex: 'validEndDate',
         render:(text,record,index) =>{
           return <DatePicker
+                  allowClear={false}
                   disabledDate={(endValue) => {
                     if(!endValue || !record.productDate) {
                       return false;
@@ -566,7 +602,53 @@ class AddSupplementDocuments extends PureComponent{
                   onChange={(date,datestr)=>this.setRowInput(datestr,'validEndDate',index,'isDate')}
                  />
         }
-      }
+      },
+      {
+        title: '供应商',
+        width: 224,
+        dataIndex: 'supplierCode',
+        render: (text, record) => {
+          return (
+            <Select
+              defaultValue={text}
+              placeholder="请选择"
+              style={{width: '100%'}}
+              onChange={value => {
+                record.supplierCode = value;
+              }}
+            >
+              {
+                record.supplierDataVos.length ? record.supplierDataVos.map(item => (
+                  <Option key={item.ctmaSupplierCode} value={item.ctmaSupplierCode}>{item.ctmaSupplierName}</Option>
+                )) : null
+              }
+            </Select>
+          )
+        }
+      },
+      {
+        title: '采购方式',
+        width: 168,
+        dataIndex: 'purchaseType',
+        render: (text, record) => {
+          return (
+            <Select
+              placeholder="请选择"
+              style={{width: '100%'}}
+              defaultValue={text}
+              onChange={value => {
+                record.purchaseType = value;
+              }}
+            >
+              {
+                record.dictVos.length ? record.dictVos.map(item => (
+                  <Option key={item.value} value={item.value}>{item.label}</Option>
+                )) : null
+              }
+            </Select>
+          )
+        }
+      },
     ];
     const abnormalColumns = [
       {
@@ -785,7 +867,7 @@ class AddSupplementDocuments extends PureComponent{
               dataSource={dataSource}
               title={()=>'产品信息'}
               bordered
-              scroll={{x: 1900}}
+              scroll={{x: 2292}}
               columns={typeValue === "1" ? columns : abnormalColumns}
               rowKey={rowKey}
               style={{marginTop: 24}}
@@ -824,7 +906,7 @@ class AddSupplementDocuments extends PureComponent{
             style={{ top: 20 }}
             onCancel={this.normalCancel}
             footer={[
-              <Button key="submit" type="primary" onClick={this.handleOk}>确认</Button>,
+              <Button loading={addBtn} key="submit" type="primary" onClick={this.handleOk}>确认</Button>,
               <Button key="back" onClick={this.normalCancel}>取消</Button>
             ]}
           >

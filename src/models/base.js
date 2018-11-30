@@ -158,11 +158,9 @@ export default {
     // 补货计划 - 详情
     *ReplenishDetails({ payload, callback },{ put, call }){
       const data = yield call(replenishment.ReplenishDetails, payload);
-      if (data.code === 200 && data.msg === 'success') {
-          callback && callback(data.data);
-      } else {
-        message.error(data.msg);
-      }
+      if(callback && typeof callback === 'function') {
+        callback(data);
+      };
     },
     //补货计划 - 新建(编辑) - 添加产品
     *addDrug({payload, callback}, {put, call}) { 
@@ -268,6 +266,13 @@ export default {
     //补登 - 新建异常入库单
     *addAbnormalDataSource({ payload,callback },{ call }) {
       const data = yield call(base.addAbnormalDataSource, payload);
+      if(callback && typeof callback === 'function'){
+        callback(data);
+      };
+    },
+    //补登入库单确认添加
+    *roomMakeupDetail({ payload,callback },{ call }) {
+      const data = yield call(base.roomMakeupDetail, payload);
       if(callback && typeof callback === 'function'){
         callback(data);
       };

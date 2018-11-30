@@ -120,9 +120,12 @@ class ReplenishmentDetail extends PureComponent{
       this.props.dispatch({
         type:'base/ReplenishDetails',
         payload: { planCode },
-        callback:(data)=>{
-          console.log(data, '详情数据');
-          this.setState({ detailsData: data });
+        callback:({data, code, msg})=>{
+          if(code === 200) {
+            this.setState({ detailsData: data });
+          }else {
+            message.error(msg);
+          };
         }
       });
     }

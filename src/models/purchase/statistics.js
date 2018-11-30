@@ -249,6 +249,20 @@ export default {
       if(typeof callback === 'function') {
           callback && callback(data);
       };
-  },
+    },
+    //财务指标
+    *staticsStoreList({payload, callback}, {call}) {
+        const data = yield call(statistics.staticsStoreList, payload);
+        if(typeof callback === 'function') {
+            callback && callback(data);
+        };
+    },
+    //财务指标部门
+    *queryHisDept({payload, callback}, {call}) {
+        const data = yield call(statistics.queryHisDept, payload);
+        if(typeof callback === 'function') {
+            callback && callback(data);
+        };
+    },
   } 
 }

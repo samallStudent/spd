@@ -129,7 +129,7 @@ class DetailsNewLibrary extends PureComponent{
         this.setState({
           loading: false,
           info: data,
-          defaultActiveKey: data.auditStatus + '',
+          defaultActiveKey: data.auditStatus === 1? '1' : '2',
           btnShow: data.auditStatus === 1 ? true : false,
         })
       }
@@ -229,7 +229,7 @@ class DetailsNewLibrary extends PureComponent{
                       <label>配货部门</label>
                   </div>
                   <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18">
-                    <div className='ant-form-item-control'>{info.deptName || ''}</div>
+                    <div className='ant-form-item-control'>{info.originDeptName || ''}</div>
                   </div>
               </Col>
               <Col span={8}>

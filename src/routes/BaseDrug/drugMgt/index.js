@@ -148,7 +148,11 @@ const columns = [
   {
     title: '商品名称',
     dataIndex: 'tradeName',
-    width: 224
+    width: 224,
+    className: 'ellipsis',
+    render:(text)=>(
+      <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+    )
   },
   {
     title: '规格',

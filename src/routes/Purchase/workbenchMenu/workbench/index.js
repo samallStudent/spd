@@ -145,7 +145,6 @@ class Workplace extends Component {
     });
     this.getBillsList(item.categoryCode);
   }
-
   render() {
     const {left, leftVisibility, rightVisibility, itemWidth, matterList, backlogLoading, initHeight, activeIndex, billsList, billsLoading} = this.state;
     const itemsWidth = matterList ? matterList.length ? (itemWidth + 24) * matterList.length : '100%' : 99999;
@@ -214,9 +213,9 @@ class Workplace extends Component {
           >
             {
               billsList.length ? 
-              billsList.map(item => (
+              billsList.map((item, i) => (
                 <Col
-                  key={item.numberNo}
+                  key={i}
                   style={{
                     marginBottom: 16,
                   }}

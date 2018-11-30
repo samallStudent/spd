@@ -316,3 +316,20 @@ export function getPriceStaticGet(options) {
     body: options
   })
 }
+//财务分析
+export function staticsStoreList(options) {
+  return request(`${_local}/a/statics/store/list`, {
+    method: 'POST',
+    type: 'json',
+    body: options
+  })
+}
+
+//财务分析部门
+export function queryHisDept(options) {
+  return request(`${_local}/a/sys/sysdept/queryHisDept`, {
+    method: 'GET',
+    type: 'formData',
+    body: options
+  })
+}

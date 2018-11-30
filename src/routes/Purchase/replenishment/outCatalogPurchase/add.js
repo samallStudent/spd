@@ -55,27 +55,31 @@ class NewAdd extends PureComponent{
       this.props.dispatch({
         type:'base/ReplenishDetails',
         payload: { planCode },
-        callback:(data)=>{
-          let deptCode;
-          let {deptModules, query} = this.state;
-          deptModules.map(item=>{
-            if(data.deptCode === item.id) {
-              deptCode = item.id
-            };
-            return item;
-          });
-          let existDrugCodeList = data.list.map(item => item.drugCode);
-          this.setState({ 
-            info: data, 
-            isEdit: true, 
-            dataSource: data.list,
-            loading: false,
-            query: {
-              ...query,
-              deptCode,
-              existDrugCodeList
-            },
-          });
+        callback:({data, code, msg})=>{
+          if(code === 200) {
+            let deptCode;
+            let {deptModules, query} = this.state;
+            deptModules.map(item=>{
+              if(data.deptCode === item.id) {
+                deptCode = item.id
+              };
+              return item;
+            });
+            let existDrugCodeList = data.list.map(item => item.drugCode);
+            this.setState({ 
+              info: data, 
+              isEdit: true, 
+              dataSource: data.list,
+              loading: false,
+              query: {
+                ...query,
+                deptCode,
+                existDrugCodeList
+              },
+            });
+          }else {
+            message.error(msg);
+          }
         }
       });
     }

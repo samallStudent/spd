@@ -1705,7 +1705,7 @@ export const getNavData = app => [
       name: "财务指标",
       icon: 'setting',
       path: '/purchase/statisticAnalysis/financialTarget',
-      component: dynamicWrapper(app, [], () => import('../routes/Purchase/statisticAnalysis/financialTarget')),
+      component: dynamicWrapper(app, ['purchase/statistics'], () => import('../routes/Purchase/statisticAnalysis/financialTarget')),
     },
     //采购结算 - 统计分析 - 财务指标 
     {
@@ -1752,13 +1752,19 @@ export const getNavData = app => [
       name: "库存查询",
       icon: "setting",
       path: '/baseDrug/stockMgt/stockInquiry',
-      component: dynamicWrapper(app, ['baseDrug/stockMgt'], () => import('../routes/BaseDrug/stockMgt')),
+      component: dynamicWrapper(app, ['baseDrug/stockMgt'], () => import('../routes/BaseDrug/stockMgt/stockInquiry')),
     },
     {
       name: "库存查询 - 详情",
       icon: "setting",
       path: '/baseDrug/stockMgt/stockInquiry/details/:id',
-      component: dynamicWrapper(app, ['baseDrug/stockMgt'], () => import('../routes/BaseDrug/stockMgt/details')),
+      component: dynamicWrapper(app, ['baseDrug/stockMgt'], () => import('../routes/BaseDrug/stockMgt/stockInquiry/details')),
+    },
+    {
+      name: "基数药台账",
+      icon: "setting",
+      path: '/baseDrug/stockMgt/drugLedger',
+      component: dynamicWrapper(app, ['purchase/statistics'], () => import('../routes/BaseDrug/stockMgt/drugLedger')),
     },
     {
       name: "申领入库 - 验收",

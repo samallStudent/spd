@@ -31,7 +31,6 @@ const formItemLayout = {
 class SearchForm extends PureComponent{
   state = {
     supplierList: [],
-    deptList: [],
     typeList: []
   }
   componentDidMount() {
@@ -42,16 +41,6 @@ class SearchForm extends PureComponent{
         if(code === 200) {
           this.setState({
             supplierList: data
-          });
-        }
-      }
-    });
-    dispatch({
-      type: 'statistics/getDepts',
-      callback: ({data, code, msg}) => {
-        if(code === 200) {
-          this.setState({
-            deptList: data
           });
         }
       }
@@ -97,7 +86,7 @@ class SearchForm extends PureComponent{
     const { getFieldDecorator } = this.props.form;
     const {display} = this.props.formProps.base;
     const expand = display === 'block';
-    const { supplierList, deptList, typeList } = this.state;
+    const { supplierList, typeList } = this.state;
     return (
       <Form className="ant-advanced-search-form" onSubmit={this.handleSearch}>
         <Row gutter={30}>
@@ -127,27 +116,6 @@ class SearchForm extends PureComponent{
               {
                 getFieldDecorator(`paramsName`)(
                   <Input placeholder='请输入' />
-                )
-              }
-            </FormItem>
-          </Col>
-          <Col span={8} style={{ display: display }}>
-            <FormItem {...formItemLayout} label={`部门`}>
-              {
-                getFieldDecorator(`deptCode`)(
-                  <Select
-                    showSearch
-                    placeholder="请选择"
-                    optionFilterProp="children"
-                    filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
-                  >
-                    <Option key={''} value={''}>全部</Option>
-                    {
-                      deptList.map(item => (
-                        <Option key={item.id} value={item.id}>{item.deptName}</Option>
-                      ))
-                    }
-                  </Select>
                 )
               }
             </FormItem>

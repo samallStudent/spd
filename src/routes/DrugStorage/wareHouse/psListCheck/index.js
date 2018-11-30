@@ -204,7 +204,7 @@ class SearchForm extends PureComponent{
           <Col span={8} style={{ display: display }}>
             <FormItem {...formItemLayout} label={`状态`}>
               {
-                getFieldDecorator(`auditStatus`)(
+                getFieldDecorator(`acceptanceType`)(
                   <Select 
                     allowClear
                     showSearch

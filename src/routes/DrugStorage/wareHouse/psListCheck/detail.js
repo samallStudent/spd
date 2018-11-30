@@ -244,7 +244,12 @@ class PslistCheck extends PureComponent{
       return item;
     });
     let isNull = includeChildren.every(item => {
-      if(!item.realReceiveQuantity){
+      if(
+        item.realReceiveQuantity !== 0 && 
+        !item.realReceiveQuantity
+      ){
+        console.log(item.realReceiveQuantity);
+        
         message.error('实到数量不能为空');
         return false;
       };
@@ -323,9 +328,13 @@ class PslistCheck extends PureComponent{
       callback: (data) => {
         if(data.unVerfiyList.length) {
           data.unVerfiyList = data.unVerfiyList.map(item => {
-            item.realReceiveQuantity = item.realDeliveryQuantiry;
+            if(item.isUsual === 0) {
+              item.realReceiveQuantity = item.realDeliveryQuantiry;
+            }else {
+              item.realReceiveQuantity = 0;
+            };
             return item;
-          })
+          });
         };
         this.setState({
           detailInfo: data,
@@ -395,7 +404,9 @@ class PslistCheck extends PureComponent{
         render: (text, record, index)=>{
           return record.isUsual === 0 ? 
                   <InputNumber
+                    min={0}
                     value={text}
+                    precision={0}
                     onChange={(value)=>{
                       let pIndex;
                       if(record.parentId) {
@@ -499,23 +510,28 @@ class PslistCheck extends PureComponent{
         title: '价格',
         dataIndex: 'price',
         width: 112
-      },{
+      },
+      {
+        title: '采购方式',
+        dataIndex: 'purchaseType',
+        width: 112,
+        render: (text) => text === 1 ? '零库存' : '自采'
+      },
+      {
         title: '金额',
         dataIndex: 'amount',
         width: 112,
-        render: (text, record) => record.price * record.realReceiveQuantity
+        render: (text, record) => (record.price * record.realReceiveQuantity).toFixed(4)
       },
       {
         title: '是否异常',
         dataIndex: 'isUsual',
         width: 112,
         render: (text, record) => {
-          if(text === 1) {
-            return <span>是</span>
-          };
           if(text === 0) {
-            return <span>否</span>
+            return <span>否</span>;
           };
+          return <span>是</span>;
         }
       },
       {
@@ -567,7 +583,11 @@ class PslistCheck extends PureComponent{
       {
         title: '商品名',
         dataIndex: 'ctmmTradeName',
-        width: 224
+        width: 224,
+        className: 'ellipsis',
+        render:(text)=>(
+          <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+        )
       },
       {
         title: '规格',
@@ -626,11 +646,18 @@ class PslistCheck extends PureComponent{
         title: '价格',
         dataIndex: 'price',
         width: 112
-      },{
+      },
+      {
+        title: '采购方式',
+        dataIndex: 'purchaseType',
+        width: 112,
+        render: (text) => text === 1 ? '零库存' : '自采'
+      },
+      {
         title: '金额',
         dataIndex: 'amount',
         width: 112,
-        render: (text, record) => record.price * record.realReceiveQuantiry
+        render: (text, record) => (record.price * record.realReceiveQuantiry).toFixed(4)
       },
       {
         title: '是否异常',
@@ -744,22 +771,14 @@ class PslistCheck extends PureComponent{
             </Col>
             <Col span={8}>
               <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
-                <label>配货日期</label>
-              </div>
-              <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18">
-                <div className='ant-form-item-control'>{ detailInfo.deliveryTime || ''}</div>
-              </div>
-            </Col>
-          </Row>
-          <Row>
-            <Col span={8}>
-              <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
                 <label>配送日期</label>
               </div>
               <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18">
                 <div className='ant-form-item-control'>{ detailInfo.createDate || ''}</div>
               </div>
             </Col>
+          </Row>
+          <Row>
             <Col span={8}>
               <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
                 <label>验收人</label>
@@ -784,7 +803,7 @@ class PslistCheck extends PureComponent{
               <Table
                 bordered
                 loading={loading}
-                scroll={{x: 2836}}
+                scroll={{x: 2948}}
                 columns={columnsUnVerfiy}
                 dataSource={unVerfiyList || []}
                 pagination={false}
@@ -806,7 +825,7 @@ class PslistCheck extends PureComponent{
               <Table
                 loading={loading}
                 bordered
-                scroll={{x: 2836}}
+                scroll={{x: 2948}}
                 columns={columnsVerify || []}
                 dataSource={verifyList}
                 rowKey={'key'}

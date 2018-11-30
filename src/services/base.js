@@ -65,3 +65,12 @@ export function depotplanDetailExport(options) {
     export: true
   })
 }
+
+//补登入库单添加产品
+export function roomMakeupDetail(options) {
+  return request(`${_local}/a/roommakeupdetail/makeupdetail/queryDrugSuppllier`, {
+    method: 'POST',
+    type: 'json',
+    body: options,
+  })
+}

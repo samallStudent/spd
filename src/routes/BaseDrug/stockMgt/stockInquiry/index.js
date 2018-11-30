@@ -5,13 +5,13 @@ import { Link } from 'react-router-dom'
 import { Form, Row, Col, Button, Tooltip } from 'antd';
 //Select
 import {connect} from 'dva';
-import FetchSelect from '../../../components/FetchSelect/index';
+import FetchSelect from '../../../../components/FetchSelect/index';
 
-import RemoteTable from '../../../components/TableGrid';
+import RemoteTable from '../../../../components/TableGrid';
 
-import {stockMgt} from '../../../api/baseDrug/stockMgt';
+import {stockMgt} from '../../../../api/baseDrug/stockMgt';
 
-import goodsAdjust from '../../../api/drugStorage/goodsAdjust';
+import goodsAdjust from '../../../../api/drugStorage/goodsAdjust';
 
 // const FormItem = Form.Item;
 // const {Option} = Select;
@@ -32,10 +32,13 @@ const columns = [
     title: '通用名',
     dataIndex: 'ctmmGenericName',
     width: 224,
+    className: 'ellipsis',
     render: (text, record) => {
       return (
         <span>
-          <Link to={{pathname: `/baseDrug/stockMgt/stockInquiry/details/dCode=${record.drugCode}&bCode=${record.bigDrugCode}`}}>{text}</Link>
+          <Link to={{pathname: `/baseDrug/stockMgt/stockInquiry/details/dCode=${record.drugCode}&bCode=${record.bigDrugCode}`}}>
+            <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+          </Link>
         </span>  
       )
     }
@@ -43,6 +46,10 @@ const columns = [
     title: '商品名',
     dataIndex: 'ctmmTradeName',
     width: 224,
+    className: 'ellipsis',
+    render:(text)=>(
+      <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+    )
   }, {
     title: '规格',
     dataIndex: 'ctmmSpecification',

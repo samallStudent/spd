@@ -214,9 +214,9 @@ class Workplace extends Component {
           >
             {
               billsList.length ? 
-              billsList.map(item => (
+              billsList.map((item, i) => (
                 <Col
-                  key={item.numberNo}
+                  key={i}
                   style={{
                     marginBottom: 16,
                   }}

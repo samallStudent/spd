@@ -166,7 +166,7 @@ class Workplace extends Component {
                       matterList.map((item, index) => (
                         <div 
                           onClick={this.toggleActive.bind(this, item, index)} 
-                          key={item.categoryCode} 
+                          key={index} 
                           style={{width: itemWidth}} 
                           className={`${index === activeIndex? S['item-active'] : ''} ${S['item']}`}
                         >
@@ -214,9 +214,9 @@ class Workplace extends Component {
           >
             {
               billsList.length ? 
-              billsList.map(item => (
+              billsList.map((item, i) => (
                 <Col
-                  key={item.numberNo}
+                  key={i}
                   style={{
                     marginBottom: 16,
                   }}
