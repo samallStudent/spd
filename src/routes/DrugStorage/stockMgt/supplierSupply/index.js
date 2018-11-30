@@ -150,11 +150,15 @@ class SupplierSupply extends PureComponent {
   }
   _tableCallback = () => {
     const {supplierCodeList} = this.props.base.queryConditons;
+    const {endTime} = this.props.base.queryConditons;
+    const {startTime} = this.props.base.queryConditons;
     if(supplierCodeList !== undefined&&supplierCodeList.length > 0) {
       this.props.dispatch({
         type: 'statistics/supplierAnalyze',
         payload: {
-          supplierCodeList
+          supplierCodeList,
+          endTime,
+          startTime
         },
         callback: ({code, data, msg}) => {
           if(code === 200) {
