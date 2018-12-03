@@ -10,10 +10,22 @@ import RemoteTable from '../../../../components/TableGrid/index';
 import salvageCar from '../../../../api/baseDrug/salvageCar';
 import { Link } from 'react-router-dom';
 import {connect} from 'dva';
-import { formItemLayout } from '../../../../utils/commonStyles';
+//import { formItemLayout } from '../../../../utils/commonStyles';
 const RangePicker = DatePicker.RangePicker;
 const FormItem = Form.Item;
 const Option = Select.Option;
+const formItemLayout = {
+  labelCol: {
+    xs: { span: 24 },
+    sm: { span: 6 },
+    md: {span: 8}
+  },
+  wrapperCol: {
+    xs: { span: 24 },
+    sm: { span: 18 },
+    md: {span: 16}
+  },
+};
 
 class Acceptance extends PureComponent{
 
