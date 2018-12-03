@@ -121,7 +121,7 @@ class formSearch extends PureComponent{
         const { dispatch } = this.props.formProps;
         dispatch({
             type: 'base/orderStatusOrorderType',
-            payload: { type: 'medicine_standing' },
+            payload: { type: 'rescuecar_type' },
             callback: (data) =>{
                 data = data.filter(item => item.value !== '');
                 this.setState({ typeListData: data });
@@ -268,7 +268,7 @@ class formSearch extends PureComponent{
                                     placeholder="请选择..."
                                     filterOption={(input, option) => option.props.children.indexOf(input) >= 0}
                                 >
-                                     <Option value=''>请选择...</Option> 
+                                     <Option value=''>全部</Option> 
                                     { 
                                         this.state.typeListData.map((item,index)=>
                                             <Option value={item.value||item.value} key={index}>{item.label}</Option>
