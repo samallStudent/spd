@@ -427,6 +427,7 @@ class PslistCheck extends PureComponent{
         title: '采购方式',
         dataIndex: 'purchaseType',
         width: 112,
+        render: (text) => text === 1 ? '零库存' : '自采'
       },
       {
         title: '价格',

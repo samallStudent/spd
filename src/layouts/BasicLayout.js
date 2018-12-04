@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import { Route, Switch, Redirect } from 'dva/router';
-import { Layout, Icon, Row, Col, Tooltip, Menu, Dropdown, Spin, Affix } from 'antd';//Affix
+import { Layout, Icon, Row, Col, Tooltip, Menu, Dropdown, Spin, Affix, message } from 'antd';//Affix
 import { connect } from 'dva';
 import Profile from '../components/profile'
 import SiderMenu from '../components/SiderMenu';
@@ -38,7 +38,12 @@ class BasicLayout extends PureComponent {
             let tree = menuFormat(menuList,true,1);
             const urlParams = new URL(window.location.href);
             const id = urlParams.searchParams.get('depeId');
-            const deptName = deptInfo.filter(item => item.deptId === id)[0].deptName;
+            const filterDeptInfo = deptInfo.filter(item => item.deptId === id);
+            if(filterDeptInfo.length === 0) {
+              message.error('该部门不存在，请勿直接修改地址栏')
+              this.props.history.go(-1);
+            };
+            const deptName = filterDeptInfo[0].deptName;
             if(id && deptName) {
               console.log('刷新');
               dispatch({
@@ -48,7 +53,7 @@ class BasicLayout extends PureComponent {
                   this.setState({
                     hasDept: true
                   });
-                  let currMenuList = deptInfo.filter(item => item.deptId === id)[0].menuList;
+                  let currMenuList = filterDeptInfo[0].menuList;
                   let tree = menuFormat(currMenuList, true, 1 );
                   let menu = tree[0].children[0];
                   dispatch({

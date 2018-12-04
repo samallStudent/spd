@@ -88,7 +88,7 @@ const columns = [
     title: '金额',
     dataIndex: 'amount',
     width: 112,
-    render: (text, record) => record.price * record.demandQuantity
+    render: (text, record) => (record.price * record.demandQuantity).toFixed(4)
   },
   {
     title: '批准文号',

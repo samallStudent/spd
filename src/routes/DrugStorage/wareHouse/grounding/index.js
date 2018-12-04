@@ -33,7 +33,7 @@ class Putaway extends PureComponent{
   render(){
     const columns = [
       {
-       title: '配送单',
+       title: '配送单/验收单号',
        width: 168,
        dataIndex: 'distributeCode',
        render: (text, record) => 
@@ -97,34 +97,34 @@ class SearchFormWrapper extends PureComponent {
     status: []
   }
   componentDidMount() {
-      this.props.formProps.dispatch({
-        type: 'base/orderStatusOrorderType',
-        payload: {
-          type: "audit_status"
-        },
-        callback: (data) => {
-          this.setState({status: data});
-        }
-      });
-      this.props.formProps.dispatch({
-        type: 'base/orderStatusOrorderType',
-        payload: {
-          type: "in_store_type"
-        },
-        callback: (data) => {
-          this.setState({type: data});
-        }
-      });
-      let { queryConditons } = this.props.formProps.base;
-      //找出表单的name 然后set
-      let values = this.props.form.getFieldsValue();
-      values = Object.getOwnPropertyNames(values);
-      let value = {};
-      values.map(keyItem => {
-        value[keyItem] = queryConditons[keyItem];
-        return keyItem;
-      });
-      this.props.form.setFieldsValue(value);
+    this.props.formProps.dispatch({
+      type: 'base/orderStatusOrorderType',
+      payload: {
+        type: "acceptance_status"
+      },
+      callback: (data) => {
+        this.setState({status: data});
+      }
+    });
+    this.props.formProps.dispatch({
+      type: 'base/orderStatusOrorderType',
+      payload: {
+        type: "in_store_type"
+      },
+      callback: (data) => {
+        this.setState({type: data});
+      }
+    });
+    let { queryConditons } = this.props.formProps.base;
+    //找出表单的name 然后set
+    let values = this.props.form.getFieldsValue();
+    values = Object.getOwnPropertyNames(values);
+    let value = {};
+    values.map(keyItem => {
+      value[keyItem] = queryConditons[keyItem];
+      return keyItem;
+    });
+    this.props.form.setFieldsValue(value);
   }
   toggle = () => {
     this.props.formProps.dispatch({

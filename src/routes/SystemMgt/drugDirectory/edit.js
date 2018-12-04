@@ -10,10 +10,12 @@ const singleFormItemLayout = {
   labelCol: {
     xs: { span: 24 },
     sm: { span: 8 },//5
+    md: {span: 10}
   },
   wrapperCol: {
     xs: { span: 24 },
-    sm: { span: 15 }
+    sm: { span: 15 },
+    md: {span: 13}
   },
 }
 const RadioGroup = Radio.Group;

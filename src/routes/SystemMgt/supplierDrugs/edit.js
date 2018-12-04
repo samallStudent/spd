@@ -11,10 +11,12 @@ const formItemLayout ={
   labelCol: {
     xs: { span: 24 },
     sm: { span: 5 },
+    md: {span: 8}
   },
   wrapperCol: {
     xs: { span: 24 },
-    sm: { span: 14 }
+    sm: { span: 14 },
+    md: {span: 11}
   },
 }
 const Panel = Collapse.Panel;

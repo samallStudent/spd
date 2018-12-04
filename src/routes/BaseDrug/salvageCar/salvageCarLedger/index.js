@@ -21,10 +21,12 @@ const singleFormItemLayout = {
     labelCol: {
       xs: { span: 24 },
       sm: { span: 6 },
+      md: {span: 8}
     },
     wrapperCol: {
       xs: { span: 24 },
       sm: { span: 18 },
+      md: {span: 16}
     },
   }
   const IndexColumns = [

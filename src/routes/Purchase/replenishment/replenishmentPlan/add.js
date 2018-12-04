@@ -377,6 +377,10 @@ class NewAdd extends PureComponent {
         dataIndex: 'totalPrice',
         width: 168
       }, {
+        title: '药品编码',
+        dataIndex: 'hisDrugCode',
+        width: 168
+      }, {
         title: '批准文号',
         dataIndex: 'approvalNo',
         width: 224,
@@ -554,7 +558,7 @@ class NewAdd extends PureComponent {
               bordered
               columns={columns}
               dataSource={dataSource}
-              scroll={{ x: 2600 }}
+              scroll={{ x: 2768 }}
               rowKey='drugCode'
               rowSelection={{
                 selectedRowKeys: this.state.selected,

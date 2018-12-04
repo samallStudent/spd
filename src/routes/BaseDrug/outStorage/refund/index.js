@@ -35,11 +35,6 @@ const columns = [
     width: 280,
   },
   {
-    title: '状态',
-    width: 112,
-    dataIndex: 'backStatusName',
-  },
-  {
     title: '退库人',
     width: 112,
     dataIndex: 'createUserName',
@@ -49,21 +44,10 @@ const columns = [
    width: 224,
    dataIndex: 'createDate',
   },
-  {
-    title: '复核人',
-    width: 112,
-    dataIndex: 'reviewUserName',
-   },
-   {
-    title: '复核时间',
-    width: 224,
-    dataIndex: 'reviewDate',
-   }
 ];
 /* 搜索 - 表单 */
 class SearchFormWrapper extends PureComponent {
   state = {
-    back_status_options: [], // 状态
     backCause: []
   }
   toggle = () => {
@@ -73,14 +57,6 @@ class SearchFormWrapper extends PureComponent {
   }
   componentDidMount = () =>{
     const { dispatch } = this.props.formProps;
-    // 状态下拉框
-    dispatch({
-      type: 'base/orderStatusOrorderType',
-      payload: { type: 'back_status' },
-      callback: (data) =>{
-        this.setState({ back_status_options: data });
-      }
-    });
     dispatch({
       type: 'base/orderStatusOrorderType',
       payload: {
@@ -129,7 +105,7 @@ class SearchFormWrapper extends PureComponent {
     });
   }
   render() {
-    const { back_status_options, backCause } = this.state;
+    const { backCause } = this.state;
     const { getFieldDecorator } = this.props.form;
     const {display} = this.props.formProps.base;
     const expand = display === 'block'; 
@@ -146,24 +122,8 @@ class SearchFormWrapper extends PureComponent {
             </FormItem>
           </Col>
           <Col span={8}>
-            <FormItem label={`退库原因`} {...formItemLayout}>
-              {getFieldDecorator('backCause')(
-                <Select
-                  placeholder="请选择退库原因"
-                  style={{width: '100%'}}
-                >
-                  {
-                    backCause.map(item => (
-                      <Option key={item.value} value={item.value}>{item.label}</Option>
-                    ))
-                  }
-                </Select>
-              )}
-            </FormItem>
-          </Col>
-          <Col span={8} style={{display: display}}>
-             <FormItem label={`状态`} {...formItemLayout}>
-               {getFieldDecorator('backStatus',{
+             <FormItem label={`退库原因`} {...formItemLayout}>
+               {getFieldDecorator('backCause',{
                  initialValue: ''
                })(
                  <Select 
@@ -173,7 +133,7 @@ class SearchFormWrapper extends PureComponent {
                    filterOption={(input, option) => option.props.children.indexOf(input) >= 0}
                    >
                    {
-                     back_status_options.map((item,index)=> <Option key={index} value={item.value}>{item.label}</Option>)
+                     backCause.map((item,index)=> <Option key={index} value={item.value}>{item.label}</Option>)
                    }
                  </Select>
                )}
@@ -227,7 +187,7 @@ class Refund extends PureComponent{
           query={query}
           bordered
           url={outStorage.FINDCOMMONBACK_LIST}
-          scroll={{x: 1512}}
+          scroll={{x: '100%'}}
           columns={columns}
           rowKey={'id'}
           style={{marginTop: 20}}

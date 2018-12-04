@@ -17,10 +17,6 @@ const columns = [
         dataIndex: 'validEndDate',
         width: 168,
     }, {
-        title: '部门',
-        dataIndex: 'deptCodeName',
-        width: 168,
-    }, {
         title: '货位',
         dataIndex: "storeLocName",
         width: 168,
@@ -40,6 +36,7 @@ const columns = [
         title: '采购方式',
         dataIndex: "purchaseType",
         width: 112,
+        render: (text) => text === 1 ? '零库存' : '自采'
     }, {
         title: '单价',
         dataIndex: "price",
@@ -152,7 +149,7 @@ class Details extends PureComponent{
                     <h3 style={{marginBottom: 16}}>库存信息</h3>
                     <RemoteTable
                         rowKey="batchNo"
-                        scroll={{x: 1680}}
+                        scroll={{x: 1512}}
                         query={query}
                         url={statisticAnalysis.GET_ROOM_REPERTORY_LIST_ALL}
                         columns={columns}

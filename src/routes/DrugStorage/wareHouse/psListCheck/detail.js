@@ -203,7 +203,8 @@ class PslistCheck extends PureComponent{
         realProductTime: item.realProductTime,
         drugCode: item.drugCode,
         id: item.id,
-        parentId: item.parentId
+        parentId: item.parentId,
+        isUsual: item.isUsual
       };
       if(detailInfo.isShowTemprature === 1) {
         i.realAcceptanceTemperature = item.realAcceptanceTemperature;

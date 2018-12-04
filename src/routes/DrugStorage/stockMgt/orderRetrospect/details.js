@@ -5,37 +5,16 @@
  * @Last Modified time: 2018-08-31 00:16:10
  */
 /* 
-  @file 损益分析 详情
+  @file 订单追溯 详情
 */
 import React, { PureComponent } from 'react';
-import { Row, Col, message } from 'antd';
+import { Row, Col, message, Timeline } from 'antd';
 import { connect } from 'dva';
-import {statisticAnalysis} from '../../../../api/purchase/purchase';
-import RemoteTable from '../../../../components/TableGrid';
-const columns = [
-  {
-    title: '配送单号',
-    width: 168,
-    dataIndex: 'distributeCode'
-  },
-  {
-    title: '配送日期',
-    width: 168,
-    dataIndex: 'createDate'
-  },
-  {
-    title: '上架日期',
-    width: 168,
-    dataIndex: 'upUserDate',
-  },
-];
-
+const TimelineItem = Timeline.Item;
 class Detail extends PureComponent{
   state = {
     detailsData: {},
-    query: {
-      orderCode: this.props.match.params.id
-    }
+    timelineList: []
   }
   componentDidMount = () => {
     this.getDetail();
@@ -59,11 +38,24 @@ class Detail extends PureComponent{
             message.error(data.msg)
           };
         }
-      })
+      });
+      this.props.dispatch({
+        type: 'statistics/orderFlow',
+        payload: {orderCode: id},
+        callback: ({code, msg, data}) => {
+          if(code === 200) {
+            this.setState({
+              timelineList: data
+            });
+          }else {
+            message.error(msg);
+          };
+        } 
+      });
     }
   }
   render(){
-    const { detailsData, query } = this.state;
+    const { detailsData, timelineList } = this.state;
     return (
       <div className='fullCol fadeIn'>
         <div className='fullCol-fullChild'>
@@ -107,14 +99,20 @@ class Detail extends PureComponent{
           </Row>
         </div>
         <div className='detailCard'>
-          <RemoteTable
-            title={()=>'订单信息'}
-            scroll={{x: '100%'}}
-            columns={columns}
-            rowKey={'id'}
-            query={query}
-            url={statisticAnalysis.ORDER_DETAIL_TRACE}
-          />
+          <h3>订单信息</h3>
+          <hr className="hr"/>
+          <Timeline>
+          {
+            timelineList.length ? (
+              timelineList.map((item, i) => (
+                <TimelineItem>
+                  <span style={{marginRight: 16}}>{item.orderFlowNo}</span>
+                  <span>{item.orderStr}</span>
+                </TimelineItem>
+              ))
+            ) : null
+          }
+          </Timeline>
         </div>
       </div>
     )

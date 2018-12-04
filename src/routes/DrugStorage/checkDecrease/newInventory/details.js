@@ -671,7 +671,7 @@ class Details extends PureComponent {
         dataIndex: 'mount',
         width: 112,
         render: (text, record) => {
-          return Number(record.referencePrice) * Number(record.checkNum);
+          return (Number(record.referencePrice) * Number(record.checkNum)).toFixed(4);
         }
       },
     ];

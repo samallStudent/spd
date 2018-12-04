@@ -21,10 +21,12 @@ const formItemLayout = {
   labelCol: {
     xs: { span: 24 },
     sm: { span: 6 },
+    md: {span: 8}
   },
   wrapperCol: {
     xs: { span: 24 },
-    sm: { span: 18 }
+    sm: { span: 18 },
+    md: {span: 16}
   },
 };
 
@@ -296,6 +298,7 @@ class NearlyEffective extends PureComponent {
         title: '采购方式',
         width: 112,
         dataIndex: 'purchaseType',
+        render: (text) => text === 1 ? '零库存' : '自采'
       }, {
         title: '价格',
         width: 112,

@@ -684,7 +684,7 @@ export const getNavData = app => [
       name: "财务指标",
       icon: 'setting',
       path: '/drugStorage/stockMgt/financialTarget',
-      component: dynamicWrapper(app, [], () => import('../routes/DrugStorage/stockMgt/financialTarget')),
+      component: dynamicWrapper(app, ['purchase/statistics'], () => import('../routes/DrugStorage/stockMgt/financialTarget')),
     },
     //药库 - 结算管理
     // {

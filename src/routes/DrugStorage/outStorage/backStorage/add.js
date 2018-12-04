@@ -18,10 +18,12 @@ const formItemLayout = {
   labelCol: {
     xs: { span: 24 },
     sm: { span: 8 },//5
+    md: {span: 10}
   },
   wrapperCol: {
     xs: { span: 24 },
     sm: { span: 16 },//17
+    md: {span: 14}
   },
 }
 const formRemarkLayout = {

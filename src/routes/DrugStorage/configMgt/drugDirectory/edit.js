@@ -11,20 +11,24 @@ const supplyFormItemLayout = {
   labelCol: {
     xs: { span: 24 },
     sm: { span: 5 },
+    md: {span: 6}
   },
   wrapperCol: {
     xs: { span: 24 },
-    sm: { span: 19 }
+    sm: { span: 19 },
+    md: {span: 18}
   },
 }
 const formItemLayout ={
   labelCol: {
     xs: { span: 24 },
     sm: { span: 5 },
+    md: {span: 6}
   },
   wrapperCol: {
     xs: { span: 24 },
-    sm: { span: 14 }
+    sm: { span: 14 },
+    md: {span: 13}
   },
 }
 const Panel = Collapse.Panel;
@@ -56,7 +60,8 @@ class EditDrugDirectory extends PureComponent{
     supplierList:[],//供应商循环数据
     replanUnitCode: '',
     upperQuantity: 0,
-    downQuantity: 0
+    downQuantity: 0,
+    activeKey: ['1','2','3','4','5']
   }
 
   componentDidMount(){
@@ -76,12 +81,14 @@ class EditDrugDirectory extends PureComponent{
           item.uuid = uuid;
           return item;
         });
+        let activeKey = customUnit.length ? ['1','2','3','4','5','6'] : ['1','2','3','4','5'];
         this.setState({
           fillBackData:data.data,
           medDrugType:data.data.medDrugType,
           listTransforsVo,
           replanUnitCode: data.data.replanUnitCode,
           customUnit: customUnit,
+          activeKey,
           upperQuantity: data.data.upperQuantity,
           downQuantity: data.data.downQuantity
         })
@@ -154,7 +161,7 @@ class EditDrugDirectory extends PureComponent{
                 return false;
               };
               if(!item.unitName) {
-                message.error('自定义单位基名称不能为空!')
+                message.error('自定义单位名称不能为空!')
                 return false;
               };
               return true;
@@ -283,7 +290,7 @@ class EditDrugDirectory extends PureComponent{
   addCustomUnit = (e) => {
     e.stopPropagation();
     uuid ++;
-    let {customUnit} = this.state;
+    let {customUnit, activeKey} = this.state;
     customUnit = [...customUnit];
     customUnit.push({
       unitName: '',
@@ -291,7 +298,8 @@ class EditDrugDirectory extends PureComponent{
       unit: undefined,
       uuid
     });
-    this.setState({ customUnit })
+    activeKey = [...activeKey, '6'];
+    this.setState({ customUnit, activeKey })
   }
   //删除自定义单位
   removeUnit = (record) => {
@@ -311,7 +319,8 @@ class EditDrugDirectory extends PureComponent{
       upperQuantity,
       downQuantity,
       listTransforsVo,
-      customUnit
+      customUnit,
+      activeKey
     } =this.state;
     const { getFieldDecorator } = this.props.form;
     getFieldDecorator('keys', { initialValue: fillBackData?fillBackData.customUnit?fillBackData.customUnit:[]:[] });
@@ -373,10 +382,11 @@ class EditDrugDirectory extends PureComponent{
         title: '单位名称',
         dataIndex: 'unitName',
         render: (text, record) => (
-          <Input 
+          <Input
+            defaultValue={text}
             placeholder="请输入单位名称"
             onChange={(e) => {
-              record.unitName = e.targetValue;
+              record.unitName = e.target.value;
             }} 
           />
         )
@@ -387,6 +397,7 @@ class EditDrugDirectory extends PureComponent{
         dataIndex: 'unitCoefficient',
         render: (text, record) => (
           <InputNumber
+            defaultValue={text}
             style={{width: '100%'}}
             placeholder="请输入转换系数"
             min={0}
@@ -424,8 +435,6 @@ class EditDrugDirectory extends PureComponent{
         render: (text, record) => <a onClick={this.removeUnit.bind(this, record)}>删除</a>
       }
     ];
-    console.log();
-    
     const formItemSupply = supplierList.map((k, index) => {
       return (
         <Col span={12} key={index}>
@@ -581,10 +590,11 @@ class EditDrugDirectory extends PureComponent{
           </Row>
         </div>
         <Form className='leftLable'>
-          <Collapse 
+          <Collapse
+            onChange={(activeKey) => this.setState({ activeKey })}
             bordered={false} 
             style={{backgroundColor:'#f0f2f5', margin: '0 -16px'}} 
-            defaultActiveKey={['1','2','3','4','5']}
+            activeKey={activeKey}
           >
             <Panel header="单位信息" key="1" style={customPanelStyle}>
               <Table

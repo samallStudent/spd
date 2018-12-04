@@ -98,11 +98,11 @@ class SearchFormWrapper extends PureComponent {
         if(Time.length > 0) {
           values.startTime = values.Time[0].format('YYYY-MM-DD');
           values.endTime = values.Time[1].format('YYYY-MM-DD');
-        }
+        };
         this.props.formProps.dispatch({
           type:'base/updateConditions',
           payload: values
-        });;
+        });
       }
     })
   }
@@ -124,7 +124,7 @@ class SearchFormWrapper extends PureComponent {
         <Row gutter={30}>
           <Col span={8}>
             <FormItem label={`申领部门`} {...formItemLayout}>
-              {getFieldDecorator('assetCode', {
+              {getFieldDecorator('applyDeptCode', {
                 initialValue: ''
               })(
                <Select 
@@ -143,7 +143,7 @@ class SearchFormWrapper extends PureComponent {
           </Col>
           <Col span={8}>
             <FormItem label={`状态`} {...formItemLayout}>
-              {getFieldDecorator('fstate', {
+              {getFieldDecorator('applyStatus', {
                 initialValue: ''
               })(
                <Select 
@@ -161,7 +161,7 @@ class SearchFormWrapper extends PureComponent {
           </Col>
           <Col span={8} style={{display: display}}>
             <FormItem label={`单据号`} {...formItemLayout}>
-              {getFieldDecorator('danjuhao',{
+              {getFieldDecorator('applyCode',{
                 initialValue: ''
               })(
                <Input placeholder='申领单'/>
@@ -175,7 +175,7 @@ class SearchFormWrapper extends PureComponent {
               )}
             </FormItem>
           </Col>
-          <Col span={8} style={{ textAlign: 'right', marginTop: 4}} >
+          <Col span={8} style={{ textAlign: 'right', marginTop: 4, float: 'right'}} >
             <Button type="primary" htmlType="submit">查询</Button>
             <Button style={{marginLeft: 8}} onClick={this.handleReset}>重置</Button>
             <a style={{marginLeft: 8, fontSize: 14}} onClick={this.toggle}>

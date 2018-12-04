@@ -92,7 +92,6 @@ class ReplenishmentDetail extends PureComponent{
 
   state ={
     baseInfo:{},
-    outOrGoName: ""
   }
   componentDidMount(){
     console.log(this.props.match.params.id)
@@ -102,8 +101,7 @@ class ReplenishmentDetail extends PureComponent{
       callback:(data)=>{
         console.log(data)
         this.setState({
-          baseInfo:data,
-          outOrGoName: data.makeupType === 2? "出库单" : "入库单"
+          baseInfo:data
         })
       }
     })
@@ -129,7 +127,7 @@ class ReplenishmentDetail extends PureComponent{
   } 
 
   render(){
-    const { baseInfo, outOrGoName} = this.state;
+    const { baseInfo } = this.state;
     return ( 
       <div className='fullCol fadeIn'>
         <div className='fullCol-fullChild'>
@@ -154,7 +152,7 @@ class ReplenishmentDetail extends PureComponent{
             </Col>
             <Col span={8}>
               <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
-                <label>{outOrGoName}</label>
+                <label>入库/出库单</label>
               </div>
               <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18">
                 <div className='ant-form-item-control'>{baseInfo?baseInfo.storeCode:''}</div>

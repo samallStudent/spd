@@ -1,4 +1,5 @@
 import * as statistics from '../../services/purchase/statistics';
+import * as outStorage from '../../services/drugStorage/outStorage';
 /* 采购结算 -  统计 & 发票 */
 export default {
   namespace: 'statistics',
@@ -264,5 +265,24 @@ export default {
             callback && callback(data);
         };
     },
+    //财务指标导出
+    *storeExport({payload, callback}, {call}) {
+        const data = yield call(statistics.storeExport, payload);
+        if(typeof callback === 'function') {
+            callback && callback(data);
+        };
+    },
+    *orderFlow({payload, callback}, {call}) {
+        const data = yield call(statistics.orderFlow, payload);
+        if(typeof callback === 'function') {
+            callback && callback(data);
+        };
+    },  
+    *findDepotDeptlist({payload, callback}, {call}) {
+        const data = yield call(outStorage.findDepotDeptlist, payload);
+        if(typeof callback === 'function') {
+            callback && callback(data);
+        };
+    }, 
   } 
 }

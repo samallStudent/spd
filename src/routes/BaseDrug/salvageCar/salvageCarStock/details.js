@@ -91,7 +91,7 @@ class Details extends PureComponent{
                 <Row>
                     <Col span={8}>
                         <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
-                            <label>通用名：</label>
+                            <label>通用名</label>
                         </div>
                         <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18">
                             <div className='ant-form-item-control'>{info.genericName || ''}</div>
@@ -99,7 +99,7 @@ class Details extends PureComponent{
                     </Col>
                     <Col span={8}>
                         <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
-                            <label>商品名：</label>
+                            <label>商品名</label>
                         </div>
                         <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18">
                             <div className='ant-form-item-control'>{info.tradeName || ''}</div>
@@ -107,7 +107,7 @@ class Details extends PureComponent{
                     </Col>
                     <Col span={8}>
                         <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
-                            <label>规格：</label>
+                            <label>规格</label>
                         </div>
                         <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18">
                             <div className='ant-form-item-control'>{info.specification || ''}</div>
@@ -117,15 +117,7 @@ class Details extends PureComponent{
                 <Row>
                     <Col span={8}>
                         <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
-                            <label>剂型：</label>
-                        </div>
-                        <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18">
-                            <div className='ant-form-item-control'>{info.approvalNo || ''}</div>
-                        </div>
-                    </Col>
-                    <Col span={8}>
-                        <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
-                            <label>包装规格：</label>
+                            <label>剂型</label>
                         </div>
                         <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18">
                             <div className='ant-form-item-control'>{info.dosageDesc || ''}</div>
@@ -133,7 +125,15 @@ class Details extends PureComponent{
                     </Col>
                     <Col span={8}>
                         <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
-                            <label>生产厂家：</label>
+                            <label>包装规格</label>
+                        </div>
+                        <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18">
+                            <div className='ant-form-item-control'>{info.packageSpecification || ''}</div>
+                        </div>
+                    </Col>
+                    <Col span={8}>
+                        <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
+                            <label>生产厂家</label>
                         </div>
                         <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18">
                             <div className='ant-form-item-control'>{info.manufactureName || ''}</div>
@@ -143,10 +143,10 @@ class Details extends PureComponent{
                 <Row>
                     <Col span={8}>
                         <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
-                            <label>批准文号：</label>
+                            <label>批准文号</label>
                         </div>
                         <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18">
-                            <div className='ant-form-item-control'>{info.packageSpecification || ''}</div>
+                            <div className='ant-form-item-control'>{info.approvalNo || ''}</div>
                         </div>
                     </Col>
                 </Row>

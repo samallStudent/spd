@@ -95,8 +95,9 @@ class Workplace extends Component {
             item.createTime = `${data} ${time}`;
             return item;
           });
+          console.log(data)
           this.setState({
-            billsList: data,
+            billsList: [...data],
             billsLoading: false
           });
         }else {

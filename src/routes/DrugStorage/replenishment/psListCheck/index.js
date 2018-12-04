@@ -24,10 +24,12 @@ const formItemLayout = {
   labelCol: {
     xs: { span: 24 },
     sm: { span: 5 },//5
+    md: {span: 6}
   },
   wrapperCol: {
     xs: { span: 24 },
     sm: { span: 19 }
+    md: {span: 18}
   },
 };
 const columns = [

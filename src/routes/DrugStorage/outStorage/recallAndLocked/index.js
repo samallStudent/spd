@@ -11,7 +11,6 @@ const { Option } = Select;
 
 class SearchForm extends PureComponent {
   state = {
-    display: 'none',
     recall_status_options: [],
     recallReason: []
   }

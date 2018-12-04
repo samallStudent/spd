@@ -11,20 +11,24 @@ const formItemLayout ={
   labelCol: {
     xs: { span: 24 },
     sm: { span: 5 },
+    md: {span: 8}
   },
   wrapperCol: {
     xs: { span: 24 },
-    sm: { span: 14 }
+    sm: { span: 14 },
+    md: {span: 11}
   },
 }
 const inlineFormItemLayout = {
   labelCol: {
     xs: { span: 24 },
     sm: { span: 10 },
+    md: {span: 12}
   },
   wrapperCol: {
     xs: { span: 24 },
-    sm: { span: 14 }
+    sm: { span: 14 },
+    md: {span: 12}
   },
 }
 const customPanelStyle = {
@@ -55,7 +59,8 @@ class EditDrugDirectory extends PureComponent{
     replanUnitCode: '',
     upperQuantity: 9999999,
     downQuantity: 0,
-    goodsList: []
+    goodsList: [],
+    activeKey: ['1','2','3','4']
   }
 
   componentDidMount(){
@@ -78,10 +83,12 @@ class EditDrugDirectory extends PureComponent{
           item.uuid = uuid;
           return item;
         });
+        let activeKey = customUnit.length ? ['1','2','3','4','6'] : ['1','2','3','4']
         this.setState({
           fillBackData,
           listTransforsVo,
           customUnit,
+          activeKey,
           upperQuantity: data.data.upperQuantity,
           downQuantity: data.data.downQuantity
         })
@@ -168,7 +175,7 @@ class EditDrugDirectory extends PureComponent{
                 return false;
               };
               if(!item.unitName) {
-                message.error('自定义单位基名称不能为空!')
+                message.error('自定义单位名称不能为空!')
                 return false;
               };
               return true;
@@ -246,7 +253,7 @@ class EditDrugDirectory extends PureComponent{
   addCustomUnit = (e) => {
     e.stopPropagation();
     uuid ++;
-    let {customUnit} = this.state;
+    let {customUnit, activeKey} = this.state;
     customUnit = [...customUnit];
     customUnit.push({
       unitName: '',
@@ -254,7 +261,8 @@ class EditDrugDirectory extends PureComponent{
       unit: undefined,
       uuid
     });
-    this.setState({ customUnit })
+    activeKey = [...activeKey, '6']
+    this.setState({ customUnit, activeKey });
   }
   //删除自定义单位
   removeUnit = (record) => {
@@ -358,14 +366,14 @@ class EditDrugDirectory extends PureComponent{
     )
   }
   render(){
-
     const { 
       fillBackData,
       replanUnitSelect,
       upperQuantity,
       downQuantity,
       listTransforsVo,
-      customUnit
+      customUnit,
+      activeKey
     } =this.state;
     const { getFieldDecorator } = this.props.form;
     getFieldDecorator('keys', { initialValue: fillBackData?fillBackData.customUnit?fillBackData.customUnit:[]:[] });
@@ -429,9 +437,10 @@ class EditDrugDirectory extends PureComponent{
         dataIndex: 'unitName',
         render: (text, record) => (
           <Input 
+            defaultValue={text}
             placeholder="请输入单位名称"
             onChange={(e) => {
-              record.unitName = e.targetValue;
+              record.unitName = e.target.value;
             }} 
           />
         )
@@ -442,6 +451,7 @@ class EditDrugDirectory extends PureComponent{
         dataIndex: 'unitCoefficient',
         render: (text, record) => (
           <InputNumber
+            defaultValue={text}
             style={{width: '100%'}}
             placeholder="请输入转换系数"
             min={0}
@@ -577,7 +587,12 @@ class EditDrugDirectory extends PureComponent{
           </Row>
         </div>
         <Form className='leftLable'>
-          <Collapse bordered={false} style={{backgroundColor:'#f0f2f5', marginLeft: '-16px', marginRight: '-16px'}} defaultActiveKey={['1','2','3','4']}>
+          <Collapse
+            onChange={(activeKey) => this.setState({ activeKey })}
+            bordered={false} 
+            style={{backgroundColor:'#f0f2f5', marginLeft: '-16px', marginRight: '-16px'}} 
+            activeKey={activeKey}
+          >
             <Panel header="单位信息" key="1" style={customPanelStyle}>
               <Table
                 columns={columns}

@@ -19,10 +19,12 @@ const formItemLayout = {
   labelCol: {
     xs: { span: 24 },
     sm: { span: 8 },//5
+    md: {span: 10}
   },
   wrapperCol: {
     xs: { span: 24 },
     sm: { span: 16 },//17
+    md: {span: 14}
   },
 }
 const formRemarkLayout = {
@@ -51,6 +53,15 @@ const columns = [
     dataIndex: 'ctmmTradeName',
     className: 'ellipsis',
     render: (text) => (
+      <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+    )
+  },
+  {
+    title: '生产厂家',
+    dataIndex: 'ctmmManufacturerName',
+    width: 224,
+    className:'ellipsis',
+    render:(text)=>(
       <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
     )
   },
@@ -92,15 +103,6 @@ const columns = [
     title: '批准文号',
     dataIndex: 'approvalNo',
     width: 224,
-  },
-  {
-    title: '生产厂家',
-    dataIndex: 'ctmmManufacturerName',
-    width: 224,
-    className:'ellipsis',
-    render:(text)=>(
-      <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
-    )
   }
 ];
 const modalColumns = [
@@ -117,6 +119,15 @@ const modalColumns = [
     title: '规格',
     dataIndex: 'ctmmSpecification',
     width: 168,
+  },
+  {
+    title: '生产厂家',
+    dataIndex: 'ctmmManufacturerName',
+    width: 224,
+    className:'ellipsis',
+    render:(text)=>(
+      <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+    )
   },
   {
     title: '生产批号',
@@ -147,15 +158,6 @@ const modalColumns = [
     title: '批准文号',
     dataIndex: 'approvalNo',
     width: 224,
-  },
-  {
-    title: '生产厂家',
-    dataIndex: 'ctmmManufacturerName',
-    width: 224,
-    className:'ellipsis',
-    render:(text)=>(
-      <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
-    )
   }
 ];
 class RemarksForm extends PureComponent{
@@ -248,7 +250,8 @@ class AddRefund extends PureComponent{
       selectedRows: [],
       modalSelectedRows: [], // 模态框内勾选
       modalSelected: [],
-      okLoading: false
+      okLoading: false,
+      display: 'none'
     }
   }
   componentDidMount = () =>{
@@ -376,9 +379,15 @@ class AddRefund extends PureComponent{
       }
     });
   }
+  toggle = () => {
+    this.setState({
+      display: this.state.display === 'block' ? 'none' : 'block'
+    });
+  }
   render(){
-    let { visible, isRecall, dataSource, query, spinLoading ,okLoading} = this.state;
+    let { visible, isRecall, dataSource, query, spinLoading ,okLoading, display} = this.state;
     const { getFieldDecorator } = this.props.form;
+    const expand = display === 'block';
     return (
     <Spin spinning={spinLoading} size="large">
       <div className="fullCol" style={{ padding: 24, background: '#f0f2f5' }}>
@@ -480,13 +489,25 @@ class AddRefund extends PureComponent{
                     {getFieldDecorator('lot',{
                       initialValue: ''
                     })(
-                    <Input placeholder='生产批号'/>
+                    <Input placeholder='请输入生产批号'/>
+                    )}
+                  </FormItem>
+                </Col>
+                <Col span={8} style={{display: display}}>
+                  <FormItem label={`生产厂商`} {...formItemLayout}>
+                    {getFieldDecorator('manufacturerName',{
+                      initialValue: ''
+                    })(
+                    <Input placeholder='请输入生产厂商'/>
                     )}
                   </FormItem>
                 </Col>
                 <Col span={8} style={{float: 'right', textAlign: 'right', marginTop: 4}} >
                   <Button type="primary" htmlType="submit">查询</Button>
                   <Button style={{marginLeft: 8}} onClick={this.handleReset}>重置</Button>
+                  <a style={{ marginLeft: 8, fontSize: 14 }} onClick={this.toggle}>
+                    {expand ? '收起' : '展开'} <Icon type={expand ? 'up' : 'down'} />
+                  </a>
                 </Col>
               </Row>
             </Form>
@@ -499,6 +520,7 @@ class AddRefund extends PureComponent{
               scroll={{x: 1750}}
               columns={modalColumns}
               rowKey={'uuid'}
+              style={{marginTop: 20}}
               rowSelection={{
                 selectedRowKeys: this.state.modalSelected,
                 onChange: (selectedRowKeys, selectedRows) => {

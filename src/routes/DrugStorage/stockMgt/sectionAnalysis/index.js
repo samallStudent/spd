@@ -20,10 +20,12 @@ const formItemLayout = {
   labelCol: {
     xs: { span: 24 },
     sm: { span: 6 },
+    md: {span: 8}
   },
   wrapperCol: {
     xs: { span: 24 },
-    sm: { span: 18 }
+    sm: { span: 18 },
+    md: {span: 16}
   },
 };
 
@@ -31,6 +33,7 @@ const formItemLayout = {
 class SearchForm extends PureComponent{
   state = {
     supplierList: [],
+    backCauseList: []
   }
   componentDidMount() {
     const {dispatch} = this.props.formProps;
@@ -42,6 +45,17 @@ class SearchForm extends PureComponent{
             supplierList: data
           });
         }
+      }
+    });
+    dispatch({
+      type: 'base/orderStatusOrorderType',
+      payload: {
+        type: 'back_cause_room'
+      },
+      callback: (data) => {
+        this.setState({
+          backCauseList: data
+        });
       }
     });
   }
@@ -75,7 +89,7 @@ class SearchForm extends PureComponent{
     const { getFieldDecorator } = this.props.form;
     const {display} = this.props.formProps.base;
     const expand = display === 'block';
-    const { supplierList } = this.state;
+    const { supplierList, backCauseList } = this.state;
     return (
       <Form className="ant-advanced-search-form" onSubmit={this.handleSearch}>
         <Row gutter={30}>
@@ -123,6 +137,24 @@ class SearchForm extends PureComponent{
               {
                 getFieldDecorator(`closeDate`)(
                   <RangePicker showTime style={{width: '100%'}}/>
+                )
+              }
+            </FormItem>
+          </Col>
+          <Col span={8} style={{ display: display }}>
+            <FormItem {...formItemLayout} label={`退库原因`}>
+              {
+                getFieldDecorator(`backCause`)(
+                  <Select
+                    placeholder="请选择"
+                    style={{width: '100%'}}
+                  >
+                  {
+                    backCauseList.map(item => (
+                      <Option key={item.value} value={item.value}>{item.label}</Option>
+                    ))
+                  }
+                  </Select>
                 )
               }
             </FormItem>

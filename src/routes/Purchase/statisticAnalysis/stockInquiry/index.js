@@ -14,10 +14,12 @@ const formItemLayout = {
   labelCol: {
     xs: { span: 24 },
     sm: { span: 5 },
+    md: {span: 8}
   },
   wrapperCol: {
     xs: { span: 24 },
     sm: { span: 19 },
+    md: {span: 16}
   },
  };
 class StockInquiry extends PureComponent {
@@ -114,6 +116,10 @@ class StockInquiry extends PureComponent {
       }, {
         title: '规格',
         dataIndex: 'ctmmSpecification',
+        width: 168,
+      }, {
+        title: '部门',
+        dataIndex: 'deptCodeName',
         width: 168,
       }, {
         title: '生产厂家',
@@ -222,7 +228,7 @@ class StockInquiry extends PureComponent {
           query={query}
           ref="tab"
           style={{marginTop: 20}}
-          scroll={{x: 1688}}
+          scroll={{x: 1856}}
           columns={columns}
           rowKey="batchNo"
         />

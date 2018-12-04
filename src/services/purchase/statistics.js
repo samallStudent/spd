@@ -333,3 +333,22 @@ export function queryHisDept(options) {
     body: options
   })
 }
+
+//财务分析到处
+export function storeExport(options) {
+  return request(`${_local}/a/statics/store/export`, {
+    method: 'POST',
+    type: 'json',
+    body: options,
+    export: true
+  })
+}
+
+//订单追溯
+export function orderFlow(options) {
+  return request(`${_local}/a/orderexecute/orderflow`, {
+    method: 'GET',
+    type: 'formData',
+    body: options,
+  })
+}

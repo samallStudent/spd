@@ -366,8 +366,12 @@ class NewAdd extends PureComponent{
         width: 168,
         render: (text,record)=>{
           let amount = record.demandQuantity ? record.demandQuantity: 1;
-          return amount * record.drugPrice
+          return (amount * record.drugPrice).toFixed(4)
         }
+      },{
+        title: '药品编码',
+        dataIndex: 'hisDrugCode',
+        width: 168,
       },{
         title: '批准文号',
         dataIndex: 'approvalNo',
@@ -525,7 +529,7 @@ class NewAdd extends PureComponent{
             loading={loading}
             rowKey='drugCode'
             dataSource={dataSource}
-            scroll={{ x: 2200 }}
+            scroll={{ x: 2368 }}
             pagination={false}
             rowSelection={{
               selectedRowKeys: this.state.selected,

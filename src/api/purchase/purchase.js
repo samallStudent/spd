@@ -47,6 +47,7 @@ export const statisticAnalysis = {
   QUERY_DRUG_DEPT_LIST: `${_local}/a/StoreDetail/queryDrugByDeptAll`,   //库存查询
   GET_PRICE_STATIC_LIST: `${_local}/a/priceStatic/list`,   //库存查询详情列表
   GET_PRICE_STATIC_DETAIL: `${_local}/a/priceStatic/getDetail`,   //库存查询详情列表
+  GET_ROOM_REPERTORY_LIST_ALL: `${_local}/a/StoreDetail/getRoomRepertoryListAll`,   
 }
 //药品调价
 export const drugPricing = {
