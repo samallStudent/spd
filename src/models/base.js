@@ -70,8 +70,8 @@ export default {
         callback && callback(data.data);
       };
       if(data.code === 500) {
-        message.warning('未能找到该单号');
-      }
+        message.warning(data.msg);
+      };
     },
     //药库 - 入库 - 配送单详情 - 确认验收
     *drugStorageSaveCheck({ payload, callback }, {put, call}) {

@@ -6,7 +6,7 @@
  */
 
 /**
- * @file 药库--财务指标
+ * @file 采购计划 - 补货管理--补货计划
  */
 import React, { PureComponent } from 'react';
 import { Form, Row, Col, Button, DatePicker, Select, message, Spin } from 'antd';
@@ -37,7 +37,7 @@ class SearchForm extends PureComponent{
   }
   componentDidMount = () => {
     this.props.getData({
-      staticType: 2,
+      staticType: 1,
       startDate: moment(new Date()).add(-15, 'day').format('YYYY-MM-DD'),
       endDate: moment(new Date()).format('YYYY-MM-DD')
     });
@@ -86,11 +86,11 @@ class SearchForm extends PureComponent{
   //重置
   handleReset = () => {
     this.props.form.setFieldsValue({
-      staticType: 2,
+      staticType: 1,
       closeDate: [moment(new Date()).add(-15, 'day'), moment(new Date())]
     });
     this.props.getData({
-      staticType: 2,
+      staticType: 1,
       startDate: moment(new Date()).add(-15, 'day').format('YYYY-MM-DD'),
       endDate: moment(new Date()).format('YYYY-MM-DD')
     });
@@ -125,7 +125,7 @@ class SearchForm extends PureComponent{
             <FormItem {...formItemLayout} label={`统计维度`}>
               {
                 getFieldDecorator(`staticType`, {
-                  initialValue: 2
+                  initialValue: 1
                 })(
                   <Select
                     onChange={this.changeDimension}
@@ -134,8 +134,8 @@ class SearchForm extends PureComponent{
                       width: '100%'
                     }}
                   >
-                    <Option value={1}>月</Option>
-                    <Option value={2}>日</Option>
+                    <Option value={2}>月</Option>
+                    <Option value={1}>日</Option>
                   </Select>
                 )
               }
@@ -298,6 +298,13 @@ class SettlementAnalysis extends PureComponent {
                   }
                 }]}
               />
+              {/* <Geom 
+                type="point" 
+                position="time*totalQuantity" 
+                color="#fdae6b" 
+                size={3} 
+                shape="circle" 
+              /> */}
             </Chart>
           </div>
         </Spin>

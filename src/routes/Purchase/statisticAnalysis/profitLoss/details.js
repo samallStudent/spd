@@ -63,12 +63,12 @@ const columns = [
   {
     title: '生产批号',
     width: 168,
-    dataIndex: 'lot'
+    dataIndex: 'practicalBatch'
   },
   {
     title: '生产日期',
     width: 168,
-    dataIndex: 'productDate'
+    dataIndex: 'realProductTime'
   },
   {
     title: '有效期止',

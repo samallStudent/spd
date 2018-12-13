@@ -198,6 +198,21 @@ class AfterAdjustment extends PureComponent {
         width: 168,
       },
       {
+        title: '药品特征',
+        dataIndex: 'drugFeatureCodeName',
+        width: 168,
+      },
+      {
+        title: '采购类型',
+        dataIndex: 'purchaseTypeName',
+        width: 112,
+      },
+      {
+        title: '盈亏总金额',
+        dataIndex: 'excessiveTotalMoney',
+        width: 168,
+      },
+      {
         title: '部门',
         dataIndex: 'checkBillDeptName',
         width: 112,
@@ -238,7 +253,7 @@ class AfterAdjustment extends PureComponent {
           columns={columns}
           rowKey={'id'}
           ref="table"
-          scroll={{x: 1568}}
+          scroll={{x: 2016}}
           style={{marginTop: 20}}
         />
       </div>

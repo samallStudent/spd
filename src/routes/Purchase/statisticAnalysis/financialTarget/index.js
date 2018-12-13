@@ -50,7 +50,7 @@ class SearchForm extends PureComponent{
             });
             this.props.getData({
               deptCode: data[0].id,
-              staticType: 2,
+              staticType: 1,
               startDate: moment(new Date()).add(-15, 'day').format('YYYY-MM-DD'),
               endDate: moment(new Date()).format('YYYY-MM-DD')
             });
@@ -109,13 +109,13 @@ class SearchForm extends PureComponent{
     const {deptList} = this.state;
     this.props.form.setFieldsValue({
       deptCode: deptList.length ? deptList[0].id : '',
-      staticType: 2,
+      staticType: 1,
       closeDate: [moment(new Date()).add(-15, 'day'), moment(new Date())]
     });
     if(deptList.length !== 0) {
       this.props.getData({
         deptCode: deptList[0].id,
-        staticType: 2,
+        staticType: 1,
         startDate: moment(new Date()).add(-15, 'day').format('YYYY-MM-DD'),
         endDate: moment(new Date()).format('YYYY-MM-DD')
       });
@@ -176,7 +176,7 @@ class SearchForm extends PureComponent{
             <FormItem {...formItemLayout} label={`统计维度`}>
               {
                 getFieldDecorator(`staticType`, {
-                  initialValue: 2
+                  initialValue: 1
                 })(
                   <Select
                     onChange={this.changeDimension}
@@ -185,8 +185,8 @@ class SearchForm extends PureComponent{
                       width: '100%'
                     }}
                   >
-                    <Option value={1}>月</Option>
-                    <Option value={2}>日</Option>
+                    <Option value={2}>月</Option>
+                    <Option value={1}>日</Option>
                   </Select>
                 )
               }

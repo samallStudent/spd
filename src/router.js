@@ -6,7 +6,7 @@ import dynamic from 'dva/dynamic';
 import cloneDeep from 'lodash/cloneDeep';
 
 import Login from './routes/Login';
-import PageNotFound from './routes/Error/error';
+// import PageNotFound from './routes/Error/error';
 import SubSystem from './routes/System';
 import NewAdd from './routes/Purchase/replenishment/replenishmentPlan/add';
 import CatalogAdd from './routes/Purchase/replenishment/outCatalogPurchase/add';
@@ -28,7 +28,7 @@ import AddSupplementDoc from './routes/Pharmacy/supplementDoc/supplementDocument
 import AddInSupplementDoc from './routes/Pharmacy/supplementDoc/supplementDocuments/addIn';
 import BaseAddDrugsApply from './routes/BaseDrug/wareHouse/drugApply/add';
 import BaseAddNewAcceptance from './routes/BaseDrug/wareHouse/acceptance/add';
-import NewRecon from './routes/Purchase/settlementMgt/dayStatements/newRecon';
+// import NewRecon from './routes/Purchase/settlementMgt/dayStatements/newRecon';
 import PriceAdjustment from './routes/Purchase/drugPricing/pricingConfirmation/add';
 import AddSalvageTruck from './routes/BaseDrug/salvageCar/refund/add';
 import AddRescuecarApply from './routes/BaseDrug/salvageCar/drugApply/add';
@@ -86,45 +86,54 @@ function RouterConfig({ history, app }) {
     },
   };
 
-  return (//AddBaseBackStoragePlan
+  return (
     <LocaleProvider locale={zhCN}>
       <Router history={history}>
         <Switch>
           <Route path="/login" component={Login}/>
-          <Route path="/error" component={PageNotFound}/>
+          {/* <Route path="/error" component={PageNotFound}/> */}
           <Route path="/subSystem" component={SubSystem}/>
-          <Route path="/createReplenishment" component={NewAdd}/>
-          <Route path="/editReplenishment/:planCode" component={NewAdd}/>
-          <Route path="/editReplenishmentPlan/:planCode" component={SinceReplenishment}/>
-          <Route path="/editOutCatalogPurcahsePlan/:planCode" component={CatalogAdd}/>
-          <Route path="/createOutCatalogPurcahsePlan" component={CatalogAdd}/>
-          <Route path="/addDrugsFor" component={AddDrugsFor}/>
-          <Route path="/addNewAcceptance" component={AddNewAcceptance}/>
-          <Route path="/addNewOutput" component={AddOutput}/>
-          <Route path="/addNewBackStorage" component={AddNewBackStorage}/>
-          <Route path="/editBackStoragePlan/:backNo" component={AddNewBackStorage}/>
-          <Route path="/AddNewBackStoragePlan" component={AddNewBackStoragePlan}/>
-          <Route path="/editPharmacyBackStoragePlan/:backNo" component={AddNewBackStoragePlan}/>
-          <Route path="/AddBaseBackStoragePlan" component={AddBaseBackStoragePlan}/>
-          <Route path="/AddNewReCallOrLocked/:type" component={AddNewReCallOrLocked}/>
-          <Route path="/pharmacyAddNewOutput" component={PharmacyAddNewOutput}/>
-          <Route path="/pharmacyAddNewBaseOutput" component={PharmacyAddNewBaseOutput}/>
-          <Route path="/AddNewCheck" component={PslistAdd}/>
-          <Route path="/addGoodsAdjust" component={NewAddGoodsAdjust}/>
-          <Route path="/pharmacyAddGoodsAdjust" component={PharmacyAddGoodsAdjust}/>
-          <Route path="/AddSupplementDoc" component={AddSupplementDoc}/>
-          <Route path="/AddInSupplementDoc" component={AddInSupplementDoc}/>
-          <Route path="/baseAddDrugsApply" component={BaseAddDrugsApply} />
-          <Route path="/baseAddNewAcceptance" component={BaseAddNewAcceptance}/>
-          <Route path="/newRecon" component={NewRecon}/>
-          <Route path="/createSinceReplenishment" component={SinceReplenishment}/>
-          <Route path="/createSinceOutCatalog" component={SinceOutCatalog}/>
-          <Route path="/editSinceOutCatalog/:planCode" component={SinceOutCatalog}/>
-          <Route path="/addPriceAdjustment" component={PriceAdjustment}/>          
-          <Route path="/addSalvageTruck" component={AddSalvageTruck}/>          
-          <Route path="/baseAddRescuecarApply" component={AddRescuecarApply}/>
-          <Route path="/salvageCarAddNewAcceptance" component={AddSalvageCarAcceptance}/>
-          {/* <Route path="/home" component={Home}/> */}
+          <Route path="/purchase/replenishment/replenishmentPlan/add" component={NewAdd}/>
+          <Route path="/purchase/replenishment/replenishmentPlan/edit/:planCode" component={NewAdd}/>
+          
+          <Route path="/purchase/replenishment/outCatalogPurchase/edit/:planCode" component={CatalogAdd}/>
+          <Route path="/purchase/replenishment/outCatalogPurchase/add" component={CatalogAdd}/>
+
+          <Route path="/pharmacy/wareHouse/drugsFor/add" component={AddDrugsFor}/>
+          <Route path="/pharmacy/wareHouse/acceptance/add" component={AddNewAcceptance}/>
+          <Route path="/drugStorage/outStorage/withdraw/add" component={AddOutput}/>
+
+          <Route path="/drugStorage/outStorage/backStorage/add" component={AddNewBackStorage}/>
+          <Route path="/drugStorage/outStorage/backStorage/edit/:backNo" component={AddNewBackStorage}/>
+          
+          <Route path="/pharmacy/outStorage/refund/add" component={AddNewBackStoragePlan}/>
+          <Route path="/pharmacy/outStorage/refund/edit/:backNo" component={AddNewBackStoragePlan}/>
+          
+          <Route path="/baseDrug/outStorage/refund/add" component={AddBaseBackStoragePlan}/>
+
+          <Route path="/drugStorage/outStorage/recallAndLocked/add/:type" component={AddNewReCallOrLocked}/>
+
+          <Route path="/pharmacy/outStorage/newOut/add" component={PharmacyAddNewOutput}/>
+          <Route path="/pharmacy/outStorage/baseReplen/add" component={PharmacyAddNewBaseOutput}/>
+          <Route path="/drugStorage/wareHouse/psListCheck/add" component={PslistAdd}/>
+          <Route path="/drugStorage/goodsAdjust/adjust/add" component={NewAddGoodsAdjust}/>
+          <Route path="/pharmacy/goodsAdjust/adjust/add" component={PharmacyAddGoodsAdjust}/>
+          <Route path="/pharmacy/supplementDoc/supplementDocuments/addOut" component={AddSupplementDoc}/>
+          <Route path="/pharmacy/supplementDoc/supplementDocuments/addIn" component={AddInSupplementDoc}/>
+          <Route path="/baseDrug/wareHouse/drugApply/add" component={BaseAddDrugsApply} />
+          <Route path="/baseDrug/wareHouse/acceptance/add" component={BaseAddNewAcceptance}/>
+
+          <Route path="/purchase/sinceMining/replenishmentPlan/add" component={SinceReplenishment}/>
+          <Route path="/purchase/sinceMining/replenishmentPlan/edit/:planCode" component={SinceReplenishment}/>
+
+          <Route path="/purchase/sinceMining/outCatalogPurchase/add" component={SinceOutCatalog}/>
+          <Route path="/purchase/sinceMining/outCatalogPurchase/edit/:planCode" component={SinceOutCatalog}/>
+
+          <Route path="/purchase/drugPricing/pricingConfirmation/add" component={PriceAdjustment}/>          
+          <Route path="/baseDrug/salvageCar/refund/add" component={AddSalvageTruck}/>          
+          <Route path="/baseDrug/salvageCar/drugApply/add" component={AddRescuecarApply}/>
+          <Route path="/baseDrug/salvageCar/acceptance/add" component={AddSalvageCarAcceptance}/>
+          {/* <Route path="/home" component={Home}/> createSinceReplenishment */}
           {/* <Route path="/app" render={props => <WorkplaceLayout {...props} {...passProps} />} /> */}
           <Route path="/" exact render={()=> (
                <Redirect to='/login' />

@@ -369,6 +369,16 @@ class NewInventory extends PureComponent {
         width: 168,
       },
       {
+        title: '药品特征',
+        dataIndex: 'drugFeatureCodeName',
+        width: 168,
+      },
+      {
+        title: '采购类型',
+        dataIndex: 'purchaseTypeName',
+        width: 112,
+      },
+      {
         title: '部门',
         dataIndex: 'checkBillDeptName',
         width: 112,
@@ -413,12 +423,11 @@ class NewInventory extends PureComponent {
         <RemoteTable 
           onChange={this._tableChange}
           query={query}
-          isJson
           url={common.CHECKBILL_LIST}
           columns={columns}
           rowKey={'id'}
           ref="table"
-          scroll={{x: 1568}}
+          scroll={{x: 1848}}
           style={{marginTop: 20}}
           rowSelection={{
             selectedRowKeys: this.state.selected,

@@ -219,28 +219,6 @@ class AddRefund extends PureComponent{
     })
   }
   componentDidMount = () =>{
-    if(this.props.match.path === "/editPharmacyBackStoragePlan/:backNo") {
-      let { backNo } = this.props.match.params;
-      this.setState({spinLoading: true});
-      this.props.dispatch({
-        type:'base/getBackStorageDetail',
-        payload: { backNo },
-        callback:(data)=>{
-          let { query } = this.state;
-          let existDrugCodeList = data.list.map(item => item.drugCode);
-          this.setState({ 
-            detailsData: data, 
-            isEdit: true, 
-            dataSource: data.list,
-            spinLoading: false,
-            query: {
-              ...query,
-              existDrugCodeList
-            }
-          });
-        }
-      });
-    };
     this.props.dispatch({
       type: 'base/genSupplierList',
       callback: ({data, code, msg}) => {
@@ -327,14 +305,14 @@ class AddRefund extends PureComponent{
   delete = () => {  //删除
     let { selectedRows, dataSource, query } = this.state;
     dataSource = _.difference(dataSource, selectedRows);
-    let existDrugCodeList = dataSource.map((item) => item.drugCode)
+    let existInstoreCodeList = dataSource.map((item) => item.batchNo)
     this.setState({
       dataSource,
       selected: [],
       selectedRows: [],
       query: {
         ...query,
-        existDrugCodeList
+        existInstoreCodeList
       }
     });
   }
@@ -451,9 +429,9 @@ class AddRefund extends PureComponent{
             <Col  span={4}>
               <Button type='primary' className='button-gap' onClick={()=>{
                 if(this.refs.table){
-                  let existDrugCodeList = [];
-                  dataSource.map(item => existDrugCodeList.push(item.drugCode));
-                  this.refs.table.fetch({ ...query, existDrugCodeList });
+                  let existInstoreCodeList = [];
+                  dataSource.map(item => existInstoreCodeList.push(item.batchNo));
+                  this.refs.table.fetch({ ...query, existInstoreCodeList });
                 }
                 this.setState({visible:true});
               }}>

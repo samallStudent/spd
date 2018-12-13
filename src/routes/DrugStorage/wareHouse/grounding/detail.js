@@ -296,26 +296,26 @@ class DetailsPutaway extends PureComponent{
           </h3>
           <Row>
             <Col span={8}>
-              <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
-                  <label>验收单</label>
+              <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-8">
+                  <label>配送单/验收单号</label>
               </div>
-              <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18">
+              <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-16">
                 <div className='ant-form-item-control'>{info.distributeCode || ''}</div>
               </div>
             </Col>
             <Col span={8}>
-              <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
+              <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-8">
                   <label>状态</label>
               </div>
-              <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18">
+              <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-16">
                 <div className='ant-form-item-control'>{info.statusName || ''}</div>
               </div>
             </Col>
             <Col span={8}>
-              <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
+              <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-8">
                   <label>验收时间</label>
               </div>
-              <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18">
+              <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-16">
                 <div className='ant-form-item-control'>{info.receptionTime || ''}
                 </div>
               </div>
@@ -323,10 +323,10 @@ class DetailsPutaway extends PureComponent{
           </Row>
           <Row>
             <Col span={8}>
-              <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
+              <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-8">
                   <label>上架时间</label>
               </div>
-              <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18">
+              <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-16">
                 <div className='ant-form-item-control'>{info.upUserDate || ''}</div>
               </div>
             </Col>

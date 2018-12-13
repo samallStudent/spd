@@ -117,7 +117,9 @@ class DetailsOutput extends PureComponent{
       info: {},
       loading: false,
       id: info.id,
-      status: null
+      status: null,
+      successLoading: false,
+      failLoading: false
     }
   }
   componentDidMount() {
@@ -125,16 +127,24 @@ class DetailsOutput extends PureComponent{
   }
   //不通过
   onBan = () =>{
+    this.setState({
+      failLoading: true
+    });
     this.props.dispatch({
       type: 'outStorage/rejectOutStore',
       payload: {
         backNo: this.state.id
       },
-      callback: (data) => {
-        if(data.msg === 'success') {
+      callback: ({data, code, msg}) => {
+        if(code === 200) {
           message.success('操作成功');
           this.getDatail();
-        }
+        }else {
+          message.error(msg);
+        };
+        this.setState({
+          failLoading: false
+        });
       }
     })
   }
@@ -156,6 +166,9 @@ class DetailsOutput extends PureComponent{
   }
   //确认
   onSubmit = () =>{
+    this.setState({
+      successLoading: true
+    });
     let {info} = this.state
     let {backNo, deptCode, detailVo} = info;
     let outStoreDetail = detailVo.map(item => {
@@ -172,15 +185,22 @@ class DetailsOutput extends PureComponent{
         deptCode,
         outStoreDetail
       },
-      callback: (data) => {
-        message.success('操作成功');
-        this.getDatail();
+      callback: ({data, code, msg}) => {
+        if(code === 200) {
+          message.success('操作成功');
+          this.getDatail();
+        }else {
+          message.error(msg);
+        };
+        this.setState({
+          successLoading: false
+        });
       }
     })
   }
 
   render(){
-    let {info, loading, status} = this.state;
+    let {info, loading, status, successLoading, failLoading} = this.state;
     let {detailVo} = info;
     return (
       <div className='fullCol fadeIn'>
@@ -194,8 +214,16 @@ class DetailsOutput extends PureComponent{
             {
               status === 1? (
                 <Col style={{textAlign:'right', float: 'right'}} span={6}>
-                  <Button type='primary' className='button-gap' style={{marginRight: 8}} onClick={()=>this.onSubmit()}>复核通过</Button>
-                  <Button onClick={()=>this.onBan()} >不通过</Button>
+                  <Button 
+                    type='primary' 
+                    className='button-gap' 
+                    style={{marginRight: 8}} 
+                    onClick={this.onSubmit}
+                    loading={successLoading}
+                  >
+                    复核通过
+                  </Button>
+                  <Button loading={failLoading} onClick={this.onBan} >不通过</Button>
                 </Col>
               ) : null
             }

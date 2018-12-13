@@ -3,7 +3,6 @@ import {Row, Col,message,Spin, Tooltip} from 'antd';
 import RemoteTable from '../../../../components/TableGrid';
 import salvageCar from '../../../../api/baseDrug/salvageCar';
 import {connect} from 'dva';
-import querystring from 'querystring';
 const columns = [
     {
         title: '生产批号',
@@ -53,33 +52,38 @@ const columns = [
 
 class Details extends PureComponent{
     state = {
-        query: {
-            drugCode:''
-        },
-        hisDrugCode:'',
+        query: {},
         info: {},
         loading: false
     }
+    componentWillMount() {
+        const {drugCode, deptCode} = this.props.match.params;
+        this.setState({
+            query: {
+                drugCode,
+                deptCode
+            }
+        });
+    }
     componentDidMount(){
-        if (this.props.match.params.id) {
-            let _this = this;
-            let { id } = this.props.match.params;
-            let paramsInfo = querystring.parse(id);
-            let qurey = {bigDrugCode:paramsInfo.bCode};
-            this.setState({ loading: true });
-            this.props.dispatch({
-                type:'salvageCar/getRescuecarMedicineDetail',
-                payload: qurey,
-                callback:(res)=>{
-                    if(res.code === 200){
-                        _this.setState({ info: res.data });
-                        this.setState({ loading: false });
-                    }else{
-                        message.error(res.msg);
-                    }
-                }
-            });
-        }
+        let { bigDrugCode } = this.props.match.params;
+        this.setState({ loading: true });
+        this.props.dispatch({
+            type:'salvageCar/getRescuecarMedicineDetail',
+            payload: {
+                bigDrugCode
+            },
+            callback:(res)=>{
+                if(res.code === 200){
+                    this.setState({ 
+                        info: res.data,
+                        loading: false
+                    });
+                }else{
+                    message.error(res.msg);
+                };
+            }
+        });
     }
     render(){
         let {query, info} = this.state;

@@ -217,6 +217,11 @@ class BaseMgt extends PureComponent{
         width: 168,
       },
       {
+        title: '单位',
+        dataIndex: 'replanUnit',
+        width: 112,
+      },
+      {
         title: '批准文号',
         dataIndex: 'approvalNo',
         width: 224,
@@ -374,7 +379,7 @@ class BaseMgt extends PureComponent{
             ref='table'
             query={query}
             url={baseMgt.FIND_RESCUECA_CARDINAL_MADICINE}
-            scroll={{x: 1660}}
+            scroll={{x: 1772}}
             columns={columns}
             rowKey={'id'}
           />

@@ -5,7 +5,7 @@
  */
 import React, { PureComponent } from 'react';
 import { Table ,Row, Col, Tabs, Tooltip, Button, message, Spin } from 'antd';
-// import {_local} from '../../../../api/local';
+import {_local} from '../../../../api/local';
 import {connect} from 'dva';
 const columns = [
   {
@@ -170,9 +170,10 @@ class DetailsNewLibrary extends PureComponent{
 
   //打印
   print = () => {
-    // const { distributeCode } = this.state.info;
-    // const {activeKey} = this.state;
-    // window.open(`${_local}/a/deliver/print/printBasicMedicDetail?distributeCode=${distributeCode}&status=${activeKey}`, '_blank');
+    const { distributeCode } = this.state.info;
+    let {activeKey} = this.state;
+    activeKey = activeKey === "1" ? "1" : "2";
+    window.open(`${_local}/a/deliver/print/rescuecarprint?distributeCode=${distributeCode}&status=${activeKey}`, '_blank');
   }
 
   render(){

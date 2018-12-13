@@ -225,6 +225,7 @@ class OutCatalogPurchase extends PureComponent{
     };
     delete query.key;
     delete query.orderTime;
+    const {match} = this.props;
     return (
       <div className='ysynet-main-content'>
         <WrapperForm 
@@ -232,7 +233,7 @@ class OutCatalogPurchase extends PureComponent{
           formProps={{...this.props}}
         />
         <div className='ant-row-bottom'>
-          <Button type='primary' onClick={()=>this.props.history.push({ pathname: `/createOutCatalogPurcahsePlan` })}>新建计划</Button>
+          <Button type='primary' onClick={()=>this.props.history.push({ pathname: `${match.path}/add` })}>新建计划</Button>
           <Button type='default' onClick={this.delete} style={{ marginLeft: 8 }}>删除</Button>
         </div>
         <RemoteTable

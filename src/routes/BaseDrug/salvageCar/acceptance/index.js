@@ -94,7 +94,7 @@ class Acceptance extends PureComponent{
         <SearchForm formProps={{...this.props}} />
         <Row>
           <Button type='primary' className='button-gap'>
-            <Link to={{pathname:`/salvageCarAddNewAcceptance`}}>新建验收</Link>
+            <Link to={{pathname:`${match.path}/add`}}>新建验收</Link>
           </Button>
         </Row>
         <RemoteTable
@@ -124,7 +124,7 @@ class SearchFormWrapper extends PureComponent {
     dispatch({
       type: 'base/orderStatusOrorderType',
       payload: {
-        type: 'basemedic_check'
+        type: 'acceptance_checkVo'
       },
       callback: (data) => {
         this.setState({statusList: data});
@@ -234,6 +234,7 @@ class SearchFormWrapper extends PureComponent {
                   optionFilterProp="children"
                   filterOption={(input, option) => option.props.children.indexOf(input) >= 0}
                   >
+                  <Option key="" value="">全部</Option>
                   {statusList}
                 </Select>
               )}

@@ -150,7 +150,7 @@ class PricingConfirmation extends PureComponent {
         <WrapperForm
           formProps={{...this.props}}
         />
-        <Link to={{pathname: '/addPriceAdjustment'}}><Button type="primary">新建调价</Button></Link>
+        <Link to={{pathname: `${match.path}/add`}}><Button type="primary">新建调价</Button></Link>
         <RemoteTable
           onChange={this._tableChange}
           query={query}

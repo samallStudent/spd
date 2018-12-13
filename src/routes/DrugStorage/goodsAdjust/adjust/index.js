@@ -70,11 +70,12 @@ class Putaway extends PureComponent{
     ];
     let query = this.props.base.queryConditons;
     delete query.key;
+    const {match} = this.props;
     return (
       <div className='ysynet-main-content'>
         <SearchForm formProps={{...this.props}} />
         <div className='ant-row-bottom'>
-          <Button type='primary' onClick={()=>this.props.history.push({ pathname: `/addGoodsAdjust` })}>新建移库</Button>
+          <Button type='primary' onClick={()=>this.props.history.push({ pathname: `${match.path}/add` })}>新建移库</Button>
         </div>
         <RemoteTable
           query={query}

@@ -139,7 +139,8 @@ const SearchFormWarp = Form.create()(SearchForm);
 class InventoryAudit extends PureComponent {
   state = {
     query: {
-      filterStatus: '3,4,5,6'
+      filterStatus: '3,4,5,6',
+      sheveType: 1
     },
     types: [],
     status: [],
@@ -231,13 +232,28 @@ class InventoryAudit extends PureComponent {
         width: 168,
       },
       {
+        title: '药品特征',
+        dataIndex: 'drugFeatureCodeName',
+        width: 168,
+      },
+      {
+        title: '采购类型',
+        dataIndex: 'purchaseTypeName',
+        width: 112,
+      },
+      {
+        title: '盈亏总金额',
+        dataIndex: 'excessiveTotalMoney',
+        width: 168,
+      },
+      {
         title: '部门',
         dataIndex: 'checkBillDeptName',
         width: 112,
       },
       {
         title: '盘点责任人',
-        dataIndex: 'sheveUserName',
+        dataIndex: 'createUserName',
         width: 112,
       },
       {
@@ -249,6 +265,16 @@ class InventoryAudit extends PureComponent {
         title: '盘点时间',
         dataIndex: 'checkTime',
         width: 224,
+      },
+      {
+        title: '审核人',
+        dataIndex: 'sheveUserName',
+        width: 112,
+      },
+      {
+        title: '审核时间',
+        dataIndex: 'sheveDate',
+        width: 168,
       },
       {
         title: '备注',
@@ -278,7 +304,7 @@ class InventoryAudit extends PureComponent {
           columns={columns}
           rowKey={'id'}
           ref="table"
-          scroll={{x: 1568}}
+          scroll={{x: 2300}}
           style={{marginTop: 20}}
         />
       </div>

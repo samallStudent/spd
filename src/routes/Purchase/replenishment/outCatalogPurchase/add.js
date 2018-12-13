@@ -49,7 +49,7 @@ class NewAdd extends PureComponent{
     })
   }
   componentDidMount = () => {
-    if(this.props.match.path === "/editOutCatalogPurcahsePlan/:planCode") {
+    if(this.props.match.path === "/purchase/replenishment/outCatalogPurchase/edit/:planCode") {
       let { planCode } = this.props.match.params;
       this.setState({loading: true});
       this.props.dispatch({
@@ -256,7 +256,18 @@ class NewAdd extends PureComponent{
     });
   }
   render(){
-    const { visible, deptModules, query, btnLoading, dataSource, value, loading, saveLoading, submitLoading } = this.state;
+    const { 
+      visible, 
+      deptModules, 
+      query, 
+      btnLoading, 
+      dataSource, 
+      value, 
+      loading, 
+      saveLoading, 
+      submitLoading,
+      isEdit
+    } = this.state;
     const columns = [
       {
         title: '通用名称',
@@ -421,12 +432,13 @@ class NewAdd extends PureComponent{
         dataIndex: 'approvalNo',
       },
     ];
+    
     return (
       <div className='fullCol' style={{ padding: 24, background: '#f0f2f5' }}>
         <div className="fullCol-fullChild" style={{margin: '-9px -24px 0'}}>
           <Row style={{borderBottom: '1px solid rgba(0, 0, 0, .1)', marginBottom: 10}}>
             <Col span={8}>
-              <h2>新建计划</h2>
+              <h2>{!isEdit ? '新建计划' : '编辑计划'}</h2>
             </Col>
             <Col span={16} style={{ textAlign: 'right' }}>
               <span style={{ cursor: 'pointer' }} onClick={() => this.props.history.go(-1)}><Icon type="close" style={{ fontSize: 26, marginTop: 8 }} /></span>

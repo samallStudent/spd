@@ -233,7 +233,7 @@ class OutCatalogPurchase extends PureComponent{
           formProps={{...this.props}}
         />
         <div className='ant-row-bottom'>
-          <Button type='primary' onClick={()=>this.props.history.push({ pathname: `/createSinceOutCatalog` })}>新建目录外采购计划</Button>
+          <Button type='primary' onClick={()=>this.props.history.push({ pathname: `${match.path}/add` })}>新建目录外采购计划</Button>
           <Button type='default' onClick={this.delete} style={{ marginLeft: 8 }}>删除</Button>
         </div>
         <RemoteTable

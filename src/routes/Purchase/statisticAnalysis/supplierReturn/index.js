@@ -140,7 +140,14 @@ class SupplierReturn extends PureComponent {
     });
   }
   export = () => {
-    const {query} = this.state;
+    let query = this.props.base.queryConditons;
+    query = {...query}
+    delete query.closeDate;
+    delete query.key;
+    delete query.pageNo;
+    delete query.sortField;
+    delete query.sortOrder;
+    delete query.pageSize;
     this.props.dispatch({
       type: 'statistics/supplierReturnExport',
       payload: query,
@@ -159,11 +166,6 @@ class SupplierReturn extends PureComponent {
       }, {
         title: '退货总单数',
         dataIndex: 'backCount',
-        width: 168,
-        sorter: () => false
-      }, {
-        title: '退货品类数',
-        dataIndex: 'backdetailDrugCount',
         width: 168,
         sorter: () => false
       }, {
@@ -212,7 +214,7 @@ class SupplierReturn extends PureComponent {
           query={query}
           isJson
           columns={columns}
-          scroll={{x: 1344}}
+          scroll={{x: 1176}}
           style={{marginTop: 20}}
           ref='table'
           rowKey={'id'}

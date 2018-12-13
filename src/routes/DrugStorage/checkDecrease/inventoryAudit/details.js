@@ -13,7 +13,8 @@ class Details extends PureComponent {
     query: {
       checkBillNo: this.props.match.params.id
     },
-    loading: false
+    noPassLoading: false,
+    passLoading: false
   }
   componentDidMount() {
     this.getDetail();
@@ -22,7 +23,8 @@ class Details extends PureComponent {
     this.props.dispatch({
       type: 'checkDecrease/getCheckbill',
       payload: {
-        checkBillNo: this.props.match.params.id
+        checkBillNo: this.props.match.params.id,
+        sheveType: 1
       },
       callback: (data) => {
         if(data.msg === 'success') {
@@ -48,13 +50,23 @@ class Details extends PureComponent {
   }
   //通过 不通过
   auditPass = (type) => {
-    this.setState({
-      loading: true
-    });
+    const {passLoading, noPassLoading} = this.state;
+    if(noPassLoading || passLoading) return;
+    if(type === '0') {
+      this.setState({
+        noPassLoading: true
+      });
+    };
+    if(type === '1') {
+      this.setState({
+        passLoading: true
+      });
+    };
     this.props.dispatch({
       type: 'checkDecrease/auditPassOrNo',
       payload: {
         checkBillNo: this.props.match.params.id,
+        sheveType: 1,
         type
       },
       callback: (data) => {
@@ -65,7 +77,8 @@ class Details extends PureComponent {
           message.warning('操作失败');
           message.error(data.msg);
           this.setState({
-            loading: false
+            passLoading: false,
+            noPassLoading: false
           });
         };
       }
@@ -78,7 +91,7 @@ class Details extends PureComponent {
     window.open(`${checkDecrease.CHECK_BILL_SHEVE_PRINT}?checkBillNo=${checkBillNo}`, '_blank');
   }
   render() {
-    let {info, query, loading} = this.state;
+    let {info, query, passLoading, noPassLoading} = this.state;
     let columns = [
       {
         title: '货位',
@@ -193,8 +206,8 @@ class Details extends PureComponent {
                 {
                   info.checkStatus === 3 ? 
                     [
-                      <Button key="1" loading={loading} type='primary' style={{marginRight: 8}} onClick={this.auditPass.bind(this, '1')}>审核通过</Button>,
-                      <Button key="2" loading={loading} onClick={this.auditPass.bind(this, '0')}>不通过</Button>
+                      <Button key="1" loading={passLoading} type='primary' style={{marginRight: 8}} onClick={this.auditPass.bind(this, '1')}>审核通过</Button>,
+                      <Button key="2" loading={noPassLoading} onClick={this.auditPass.bind(this, '0')}>不通过</Button>
                     ]
                   : null
                 }
@@ -260,6 +273,14 @@ class Details extends PureComponent {
           <Row>
             <Col span={8}>
               <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-6">
+                <label>采购方式</label>
+              </div>
+              <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18">
+                <div className='ant-form-item-control'>{info.purchaseTypeName || ''}</div>
+              </div>
+            </Col>
+            <Col span={8}>
+              <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-6">
                 <label>盘点时间</label>
               </div>
               <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18">
@@ -274,6 +295,8 @@ class Details extends PureComponent {
                 <div className='ant-form-item-control'>{info.checkEndTime || ''}</div>
               </div>
             </Col>
+          </Row>
+          <Row>
             <Col span={8}>
               <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-6">
                 <label>备注</label>
@@ -286,10 +309,10 @@ class Details extends PureComponent {
             <div style={{borderBottom: '1px dashed #d9d9d9', marginBottom: 10}}></div>
           <Row>
             <Col span={8}>
-              <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-4">
+              <div className="ant-form-item-label-left ant-col-md-24 ant-col-lg-8 ant-col-xl-6">
                 <label>名称</label>
               </div>
-              <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18" style={{ marginLeft: -30 }}>
+              <div className="ant-form-item-control-wrapper ant-col-md-24 ant-col-lg-16 ant-col-xl-18" style={{ marginLeft: -30 }}>
                 <div className='ant-form-item-control'>
                   <FetchSelect
                     style={{width: '100%'}}

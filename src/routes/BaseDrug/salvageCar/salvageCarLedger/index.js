@@ -8,11 +8,11 @@
  * @file 基数药--抢救车--抢救车台账
  */
 import React, { PureComponent } from 'react';
-import { Form, Row, Col, Select, Button, Icon, DatePicker, message, Tooltip} from 'antd';
+import { Form, Row, Col, Select, Button, Icon, DatePicker, message, Tooltip, Input} from 'antd';
 import { formItemLayout } from '../../../../utils/commonStyles';
 import RemoteTable from '../../../../components/TableGrid/index'; 
 import salvageCar from '../../../../api/baseDrug/salvageCar';
-import FetchSelect from '../../../../components/FetchSelect';
+// import FetchSelect from '../../../../components/FetchSelect';
 import {connect} from 'dva';
 const { RangePicker } = DatePicker;
 const FormItem = Form.Item;
@@ -34,6 +34,10 @@ const singleFormItemLayout = {
       title: '类型',
       dataIndex: 'type',
       width: 168,
+    },{
+      title: '时间',
+      dataIndex: 'createDate',
+      width: 224,
     },{
       title: '通用名',
       dataIndex: 'ctmmGenericName',
@@ -60,7 +64,7 @@ const singleFormItemLayout = {
       width: 224,
     },{
       title: '单位',
-      dataIndex: 'replanUnit',
+      dataIndex: 'unit',
       width: 112,
     },{
       title: '生产批号',
@@ -125,7 +129,6 @@ class formSearch extends PureComponent{
             type: 'base/orderStatusOrorderType',
             payload: { type: 'rescuecar_type' },
             callback: (data) =>{
-                data = data.filter(item => item.value !== '');
                 this.setState({ typeListData: data });
             }
         })
@@ -168,11 +171,11 @@ class formSearch extends PureComponent{
             if(!err){
                 let time = values.time === undefined ? '' : values.time;
                 if(time.length>0){
-                    values.startDate = time[0].format('YYYY-MM-DD HH:mm');
-                    values.endDate = time[1].format('YYYY-MM-DD HH:mm');
+                    values.startTime = time[0].format('YYYY-MM-DD');
+                    values.endTime = time[1].format('YYYY-MM-DD');
                 }else {
-                    values.startDate = '';
-                    values.endDate = '';
+                    values.startTime = '';
+                    values.endTime = '';
                 };
                 this.props.formProps.dispatch({
                     type:'base/updateConditions',
@@ -205,7 +208,7 @@ class formSearch extends PureComponent{
                                     style={{width:'100%'}}
                                     showSearch
                                     optionFilterProp="children"
-                                    placeholder="请选择..."
+                                    placeholder="请选择"
                                     filterOption={(input, option) => option.props.children.indexOf(input) >= 0}
                                 >
                                      <Option value=''>全部</Option> 
@@ -235,7 +238,7 @@ class formSearch extends PureComponent{
                                      <Option value=''>全部</Option> 
                                     { 
                                         this.state.suppliersListData.map((item,index)=>
-                                            <Option value={item.id} key={index}>{item.ctmaSupplierName}</Option>
+                                            <Option value={item.ctmaSupplierCode} key={index}>{item.ctmaSupplierName}</Option>
                                         )
                                     }
                                 </Select>
@@ -247,12 +250,7 @@ class formSearch extends PureComponent{
                         <FormItem {...singleFormItemLayout} label={`商品名/通用名`}>
                         {
                             getFieldDecorator(`paramsName`,{})(
-                            <FetchSelect
-                                allowClear={true}
-                                placeholder='通用名/商品名'
-                                query={{queryType: 3}}
-                                url={salvageCar.QUERY_DRUGBY_LIST}
-                            />
+                                <Input placeholder="请输入商品名/通用名"/>
                            )
                         }
                         </FormItem>
@@ -270,7 +268,6 @@ class formSearch extends PureComponent{
                                     placeholder="请选择..."
                                     filterOption={(input, option) => option.props.children.indexOf(input) >= 0}
                                 >
-                                     <Option value=''>全部</Option> 
                                     { 
                                         this.state.typeListData.map((item,index)=>
                                             <Option value={item.value||item.value} key={index}>{item.label}</Option>
@@ -289,9 +286,8 @@ class formSearch extends PureComponent{
                                 initialValue: ''
                             })(
                                 <RangePicker
-                                style={{width:'100%'}}
-                                showTime={{ format: 'HH:mm' }}
-                                format="YYYY-MM-DD HH:mm"
+                                    style={{width:'100%'}}
+                                    format="YYYY-MM-DD"
                                 />
                             )
                         }
@@ -319,19 +315,19 @@ class salvageLadgerList extends PureComponent{
         record: {},
         loading: false
     };
-        //导出
-        export = () => {
-            let query = this.props.base.queryConditons;
-            query = {
-                ...query,
-            }
-            delete query.time;
-            delete query.key;
-            this.props.dispatch({
-            type: 'salvageCar/exportList',
-                payload: query,
-            });
+    //导出
+    export = () => {
+        let query = this.props.base.queryConditons;
+        query = {
+            ...query,
         }
+        delete query.time;
+        delete query.key;
+        this.props.dispatch({
+        type: 'salvageCar/exportList',
+            payload: query,
+        });
+    }
     
     render(){
     let query = this.props.base.queryConditons;
@@ -352,7 +348,7 @@ class salvageLadgerList extends PureComponent{
                query={query}
                ref="salvageCarLedgerTable"
                columns={IndexColumns}
-               scroll={{x: 2744}}
+               scroll={{x: 2968}}
                rowKey={'id'}
                style={{marginTop: 20}}
                url={salvageCar.GET_DRUG_LEDGER}

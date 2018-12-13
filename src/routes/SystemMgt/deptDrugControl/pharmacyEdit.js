@@ -10,25 +10,37 @@ import {difference} from 'lodash';
 const formItemLayout ={
   labelCol: {
     xs: { span: 24 },
-    sm: { span: 5 },
-    md: {span: 8}
+    sm: { span: 24 },
+    lg: {span: 6}
   },
   wrapperCol: {
     xs: { span: 24 },
-    sm: { span: 14 },
-    md: {span: 11}
+    sm: { span: 24 },
+    lg: {span: 13}
   },
 }
 const inlineFormItemLayout = {
   labelCol: {
     xs: { span: 24 },
-    sm: { span: 10 },
-    md: {span: 12}
+    sm: { span: 24 },
+    lg: { span: 8 }
   },
   wrapperCol: {
     xs: { span: 24 },
-    sm: { span: 14 },
-    md: {span: 12}
+    sm: { span: 24 },
+    lg: { span: 16 }
+  },
+}
+const unitFormItemLayout = {
+  labelCol: {
+    xs: { span: 24 },
+    sm: { span: 24 },
+    lg: { span: 8 },
+  },
+  wrapperCol: {
+    xs: { span: 24 },
+    sm: { span: 24 },
+    lg: { span: 16 }
   },
 }
 const customPanelStyle = {
@@ -124,19 +136,23 @@ class EditDrugDirectory extends PureComponent{
           const goodsListMap = {
             advance: {
               goods: 'advanceScatteredLoc',
-              unit: 'advanceScatteredUnitCode'
+              unit: 'advanceScatteredUnitCode',
+              tip: '单位默认最小发药单位'
             },
             scattered: {
               goods: 'scatteredLoc',
-              unit: 'scatteredLocUnitCode'
+              unit: 'scatteredLocUnitCode',
+              tip: '单位默认包装规格'
             },
             dispensing: {
               unit: 'dispensingMachineUnitCode',
-              goods: 'dispensingMachineLoc'
+              goods: 'dispensingMachineLoc',
+              tip: '单位默认包装规格'
             },
             replan: {
               goods: 'replanStore',
-              unit: ''
+              unit: '',
+              tip: '单位默认包装规格'
             }
           }
           for (const key in obj) {
@@ -145,7 +161,8 @@ class EditDrugDirectory extends PureComponent{
                 name: obj[key][0].locationName,
                 dataIndex: goodsListMap[key].goods,
                 dataIndexUnit: goodsListMap[key].unit,
-                list: obj[key]
+                list: obj[key],
+                tip: goodsListMap[key].tip
               });
             };
           };
@@ -303,10 +320,13 @@ class EditDrugDirectory extends PureComponent{
     }
     return (
       goodsList.map(item => (
-        <Col span={12} key={item.name} style={{height: 84}}>
+        <Col span={12} key={item.name}>
           <Row gutter={8}>
-            <Col span={12}>
+            <Col span={14}>
               <FormItem {...inlineFormItemLayout} label={item.name}>
+                <Tooltip placement="bottom" title={item.tip}>
+                  <Icon type="exclamation-circle" />
+                </Tooltip>
                 {
                   getFieldDecorator(item.dataIndex,{
                     initialValue:fillBackData?fillBackData[item.dataIndex]:'',
@@ -314,7 +334,12 @@ class EditDrugDirectory extends PureComponent{
                       {required:true,message: `请选择${item.name}！`}
                     ]
                   })(
-                    <Select>
+                    <Select
+                      style={{
+                        width: '90%',
+                        marginLeft: 3
+                      }}
+                    >
                       {
                         item.list && item.list.length ?
                         item.list.map((goodsItem)=>(
@@ -328,16 +353,16 @@ class EditDrugDirectory extends PureComponent{
             </Col>
             {
               item.name === '补货指示货位' ? 
-              <Col span={12} style={{paddingLeft: 11}}>
-                <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-10">
+              <Col span={10} style={{paddingLeft: 15}}>
+                <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-24 ant-col-lg-10">
                     <label>存储单位</label>
                 </div>
-                <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-14">
+                <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-24 ant-col-lg-14">
                   <div className='ant-form-item-control'>{replanUnitZN!==''? `${replanUnitZN}` : fillBackData?fillBackData.replanUnit:''}</div>
                 </div>
               </Col> : 
-              <Col span={12}>
-                <FormItem {...inlineFormItemLayout} label={`存储单位`}>
+              <Col span={10}>
+                <FormItem {...unitFormItemLayout} label={`存储单位`}>
                   {
                     getFieldDecorator(item.dataIndexUnit,{
                       initialValue: fillBackData ? fillBackData[item.dataIndexUnit]:'',
@@ -346,7 +371,7 @@ class EditDrugDirectory extends PureComponent{
                       ]
                     })(
                       <Select
-                        style={{ width: '80%' }}
+                        style={{ width: '100%' }}
                       >
                       {
                         replanUnitSelect.map((unitItem)=>(
@@ -623,7 +648,7 @@ class EditDrugDirectory extends PureComponent{
               />
             </Panel>
             <Panel header="库存上下限" key="2" style={customPanelStyle}>
-              <Row>
+              <Row gutter={16}>
                 <Col span={10}>
                   <FormItem {...formItemLayout} label={`本部门上限`}>
                     {
@@ -658,7 +683,7 @@ class EditDrugDirectory extends PureComponent{
                   </FormItem>
                 </Col>
               </Row>
-              <Row>
+              <Row gutter={16}>
                 <Col span={10}>
                   <FormItem {...formItemLayout} label={`本部门下限`}>
                     {
@@ -702,7 +727,7 @@ class EditDrugDirectory extends PureComponent{
             </Panel>
 
             <Panel header="指示货位" key="3" style={customPanelStyle}>
-              <Row>
+              <Row gutter={16}>
                 {
                   this.goodsRender()
                 }

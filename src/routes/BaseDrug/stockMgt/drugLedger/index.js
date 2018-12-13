@@ -50,7 +50,7 @@ class SearchForm extends PureComponent{
     dispatch({
       type: 'base/orderStatusOrorderType',
       payload: {
-        type: "medicine_standing"
+        type: "base_medicine_standing"
       },
       callback: (data) => {
         this.setState({
@@ -198,13 +198,13 @@ class DrugLedger extends PureComponent {
         dataIndex: 'type',
         width: 168,
       }, {
+        title: '时间',
+        dataIndex: 'createDate',
+        width: 168,
+      }, {
         title: '单号',
         dataIndex: 'orderNo',
         width: 168,
-      }, {
-        title: '时间',
-        dataIndex: 'createDate',
-        width: 224,
       }, {
         title: '通用名',
         dataIndex: 'ctmmGenericName',

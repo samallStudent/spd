@@ -21,11 +21,9 @@ export default {
     *checkOutStore({payload, callback}, {call}) {
       const data = yield call(outStorageService.checkOutStore, payload);
       console.log(data, '复核');
-      if(data.code === 200 && data.msg === 'success') {
-        callback && callback(data.data)
-      }else {
-        message.error(data.msg);
-      }
+      if(callback && typeof callback === 'function') {
+        callback(data)
+      };
     },
     //出库单管理详情
     *outStoreDetailInfo({payload, callback}, {call}) {
@@ -49,7 +47,9 @@ export default {
     //不通过出库单
     *rejectOutStore({payload, callback}, {call}) {
       const data = yield call(outStorageService.rejectOutStore, payload);
-      callback && callback(data);
+      if(callback && typeof callback === 'function') {
+        callback(data);
+      };
     },
     // 已申领部门
     *genDeptList({ payload,callback },{ call }){

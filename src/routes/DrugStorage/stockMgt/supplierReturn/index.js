@@ -158,11 +158,6 @@ class SupplierReturn extends PureComponent {
         width: 168,
         sorter: () => false
       }, {
-        title: '退货品类数',
-        dataIndex: 'backdetailDrugCount',
-        width: 168,
-        sorter: () => false
-      }, {
         title: '退货总金额(万元)',
         dataIndex: 'backPrice',
         width: 168,
@@ -208,7 +203,7 @@ class SupplierReturn extends PureComponent {
           query={query}
           isJson
           columns={columns}
-          scroll={{x: 1344}}
+          scroll={{x: 1176}}
           style={{marginTop: 20}}
           ref='table'
           rowKey={'id'}

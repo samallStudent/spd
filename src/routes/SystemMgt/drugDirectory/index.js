@@ -130,6 +130,7 @@ class SearchForm extends PureComponent{
                   initialValue: ''
                 })(
                   <Select placeholder="请选择">
+                    <Option key='' value=''>全部</Option>
                     <Option key={0} value='2'>是</Option>
                     <Option key={1} value='1'>否</Option>
                   </Select>
@@ -252,6 +253,7 @@ class DrugDirectory extends PureComponent{
   print = () => {
     let {queryConditons} = this.props.base;
     queryConditons = {...queryConditons};
+    queryConditons.exportType = 1;
     delete queryConditons.pageSize;
     delete queryConditons.pageNo;
     delete queryConditons.sortField;

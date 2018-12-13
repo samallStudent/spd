@@ -171,6 +171,7 @@ class Refund extends PureComponent{
     query = {...query};
     delete query.key;
     delete query.backTime;
+    const {match} = this.props;
     return (
       <div className='ysynet-main-content'>
         <SearchForm 
@@ -178,7 +179,7 @@ class Refund extends PureComponent{
         />
         <Row>
           <Button type='primary'>
-            <Link to={{pathname:`/AddBaseBackStoragePlan`}}>新建退库</Link>
+            <Link to={{pathname:`${match.path}/add`}}>新建退库</Link>
           </Button>
         </Row>
         <RemoteTable

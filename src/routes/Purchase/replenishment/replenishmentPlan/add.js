@@ -53,7 +53,7 @@ class NewAdd extends PureComponent {
     });
   };
   componentDidMount = () => {
-    if(this.props.match.path === "/editReplenishment/:planCode") {
+    if(this.props.match.path === "/purchase/replenishment/replenishmentPlan/edit/:planCode") {
       let { planCode } = this.props.match.params;
       this.setState({loading: true})
       this.props.dispatch({

@@ -169,6 +169,7 @@ class Details extends PureComponent {
       callback: (data) => {
         if(data.msg === 'success') {
           message.success('提交成功');
+          this.getDetail();
           this.refs.table.fetch(this.state.query);
         }else {
           message.error('提交失败');
@@ -760,6 +761,14 @@ class Details extends PureComponent {
           <Row>
             <Col span={8}>
               <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-6">
+                <label>采购方式</label>
+              </div>
+              <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18">
+                <div className='ant-form-item-control'>{info.purchaseTypeName || ''}</div>
+              </div>
+            </Col>
+            <Col span={8}>
+              <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-6">
                 <label>盘点时间</label>
               </div>
               <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18">
@@ -774,6 +783,8 @@ class Details extends PureComponent {
                 <div className='ant-form-item-control'>{info.checkEndTime || ''}</div>
               </div>
             </Col>
+          </Row>
+          <Row>
             <Col span={8}>
               <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-6">
                 <label>备注</label>
@@ -786,10 +797,10 @@ class Details extends PureComponent {
            <div style={{borderBottom: '1px dashed #d9d9d9', marginBottom: 10}}></div>
           <Row>
             <Col span={8}>
-              <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-4">
+              <div className="ant-form-item-label-left ant-col-md-24 ant-col-lg-8 ant-col-xl-6">
                 <label>名称</label>
               </div>
-              <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18" style={{ marginLeft: -30 }}>
+              <div className="ant-form-item-control-wrapper ant-col-md-24 ant-col-lg-16 ant-col-xl-18" style={{ marginLeft: -30 }}>
                 <div className='ant-form-item-control'>
                   <FetchSelect
                     style={{width: '100%'}}

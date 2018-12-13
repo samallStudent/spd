@@ -153,7 +153,7 @@ class DetailsOutput extends PureComponent{
         }else {
           message.error(data.msg);
         }
-          this.setState({ banLoading: false });
+        this.setState({ banLoading: false });
       }
     })
   }
@@ -178,9 +178,13 @@ class DetailsOutput extends PureComponent{
         deptCode,
         outStoreDetail
       },
-      callback: (data) => {
-        this.props.history.push('/purchase/supplementDoc/pharmacyReview');
-        message.success('复核成功');
+      callback: ({data, code, msg}) => {
+        if(code === 200) {
+          message.success('复核成功');
+          this.getDetail();
+        }else {
+          message.error(msg);
+        };
         this.setState({
           checkLoading: false
         });

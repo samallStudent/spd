@@ -319,6 +319,16 @@ class NewInventory extends PureComponent {
         width: 168,
       },
       {
+        title: '药品特征',
+        dataIndex: 'drugFeatureCodeName',
+        width: 168,
+      },
+      {
+        title: '采购类型',
+        dataIndex: 'purchaseTypeName',
+        width: 112,
+      },
+      {
         title: '部门',
         dataIndex: 'checkBillDeptName',
         width: 168,
@@ -367,7 +377,7 @@ class NewInventory extends PureComponent {
           columns={columns}
           rowKey={'id'}
           ref="table"
-          scroll={{x: 1672}}
+          scroll={{x: 1952}}
           style={{marginTop: 20}}
           rowSelection={{
             selectedRowKeys: this.state.selected,

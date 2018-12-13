@@ -206,6 +206,11 @@ class BaseMgt extends PureComponent{
         width: 168,
       },
       {
+        title: '单位',
+        dataIndex: 'replanUnit',
+        width: 112,
+      },
+      {
         title: '批准文号',
         dataIndex: 'approvalNo',
         width: 224,
@@ -364,7 +369,7 @@ class BaseMgt extends PureComponent{
             ref='table'
             query={query}
             url={drugMgt.FIND_CARDINAL_MEDICINE_DETAIL}
-            scroll={{x: 1644}}//1644
+            scroll={{x: 1756}}//1644
             columns={columns}
             rowKey={'id'}
           />
