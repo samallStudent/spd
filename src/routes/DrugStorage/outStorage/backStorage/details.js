@@ -135,6 +135,10 @@ class DetailsRefund extends PureComponent{
 
   render(){
     const { detailsData, dataSource, spinning } = this.state;
+    let {path} = this.props.match;
+    path = path.split('/');
+    path.length = 4;
+    path = path.join('/');
     return (
       <div className='fadeIn ysynet-content'>
         <Spin spinning={spinning}>
@@ -144,7 +148,7 @@ class DetailsRefund extends PureComponent{
               <div style={{ textAlign: 'right' }}>
                 {
                   detailsData.backStatus === 3 && 
-                  <Link to={{pathname: `/editBackStoragePlan/${this.props.match.params.backNo}`}}>
+                  <Link to={{pathname: `${path}/edit/${this.props.match.params.backNo}`}}>
                     <Button type='default'>编辑</Button>
                   </Link>
                 }

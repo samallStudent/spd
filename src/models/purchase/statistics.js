@@ -48,6 +48,12 @@ export default {
         callback && callback(data);
       };
     },
+    *getDeptInfoNoAdmin({payload, callback}, {call}) {
+      const data = yield call(statistics.getDeptInfoNoAdmin, payload);
+      if(typeof callback === 'function') {
+        callback && callback(data);
+      };
+    },
     //科室退库表格footer
     *listCount({payload, callback}, {call}) {
       const data = yield call(statistics.listCount, payload);

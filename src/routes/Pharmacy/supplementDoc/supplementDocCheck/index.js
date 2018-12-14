@@ -83,7 +83,7 @@ class Putaway extends PureComponent{
 
   render(){
     let query = this.props.base.queryConditons;
-    query = {...query, ...this.state.query};
+    query = {...this.state.query, ...query};
     delete query.key;
     delete query.Time;
     delete query.reviewTime;

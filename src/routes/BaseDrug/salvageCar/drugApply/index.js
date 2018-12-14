@@ -74,7 +74,7 @@ class DrugsFor extends PureComponent{
         <SearchForm formProps={{...this.props}} />
         <Row>
           <Button type='primary' className='button-gap'>
-            <Link to={{pathname:`/baseAddRescuecarApply`}}>新建申领</Link>
+            <Link to={{pathname:`${match.path}/add`}}>新建申领</Link>
           </Button>
         </Row>
         <RemoteTable

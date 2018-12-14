@@ -239,14 +239,15 @@ class RecallAndLocked extends PureComponent {
     ];
     let query = this.props.base.queryConditons;
     delete query.key;
+    const {match} = this.props;
     return (
       <div className='ysynet-main-content'>
         <SearchFormWarp 
           formProps={{...this.props}}
         />
         <div>
-          <Button type='primary'><Link to={{pathname:`/AddNewReCallOrLocked/recall`}}>新建召回</Link></Button>
-          <Button style={{ marginLeft: 10 }}><Link to={{pathname:`/AddNewReCallOrLocked/locked`}}>新建锁定</Link></Button>
+          <Button type='primary'><Link to={{pathname:`${match.path}/add/recall`}}>新建召回</Link></Button>
+          <Button style={{ marginLeft: 10 }}><Link to={{pathname:`${match.path}/add/locked`}}>新建锁定</Link></Button>
           <Button style={{ marginLeft: 10 }} onClick={this.delete} loading={loading}>删除</Button>
         </div>
         <RemoteTable

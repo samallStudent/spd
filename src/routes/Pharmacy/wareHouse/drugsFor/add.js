@@ -8,15 +8,32 @@
  * @file 药房 - 申领 - 新建
  */
 import React, { PureComponent } from 'react';
-import { Row, Spin, Col, Button, Table, Modal, Icon, Tooltip, message, Select, InputNumber } from 'antd';
+import { Row, Form , Spin, Col, Button, Table, Modal, Icon, Tooltip, message, Select, InputNumber } from 'antd';
 import {wareHouse} from '../../../../api/pharmacy/wareHouse';
 import RemoteTable from '../../../../components/TableGrid';
 import FetchSelect from '../../../../components/FetchSelect/index';
 import _ from 'lodash';
 import {connect} from 'dva';
-
+const formItemLayout = {
+  labelCol: {
+    xs: { span: 24 },
+    sm: { span: 5 },
+    md: {span: 8},
+    lg: {span: 6},
+    xl: {span: 6},
+    xxl: {span: 4},
+  },
+  wrapperCol: {
+    xs: { span: 24 },
+    sm: { span: 19 },
+    md: {span: 16},
+    lg: {span: 18},
+    xl: {span: 18},
+    xxl: {span: 20},
+  },
+};
 const { Option } = Select;
-
+const FormItem = Form.Item;
 class NewAdd extends PureComponent {
   state = {
     modalLoading: false,
@@ -328,11 +345,30 @@ class NewAdd extends PureComponent {
             </Col>
           </Row>
           <Row gutter={30}>
-            <Col span={6}>
-              <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
+            <Col md={12} lg={8} xl={6}>
+              <FormItem {...formItemLayout} label="补货方式">
+                <Select
+                    showSearch
+                    disabled={dataSource.length === 0? false : true}
+                    style={{width: "100%"}}
+                    onChange={(value) => {
+                      this.setState({
+                        applyType: value
+                      });
+                      this.getReplenishList(value);
+                    }}
+                    defaultValue="1"
+                    optionFilterProp="children"
+                    filterOption={(input, option) => option.props.children.indexOf(input) >= 0}
+                    placeholder="请选择"
+                  >
+                    <Option key="1" value="1">申领</Option>
+                  </Select>
+              </FormItem>
+              {/* <div className="ant-form-item-label-left ant-col-xl-6">
                 <label>补货方式</label>
               </div>
-              <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-19">
+              <div className="ant-form-item-control-wrapper ant-col-xl-18">
                 <div className='ant-form-item-control'>
                   <Select
                     showSearch
@@ -352,13 +388,37 @@ class NewAdd extends PureComponent {
                     <Option key="1" value="1">申领</Option>
                   </Select>
                 </div>
-              </div>
+              </div> */}
             </Col>
-            <Col span={6}>
-              <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
+            <Col md={12} lg={8} xl={6}>
+              <FormItem {...formItemLayout} label="补货部门">
+                <Select
+                    showSearch
+                    disabled={dataSource.length === 0? false : true}
+                    style={{width: "100%"}}
+                    value={query.deptCode}
+                    onChange={(value) => {
+                      let {query} = this.state;
+                      query = {
+                        ...query,
+                        deptCode: value
+                      };
+                      this.setState({query});
+                    }}
+                    notFoundContent={fetching ? <Spin size="small" /> : null}
+                    optionFilterProp="children"
+                    filterOption={(input, option) => option.props.children.indexOf(input) >= 0} 
+                    placeholder="请选择"
+                  >
+                    {
+                      deptModules.map((item,index)=> <Option key={index} value={item.id}>{ item.deptName }</Option>)
+                    }
+                  </Select>
+              </FormItem>
+              {/* <div className="ant-form-item-label-left ant-col-xl-6">
                 <label>补货部门</label>
               </div>
-              <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-19">
+              <div className="ant-form-item-control-wrapper ant-col-xl-18">
                 <div className='ant-form-item-control'>
                   <Select
                     showSearch
@@ -383,7 +443,7 @@ class NewAdd extends PureComponent {
                     }
                   </Select>
                 </div>
-              </div>
+              </div> */}
             </Col>
           </Row>
           <Row style={{marginTop: '10px'}}>
@@ -442,7 +502,13 @@ class NewAdd extends PureComponent {
             />
           </div>
         </Modal>
-        <div className='detailCard' style={{margin: '-12px -8px 0px -8px'}}>
+        <div 
+          className='detailCard' 
+          style={{
+            margin: '-12px -8px -6px',
+            minHeight: 'calc(100vh - 226px)'
+          }}
+        >
           <Table
             title={()=>'产品信息'}
             loading={loading}
@@ -462,17 +528,13 @@ class NewAdd extends PureComponent {
             }}
             pagination={false}
           />
+          {
+            dataSource.length === 0? null : 
+            <Col style={{ textAlign: 'right', marginTop: '10px' }}>
+              <Button loading={saveLoading} onClick={()=>{this.submit('1')}} type='primary'>提交</Button>
+            </Col>
+          }
         </div>
-        {
-          dataSource.length === 0? null : 
-          <div className="detailCard" style={{margin: '-12px -8px 0px -8px'}}>
-            <Row>
-              <Col style={{ textAlign: 'right', padding: '10px' }}>
-                <Button loading={saveLoading} onClick={()=>{this.submit('1')}} type='primary'>提交</Button>
-              </Col>
-            </Row>
-          </div>
-        }
       </div>
     )
   }

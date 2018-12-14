@@ -317,15 +317,15 @@ class AddSalvageTruck extends PureComponent{
       return message.warning('请选择退库抢救车');
     };
     let existInstoreCodeList = [];
-    dataSource.map(item => existInstoreCodeList.push(item.inStoreCode));
+    dataSource.map(item => existInstoreCodeList.push(item.batchNo));
     this.setState({
       query: {
         ...query,
         existInstoreCodeList,
         deptCode
-      }
-    })
-    this.setState({visible:true});
+      },
+      visible: true
+    });
   }
   delete = () => {  //删除
     let { selectedRows, dataSource, query } = this.state;

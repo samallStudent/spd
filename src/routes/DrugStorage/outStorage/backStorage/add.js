@@ -209,7 +209,7 @@ class AddRefund extends PureComponent{
     })
   }
   componentDidMount = () =>{
-    if(this.props.match.path === "/editBackStoragePlan/:backNo") {
+    if(this.props.match.path === "/drugStorage/outStorage/backStorage/edit/:backNo") {
       let { backNo } = this.props.match.params;
       this.setState({spinLoading: true});
       this.props.dispatch({
@@ -310,7 +310,7 @@ class AddRefund extends PureComponent{
     const {dataSource} = this.state;
     this.setState({visible:true});
     let existInstoreCodeList = [];
-    dataSource.map(item => existInstoreCodeList.push(item.inStoreCode));
+    dataSource.map(item => existInstoreCodeList.push(item.batchNo));
     this.setState({
       query: {
         existInstoreCodeList

@@ -2,9 +2,18 @@ import React, { PureComponent } from 'react';
 import { Avatar, Modal, Form, Input, message } from 'antd';
 import DropdownList from '../DropdownList';
 import styles from './style.css';
-import { formItemLayout } from '../../utils/commonStyles';
 import {connect} from 'dva';
 const FormItem = Form.Item;
+const formItemLayout = {
+  labelCol: {
+    xs: { span: 24 },
+    sm: { span: 5 },//5
+  },
+  wrapperCol: {
+    xs: { span: 24 },
+    sm: { span: 19 },//17
+  },
+};
 class Profile extends PureComponent {
   state = {
     visible: false

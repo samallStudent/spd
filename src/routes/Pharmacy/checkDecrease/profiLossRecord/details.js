@@ -203,6 +203,14 @@ class Details extends PureComponent {
           <Row>
             <Col span={8}>
               <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-6">
+                <label>采购方式</label>
+              </div>
+              <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18">
+                <div className='ant-form-item-control'>{info.purchaseTypeName || ''}</div>
+              </div>
+            </Col>
+            <Col span={8}>
+              <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-6">
                 <label>生成人</label>
               </div>
               <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18">
@@ -221,10 +229,10 @@ class Details extends PureComponent {
             <div style={{borderBottom: '1px dashed #d9d9d9', marginBottom: 10}}></div>
           <Row>
             <Col span={8}>
-              <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-4">
+              <div className="ant-form-item-label-left ant-col-md-24 ant-col-lg-8 ant-col-xl-6">
                 <label>名称</label>
               </div>
-              <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18" style={{ marginLeft: -30 }}>
+              <div className="ant-form-item-control-wrapper ant-col-md-24 ant-col-lg-16 ant-col-xl-18" style={{ marginLeft: -30 }}>
                 <div className='ant-form-item-control'>
                   <FetchSelect
                     style={{width: '100%'}}

@@ -165,6 +165,10 @@ class OutCatalogPurchase extends PureComponent{
   }
   render(){
     const { detailsData, submitLoading } = this.state;
+    let {path} = this.props.match;
+    path = path.split('/');
+    path.length = 4;
+    path = path.join('/');
     return (
       <div className='fullCol fadeIn'>
         <div className='fullCol-fullChild'>
@@ -173,7 +177,7 @@ class OutCatalogPurchase extends PureComponent{
             {
               (detailsData.auditStatus === 1 || detailsData.auditStatus === 3) &&
               <div>
-                <Link to={{pathname: `/editOutCatalogPurcahsePlan/${this.props.match.params.planCode}`}}><Button type='default'>编辑</Button></Link>
+                <Link to={{pathname: `${path}/edit/${this.props.match.params.planCode}`}}><Button type='default'>编辑</Button></Link>
                 <Button type='primary' loading={submitLoading} onClick={this.submit} style={{ marginLeft: 8 }}>提交</Button>
               </div>
             }

@@ -107,8 +107,7 @@ class SpplementDocList extends PureComponent{
       {
         title: '补登时间',
         width: 224,
-        dataIndex: 'createDate',
-        render:(text,record)=>text?text.substr(0,11):''
+        dataIndex: 'createDate'
       },
       {
         title: '审核人',
@@ -118,16 +117,16 @@ class SpplementDocList extends PureComponent{
       {
         title: '审核时间',
         width: 224,
-        dataIndex: 'reviewDate',
-        render:(text,record)=>text?text.substr(0,11):''
+        dataIndex: 'reviewDate'
       }
     ];
+    const {match} = this.props;
     return (
       <div className='ysynet-main-content'>
         <SearchForm formProps={{...this.props}} />
         <div className='ant-row-bottom'>
-          <Button type='primary' onClick={()=>this.props.history.push({ pathname: `/AddSupplementDoc` })}>补登出库单</Button>
-          <Button type='default' onClick={()=>this.props.history.push({ pathname: `/AddInSupplementDoc` })} style={{ marginLeft: 8 }}>补登入库单</Button>
+          <Button type='primary' onClick={()=>this.props.history.push({ pathname: `${match.path}/addOut` })}>补登出库单</Button>
+          <Button type='default' onClick={()=>this.props.history.push({ pathname: `${match.path}/addIn` })} style={{ marginLeft: 8 }}>补登入库单</Button>
           <Button type='default' onClick={this.delete} style={{ marginLeft: 8 }}>删除</Button>
         </div>
          <RemoteTable 

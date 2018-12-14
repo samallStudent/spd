@@ -73,7 +73,8 @@ class AddOutput extends PureComponent{
       dataSource: [],
       dept: [],
       query: {},
-      submitLoading: false
+      submitLoading: false,
+      deptCode: undefined
     }
   }
 
@@ -104,8 +105,7 @@ class AddOutput extends PureComponent{
   onSubmit = () =>{
     let {dataSource, deptCode} = this.state;
     if(deptCode === undefined) {
-      message.warning('请选择部门和类型');
-      return;
+      return message.warning('请选择部门和类型');
     };
     let isNull = dataSource.every(item => {
       if(!item.outStoreNum) {
@@ -142,7 +142,10 @@ class AddOutput extends PureComponent{
   }
 
   showModal = () => {
-    let {dataSource} = this.state;
+    let {dataSource, deptCode} = this.state;
+    if(deptCode === undefined || deptCode === '') {
+      return message.warning('请选择接收部门');
+    };
     let listDetail = dataSource.map(item=>{
       return {
         lot: item.lot,
@@ -154,7 +157,8 @@ class AddOutput extends PureComponent{
       query: {
         detail: {
           listDetail,
-          paramName: ''
+          paramName: '',
+          deptCode
         }
       }
     });
@@ -329,6 +333,7 @@ class AddOutput extends PureComponent{
             <Col span={6}>
                 接收部门：
                 <Select
+                  disabled={dataSource.length !== 0}
                   notFoundContent={<Spin size="small" />}
                   onChange={this.deptChange}
                   style={{width:'70%'}}
@@ -356,7 +361,7 @@ class AddOutput extends PureComponent{
             </Col> */}
           </Row>
         </div>
-        <div className='detailCard' style={{margin: '-10px -6px'}}>
+        <div className='detailCard' style={{margin: '-10px -6px -6px'}}>
           <h3 style={{paddingBottom: 10, borderBottom: '1px solid rgba(0, 0, 0, .1)'}}>产品信息</h3>
           <Table
             rowSelection={{
@@ -369,24 +374,45 @@ class AddOutput extends PureComponent{
             dataSource={dataSource}
             scroll={{x: 2550}}
             columns={columns}
+            pagination={{size: 'small'}}
             rowKey={'batchNo'}
-            style={{marginTop: 24}}
+            style={{
+              marginTop: 24,
+              minHeight: `calc(100vh - ${dataSource.length ? 300 : 252}px)`
+            }}
           />
+          {
+            dataSource.length > 0? 
+            <div 
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                marginTop: 16
+              }}
+            >
+              <span>共{dataSource.length}种产品</span>
+              <div>
+                <Button 
+                  loading={submitLoading} 
+                  type="primary" 
+                  className='button-gap' 
+                  onClick={this.onSubmit}
+                >
+                  确定
+                </Button>
+                <Button 
+                  loading={submitLoading}
+                  onClick={() => {
+                    this.props.history.go(-1);
+                  }}
+                >
+                  取消
+                </Button>
+              </div>
+            </div> : null
+          }
         </div>
-        {
-          dataSource.length > 0? 
-          <div className='detailCard' style={{margin: '-10px -6px'}}>
-          共{dataSource.length}种产品
-          <Button loading={submitLoading} style={{float:'right'}} onClick={() => {
-            this.props.history.go(-1);
-          }}>
-            取消
-          </Button>
-          <Button loading={submitLoading} type="primary" className='button-gap' style={{float:'right'}} onClick={this.onSubmit}>
-            确定
-          </Button>
-        </div> : null
-        }
         {/*选择产品-弹窗*/}
         <Modal title='选择页面' visible={visible} width={980}
           onOk={()=>this.addToMain()}

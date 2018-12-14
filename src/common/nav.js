@@ -194,6 +194,12 @@ export const getNavData = app => [
   children: [
     /* *****************    配置管理   ************************* */
     {
+      name: "404",//药库-配置管理
+      icon: 'setting',
+      path: '/error',
+      component: dynamicWrapper(app, [], () => import('../routes/Error/error'))
+    },
+    {
       name: "配置管理",//药库-配置管理
       icon: 'setting',
       path: '/drugStorage/configMgt/drugDirectory',
@@ -863,6 +869,18 @@ export const getNavData = app => [
       icon: 'setting',
       path: '/purchase/checkDecrease/inventoryAudit/details/:id',
       component: dynamicWrapper(app, ['checkDecrease/index'], () => import('../routes/Purchase/checkDecrease/inventoryAudit/details'))
+    },
+    {
+      name: '全院管理 - 财务审核',
+      icon: 'setting',
+      path: '/purchase/checkDecrease/financialAudit',
+      component: dynamicWrapper(app, ['checkDecrease/index', 'purchase/statistics'], () => import('../routes/Purchase/checkDecrease/financialAudit'))
+    },
+    {
+      name: '全院管理 - 财务审核 - 详情',
+      icon: 'setting',
+      path: '/purchase/checkDecrease/financialAudit/details/:id',
+      component: dynamicWrapper(app, ['checkDecrease/index'], () => import('../routes/Purchase/checkDecrease/financialAudit/details'))
     },
     {
       name: "全院管理 - 召回及锁定审核",
@@ -1800,7 +1818,7 @@ export const getNavData = app => [
     {
       name: "抢救车库存-详情",
       icon: "setting",
-      path: '/baseDrug/salvageCar/salvageCarStock/details/:id',
+      path: '/baseDrug/salvageCar/salvageCarStock/details/:bigDrugCode/:deptCode/:drugCode',
       component: dynamicWrapper(app, ['baseDrug/salvageCar'], () => import('../routes/BaseDrug/salvageCar/salvageCarStock/details')),
     },
     {

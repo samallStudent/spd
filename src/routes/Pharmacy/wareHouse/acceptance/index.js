@@ -37,6 +37,11 @@ const columns = [
     dataIndex: 'statusName',
   },
   {
+    title: '类型',
+    width: 112,
+    dataIndex: 'typeName',
+  },
+  {
     title: '发起人',
     width: 112,
     dataIndex: 'createName'
@@ -75,12 +80,13 @@ class Acceptance extends PureComponent{
     delete query.key;
     delete query.initTime;
     delete query.checkTime;
+    const {match} = this.props;
     return (
       <div  className='ysynet-main-content'>
         <SearchForm formProps={{...this.props}} />
         <Row>
           <Button type='primary' className='button-gap'>
-            <Link to={{pathname:`/addNewAcceptance`}}>新建验收</Link>
+            <Link to={{pathname:`${match.path}/add`}}>新建验收</Link>
           </Button>
         </Row>
         <RemoteTable

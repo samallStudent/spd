@@ -127,14 +127,16 @@ class DetailsOutput extends PureComponent{
       payload: {
         backNo: this.state.id
       },
-      callback: (data) => {
-        if(data.msg === 'success') {
+      callback: ({data, code, msg}) => {
+        if(code === 200) {
           message.success('操作成功');
           this.getDatail();
-          this.setState({
-            rejectLoading: false
-          })
-        }
+        }else {
+          message.error(msg);
+        };
+        this.setState({
+          rejectLoading: false
+        });
       }
     })
   }
@@ -175,12 +177,16 @@ class DetailsOutput extends PureComponent{
         deptCode,
         outStoreDetail
       },
-      callback: (data) => {
-        message.success('操作成功');
+      callback: ({data, code, msg}) => {
+        if(code === 200) {
+          message.success('操作成功');
+          this.getDatail();
+        }else {
+          message.error(msg);
+        };
         this.setState({
           checkLoading: false
         });
-        this.getDatail();
       }
     })
   }

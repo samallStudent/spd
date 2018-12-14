@@ -2,11 +2,11 @@
  * @file 药库 - 盘点损益 - 新建盘点
  */
 import React, { PureComponent } from 'react';
-import { Form, Row, Col, DatePicker, Input, Select, Button, Icon } from 'antd';
+import { Form, Row, Col, DatePicker, Input, Select, Button, Icon, message } from 'antd';
 import { Link } from 'react-router-dom';
 import { formItemLayout } from '../../../../utils/commonStyles';
 import RemoteTable from '../../../../components/TableGrid';
-import {profiLossRecord} from '../../../../api/checkDecrease';
+import {common} from '../../../../api/checkDecrease';
 import {connect} from 'dva';
 const FormItem = Form.Item;
 const { RangePicker } = DatePicker;
@@ -18,18 +18,6 @@ class SearchForm extends PureComponent {
       type:'base/setShowHide'
     });
   }
-  componentDidMount() {
-    let { queryConditons } = this.props.formProps.base;
-    //找出表单的name 然后set
-    let values = this.props.form.getFieldsValue();
-    values = Object.getOwnPropertyNames(values);
-    let value = {};
-    values.map(keyItem => {
-      value[keyItem] = queryConditons[keyItem];
-      return keyItem;
-    });
-    this.props.form.setFieldsValue(value);
-  }
   handleSearch = e => {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
@@ -39,12 +27,33 @@ class SearchForm extends PureComponent {
           values.checkStartTime = makingTime[0].format('YYYY-MM-DD HH:mm');
           values.checkEndTime = makingTime[1].format('YYYY-MM-DD HH:mm');
         };
+        let {filterStatus} = values;
+        let {status} = this.props;
+        if(filterStatus === "") {
+          values.filterStatus = status.map(item=>item.value).filter(item=>item !== "").join(',');
+        }
         this.props.formProps.dispatch({
           type:'base/updateConditions',
           payload: values
         });
       }
     })
+  }
+  componentDidMount() {
+    let { queryConditons } = this.props.formProps.base;
+    queryConditons = {...queryConditons};
+    if(queryConditons.filterStatus && queryConditons.filterStatus.length > 1) {
+      queryConditons.filterStatus = ""
+    };
+    //找出表单的name 然后set
+    let values = this.props.form.getFieldsValue();
+    values = Object.getOwnPropertyNames(values);
+    let value = {};
+    values.map(keyItem => {
+      value[keyItem] = queryConditons[keyItem];
+      return keyItem;
+    });
+    this.props.form.setFieldsValue(value);
   }
   handleReset = () => {
     this.props.form.resetFields();
@@ -63,12 +72,26 @@ class SearchForm extends PureComponent {
   } 
   render() {
     const { getFieldDecorator } = this.props.form;
-    let {types} = this.props;
+    let {status, types, deptList} = this.props;
     const {display} = this.props.formProps.base;
     const expand = display === 'block';
     return(
       <Form onSubmit={this.handleSearch}>
         <Row gutter={30}>
+          <Col span={8}>
+            <FormItem label={'盘点部门'} {...formItemLayout}>
+              {getFieldDecorator('checkBillDeptCode')(
+                <Select placeholder="请选择"> 
+                  <Option key='' value=''>全部</Option>
+                  {
+                    deptList.map(item => (
+                      <Option key={item.id} value={item.id}>{item.deptName}</Option>
+                    ))
+                  }
+                </Select>
+              )}
+            </FormItem>
+          </Col>
           <Col span={8}>
             <FormItem label={'盘点时间'} {...formItemLayout}>
               {getFieldDecorator('makingTime')(
@@ -77,20 +100,29 @@ class SearchForm extends PureComponent {
             </FormItem>
           </Col>
           <Col span={8}>
-            <FormItem label={'单号'} {...formItemLayout}>
+            <FormItem label={'单号'} {...formItemLayout} style={{ display }}>
               {getFieldDecorator('checkBillNo')(
                 <Input placeholder={'盘点单号'} />
               )}
             </FormItem>
           </Col>
           <Col span={8}>
-            <FormItem label={'类型'} {...formItemLayout} style={{ display }}>
+            <FormItem label={'状态'} {...formItemLayout} style={{ display }}>
+              {getFieldDecorator('filterStatus')(
+                this.listRender(status)
+              )}
+            </FormItem>
+          </Col>
+          <Col span={8} style={{ display }}>
+            <FormItem label={'类型'} {...formItemLayout}>
               {getFieldDecorator('checkBillType')(
                 this.listRender(types)
               )}
             </FormItem>
           </Col>
-          <Col span={8} style={{float: 'right', textAlign: 'right', marginTop: 4 }}>
+          <Col span={8}>
+          </Col>
+          <Col span={8} style={{ textAlign: 'right', marginTop: 4 }}>
             <Button type="primary" htmlType="submit">查询</Button>
             <Button style={{ marginLeft: 8 }} onClick={this.handleReset}>重置</Button>
             <a style={{ marginLeft: 8, fontSize: 14 }} onClick={this.toggle}>
@@ -104,13 +136,19 @@ class SearchForm extends PureComponent {
 }
 const SearchFormWarp = Form.create()(SearchForm);
 
-class ProfiLossRecord extends PureComponent {
+class InventoryAudit extends PureComponent {
   state = {
+    query: {
+      filterStatus: '3,4,5,6',
+      sheveType: 2
+    },
     types: [],
     status: [],
+    deptList: []
   }
   componentDidMount() {
-    this.props.dispatch({
+    const {dispatch} = this.props;
+    dispatch({
       type: 'base/orderStatusOrorderType',
       payload: {
         type: 'check_bill_type'
@@ -119,6 +157,30 @@ class ProfiLossRecord extends PureComponent {
         this.setState({
           types: data
         });
+      }
+    });
+    dispatch({
+      type: 'base/orderStatusOrorderType',
+      payload: {
+        type: 'check_status',
+        values: '3,4,5,6'
+      },
+      callback: (data) => {
+        this.setState({
+          status: data
+        });
+      }
+    });
+    dispatch({
+      type: 'statistics/getDeptInfo',
+      callback: ({data, code, msg}) => {
+        if(code === 200) {
+          this.setState({
+            deptList: data
+          });
+        }else {
+          message.error(msg);
+        }
       }
     });
   }
@@ -139,25 +201,26 @@ class ProfiLossRecord extends PureComponent {
     delete queryConditons.sortOrder;
     delete queryConditons.sortField;
     this.props.dispatch({
-      type: 'checkDecrease/excessiveExport',
+      type: 'checkDecrease/checkBillSheveExport',
       payload: queryConditons
     })
   }
   render() {
-    const {types} = this.state;
+    const {status, types, deptList} = this.state;
+    const {match} = this.props;
     const columns = [
-      {
-        title: '损益单',
-        dataIndex: 'causticExcessiveNo',
-        width: 168,
-        render: (text, record) => {
-          return <span><Link to={{ pathname: `/pharmacy/checkDecrease/profiLossRecord/details/checkBillNo=${record.checkBillNo}&causticExcessiveNo=${record.causticExcessiveNo}`}}>{text}</Link></span>
-        }
-      },
       {
         title: '盘点单',
         dataIndex: 'checkBillNo',
         width: 168,
+        render: (text, record) => {
+          return <span><Link to={{ pathname: `${match.path}/details/${record.checkBillNo}`}}>{text}</Link></span>
+        }
+      },
+      {
+        title: '状态',
+        dataIndex: 'checkStatusName',
+        width: 112,
       },
       {
         title: '盘点类型',
@@ -180,30 +243,67 @@ class ProfiLossRecord extends PureComponent {
         width: 112,
       },
       {
-        title: '部门',
-        dataIndex: 'deptName',
+        title: '盘点部门',
+        dataIndex: 'checkBillDeptName',
         width: 112,
       },
       {
-        title: '生成人',
+        title: '盈亏总金额',
+        dataIndex: 'excessiveTotalMoney',
+        width: 168,
+      },
+      {
+        title: '盘点责任人',
         dataIndex: 'createUserName',
         width: 112,
       },
       {
-        title: '生成时间',
+        title: '制单时间',
         dataIndex: 'createDate',
         width: 224,
+      },
+      {
+        title: '盘点时间',
+        dataIndex: 'checkTime',
+        width: 224,
+      },
+      {
+        title: '药剂科审核人',
+        dataIndex: 'sheveUserName',
+        width: 112,
+      },
+      {
+        title: '药剂科审核时间',
+        dataIndex: 'sheveDate',
+        width: 168,
+      },
+      {
+        title: '财务审核人',
+        dataIndex: 'billSheveUserName',
+        width: 112,
+      },
+      {
+        title: '财务审核时间',
+        dataIndex: 'billSheveUserDate',
+        width: 168,
+      },
+      {
+        title: '备注',
+        dataIndex: 'remarks',
+        width: 280,
       }
     ];
     let query = this.props.base.queryConditons;
-    query = {...query};
+    query = {...this.state.query, ...query};
     delete query.key;
     delete query.makingTime;
     return (
       <div className='ysynet-main-content'>
         <SearchFormWarp
+          status={status}
           types={types}
-          formProps={{...this.props}}
+          deptList={deptList}
+          formProps={{...this.props}} 
         />
         <Row>
           <Button onClick={this.export}>导出</Button>
@@ -211,15 +311,15 @@ class ProfiLossRecord extends PureComponent {
         <RemoteTable
           onChange={this._tableChange}
           query={query}
-          url={profiLossRecord.CAUSTICEXCESSIVE_LIST}
+          url={common.SHEVE_LIST}
           columns={columns}
           rowKey={'id'}
           ref="table"
-          scroll={{x: 1400}}
+          scroll={{x: 2688}}
           style={{marginTop: 20}}
         />
       </div>
     )
   }
 }
-export default connect(state=>state)(ProfiLossRecord);
+export default connect(state=>state)(InventoryAudit);

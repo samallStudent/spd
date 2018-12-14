@@ -7,7 +7,7 @@
  * @file 系统管理--组织机构--部门管理
  */
 import React, { PureComponent } from 'react';
-import { Form, Row, Col, Input, Button, Icon, Modal, Select, Checkbox, message} from 'antd';
+import { Form, Row, Col, Input, Button, Icon, Modal, Select, Checkbox, message, Tooltip} from 'antd';
 import { formItemLayout } from '../../../../utils/commonStyles';
 import RemoteTable from '../../../../components/TableGrid';
 import { systemMgt } from '../../../../api/systemMgt';
@@ -144,7 +144,6 @@ class DepartmentMgt extends PureComponent{
     subModalVisible:false,//科室弹窗显示状态
     goodsModalVisible:false,//货位弹窗显示状态
     deptKeyword:'',//科室搜索关键字
-    hasStyle: null,
     subModalSelectRow:{},//科室点选-获取相关的信息
     subModalSelectRowCache:{},//科室点选-缓存
     goodsModalSelectRow:{},//科室点选-获取相关的信息
@@ -252,8 +251,10 @@ class DepartmentMgt extends PureComponent{
    //选择科室 - 取消
   onCancelSubModal = () =>{
     const { subModalSelectRowCache } = this.state;
-    this.setState({subModalVisible:false });
-    this.props.form.setFieldsValue({openDeptName:subModalSelectRowCache.ctdDesc})
+    this.setState({
+      subModalVisible: false,
+      subModalSelectRow: {...subModalSelectRowCache}
+    });
   }
    /*====================== 新增货位 弹窗 ======================*/
   //新增货位-选择货位 - 打开弹窗
@@ -285,8 +286,10 @@ class DepartmentMgt extends PureComponent{
    //选择货位 - 取消
   onCancelGoodsModal = () =>{
     const { goodsModalSelectRowCache } = this.state;
-    this.setState({goodsModalVisible:false });
-    this.props.form.setFieldsValue({positionName:goodsModalSelectRowCache.positionName});
+    this.setState({
+      goodsModalVisible: false,
+      goodsModalSelectRow: {...goodsModalSelectRowCache}
+    });
   }
   _tableChange = values => {
     this.props.dispatch({
@@ -312,9 +315,13 @@ class DepartmentMgt extends PureComponent{
     this.setState({
       queryGoods: {
         deptType: value
-      }
+      },
+      subModalSelectRow:{},//科室点选-获取相关的信息
+      subModalSelectRowCache:{},//科室点选-缓存
+      goodsModalSelectRow:{},//科室点选-获取相关的信息
+      goodsModalSelectRowCache:{},//科室点选-缓存
     });
-    this.props.form.resetFields(['positionName', 'storeType']);
+    this.props.form.resetFields(['positionName', 'storeType', 'openDeptName']);
   }
   render(){
     const columns = [
@@ -380,7 +387,18 @@ class DepartmentMgt extends PureComponent{
         dataIndex: 'positionName',
       },
     ]
-    let { visible , modalTitle ,subModalVisible, hasStyle , goodsModalVisible , queryDept , queryGoods, storeList, OKLoading} = this.state;
+    let { 
+      visible, 
+      modalTitle,
+      subModalVisible, 
+      goodsModalVisible, 
+      queryDept, 
+      queryGoods, 
+      storeList, 
+      OKLoading,
+      subModalSelectRow,
+      goodsModalSelectRow
+    } = this.state;
     const { getFieldDecorator, getFieldsValue } = this.props.form;
     let query = this.props.base.queryConditons;
     delete query.key;
@@ -453,6 +471,21 @@ class DepartmentMgt extends PureComponent{
                     <Input placeholder="请输入科室名称" onClick={this.showDeptModal} readOnly/>
                   )
                 }
+              </FormItem> : null
+            }
+            {
+              getFieldsValue(['deptType']).deptType === 6 ?
+              <FormItem {...singleFormItemLayout} label={`编码`}>
+                {
+                  getFieldDecorator(`rescuecarCode`,{
+                    rules: [{ required: true,message: '请输入编码' }]
+                  })(
+                    <Input style={{width: '90%', marginRight: '5%'}} placeholder="请输入编码" />
+                  )
+                }
+                <Tooltip placement="bottom" title="输入与HIS相同的抢救车编码">
+                  <Icon type="exclamation-circle" />
+                </Tooltip>
               </FormItem> : null
             }
             {
@@ -541,11 +574,11 @@ class DepartmentMgt extends PureComponent{
               columns={subModalCol}
               scroll={{ x: '100%' }}
               url={systemMgt.findHisDept}
-              rowClassName={ (record, index) => index === hasStyle ? 'rowClassBg' : ''}
-              onRow={ (record, index) => {
+              rowClassName={ (record) => subModalSelectRow.id === record.id ? 'rowClassBg' : ''}
+              onRow={ (record) => {
                 return {
                   onClick: () => {
-                    this.setState({ hasStyle: index , subModalSelectRow:record })
+                    this.setState({ subModalSelectRow: record })
                   }
                 };
               }}
@@ -577,11 +610,11 @@ class DepartmentMgt extends PureComponent{
               columns={goodsModalCol}
               scroll={{ x: '100%' }}
               url={systemMgt.getGoodsLocationInfo}
-              rowClassName={ (record, index) => index === hasStyle ? 'rowClassBg' : ''}
-              onRow={ (record, index) => {
+              rowClassName={ (record) => goodsModalSelectRow.id === record.id ? 'rowClassBg' : ''}
+              onRow={ (record) => {
                 return {
                   onClick: () => {
-                    this.setState({ hasStyle: index , goodsModalSelectRow: record })
+                    this.setState({ goodsModalSelectRow: record })
                   }
                 };
               }}

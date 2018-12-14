@@ -17,10 +17,11 @@ export default {
       let { payload } = action;
       let deptList = [];
       payload.deptInfo.map(item => deptList.push({ deptId: item.deptId,deptName: item.deptName }));
-      let id = window.sessionStorage.getItem('key');
-      let deptName = window.sessionStorage.getItem('deptName');
+      const urlParams = new URL(window.location.href);
+      const id = urlParams.searchParams.get('depeId');
       let dept;
-      if(id && deptName) {
+      if(!!id) {
+        let {deptName} = payload.deptInfo.filter(item => item.deptId === id)[0];
         dept = {
           deptId: id,
           deptName
@@ -71,10 +72,10 @@ export default {
         callback && callback(data.data);
       }else {
         message.warning('会话失效，请重新登录');
-        window.sessionStorage.removeItem('key');
-        window.sessionStorage.removeItem('deptName');
+        const urlParams = new URL(window.location.href);
+        urlParams.searchParams.delete('depeId');
+        window.history.pushState(null, '', urlParams.href);
         yield put(routerRedux.push('/login'));
-        // if(callback) callback();
       }
     },
     //修改密码

@@ -466,7 +466,7 @@ class PslistCheck extends PureComponent{
           <Row>
             <Col span={8}>
               <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
-                <label>出库单</label>
+                <label>配送单/验收单</label>
               </div>
               <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18">
                 <div className='ant-form-item-control'>{detailInfo.distributeCode || ''}</div>

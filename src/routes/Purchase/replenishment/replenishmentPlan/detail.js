@@ -170,6 +170,10 @@ class ReplenishmentDetail extends PureComponent{
   }
   render(){
     const { detailsData } = this.state;
+    let {path} = this.props.match;
+    path = path.split('/');
+    path.length = 4;
+    path = path.join('/');
     return (
       <div className='fullCol fadeIn'>
         <div className='fullCol-fullChild'>
@@ -180,7 +184,7 @@ class ReplenishmentDetail extends PureComponent{
                   detailsData.auditStatus === 1 || 
                   detailsData.auditStatus === 3 ? 
                   [
-                    <Link key="edit" to={{pathname: `/editReplenishment/${this.props.match.params.planCode}`}}>
+                    <Link key="edit" to={{pathname: `${path}/edit/${this.props.match.params.planCode}`}}>
                       <Button type='default'>编辑</Button>
                     </Link>,
                     <Button key="submit" type='primary' onClick={this.submit} style={{ marginLeft: 8 }}>提交</Button>
@@ -200,12 +204,12 @@ class ReplenishmentDetail extends PureComponent{
               </div>
             </Col>
             <Col span={8}>
-            <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
-              <label>类型</label>
-            </div>
-            <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18">
-              <div className='ant-form-item-control'>{detailsData.planTypeName}</div>
-            </div>
+              <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
+                <label>类型</label>
+              </div>
+              <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18">
+                <div className='ant-form-item-control'>{detailsData.planTypeName}</div>
+              </div>
             </Col>
             <Col span={8}>
               <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
@@ -215,6 +219,8 @@ class ReplenishmentDetail extends PureComponent{
                 <div className='ant-form-item-control'>{detailsData.statusName}</div>
               </div>
             </Col>
+          </Row>
+          <Row>
             <Col span={8}>
               <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
                   <label>发起人</label>
@@ -239,6 +245,8 @@ class ReplenishmentDetail extends PureComponent{
                 <div className='ant-form-item-control'>{detailsData.mobile}</div>
               </div>
             </Col>
+          </Row>
+          <Row>
             <Col span={8}>
               <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
                   <label>收货地址</label>

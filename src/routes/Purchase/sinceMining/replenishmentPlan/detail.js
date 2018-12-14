@@ -179,17 +179,24 @@ class ReplenishmentDetail extends PureComponent{
   }
   render(){
     const { detailsData, submitLoading } = this.state;
+    let {path} = this.props.match;
+    path = path.split('/');
+    path.length = 4;
+    path = path.join('/');
     return (
       <div className='fullCol fadeIn'>
         <div className='fullCol-fullChild'>
           <div style={{ display: 'flex',justifyContent: 'space-between' }}>
             <h3>单据信息</h3>
             <div>
-              <Button type='default' onClick={this.export}>导出</Button>
+              {
+                detailsData.auditStatus === 4 && 
+                <Button type='default' onClick={this.export}>导出</Button>
+              }
               {
                 (detailsData.auditStatus === 1 || detailsData.auditStatus === 3) &&
                 [
-                  <Link style={{ margin: '0 8px' }} key="edit" to={{pathname: `/editReplenishmentPlan/${this.props.match.params.planCode}`}}>
+                  <Link style={{ margin: '0 8px' }} key="edit" to={{pathname: `${path}/edit/${this.props.match.params.planCode}`}}>
                     <Button type='default'>编辑</Button>
                   </Link>,
                   <Button key="submit" loading={submitLoading} type='primary' onClick={this.submit}>提交</Button>

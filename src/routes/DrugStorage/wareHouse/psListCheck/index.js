@@ -36,10 +36,9 @@ const columns = [
    render: (text,record) =>{
      return <span>
        {
-         record.type === 101 || 
+         record.type === 100 || 
          record.type === 102 || 
-         record.type === 104 || 
-         record.type === 103?  // 101, 102, 104, 103 配送单详情
+         record.type === 101 ?  // 100, 102, 101 配送单详情
          <Link to={{pathname: `/drugStorage/wareHouse/psListCheck/detail/id=${record.distributeCode}&state=${record.auditStatus}`}}>{text}</Link>
          :
          <Link to={{pathname: `/drugStorage/wareHouse/psListCheck/outDetail/id=${record.distributeCode}&state=${record.auditStatus}`}}>{text}</Link>
@@ -197,6 +196,7 @@ class SearchForm extends PureComponent{
                       optionFilterProp="children"
                       filterOption={(input, option) => option.props.children.indexOf(input) >= 0}
                     >
+                      <Option value="">全部</Option>
                       {supplierList}
                     </Select>
                   )
@@ -271,11 +271,12 @@ class DistributionCheck extends PureComponent{
       ...this.state.query
     }
     delete query.key;
+    const {match} = this.props;
     return (
       <div className='ysynet-main-content'>
         <WrapperForm formProps={{...this.props}} query={this.queryHandler} />
         <div className='ant-row-bottom'>
-          <Button type='primary' onClick={()=>this.props.history.push({ pathname: `/AddNewCheck` })}>新建验收</Button>
+          <Button type='primary' onClick={()=>this.props.history.push({ pathname: `${match.path}/add` })}>新建验收</Button>
         </div>
         <RemoteTable
           isJson={true}

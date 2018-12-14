@@ -295,25 +295,34 @@ class PslistAdd extends PureComponent{
     return a;
   }
   search = (value) => {
-    this.setState({loading: true})
+    this.setState({loading: true});
     this.props.dispatch({
       type: 'base/deliverRequest',
       payload: {
         distributeCode: value,
       },
       callback: (data) => {
-        if(data.unVerfiyList.length) {
-          data.unVerfiyList = data.unVerfiyList.map(item => {
-            item.realReceiveQuantity = item.realDeliveryQuantiry;
-            return item;
-          })
+        if(
+          data.type === 100 ||
+          data.type === 101 ||
+          data.type === 102
+        ) {
+          if(data.unVerfiyList.length) {
+            data.unVerfiyList = data.unVerfiyList.map(item => {
+              item.realReceiveQuantity = item.realDeliveryQuantiry;
+              return item;
+            })
+          };
+          this.setState({
+            loading: false,
+            id: value,
+            detailInfo: data,
+            activeKey: data.auditStatus === 1? '1' : '2'
+          });
+        }else {
+          message.warning('只允许搜索和扫描配送单!');
+          this.setState({loading: false});
         };
-        this.setState({
-          loading: false,
-          id: value,
-          detailInfo: data,
-          activeKey: data.auditStatus === 1? '1' : '2'
-        });
       }
     })
   }
@@ -592,7 +601,7 @@ class PslistAdd extends PureComponent{
                   <Icon style={{transform: 'scale(1.5,1.5)', paddingRight: 10}} type="barcode" />
               </div>
               <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18">
-                  <Search onSearch={this.search} placeholder="扫描或输入配送单/订单号"/>
+                  <Search onSearch={this.search} placeholder="扫描或输入配送单"/>
               </div>
             </Col>
           </Row>

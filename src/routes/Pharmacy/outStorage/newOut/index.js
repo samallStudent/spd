@@ -114,12 +114,13 @@ class Output extends PureComponent{
     query = {...query, ...this.state.query};
     delete query.key;
     delete query.Time;
+    const {match} = this.props;
     return (
       <div className='ysynet-main-content'>
         <SearchForm formProps={{...this.props}} />
         <Row>
           <Button type='primary' className='button-gap'>
-            <Link to={{pathname:`/pharmacyAddNewOutput`}}>新建出库</Link>
+            <Link to={{pathname:`${match.path}/add`}}>新建出库</Link>
           </Button>
           <Button onClick={this.delete}>删除</Button>
         </Row>

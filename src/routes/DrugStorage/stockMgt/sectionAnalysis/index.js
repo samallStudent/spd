@@ -176,7 +176,7 @@ const WrapperForm = Form.create()(SearchForm);
 class SectionAnalysis extends PureComponent {
   state = {
     query: {
-      type: 1
+      type: 2
     },
     tableFooter: {}
   }
@@ -188,30 +188,25 @@ class SectionAnalysis extends PureComponent {
       }
     });
   }
+  componentDidMount = () => {
+    this._tableCallback();
+  }
   _tableCallback = () => {
-    const {deptCode} = this.state.query;
-    if(deptCode !== '' && deptCode !== undefined) {
-      this.props.dispatch({
-        type: 'statistics/listCount',
-        payload: {
-          deptCode: deptCode,
-          type: 1
-        },
-        callback: ({code, data, msg}) => {
-          if(code === 200) {
-            this.setState({
-              tableFooter: data
-            });
-          }else {
-            message.error(msg);
-          };
-        }
-      });
-    }else {
-      this.setState({
-        tableFooter: {}
-      });
-    }
+    this.props.dispatch({
+      type: 'statistics/listCount',
+      payload: {
+        type: 2
+      },
+      callback: ({code, data, msg}) => {
+        if(code === 200) {
+          this.setState({
+            tableFooter: data
+          });
+        }else {
+          message.error(msg);
+        };
+      }
+    });
   }
   export = () => {
     this.props.dispatch({
@@ -345,7 +340,6 @@ class SectionAnalysis extends PureComponent {
           )}
           rowKey={'backNo'}
           url={statisticAnalysis.KSTK_LIST}
-          cb={this._tableCallback}
         />
       </div>
     )

@@ -207,7 +207,7 @@ class Refund extends PureComponent{
         />
         <Row>
           <Button type='primary'>
-            <Link to={{pathname:`/addSalvageTruck`}}>新建退库</Link>
+            <Link to={{pathname:`${match.path}/add`}}>新建退库</Link>
           </Button>
         </Row>
         <RemoteTable

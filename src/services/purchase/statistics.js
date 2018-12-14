@@ -52,6 +52,13 @@ export function getDeptByParam(options) {
     body: options
   })
 }
+export function getDeptInfoNoAdmin(options) {
+  return request(`${_local}/a/sys/sysdept/getDeptInfoNoAdmin`, {
+    method: 'POST',
+    type: 'formData',
+    body: options
+  })
+}
 
 //科室退库分析footer
 export function listCount(options) {

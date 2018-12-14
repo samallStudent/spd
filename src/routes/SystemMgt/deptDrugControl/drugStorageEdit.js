@@ -22,13 +22,13 @@ const supplyFormItemLayout = {
 const formItemLayout ={
   labelCol: {
     xs: { span: 24 },
-    sm: { span: 5 },
-    md: {span: 8}
+    sm: { span: 24 },
+    lg: {span: 6}
   },
   wrapperCol: {
     xs: { span: 24 },
-    sm: { span: 14 },
-    md: {span: 11}
+    sm: { span: 24 },
+    lg: {span: 13}
   },
 }
 const Panel = Collapse.Panel;
@@ -619,7 +619,7 @@ class EditDrugDirectory extends PureComponent{
               />
             </Panel>
             <Panel header="库存上下限" key="2" style={customPanelStyle}>
-              <Row>
+              <Row gutter={16}>
                 <Col span={10}>
                   <FormItem {...formItemLayout} label={`本部门上限`}>
                     {
@@ -654,7 +654,7 @@ class EditDrugDirectory extends PureComponent{
                   </FormItem>
                 </Col>
               </Row>
-              <Row>
+              <Row gutter={16}>
                 <Col span={10}>
                   <FormItem {...formItemLayout} label={`本部门下限`}>
                     {
@@ -705,6 +705,9 @@ class EditDrugDirectory extends PureComponent{
               <Row>
                 <Col span={10}>
                   <FormItem {...formItemLayout} label={`补货指示货位`}>
+                    <Tooltip placement="bottom" title='单位默认包装规格'>
+                      <Icon type="exclamation-circle" />
+                    </Tooltip>
                     {
                       getFieldDecorator(`replanStore`,{
                         initialValue:fillBackData?fillBackData.replanStore:'',
@@ -713,8 +716,11 @@ class EditDrugDirectory extends PureComponent{
                         ]
                       })(
                         <Select
-                        style={{ width: 200 }}
-                      >
+                          style={{ 
+                            width: 200,
+                            marginLeft: 3
+                          }}
+                        >
                         {
                           goodsTypeSelect && goodsTypeSelect.length ?
                           goodsTypeSelect.map((item,index)=>(

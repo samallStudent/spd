@@ -2,33 +2,27 @@
  * @file 药库 - 盘点损益 - 新建盘点 - 详情(待确认)
  */
 import React, { PureComponent } from 'react';
-import {Row, Col, message, Tooltip, Button} from 'antd';
-import {profiLossRecord, common} from '../../../../api/checkDecrease';
+import {Row, Col, Button, message, Tooltip} from 'antd';
+import {checkDecrease, common} from '../../../../api/checkDecrease';
 import RetomeTable from '../../../../components/TableGrid';
 import FetchSelect from '../../../../components/FetchSelect/index';
-import querystring from 'querystring';
 import {connect} from 'dva';
 class Details extends PureComponent {
-  constructor(props) {
-    super(props);
-    let info = this.props.match.params.id;
-    info = querystring.parse(info);
-    this.state = {
-      info: {},
-      query: {
-        checkBillNo: info.checkBillNo
-      },
-      causticExcessiveNo: info.causticExcessiveNo
-    }
+  state = {
+    info: {},
+    query: {
+      checkBillNo: this.props.match.params.id
+    },
+    loading: false
   }
   componentDidMount() {
     this.getDetail();
   }
   getDetail = () => {
     this.props.dispatch({
-      type: 'checkDecrease/getCausticexcessive',
+      type: 'checkDecrease/getCheckbill',
       payload: {
-        causticExcessiveNo: this.state.causticExcessiveNo
+        checkBillNo: this.props.match.params.id,
       },
       callback: (data) => {
         if(data.msg === 'success') {
@@ -52,37 +46,61 @@ class Details extends PureComponent {
       }
     });
   }
-  //打印
-  print = () => {
-    const {causticExcessiveNo} = this.state;
-    window.open(`${profiLossRecord.CAUSTIC_EXCESSIVE_PRINT}?causticExcessiveNo=${causticExcessiveNo}`, '_blank')
+  //通过 不通过
+  auditPass = (type) => {
+    this.setState({
+      loading: true
+    });
+    this.props.dispatch({
+      type: 'checkDecrease/auditPassOrNo',
+      payload: {
+        checkBillNo: this.props.match.params.id,
+        sheveType: 2,
+        type
+      },
+      callback: (data) => {
+        if(data.msg === 'success') {
+          message.success('操作成功');
+          this.getDetail();
+          this.setState({
+            loading: false
+          });
+        }else {
+          message.warning('操作失败');
+          message.error(data.msg);
+          this.setState({
+            loading: false
+          });
+        };
+      }
+    });
   }
   render() {
-    let {info, query} = this.state;
+    let {info, query, loading} = this.state;
     let columns = [
       {
         title: '货位',
         dataIndex: 'locName',
-        width: 168
+        width: 112
       },
       {
         title: '货位类型',
         dataIndex: 'positionTypeName',
-        width: 112
+        width: 168
       },
       {
         title: '通用名',
         dataIndex: 'ctmmGenericName',
         width: 224,
         className: 'ellipsis',
-        render: (text) => (
+        render:(text)=>(
           <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
         )
       },
       {
         title: '规格',
         dataIndex: 'ctmmSpecification',
-        width: 168
+        width: 168,
       },
       {
         title: '生产厂家',
@@ -120,8 +138,8 @@ class Details extends PureComponent {
       },
       {
         title: '账面批号',
-        dataIndex: 'accountBatchNo',
         width: 168,
+        dataIndex: 'accountBatchNo',
       },
       {
         title: '实际批号',
@@ -167,19 +185,26 @@ class Details extends PureComponent {
         <div className='fullCol-fullChild'>
           <Row>
             <Col span={12}>
-              <h2>损益单: <span>{info.causticExcessiveNo || ''}</span></h2>
+              <h2>盘点单: <span>{info.checkBillNo || ''}</span></h2>
             </Col>
             <Col span={12} style={{ textAlign: 'right' }}>
-              <Button icon="printer" onClick={this.print}>打印</Button>
+              {
+                info.checkStatus === 3 ? 
+                  [
+                    <Button key="1" loading={loading} type='primary' style={{marginRight: 8}} onClick={this.auditPass.bind(this, '1')}>审核通过</Button>,
+                    <Button key="2" loading={loading} onClick={this.auditPass.bind(this, '0')}>不通过</Button>
+                  ]
+                : null
+              }
             </Col>
           </Row>
           <Row>
             <Col span={8}>
               <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-6">
-                <label>盘点单</label>
+                <label>状态</label>
               </div>
               <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18">
-                <div className='ant-form-item-control'>{info.checkBillNo || ''}</div>
+                <div className='ant-form-item-control'>{info.checkStatusName || ''}</div>
               </div>
             </Col>
             <Col span={8}>
@@ -195,7 +220,33 @@ class Details extends PureComponent {
                 <label>部门</label>
               </div>
               <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18">
-                <div className='ant-form-item-control'>{info.deptName || ''}</div>
+                <div className='ant-form-item-control'>{info.checkBillDeptName || ''}</div>
+              </div>
+            </Col>
+          </Row>
+          <Row>
+            <Col span={8}>
+              <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-6">
+                <label>制单人</label>
+              </div>
+              <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18">
+                <div className='ant-form-item-control'>{info.createUserName || ''}</div>
+              </div>
+            </Col>
+            <Col span={8}>
+              <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-6">
+                <label>制单时间</label>
+              </div>
+              <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18">
+                <div className='ant-form-item-control'>{info.createDate || ''}</div>
+              </div>
+            </Col>
+            <Col span={8}>
+              <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-6">
+                <label>起始时间</label>
+              </div>
+              <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18">
+                <div className='ant-form-item-control'>{info.checkStartTime || ''}</div>
               </div>
             </Col>
           </Row>
@@ -210,28 +261,38 @@ class Details extends PureComponent {
             </Col>
             <Col span={8}>
               <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-6">
-                <label>生成人</label>
+                <label>盘点时间</label>
               </div>
               <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18">
-                <div className='ant-form-item-control'>{info.createUserName || ''}</div>
+                <div className='ant-form-item-control'>{info.checkTime || ''}</div>
               </div>
             </Col>
             <Col span={8}>
               <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-6">
-                <label>生成时间</label>
+                <label>提交时间</label>
               </div>
               <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18">
-                <div className='ant-form-item-control'>{info.createDate || ''}</div>
+                <div className='ant-form-item-control'>{info.checkEndTime || ''}</div>
+              </div>
+            </Col>
+          </Row>
+          <Row>
+            <Col span={8}>
+              <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-6">
+                <label>备注</label>
+              </div>
+              <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18">
+                <div className='ant-form-item-control'>{info.remarks || ''}</div>
               </div>
             </Col>
           </Row>
             <div style={{borderBottom: '1px dashed #d9d9d9', marginBottom: 10}}></div>
           <Row>
             <Col span={8}>
-              <div className="ant-form-item-label-left ant-col-md-24 ant-col-lg-8 ant-col-xl-6">
+              <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-4">
                 <label>名称</label>
               </div>
-              <div className="ant-form-item-control-wrapper ant-col-md-24 ant-col-lg-16 ant-col-xl-18" style={{ marginLeft: -30 }}>
+              <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18" style={{ marginLeft: -30 }}>
                 <div className='ant-form-item-control'>
                   <FetchSelect
                     style={{width: '100%'}}
@@ -253,11 +314,12 @@ class Details extends PureComponent {
           </Row>
           <hr className="hr"/>
           <RetomeTable
-            isJson
             query={query}
-            url={profiLossRecord.GET_LIST_BY_BILLNO}
+            url={checkDecrease.GET_LIST_BY_BILLNO}
             scroll={{x: 2800}}
+            isJson
             columns={columns}
+            pagination={{size: 'small'}}
             rowKey={'id'}
           />
         </div>

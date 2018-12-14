@@ -264,7 +264,7 @@ class UserMgt extends PureComponent{
       {
         title: '操作',
         dataIndex: 'action',
-        width: 130,
+        width: 150,
         fixed: 'right',
         render: (text,record,index)=>{
           return <span>

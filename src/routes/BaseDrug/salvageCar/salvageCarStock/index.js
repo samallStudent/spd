@@ -28,7 +28,7 @@ const IndexColumns = [
         return (
             <Tooltip placement="topLeft" title={text}>
                 <span>
-                    <Link to={{pathname: `/baseDrug/salvageCar/salvageCarStock/details/dCode=${record.drugCode}&bCode=${record.bigDrugCode}`}}>{text}</Link>
+                    <Link to={{pathname: `/baseDrug/salvageCar/salvageCarStock/details/${record.bigDrugCode}/${record.deptCode}/${record.drugCode}`}}>{text}</Link>
                 </span>  
             </Tooltip>
         )

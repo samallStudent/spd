@@ -51,7 +51,7 @@ class StockInquiry extends PureComponent {
       }
     });
     dispatch({
-      type: 'statistics/getDeptByParam',
+      type: 'statistics/getDeptInfoNoAdmin',
       callback: ({code, msg, data}) => {
         if(code === 200) {
           this.setState({
@@ -119,7 +119,7 @@ class StockInquiry extends PureComponent {
         width: 168,
       }, {
         title: '部门',
-        dataIndex: 'deptCodeName',
+        dataIndex: 'deptName',
         width: 168,
       }, {
         title: '生产厂家',
@@ -189,7 +189,7 @@ class StockInquiry extends PureComponent {
                     optionFilterProp="children"
                     filterOption={(input, option) => option.props.children.indexOf(input) >= 0}
                   >
-                    <Option value="全部">全部</Option>
+                    <Option value="">全部</Option>
                     {
                       deptList.map(item => (
                         <Option key={item.id} value={item.id}>{item.deptName}</Option>

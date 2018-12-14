@@ -76,12 +76,13 @@ class Acceptance extends PureComponent{
     delete query.key;
     delete query.checkTime;
     delete query.initTime;
+    const {match} = this.props;
     return (
       <div  className='ysynet-main-content'>
         <SearchForm formProps={{...this.props}} />
         <Row>
           <Button type='primary' className='button-gap'>
-            <Link to={{pathname:`/baseAddNewAcceptance`}}>新建验收</Link>
+            <Link to={{pathname:`${match.path}/add`}}>新建验收</Link>
           </Button>
         </Row>
         <RemoteTable

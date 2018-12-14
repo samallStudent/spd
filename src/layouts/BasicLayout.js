@@ -39,11 +39,11 @@ class BasicLayout extends PureComponent {
             const urlParams = new URL(window.location.href);
             const id = urlParams.searchParams.get('depeId');
             const filterDeptInfo = deptInfo.filter(item => item.deptId === id);
+            const deptName = filterDeptInfo[0].deptName;
             if(filterDeptInfo.length === 0) {
               message.error('该部门不存在，请勿直接修改地址栏')
               this.props.history.go(-1);
             };
-            const deptName = filterDeptInfo[0].deptName;
             if(id && deptName) {
               console.log('刷新');
               dispatch({
@@ -61,13 +61,13 @@ class BasicLayout extends PureComponent {
                     payload: { menu : menu }
                   });
                 }
-              })
+              });
             }else {
               console.log('登录');
               dispatch({
                 type: 'users/setCurrentMenu',
                 payload: { menu : tree[0].children[0] },
-              })
+              });
               this.setState({
                 hasDept: true
               });
@@ -78,52 +78,26 @@ class BasicLayout extends PureComponent {
     }
   }
   componentDidMount = () => {
-    this.props.history.listen(({pathname}) => {
-      if(!pathname) {
-        this.setState({
-          pathname
-        });
-        return;
+    this.unListen = this.props.history.listen(({pathname}) => {
+      const [deptId] = this.state.deptId;
+      pathname = pathname.split('/');
+      if(pathname.length > 2) {
+        pathname.length = 4;
       };
-      const lastPathname = this.state.pathname.split('/');
-      const newPathname = pathname.split('/');
-      if(lastPathname[2] !== newPathname[2] || lastPathname[3] !== newPathname[3]) {
-        // 浏览器前进后退时如果切换了菜单  清除查询条件并重置显示隐藏
-        this.props.dispatch({
-          type: 'base/clearQueryConditions'
-        });
-        this.props.dispatch({
-          type: 'base/restoreShowHide'
-        });
-        this.setState({
-          pathname
-        });
-      } 
-      // let {users} = this.props;
-      // pathname = pathname.split('/');
-      // let deptId = pathname[2];
-      // if(deptId === undefined) return;
-      // if(!users.currentDept.deptId || users.currentDept.deptId === deptId) return;
-      // let deptName;
-      // console.log(2);
-      
-      // users.deptList.map(item => {
-      //   if(item.deptId === deptId) {
-      //     deptName = item.deptName
-      //   };
-      //   return item;
-      // });
-      // let e = {
-      //   item: {
-      //     props: {
-      //       children: ""
-      //     }
-      //   }
-      // };
-      // e.key = deptId;
-      // e.item.props.children = deptName;
-      // this.handleClick(e);
-    })
+      pathname = pathname.join('/');
+      if(!this.props.users.userInfo.deptInfo) return;
+      const {deptInfo} = this.props.users.userInfo;
+      const currentMenuList = deptInfo.filter(item => item.deptId === deptId)[0].menuList;
+      const routerJurisdiction = currentMenuList.some(item => item.href === pathname);
+      if(!routerJurisdiction && pathname !== '/error' && pathname !== '/login') {
+        this.props.history.replace('/error');
+      };
+    });
+  }
+  componentWillUnMount = () => {
+    if(this.unListen && typeof this.unListen === 'function') {
+      this.unListen();
+    };
   }
   toggle = () => {
     this.setState({
@@ -187,6 +161,7 @@ class BasicLayout extends PureComponent {
       }
     })
   }
+  
   menu = (list) => {
     let {deptId} = this.state;
     return (
@@ -296,7 +271,6 @@ class BasicLayout extends PureComponent {
               {hasDept ? (
                 <Content className={`${styles.content}`}>
                   <Switch>
-                    <Redirect from="/" to="/login" exact={true}/>
                     {
                       getRouteData('BasicLayout').map(item =>
                         (
@@ -309,7 +283,9 @@ class BasicLayout extends PureComponent {
                         )
                       )
                     }
-                    <Route component={() => <div>404</div>} />
+                    <Route render={()=> (
+                        <Redirect to='/error' />
+                    )}/>
                   </Switch>
                 </Content>
               ) : <Spin><div className={styles.content} style={{background: '#fff'}}></div></Spin>}

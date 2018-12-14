@@ -171,6 +171,16 @@ class ProfiLossRecord extends PureComponent {
         width: 168,
       },
       {
+        title: '药品特征',
+        dataIndex: 'drugFeatureCodeName',
+        width: 168,
+      },
+      {
+        title: '采购类型',
+        dataIndex: 'purchaseTypeName',
+        width: 112,
+      },
+      {
         title: '部门',
         dataIndex: 'deptName',
         width: 168,
@@ -205,7 +215,7 @@ class ProfiLossRecord extends PureComponent {
           columns={columns}
           rowKey={'id'}
           ref="table"
-          scroll={{x: 1008}}
+          scroll={{x: 1288}}
           style={{marginTop: 20}}
         />
       </div>

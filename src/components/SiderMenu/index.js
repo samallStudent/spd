@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import { Menu, Icon, message, Spin } from 'antd';
 import { connect } from 'dva';
 // import menu from '../../common/menu';
-import styles from './style.css';
+// import styles from './style.css';
 // import { getMenuData } from '../../utils/utils'
 const SubMenu = Menu.SubMenu;
 // 使用递归创建菜单
@@ -36,7 +36,13 @@ const createMenu = menuList => {
         return (
           <Menu.Item 
             name={menu.name} 
-            key={menu.href && menu.href[menu.href.length-1] === '/' ? menu.href.substring(0,menu.href.length-1): menu.href && menu.href[menu.href.length-1] !== '/'? menu.href :menu.id } 
+            key={
+              menu.href && menu.href[menu.href.length-1] === '/' ? 
+              menu.href.substring(0,menu.href.length-1) : 
+              menu.href && menu.href[menu.href.length-1] !== '/'? 
+              menu.href : 
+              menu.id 
+            } 
             href={menu.href} 
             id={menu.id}
           >
@@ -85,7 +91,7 @@ return (
 */
 class SiderMenu extends PureComponent{
 state = {
-  selectedKeys: [],
+  selectedKeys: '',
   openKeys: [],
   name: null,
   recordKeys: []//修复官方hover bug
@@ -143,36 +149,31 @@ queryKey = (menuList, href) => {
     }
   });
   if(index !== undefined && indexChild !== undefined) {
-    return menuList.children[index].children[indexChild].parentId;
+    return menuList.children[index].children[indexChild].parentId + '';
   };
   return '';
 }
 // 正式数据
-changeActiveKeys = () => {
-  const {currentMenuList} = this.props.users;
+changeActiveKeys = (nextProps) => {
+  if(!nextProps) return;
+  const {currentMenuList} = nextProps.users;
   const href = window.location.href;
   let pathname = href.split('#')[1];
   let newOpenKeys;
   if(currentMenuList.children) {
     newOpenKeys = this.queryKey(currentMenuList, pathname);
   };
-  // pathname = pathname.split('/');
-  // pathname.splice(2, 1,);
-  // pathname = pathname.join('/');
   const keys = pathname.split('/');
-  // console.log(keys,keys.length,'keys')
   let len = keys.length === 3 ? 2 : 3;
   let selectedKeys = '';
-  selectedKeys = len === 3 ? keys.slice(0,len+1).join('/'): pathname
-  // console.log(selectedKeys,'selectedKeys')
-  // let indexString = selectedKeys.split('/').slice(0,len).join('/');
-  // newOpenKeys = openKeys.length && openKeys[0] === indexString ? openKeys : [ keys.slice(0, len).join('/') ];
-  
-  this.setState({selectedKeys, openKeys: [newOpenKeys]});
+  selectedKeys = len === 3 ? keys.slice(0,len+1).join('/'): pathname;
+  this.setState({
+    selectedKeys, 
+    openKeys: newOpenKeys ? [newOpenKeys] : []
+  });
 }
-componentWillMount = () => {
-  
-  this.changeActiveKeys();
+componentDidMount = () => {
+  // this.changeActiveKeys();
   this.setSubTitle()
 }
 onOpenChange = openKeys => {
@@ -198,7 +199,7 @@ onOpenChange = openKeys => {
   })
 }
 componentWillReceiveProps = (nextProps) => {
-  this.changeActiveKeys();
+  this.changeActiveKeys(nextProps);
   this.setSubTitle();
   if(this.props.users.currentMenuList.name && this.props.users.currentMenuList.name !== nextProps.users.currentMenuList.name && nextProps.users.currentMenuList.name) {
     this.props.cb(nextProps.users.currentMenuList.children[0].children[0].name);
@@ -244,7 +245,7 @@ render(){
         menu.children && menu.children.length ? // 正式数据
         // menu && menu.length ?
         <Menu 
-          className={styles.fullscreen}
+          // className={styles.fullscreen}
           theme="light" 
           mode="inline"
           selectedKeys={[selectedKeys]}

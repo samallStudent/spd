@@ -72,12 +72,13 @@ class DrugsFor extends PureComponent{
     query = {...query, ...this.state.query};
     delete query.key;
     delete query.time;
+    const {match} = this.props;
     return (
       <div className='ysynet-main-content'>
         <SearchForm formProps={{...this.props}} />
         <Row>
           <Button type='primary' className='button-gap'>
-            <Link to={{pathname:`/addDrugsFor`}}>新建申领</Link>
+            <Link to={{pathname:`${match.path}/add`}}>新建申领</Link>
           </Button>
         </Row>
         <RemoteTable
