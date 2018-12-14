@@ -48,7 +48,6 @@ class NewAdd extends PureComponent {
       existDrugCodeList: [],
       hisDrugCodeList: []
     },
-    fetching: false,
     selected: [],
     selectedRows: [],
     modalSelected: [],
@@ -67,21 +66,16 @@ class NewAdd extends PureComponent {
   getReplenishList = (type) => {
     const { dispatch } = this.props;
     let {query} = this.state;
-    this.setState({
-      query: {
-        ...query,
-        deptCode: undefined
-      },
-      fetching: true,
-      deptModules: []
-    })
     dispatch({
       type: 'base/selectApplyDept',
       payload: { applyType : type },
       callback: (data) =>{
         this.setState({ 
-          fetching: true,
-          deptModules: data
+          deptModules: data,
+          query: {
+            ...query,
+            deptCode: data[0].id
+          },
         })
       }
     });
@@ -202,7 +196,6 @@ class NewAdd extends PureComponent {
       modalLoading,
       btnLoading,
       saveLoading,
-      fetching,
       fetchValue
     } = this.state;
     const columns = [
@@ -365,30 +358,6 @@ class NewAdd extends PureComponent {
                     <Option key="1" value="1">申领</Option>
                   </Select>
               </FormItem>
-              {/* <div className="ant-form-item-label-left ant-col-xl-6">
-                <label>补货方式</label>
-              </div>
-              <div className="ant-form-item-control-wrapper ant-col-xl-18">
-                <div className='ant-form-item-control'>
-                  <Select
-                    showSearch
-                    disabled={dataSource.length === 0? false : true}
-                    style={{width: "100%"}}
-                    onChange={(value) => {
-                      this.setState({
-                        applyType: value
-                      });
-                      this.getReplenishList(value);
-                    }}
-                    defaultValue="1"
-                    optionFilterProp="children"
-                    filterOption={(input, option) => option.props.children.indexOf(input) >= 0}
-                    placeholder="请选择"
-                  >
-                    <Option key="1" value="1">申领</Option>
-                  </Select>
-                </div>
-              </div> */}
             </Col>
             <Col md={12} lg={8} xl={6}>
               <FormItem {...formItemLayout} label="补货部门">
@@ -405,7 +374,7 @@ class NewAdd extends PureComponent {
                       };
                       this.setState({query});
                     }}
-                    notFoundContent={fetching ? <Spin size="small" /> : null}
+                    notFoundContent={<Spin size="small" />}
                     optionFilterProp="children"
                     filterOption={(input, option) => option.props.children.indexOf(input) >= 0} 
                     placeholder="请选择"
@@ -415,35 +384,6 @@ class NewAdd extends PureComponent {
                     }
                   </Select>
               </FormItem>
-              {/* <div className="ant-form-item-label-left ant-col-xl-6">
-                <label>补货部门</label>
-              </div>
-              <div className="ant-form-item-control-wrapper ant-col-xl-18">
-                <div className='ant-form-item-control'>
-                  <Select
-                    showSearch
-                    disabled={dataSource.length === 0? false : true}
-                    style={{width: "100%"}}
-                    value={query.deptCode}
-                    onChange={(value) => {
-                      let {query} = this.state;
-                      query = {
-                        ...query,
-                        deptCode: value
-                      };
-                      this.setState({query});
-                    }}
-                    notFoundContent={fetching ? <Spin size="small" /> : null}
-                    optionFilterProp="children"
-                    filterOption={(input, option) => option.props.children.indexOf(input) >= 0} 
-                    placeholder="请选择"
-                  >
-                    {
-                      deptModules.map((item,index)=> <Option key={index} value={item.id}>{ item.deptName }</Option>)
-                    }
-                  </Select>
-                </div>
-              </div> */}
             </Col>
           </Row>
           <Row style={{marginTop: '10px'}}>
