@@ -20,7 +20,21 @@ export default {
       if(callback && typeof callback === 'function') {
         callback(data);
       };
-    }
+    },
     /*-- end --*/
+    /*--创世新增2018-12-14-S--*/
+    *reviewSave({payload, callback}, {call}) {
+      const data = yield call(outStorage.reviewSave, payload);
+      if(callback && typeof callback === 'function') {
+          callback(data);
+      };
+    },
+    *reviewSearch({payload, callback}, {call}) {
+        const data = yield call(outStorage.reviewSearch, payload);
+        if(callback && typeof callback === 'function') {
+            callback(data);
+        };
+    }
+    /*--创世新增2018-12-14-E--*/
   }
 }

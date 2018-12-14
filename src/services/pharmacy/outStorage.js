@@ -18,3 +18,25 @@ export function outStorageExport(options) {
     body: options
   })
 }
+
+
+//创世新增2018-12-14-S
+//发药复核操作人保存
+export function reviewSave(options) {
+  return request(`${_local}/a/billoutsotre/confirmDispensing`, {
+      method: 'POST',
+      type: 'formData',
+      body: options
+  })
+}
+
+//发药复核操作人搜索
+export function reviewSearch(options) {
+  return request(`${_local}/a/sys/user/findByLoginName`, {
+      method: 'POST',
+      type: 'formData',
+      body: options
+  })
+}
+
+//创世新增2018-12-14-E
