@@ -158,6 +158,10 @@ class PlanCheckDetail extends PureComponent{
     values.opType = '3'// 审核驳回
     values.note = value;
     this.update(values);
+    this.setState({
+      visible: false,
+      value: ''
+    });
   }
   handleCancel = () => {
     this.setState({
