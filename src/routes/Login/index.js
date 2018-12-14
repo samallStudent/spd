@@ -40,28 +40,30 @@ class Login extends PureComponent{
         if(data.deptInfo && data.deptInfo.length){
           // 正式数据
           let deptInfo = data.deptInfo;
-          let { menuList } = deptInfo[0];
+          //上次登录最后一次所在部门
+          const lastDeptInfo = deptInfo.filter(item => item.lastSelect)[0];
+          if(!lastDeptInfo) {
+            return message.error('未获得上次登录最后一次所在部门');
+          };
+          let { menuList } = lastDeptInfo;
           console.log(menuList, 'menuList');
-          
+          //得到菜单树
           let tree = menuFormat(menuList, true, 1) ;
           console.log(tree,'ret');
-          // console.log(JSON.stringify(tree))
           let subChildren = tree[0].children[0].children[0];
-          // console.log(subChildren,'subChildren')
           let href = subChildren.children ? subChildren.children[0].href: subChildren.href;
           href =  href && href[href.length -1] === '/'? href.substring(0,href.length-1): href;
           this.props.dispatch({
             type: 'users/setCurrentMenu',
             payload: { menu : tree[0].children[0] },
           });
-          // window.sessionStorage.setItem('key', data.deptInfo[0].deptId);
-          // window.sessionStorage.setItem('deptName', data.deptInfo[0].deptName);
+          //将部门ID set到url上;
           let newHref = window.location.href;
           newHref = newHref.split('#');
           newHref[1] = href;
           newHref = newHref.join('#');
           const urlParams = new URL(newHref);
-          urlParams.searchParams.set('depeId', data.deptInfo[0].deptId);
+          urlParams.searchParams.set('depeId', lastDeptInfo.deptId);
           window.location.href = urlParams.href;
         };
       }

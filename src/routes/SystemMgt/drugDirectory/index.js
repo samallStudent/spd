@@ -16,12 +16,14 @@ const { Option } = Select;
 
 const formItemLayout = {
   labelCol: {
-    xs: { span: 24 },
-    sm: { span: 5 },//5
+    md: { span: 10 },
+    lg: { span: 8 },//5
+    xl: {span: 7}
   },
   wrapperCol: {
-    xs: { span: 24 },
-    sm: { span: 19 }
+    md: { span: 14 },
+    lg: { span: 16 },//5
+    xl: {span: 17}
   },
 };
 const singleFormItemLayout = {
