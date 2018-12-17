@@ -104,7 +104,7 @@ class ReplenishmentPlan extends PureComponent{
           bordered
           loading={this.state.loading}
           dataSource={this.state.dataSource}
-          scroll={{ x: '130%' }}
+          scroll={{ x: '100%' }}
           rowKey={'id'}
           pagination={{
             size: "small",

@@ -34,6 +34,10 @@ const columns = [
         dataIndex: "usableQuantity",
         width: 112,
     }, {
+        title: '锁定区库存',
+        dataIndex: 'vacuumNum',
+        width: 112
+    }, {
         title: '采购类型',
         dataIndex: "purchaseType",
         width: 112,
@@ -154,7 +158,7 @@ class Details extends PureComponent{
                     <h3 style={{marginBottom: 16}}>库存信息</h3>
                     <RemoteTable
                         rowKey="batchNo"
-                        scroll={{x: 1512}}
+                        scroll={{x: '100%'}}
                         query={query}
                         url={drugStorage.getDetailList}
                         columns={columns}

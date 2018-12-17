@@ -867,7 +867,7 @@ class AddSupplementDocuments extends PureComponent{
               dataSource={dataSource}
               title={()=>'产品信息'}
               bordered
-              scroll={{x: 2292}}
+              scroll={{x: '100%'}}
               columns={typeValue === "1" ? columns : abnormalColumns}
               rowKey={rowKey}
               style={{marginTop: 24}}
@@ -933,7 +933,7 @@ class AddSupplementDocuments extends PureComponent{
               isJson={true}
               style={{marginTop: 20}}
               url={supplementDoc.addlist}
-              scroll={{x: 1700}}
+              scroll={{x: '100%'}}
               columns={modalColumns}
               rowKey={'drugCode'}
               rowSelection={{
@@ -977,7 +977,7 @@ class AddSupplementDocuments extends PureComponent{
               query={abnormalQuery}
               isJson={true}
               url={supplementDoc.addMedHisBackList}
-              scroll={{x: 789}}
+              scroll={{x: '100%'}}
               style={{marginTop: 20}}
               columns={abnormalModalColumns}
               rowKey={'backNo'}

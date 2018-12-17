@@ -279,7 +279,7 @@ class PlanCheck extends PureComponent{
             columns={columns}
             url={replenishmentPlan.PLANLIST}
             bordered
-            scroll={{ x: 1456 }}
+            scroll={{ x: '100%' }}
             rowKey={'id'}
             rowSelection={{
               selectedRowKeys: this.state.selected,

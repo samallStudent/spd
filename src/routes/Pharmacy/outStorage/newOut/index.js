@@ -137,7 +137,7 @@ class Output extends PureComponent{
             })
           }}
           ref="tab"
-          scroll={{x: 1400}}
+          scroll={{x: '100%'}}
           columns={columns}
           rowKey={'id'}
           style={{marginTop: 20}}

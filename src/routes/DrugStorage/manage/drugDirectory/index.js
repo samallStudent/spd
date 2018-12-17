@@ -124,7 +124,7 @@ class DrugDirectory extends PureComponent{
           }
           bordered
           loading={ this.state.loading}
-          scroll={{x: '110%'}}
+          scroll={{x: '100%'}}
           columns={columns}
           pagination={{
             size: "small",

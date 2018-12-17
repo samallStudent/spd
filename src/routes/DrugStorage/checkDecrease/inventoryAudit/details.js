@@ -337,7 +337,7 @@ class Details extends PureComponent {
             isJson
             query={query}
             url={checkDecrease.GET_LIST_BY_BILLNO}
-            scroll={{x: 2744}}
+            scroll={{x: '100%'}}
             columns={columns}
             rowKey={'id'}
           />

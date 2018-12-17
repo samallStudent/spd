@@ -472,7 +472,7 @@ class Details extends PureComponent {
               query={query}
               data={dataSource}
               url={checkDecrease.GET_LIST_BY_BILLNO}
-              scroll={{x: 2900}}
+              scroll={{x: '100%'}}
               columns={columns}
               rowKey={'uuid'}
               expandedRowKeys={expandedRowKeys}
@@ -495,7 +495,7 @@ class Details extends PureComponent {
               isJson
               query={query}
               url={checkDecrease.GET_LIST_BY_BILLNO}
-              scroll={{x: 2900}}
+              scroll={{x: '100%'}}
               columns={columns}
               rowKey={'uuid'}
              />

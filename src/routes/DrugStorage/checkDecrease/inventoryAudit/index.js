@@ -269,7 +269,7 @@ class InventoryAudit extends PureComponent {
           columns={columns}
           rowKey={'id'}
           ref="table"
-          scroll={{x: 2072}}
+          scroll={{x: '100%'}}
           style={{marginTop: 20}}
         />
       </div>

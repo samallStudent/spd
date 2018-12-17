@@ -274,7 +274,7 @@ class OutCatalogPurchase extends PureComponent{
           <Table
             bordered
             title={()=>'产品信息'}
-            scroll={{x: 2516}}
+            scroll={{x: '100%'}}
             columns={columns}
             rowKey={'id'}
             dataSource={detailsData ? detailsData.list : []}

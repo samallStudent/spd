@@ -214,7 +214,7 @@ class ReplenishmentDetail extends PureComponent{
           <Table
             bordered
             dataSource={list}
-            scroll={{x: 2300}}
+            scroll={{x: '100%'}}
             columns={columns}
             rowKey={'batchNo'}
             pagination={false}

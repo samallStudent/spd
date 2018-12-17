@@ -286,7 +286,7 @@ class PlanCheckDetail extends PureComponent{
             <Table
               bordered
               title={()=>'产品信息'}
-              scroll={{x: 2200}}
+              scroll={{x: '100%'}}
               columns={columns}
               dataSource={detailsData ? detailsData.list : []}
               rowKey={'drugCode'}
