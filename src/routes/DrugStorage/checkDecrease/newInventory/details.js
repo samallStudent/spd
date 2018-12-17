@@ -291,6 +291,16 @@ class Details extends PureComponent {
       }
     });
   }
+  handleReset = (e) =>{
+    console.log('重置');
+    let {query} = this.state;
+    this.setState({
+      query: {
+        ...query,
+        hisDrugCodeList: []
+      }
+    });
+  }
   //table回调
   tableCallBack = (data) => {
     this.setTableData(data);
@@ -544,16 +554,6 @@ class Details extends PureComponent {
         )
       },
       {
-        title: '包装规格',
-        dataIndex: 'packageSpecification',
-        width: 168
-      },
-      {
-        title: '单位',
-        dataIndex: 'unit',
-        width: 112
-      },
-      {
         title: '账面库存',
         dataIndex: 'accountStoreNum',
         width: 112,
@@ -614,6 +614,16 @@ class Details extends PureComponent {
                  /> : text
         },
         width: 180
+      },
+      {
+        title: '包装规格',
+        dataIndex: 'packageSpecification',
+        width: 168
+      },
+      {
+        title: '单位',
+        dataIndex: 'unit',
+        width: 112
       },
       {
         title: '生产日期',
@@ -804,19 +814,26 @@ class Details extends PureComponent {
           </Row>
            <div style={{borderBottom: '1px dashed #d9d9d9', marginBottom: 10}}></div>
           <Row>
-            <Col span={8}>
+            <Col span={10}>
               <div className="ant-form-item-label-left ant-col-md-24 ant-col-lg-8 ant-col-xl-6">
                 <label>名称</label>
               </div>
               <div className="ant-form-item-control-wrapper ant-col-md-24 ant-col-lg-16 ant-col-xl-18" style={{ marginLeft: -30 }}>
                 <div className='ant-form-item-control'>
-                  <FetchSelect
-                    style={{width: '100%'}}
-                    allowClear
-                    placeholder='通用名/商品名'
-                    url={common.QUERY_DRUG_BY_LIST}
-                    cb={this.onSearch}
-                  />
+                <Row>
+                    <Col span={18}>
+                      <FetchSelect
+                        style={{width: '100%'}}
+                        allowClear
+                        placeholder='通用名/商品名'
+                        url={common.QUERY_DRUG_BY_LIST}
+                        cb={this.onSearch}
+                      />
+                    </Col>
+                    <Col span={6}>
+                     <Button style={{ marginLeft: 8 }} onClick={(e)=>this.handleReset(e)}>重置</Button>  
+                    </Col>
+                  </Row>
                 </div>
               </div>
             </Col>

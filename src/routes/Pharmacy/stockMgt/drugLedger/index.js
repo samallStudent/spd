@@ -238,6 +238,22 @@ class DrugLedger extends PureComponent {
           <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
         )
       }, {
+        title: '库存数量',
+        dataIndex: 'stockNum',
+        width: 112,
+      }, {
+        title: '入库数量',
+        dataIndex: 'inStockNum',
+        width: 112,
+      }, {
+        title: '出库数量',
+        dataIndex: 'outStockNum',
+        width: 112,
+      }, {
+        title: '结存数量',
+        dataIndex: 'balanceNum',
+        width: 112,
+      }, {
         title: '单位',
         dataIndex: 'unit',
         width: 112,
@@ -277,22 +293,6 @@ class DrugLedger extends PureComponent {
         title: '批准文号',
         dataIndex: 'approvalNo',
         width: 168,
-      }, {
-        title: '库存数量',
-        dataIndex: 'stockNum',
-        width: 112,
-      }, {
-        title: '入库数量',
-        dataIndex: 'inStockNum',
-        width: 112,
-      }, {
-        title: '出库数量',
-        dataIndex: 'outStockNum',
-        width: 112,
-      }, {
-        title: '结存数量',
-        dataIndex: 'balanceNum',
-        width: 112,
       }
     ];
     const {query} = this.state;

@@ -387,11 +387,6 @@ class AddRefund extends PureComponent{
         dataIndex: 'unit',
       },
       {
-        title: '有效期至',
-        width: 168,
-        dataIndex: 'validEndDate',
-      },
-      {
         title: '通用名称',
         width: 224,
         dataIndex: 'ctmmGenericName',
@@ -415,14 +410,13 @@ class AddRefund extends PureComponent{
         dataIndex: 'ctmmSpecification',
       },
       {
-        title: '剂型',
-        width: 168,
-        dataIndex: 'ctmmDosageFormDesc',
-      },
-      {
-        title: '包装规格',
-        width: 168,
-        dataIndex: 'packageSpecification',
+        title: '生产厂家',
+        width: 224,
+        dataIndex: 'ctmmManufacturerName',
+        className:'ellipsis',
+        render:(text)=>(
+          <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+        )
       },
       {
         title: '生产批号',
@@ -435,18 +429,24 @@ class AddRefund extends PureComponent{
         dataIndex: 'productDate',
       },
       {
+        title: '有效期至',
+        width: 168,
+        dataIndex: 'validEndDate',
+      },
+      {
+        title: '剂型',
+        width: 168,
+        dataIndex: 'ctmmDosageFormDesc',
+      },
+      {
+        title: '包装规格',
+        width: 168,
+        dataIndex: 'packageSpecification',
+      },
+      {
         title: '批准文号',
         width: 224,
         dataIndex: 'approvalNo',
-      },
-      {
-        title: '生产厂家',
-        width: 224,
-        dataIndex: 'ctmmManufacturerName',
-        className:'ellipsis',
-        render:(text)=>(
-          <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
-        )
       },
       {
         title: '供应商',

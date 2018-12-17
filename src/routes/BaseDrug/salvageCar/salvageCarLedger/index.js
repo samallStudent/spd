@@ -63,6 +63,22 @@ const singleFormItemLayout = {
       dataIndex: 'ctmmManufacturerName',
       width: 224,
     },{
+        title: '库存数量',
+        dataIndex: 'stockNum',
+        width: 112,
+    },{
+        title: '入库数量',
+        dataIndex: 'inStockNum',
+        width: 112,
+    },{
+        title: '出库数量',
+        dataIndex: 'outStockNum',
+        width: 112,
+    },{
+        title: '结存数量',
+        dataIndex: 'balanceNum',
+        width: 112,
+    },{
       title: '单位',
       dataIndex: 'unit',
       width: 112,
@@ -98,22 +114,6 @@ const singleFormItemLayout = {
         title: '批准文号',
         dataIndex: 'hisDrugCode',
         width: 168,
-    },{
-        title: '库存数量',
-        dataIndex: 'stockNum',
-        width: 112,
-    },{
-        title: '入库数量',
-        dataIndex: 'inStockNum',
-        width: 112,
-    },{
-        title: '出库数量',
-        dataIndex: 'outStockNum',
-        width: 112,
-    },{
-        title: '结存数量',
-        dataIndex: 'balanceNum',
-        width: 112,
     }
   ];
 
