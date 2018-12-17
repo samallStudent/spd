@@ -20,7 +20,8 @@ class DetailsPickSoldOut extends PureComponent{
       leftDataSource: [], // 待拣货
       rightDataSource: [], // 已拣货
       selected: [],
-      selectedRows: []
+      selectedRows: [],
+      submitLoading: false
     }
   }
   
@@ -73,12 +74,14 @@ class DetailsPickSoldOut extends PureComponent{
         postData.pickingDetail = pickingDetail;
         postData.applyNo = detailsData.applyOrder;
         postData.pickingOrderNo = detailsData.pickingOredr;
+        this.setState({submitLoading:true});
         dispatch({
           type: 'outStorage/finishPicking',
           payload: { ...postData },
           callback: () =>{
             message.success('操作成功！');
             this.getDetail();
+            this.setState({submitLoading:false})
           }
         })
       },
@@ -238,7 +241,7 @@ class DetailsPickSoldOut extends PureComponent{
         <Tabs  
           activeKey={activeKey} 
           onChange={(activeKey)=>this.setState({ activeKey })} 
-          tabBarExtraContent={ (activeKey  === '1' && leftDataSource.length > 0) ? <Button  type='primary'  onClick={()=>this.onSubmit()}>确认拣货</Button> : null}>
+          tabBarExtraContent={ (activeKey  === '1' && leftDataSource.length > 0) ? <Button  type='primary'  onClick={()=>this.onSubmit()} loading={this.state.submitLoading}>确认拣货</Button> : null}>
           <TabPane tab="待拣货" key="1">
             <Table
               bordered

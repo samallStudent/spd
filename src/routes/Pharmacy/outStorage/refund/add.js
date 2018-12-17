@@ -205,6 +205,7 @@ class AddRefund extends PureComponent{
       modalSelected: [],
       supplierList: [],
       deptList: [], //所有药库部门
+      okLoading: false
     }
   }
   toggle = () => {
@@ -307,12 +308,14 @@ class AddRefund extends PureComponent{
             if(values.backcauseOther) {
               postData.backcauseOther = values.backcauseOther;
             }
-            console.log(postData,'postData')
+            console.log(postData,'postData');
+            this.setState({okLoading:true})
             dispatch({
               type: 'base/submitBackStorage',
               payload: { ...postData },
               callback: () => {
                 message.success('退库成功');
+                this.setState({okLoading:false})
                 history.push({pathname:"/pharmacy/outStorage/refund"})
               }
             })
@@ -555,7 +558,7 @@ class AddRefund extends PureComponent{
               <Affix offsetBottom={0} className='affix'>
                 <Row>
                   <Col style={{ textAlign: 'right', padding: '10px' }}>
-                    <Button onClick={this.backStroage} type='primary' style={{ marginRight: 8 }}>确定</Button>
+                    <Button onClick={this.backStroage} type='primary' style={{ marginRight: 8 }} loading={this.state.okLoading}>确定</Button>
                     <Button type='primary' ghost>
                       <Link to={{pathname:`/pharmacy/outStorage/refund`}}>取消</Link>
                     </Button>

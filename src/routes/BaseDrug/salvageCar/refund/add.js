@@ -200,7 +200,8 @@ class AddSalvageTruck extends PureComponent{
       modalSelected: [],
       deptList: [],
       deptCode: '',
-      supplierList: []
+      supplierList: [],
+      okLoading:false
     }
   }
   toggle = () => {
@@ -277,15 +278,18 @@ class AddSalvageTruck extends PureComponent{
               postData.backcauseOther = values.backcauseOther;
             }
             postData.deptCode = deptCode;
+            this.setState({okLoading:true})
             dispatch({
               type: 'base/rescueCarBackSubmit',
               payload: { ...postData },
               callback: ({data, code, msg}) => {
                 if(code === 200) {
                   message.success('新建退库成功');
+                  this.setState({okLoading:false})
                 history.push({pathname:"/baseDrug/salvageCar/refund"});
                 }else {
                   message.error(msg);
+                  this.setState({okLoading:false})
                 };
               }
             })
@@ -526,7 +530,7 @@ class AddSalvageTruck extends PureComponent{
               <Affix offsetBottom={0} className='affix'>
                 <Row>
                   <Col style={{ textAlign: 'right', padding: '10px' }}>
-                    <Button onClick={this.backStroage} type='primary' style={{ marginRight: 8 }}>确定</Button>
+                    <Button onClick={this.backStroage} type='primary' style={{ marginRight: 8 }} loading={this.state.okLoading}>确定</Button>
                     <Button type='primary' ghost>
                       <Link to={{pathname:`/pharmacy/outStorage/refund`}}>取消</Link>
                     </Button>

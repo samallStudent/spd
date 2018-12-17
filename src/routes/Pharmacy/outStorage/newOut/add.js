@@ -37,6 +37,15 @@ const modalColumns = [
     dataIndex: 'ctmmSpecification',
   },
   {
+    title: '生产厂家',
+    width: 224,
+    dataIndex: 'ctmmManufacturerName',
+    className: 'ellipsis',
+    render:(text)=>(
+      <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+    )
+  },
+  {
     title: '剂型',
     width: 168,
     dataIndex: 'ctmmDosageFormDesc',
@@ -45,15 +54,6 @@ const modalColumns = [
     title: '包装规格',
     width: 168,
     dataIndex: 'packageSpecification',
-  },
-  {
-    title: '生产厂家',
-    width: 224,
-    dataIndex: 'ctmmManufacturerName',
-    className: 'ellipsis',
-    render:(text)=>(
-      <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
-    )
   },
   {
     title: '批准文号',
@@ -253,14 +253,13 @@ class AddOutput extends PureComponent{
         )
       },
       {
-        title: '剂型',
-        width: 168,
-        dataIndex: 'ctmmDosageFormDesc',
-      },
-      {
-        title: '包装规格',
-        width: 168,
-        dataIndex: 'packageSpecification',
+        title: '生产厂家',
+        width: 224,
+        dataIndex: 'ctmmManufacturerName',
+        className:'ellipsis',
+        render:(text)=>(
+          <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+        )
       },
       {
         title: '生产批号',
@@ -278,13 +277,14 @@ class AddOutput extends PureComponent{
         dataIndex: 'validEndDate'
       },
       {
-        title: '生产厂家',
-        width: 224,
-        dataIndex: 'ctmmManufacturerName',
-        className:'ellipsis',
-        render:(text)=>(
-          <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
-        )
+        title: '剂型',
+        width: 168,
+        dataIndex: 'ctmmDosageFormDesc',
+      },
+      {
+        title: '包装规格',
+        width: 168,
+        dataIndex: 'packageSpecification',
       },
       {
         title: '供应商',
@@ -402,7 +402,7 @@ class AddOutput extends PureComponent{
                   确定
                 </Button>
                 <Button 
-                  loading={submitLoading}
+                  // loading={submitLoading}
                   onClick={() => {
                     this.props.history.go(-1);
                   }}
