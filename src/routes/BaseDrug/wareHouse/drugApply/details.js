@@ -144,7 +144,7 @@ class DetailsApplyAccept extends PureComponent{
             dataSource={dataSource}
             bordered
             pagination={false}
-            scroll={{x: 1624}}
+            scroll={{x: '100%'}}
             columns={columns}
             rowKey={'drugCode'}
           />

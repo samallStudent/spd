@@ -107,7 +107,7 @@ class Refund extends PureComponent{
           dataSource={createData()}
           bordered
           loading={ this.state.loading}
-          scroll={{x: '120%'}}
+          scroll={{x: '100%'}}
           pagination={{
             size: "small",
             showQuickJumper: true,

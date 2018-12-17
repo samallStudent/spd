@@ -187,7 +187,7 @@ class Detail extends PureComponent{
         <div className='detailCard'>
           <Table
             title={()=>'发票信息'}
-            scroll={{x: 1800}}
+            scroll={{x: '100%'}}
             columns={columns}
             rowKey={'id'}
             bordered

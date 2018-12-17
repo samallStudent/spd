@@ -149,7 +149,7 @@ class Details extends PureComponent{
                     <h3 style={{marginBottom: 16}}>库存信息</h3>
                     <RemoteTable
                         rowKey="batchNo"
-                        scroll={{x: 1512}}
+                        scroll={{x: '100%'}}
                         query={query}
                         url={statisticAnalysis.GET_ROOM_REPERTORY_LIST_ALL}
                         columns={columns}

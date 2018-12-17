@@ -510,7 +510,7 @@ class NewAdd extends PureComponent{
               isJson={true}
               columns={modalColumns}
               url={replenishmentPlan.QUERYDRUGBYDEPT}
-              scroll={{ x: 1624 }}
+              scroll={{ x: '100%' }}
               rowKey='bigDrugCode'
               rowSelection={{
                 selectedRowKeys: this.state.modalSelected,
@@ -529,7 +529,7 @@ class NewAdd extends PureComponent{
             loading={loading}
             rowKey='drugCode'
             dataSource={dataSource}
-            scroll={{ x: 2368 }}
+            scroll={{ x: '100%' }}
             pagination={false}
             rowSelection={{
               selectedRowKeys: this.state.selected,

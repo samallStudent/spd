@@ -231,7 +231,7 @@ class DetailsRefund extends PureComponent{
             <Table  
               bordered
               dataSource={dataSource}
-              scroll={{x: 2050}}
+              scroll={{x: '100%'}}
               columns={columns}
               rowKey={'drugCode'}
               pagination={{

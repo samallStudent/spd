@@ -356,7 +356,7 @@ class NewAdd extends PureComponent {
               ref="table"
               modalLoading={modalLoading}
               columns={modalColumns}
-              scroll={{ x: 1616 }}
+              scroll={{ x: '100%' }}
               rowKey='drugCode'
               rowSelection={{
                 selectedRowKeys: this.state.modalSelected,
@@ -375,7 +375,7 @@ class NewAdd extends PureComponent {
             bordered
             columns={columns}
             dataSource={dataSource}
-            scroll={{ x: 1900 }}
+            scroll={{ x: '100%' }}
             rowKey='drugCode'
             rowSelection={{
               selectedRowKeys: this.state.selected,

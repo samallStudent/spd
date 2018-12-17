@@ -351,7 +351,7 @@ class DetailsPutaway extends PureComponent{
               loading={loading}
               dataSource={listwsj}
               bordered
-              scroll={{x: 2150}}
+              scroll={{x: '100%'}}
               columns={notColumns}
               rowKey={'id'}
               pagination={false}
@@ -367,7 +367,7 @@ class DetailsPutaway extends PureComponent{
               loading={loading}
               dataSource={listysj}
               bordered
-              scroll={{x: 2100}}
+              scroll={{x: '100%'}}
               columns={hasColumns}
               rowKey={'drugCode'}
               pagination={false}

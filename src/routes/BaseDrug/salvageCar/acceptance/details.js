@@ -263,7 +263,7 @@ class DetailsNewLibrary extends PureComponent{
               <Table
                 bordered
                 loading={loading}
-                scroll={{x: 2424}}
+                scroll={{x: '100%'}}
                 columns={columns}
                 dataSource={unVerfiyList || []}
                 pagination={false}
@@ -278,7 +278,7 @@ class DetailsNewLibrary extends PureComponent{
               <Table
                 loading={loading}
                 bordered
-                scroll={{x: 2376}}
+                scroll={{x: '100%'}}
                 rowKey={'id'}
                 columns={columns}
                 dataSource={verifyList || []}

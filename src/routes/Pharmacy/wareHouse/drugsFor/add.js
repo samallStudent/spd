@@ -56,16 +56,37 @@ class NewAdd extends PureComponent {
     dataSource: [],
     btnLoading: false,
     saveLoading: false,
-    applyType: '1',        //补货方式
+    applyType: undefined,        //补货方式
     fetchValue: undefined,
-    addDrugType: 1
+    addDrugType: 1,
+    applyTypeList: []
   }
   componentDidMount = () =>{
     this.getReplenishList('1');
+    this.props.dispatch({
+      type: 'base/orderStatusOrorderType',
+      payload: {
+        filterAllFlag: true,
+        type: 'apply_type'
+      },
+      callback: (data) => {
+        this.setState({
+          applyTypeList: data,
+          applyType: '1',        //补货方式
+        });
+      }
+    });
   };
   getReplenishList = (type) => {
     const { dispatch } = this.props;
     let {query} = this.state;
+    this.setState({
+      deptModules: [],
+      query: {
+        ...query,
+        deptCode: undefined
+      },
+    })
     dispatch({
       type: 'base/selectApplyDept',
       payload: { applyType : type },
@@ -74,7 +95,7 @@ class NewAdd extends PureComponent {
           deptModules: data,
           query: {
             ...query,
-            deptCode: data[0].id
+            deptCode: type === '1' ? data[0].id : undefined
           },
         })
       }
@@ -196,9 +217,11 @@ class NewAdd extends PureComponent {
       modalLoading,
       btnLoading,
       saveLoading,
-      fetchValue
+      fetchValue,
+      applyTypeList,
+      applyType
     } = this.state;
-    const columns = [
+    let columns = [
       {
         title: '通用名称',
         dataIndex: 'ctmmGenericName',
@@ -265,10 +288,14 @@ class NewAdd extends PureComponent {
                  />
         }
       }, {
-        title: '可用库存',
+        title: '药房可用库存',
         dataIndex: 'localUsableQuantity',
         width: 112,
         render: (text) => text ? text : 0
+      }, {
+        title: '最近使用药品数量',
+        dataIndex: 'recentlyUseNum',
+        width: 168,
       }, {
         title: '库存上限',
         dataIndex: 'locaUpperQuantity',
@@ -283,6 +310,14 @@ class NewAdd extends PureComponent {
         width: 224,
       }
     ];
+    if(applyType === '2') {
+      columns.splice(9, 0, {
+        title: '药库可用库存',
+        dataIndex: 'usableQuantity',
+        width: 112,
+        render: (text) => text ? text : 0
+      });
+    };
     const modalColumns = [
       {
         title: '通用名',
@@ -350,39 +385,43 @@ class NewAdd extends PureComponent {
                       });
                       this.getReplenishList(value);
                     }}
-                    defaultValue="1"
+                    value={applyType}
                     optionFilterProp="children"
                     filterOption={(input, option) => option.props.children.indexOf(input) >= 0}
                     placeholder="请选择"
                   >
-                    <Option key="1" value="1">申领</Option>
+                    {
+                      applyTypeList.map(item => (
+                        <Option key={item.value} value={item.value}>{item.label}</Option>
+                      ))
+                    }
                   </Select>
               </FormItem>
             </Col>
             <Col md={12} lg={8} xl={6}>
               <FormItem {...formItemLayout} label="补货部门">
                 <Select
-                    showSearch
-                    disabled={dataSource.length === 0? false : true}
-                    style={{width: "100%"}}
-                    value={query.deptCode}
-                    onChange={(value) => {
-                      let {query} = this.state;
-                      query = {
-                        ...query,
-                        deptCode: value
-                      };
-                      this.setState({query});
-                    }}
-                    notFoundContent={<Spin size="small" />}
-                    optionFilterProp="children"
-                    filterOption={(input, option) => option.props.children.indexOf(input) >= 0} 
-                    placeholder="请选择"
-                  >
-                    {
-                      deptModules.map((item,index)=> <Option key={index} value={item.id}>{ item.deptName }</Option>)
-                    }
-                  </Select>
+                  showSearch
+                  disabled={dataSource.length === 0? false : true}
+                  style={{width: "100%"}}
+                  value={query.deptCode}
+                  onChange={(value) => {
+                    let {query} = this.state;
+                    query = {
+                      ...query,
+                      deptCode: value
+                    };
+                    this.setState({query});
+                  }}
+                  notFoundContent={<Spin size="small" />}
+                  optionFilterProp="children"
+                  filterOption={(input, option) => option.props.children.indexOf(input) >= 0} 
+                  placeholder="请选择"
+                >
+                  {
+                    deptModules.map((item,index)=> <Option key={index} value={item.id}>{ item.deptName }</Option>)
+                  }
+                </Select>
               </FormItem>
             </Col>
           </Row>
@@ -430,7 +469,7 @@ class NewAdd extends PureComponent {
               ref="table"
               modalLoading={modalLoading}
               columns={modalColumns}
-              scroll={{ x: 1450 }}
+              scroll={{ x: '100%' }}
               rowKey='drugCode'
               rowSelection={{
                 selectedRowKeys: this.state.modalSelected,
@@ -455,7 +494,7 @@ class NewAdd extends PureComponent {
             bordered
             columns={columns}
             dataSource={dataSource}
-            scroll={{ x: 2050 }}
+            scroll={{ x: '100%' }}
             rowKey='drugCode'
             rowSelection={{
               selectedRowKeys: this.state.selected,

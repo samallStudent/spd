@@ -219,7 +219,7 @@ class SubSystemManager extends PureComponent{
           ref='table'
           url={jxh.FINDSUBSYSTEMMANAGER}
           rowKey={'userId'}
-          scroll={{ x:'110%' }}
+          scroll={{ x:'100%' }}
           query={this.state.query}
           columns={columns}
           showHeader={true}

@@ -305,7 +305,7 @@ class DrugLedger extends PureComponent {
           onChange={this._tableChange}
           query={query}
           columns={columns}
-          scroll={{x: 3332}}
+          scroll={{x: '100%'}}
           style={{marginTop: 20}}
           ref='table'
           rowKey={'id'}

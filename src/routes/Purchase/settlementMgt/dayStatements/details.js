@@ -259,7 +259,7 @@ class Details extends PureComponent {
             isJson={true}
             query={query}
             url={dayStatements.DAILY_DETAIL_LIST}
-            scroll={{x: 3150}}
+            scroll={{x: '100%'}}
             columns={columns}
             rowKey={'id'}
             style={{marginTop: 24}}

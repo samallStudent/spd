@@ -237,7 +237,7 @@ class PlanOrderDetail extends PureComponent{
           <Table
             bordered
             title={()=>'产品信息'}
-            scroll={{x: 2500}}
+            scroll={{x: '100%'}}
             columns={columns}
             rowKey={'id'}
             loading={loading}
@@ -249,7 +249,7 @@ class PlanOrderDetail extends PureComponent{
           <Table
             bordered
             title={()=>'配送单信息'}
-            scroll={{x: 952}}
+            scroll={{x: '100%'}}
             columns={sendColumns}
             dataSource={detailsData ? detailsData.acceptCheckList : []}
             loading={loading}

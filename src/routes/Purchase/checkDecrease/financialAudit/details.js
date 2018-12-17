@@ -316,7 +316,7 @@ class Details extends PureComponent {
           <RetomeTable
             query={query}
             url={checkDecrease.GET_LIST_BY_BILLNO}
-            scroll={{x: 2800}}
+            scroll={{x: '100%'}}
             isJson
             columns={columns}
             pagination={{size: 'small'}}

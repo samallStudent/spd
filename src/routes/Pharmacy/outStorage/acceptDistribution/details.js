@@ -408,7 +408,7 @@ class DetailsPicking extends PureComponent{
             <Table
               bordered
               loading={loading}
-              scroll={{x: 1500}}
+              scroll={{x: '100%'}}
               columns={leftColumns}
               dataSource={leftDataSource}
               rowKey={'id'}
@@ -440,7 +440,7 @@ class DetailsPicking extends PureComponent{
           <Col span={10} offset={1}>
             <Table
               bordered
-              scroll={{x: 680}}
+              scroll={{x: '100%'}}
               dataSource={rightDataSource}
               columns={rightColumns}
               loading={rightLoading}
