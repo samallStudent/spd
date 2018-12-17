@@ -456,7 +456,7 @@ class AddRefund extends PureComponent{
               dataSource={dataSource}
               title={()=>'产品信息'}
               bordered
-              scroll={{x: 2460}}
+              scroll={{x: '100%'}}
               columns={columns}
               rowKey={'id'}
               style={{marginTop: 24}}
@@ -561,7 +561,7 @@ class AddRefund extends PureComponent{
               bordered
               isJson={true}
               url={outStorage.BACKSTORAGE_ADDPRODUCT_LIST}
-              scroll={{x: 1900}}
+              scroll={{x: '100%'}}
               columns={modalColumns}
               rowKey={'id'}
               rowSelection={{

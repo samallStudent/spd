@@ -349,7 +349,7 @@ class BaseMgt extends PureComponent{
             url={drugMgt.ADD_CARDINAL_MEDICINE}
             style={{ marginTop: 16 }} 
             columns={modalColumns}
-            scroll={{ x: 1350 }}
+            scroll={{ x: '100%' }}
             rowKey='drugCode'
             rowSelection={{
               selectedRowKeys: this.state.modalSelected,
@@ -369,7 +369,7 @@ class BaseMgt extends PureComponent{
             ref='table'
             query={query}
             url={drugMgt.FIND_CARDINAL_MEDICINE_DETAIL}
-            scroll={{x: 1756}}//1644
+            scroll={{x: '100%'}}
             columns={columns}
             rowKey={'id'}
           />

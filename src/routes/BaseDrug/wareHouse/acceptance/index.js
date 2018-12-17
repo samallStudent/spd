@@ -91,7 +91,7 @@ class Acceptance extends PureComponent{
           query={query}
           ref="tab"
           url={acceptance.CHECKACCEPT_LIST}
-          scroll={{x: 1176}}
+          scroll={{x: '100%'}}
           columns={columns}
           rowKey={'id'}
           style={{marginTop: 20}}

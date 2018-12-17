@@ -92,7 +92,7 @@ class Output extends PureComponent{
           onChange={this._tableChange}
           query={query}
           url={outStorage.BILLOUTSOTRE_LIST}
-          scroll={{x: 1400}}
+          scroll={{x: '100%'}}
           columns={columns}
           rowKey={'id'}
           style={{marginTop: 20}}

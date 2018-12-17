@@ -58,14 +58,34 @@ class NewAdd extends PureComponent {
     saveLoading: false,
     applyType: '1',        //补货方式
     fetchValue: undefined,
-    addDrugType: 1
+    addDrugType: 1,
+    applyTypeList: []
   }
   componentDidMount = () =>{
     this.getReplenishList('1');
+    this.props.dispatch({
+      type: 'base/orderStatusOrorderType',
+      payload: {
+        filterAllFlag: true,
+        type: 'apply_type'
+      },
+      callback: (data) => {
+        this.setState({
+          applyTypeList: data
+        });
+      }
+    });
   };
   getReplenishList = (type) => {
     const { dispatch } = this.props;
     let {query} = this.state;
+    this.setState({
+      deptModules: [],
+      query: {
+        ...query,
+        deptCode: undefined
+      },
+    })
     dispatch({
       type: 'base/selectApplyDept',
       payload: { applyType : type },
@@ -74,12 +94,13 @@ class NewAdd extends PureComponent {
           deptModules: data,
           query: {
             ...query,
-            deptCode: data[0].id
+            deptCode: type === '1' ? data[0].id : undefined
           },
         })
       }
     });
   }
+  
   handleOk = () => {
     let {modalSelectedRows, query, addDrugType} = this.state;
     if(modalSelectedRows.length === 0) {
@@ -173,10 +194,9 @@ class NewAdd extends PureComponent {
     let body = {
       applyStatus,
       applyType,
-      distributeDeptCode: query.deptCode,
-      detaiList: dataSource
+      detaiList: dataSource,
+      distributeDeptCode: query.deptCode
     };
-    
     this.props.dispatch({
       type: 'base/applySubmit',
       payload: body,
@@ -196,7 +216,9 @@ class NewAdd extends PureComponent {
       modalLoading,
       btnLoading,
       saveLoading,
-      fetchValue
+      fetchValue,
+      applyTypeList,
+      applyType
     } = this.state;
     const columns = [
       {
@@ -264,6 +286,10 @@ class NewAdd extends PureComponent {
                     }} 
                  />
         }
+      }, {
+        title: '最近使用药品数量',
+        dataIndex: 'recentlyUseNum',
+        width: 168,
       }, {
         title: '可用库存',
         dataIndex: 'localUsableQuantity',
@@ -350,12 +376,16 @@ class NewAdd extends PureComponent {
                       });
                       this.getReplenishList(value);
                     }}
-                    defaultValue="1"
+                    value={applyType}
                     optionFilterProp="children"
                     filterOption={(input, option) => option.props.children.indexOf(input) >= 0}
                     placeholder="请选择"
                   >
-                    <Option key="1" value="1">申领</Option>
+                    {
+                      applyTypeList.map(item => (
+                        <Option key={item.value} value={item.value}>{item.label}</Option>
+                      ))
+                    }
                   </Select>
               </FormItem>
             </Col>
@@ -409,6 +439,7 @@ class NewAdd extends PureComponent {
               <FetchSelect
                 value={fetchValue}
                 style={{ width: 248 }}
+                allowClear
                 placeholder='通用名/商品名'
                 url={wareHouse.QUERY_DRUG_BY_LIST}
                 cb={(value, option) => {
@@ -430,7 +461,7 @@ class NewAdd extends PureComponent {
               ref="table"
               modalLoading={modalLoading}
               columns={modalColumns}
-              scroll={{ x: 1450 }}
+              scroll={{ x: '100%' }}
               rowKey='drugCode'
               rowSelection={{
                 selectedRowKeys: this.state.modalSelected,
@@ -455,7 +486,7 @@ class NewAdd extends PureComponent {
             bordered
             columns={columns}
             dataSource={dataSource}
-            scroll={{ x: 2050 }}
+            scroll={{ x: '100%' }}
             rowKey='drugCode'
             rowSelection={{
               selectedRowKeys: this.state.selected,

@@ -433,7 +433,7 @@ class DrugDirectory extends PureComponent{
           bordered
           query={query}
           url={systemMgt.MEDICINEMATERIAL_LIST}
-          scroll={{x: 1800}}
+          scroll={{x: '100%'}}
           columns={IndexColumns}
           rowKey={'id'}
         />

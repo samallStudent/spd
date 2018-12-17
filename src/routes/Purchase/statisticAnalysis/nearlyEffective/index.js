@@ -230,6 +230,21 @@ class NearlyEffective extends PureComponent {
         title: '临效期天数',
         dataIndex: 'diffDay',
         width: 168,
+        render: (text) => {
+          if(text <= 30) {
+            return <span style={{color: '#a8071a'}}>{text}</span>;
+          };
+          if(text > 30 && text <= 60) {
+            return <span style={{color: '#f5222d'}}>{text}</span>;
+          };
+          if(text > 60 && text <= 90) {
+            return <span style={{color: '#FFA39E'}}>{text}</span>;
+          };
+          if(text > 90 && text <= 180) {
+            return <span style={{color: '#ffd666'}}>{text}</span>;
+          };
+          return <span style={{color: '#ffd666'}}>{text}</span>;
+        }
       }, {
         title: '货位',
         dataIndex: 'goodsName',
@@ -338,7 +353,7 @@ class NearlyEffective extends PureComponent {
             query={query}
             isJson
             columns={columns}
-            scroll={{x: 3150}}
+            scroll={{x: '100%'}}
             style={{marginTop: 20}}
             ref='table'
             rowKey={'batchNo'}

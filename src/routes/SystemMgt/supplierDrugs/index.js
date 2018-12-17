@@ -371,7 +371,7 @@ class DrugDirectory extends PureComponent{
         isJson={true}
         style={{marginTop: 20}}
         columns={columns}
-        scroll={{ x: 1748 }}
+        scroll={{ x: '100%' }}
         url={supplierDurs.findDrugsList}
         // rowSelection={{
         //   selectedRowKeys: this.state.selected,

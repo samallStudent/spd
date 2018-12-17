@@ -198,7 +198,7 @@ class DetailsOutput extends PureComponent{
               dataSource={createData()}
               bordered
               title={()=>'产品信息'}
-              scroll={{x: '200%'}}
+              scroll={{x: '100%'}}
               columns={columns}
               rowKey={'id'}
               pagination={{

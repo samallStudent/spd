@@ -291,7 +291,7 @@ class UserMgt extends PureComponent{
           columns={columns}
           bordered
           query={query}
-          scroll={{ x: 1250 }}
+          scroll={{ x: '100%' }}
           url={systemMgt.FINDUSERLIST}
           rowKey={'loginName'}
           onChange={this._tableChange}
