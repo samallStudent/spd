@@ -414,7 +414,7 @@ class AddOutput extends PureComponent{
                 共{dataSource.length}种产品
               </span>
               <div>
-                <Button loading={submitLoading} style={{float:'right'}} onClick={() => {
+                <Button style={{float:'right'}} onClick={() => {
                   this.props.history.go(-1);
                 }}>
                   取消

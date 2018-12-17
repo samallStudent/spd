@@ -12,7 +12,7 @@ import FetchSelect from '../../../../components/FetchSelect';
 import _ from 'lodash';
 import { connect } from 'dva';
 const FormItem = Form.Item;
-const Conform = Modal.confirm;
+//const Conform = Modal.confirm;
 const {Option} = Select;
 const formItemLayout = {
   labelCol: {
@@ -198,7 +198,8 @@ class AddRefund extends PureComponent{
       selectedRows: [],
       modalSelectedRows: [], // 模态框内勾选
       modalSelected: [],
-      supplierList: []
+      supplierList: [],
+      okLoading: false,
     }
   }
   toggle = () => {
@@ -270,37 +271,66 @@ class AddRefund extends PureComponent{
   //提交该出库单
   backStroage = () => {
     const { dataSource } = this.state;
+    this.setState({
+      okLoading: true
+    })
     this.refs.remarksForm.validateFields((err, values) => {
       if(!err) {
-        Conform({
-          content:"是否确认退货",
-          onOk:()=>{
-            const { dispatch, history } = this.props;
-            let postData = {}, backDrugList = [];
-            dataSource.map(item => backDrugList.push({ 
-              backNum: item.backNum, 
-              drugCode: item.drugCode, 
-              inStoreCode: item.inStoreCode,
-              lot: item.lot,
-              supplierCode: item.supplierCode
-            }));
-            postData.backDrugList = backDrugList;
-            postData.backcause = values.backCause;
-            if(values.backcauseOther) {
-              postData.backcauseOther = values.backcauseOther
-            }
-            console.log(postData,'postData')
-            dispatch({
-              type: 'base/submitBackStorage',
-              payload: { ...postData },
-              callback: () => {
-                message.success('退货成功');
-                history.push({pathname:"/drugStorage/outStorage/backStorage"})
-              }
+        const { dispatch, history } = this.props;
+        let postData = {}, backDrugList = [];
+        dataSource.map(item => backDrugList.push({ 
+          backNum: item.backNum, 
+          drugCode: item.drugCode, 
+          inStoreCode: item.inStoreCode,
+          lot: item.lot,
+          supplierCode: item.supplierCode
+        }));
+        postData.backDrugList = backDrugList;
+        postData.backcause = values.backCause;
+        if(values.backcauseOther) {
+          postData.backcauseOther = values.backcauseOther
+        }
+        console.log(postData,'postData')
+        dispatch({
+          type: 'base/submitBackStorage',
+          payload: { ...postData },
+          callback: () => {
+            message.success('退货成功');
+            this.setState({
+              okLoading: false
             })
-          },
-          onCancel:()=>{}
+            history.push({pathname:"/drugStorage/outStorage/backStorage"})
+          }
         })
+        // Conform({
+        //   content:"是否确认退货",
+        //   onOk:()=>{
+        //     const { dispatch, history } = this.props;
+        //     let postData = {}, backDrugList = [];
+        //     dataSource.map(item => backDrugList.push({ 
+        //       backNum: item.backNum, 
+        //       drugCode: item.drugCode, 
+        //       inStoreCode: item.inStoreCode,
+        //       lot: item.lot,
+        //       supplierCode: item.supplierCode
+        //     }));
+        //     postData.backDrugList = backDrugList;
+        //     postData.backcause = values.backCause;
+        //     if(values.backcauseOther) {
+        //       postData.backcauseOther = values.backcauseOther
+        //     }
+        //     console.log(postData,'postData')
+        //     dispatch({
+        //       type: 'base/submitBackStorage',
+        //       payload: { ...postData },
+        //       callback: () => {
+        //         message.success('退货成功');
+        //         history.push({pathname:"/drugStorage/outStorage/backStorage"})
+        //       }
+        //     })
+        //   },
+        //   onCancel:()=>{}
+        // })
       }
     })
     
@@ -514,7 +544,7 @@ class AddRefund extends PureComponent{
               <Affix offsetBottom={0} className='affix'>
                 <Row>
                   <Col style={{ textAlign: 'right', padding: '10px' }}>
-                    <Button onClick={this.backStroage} type='primary' style={{ marginRight: 8 }}>确定</Button>
+                    <Button onClick={this.backStroage} type='primary' style={{ marginRight: 8 }} loading={this.state.okLoading}>确定</Button>
                     <Button type='primary' ghost>
                       <Link to={{pathname:`/drugStorage/outStorage/backStorage`}}>取消</Link>
                     </Button>
