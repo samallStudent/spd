@@ -217,7 +217,7 @@ class Detail extends PureComponent{
             query={query}
             url={statisticAnalysis.EXECUTE_DETAIL_LIST}
             title={()=>'损益信息'}
-            scroll={{x: '100%'}}
+            scroll={{x: 2450}}
             columns={columns}
             rowKey={'id'}
           />

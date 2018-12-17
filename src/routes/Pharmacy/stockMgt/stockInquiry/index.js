@@ -80,10 +80,6 @@ const columns = [
     dataIndex: 'waitStoreNum',
     width: 112
   }, {
-    title: '锁定区库存',
-    dataIndex: 'lockStoreNum',
-    width: 112
-  }, {
     title: '剂型',
     dataIndex: 'ctmmDosageFormDesc',
     width: 168,
@@ -217,7 +213,7 @@ class StockInquiry extends PureComponent {
           query={query}
           ref="tab"
           style={{marginTop: 20}}
-          scroll={{x: '100%'}}
+          scroll={{x: 1800}}
           columns={columns}
           rowKey="drugCode"
         />

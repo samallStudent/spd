@@ -117,7 +117,7 @@ class Output extends PureComponent{
           query={query}
           url={outStorage.OUTSTORELIST}
           ref="tab"
-          scroll={{x: '100%'}}
+          scroll={{x: 1400}}
           columns={columns}
           rowKey={'id'}
           style={{marginTop: 20}}

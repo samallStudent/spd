@@ -246,7 +246,7 @@ class ReplenishmentDetail extends PureComponent{
             bordered
             columns={columns}
             pagination={false}
-            scroll={{ x: '100%' }}
+            scroll={{ x: 2086 }}
             rowKey='drugCode'
             dataSource={baseInfo?baseInfo.list:[]}
           />

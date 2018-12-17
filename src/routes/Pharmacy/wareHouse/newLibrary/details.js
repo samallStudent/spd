@@ -211,7 +211,7 @@ class DetailsNewLibrary extends PureComponent{
           loading={loading}
           dataSource={list || []}
           bordered
-          scroll={{x: '100%'}}
+          scroll={{x: 2500}}
           columns={columns}
           rowKey={'drugCode'}
           style={{marginTop: 24}}

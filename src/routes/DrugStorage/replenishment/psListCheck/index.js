@@ -204,7 +204,7 @@ class DistributionCheck extends PureComponent{
           bordered
           loading={this.state.loading}
           dataSource={this.state.dataSource}
-          scroll={{ x: '100%' }}
+          scroll={{ x: '150%' }}
           rowKey={'id'}
           pagination={{
             size: "small",

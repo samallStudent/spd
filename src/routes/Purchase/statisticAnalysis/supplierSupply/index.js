@@ -256,7 +256,7 @@ class SupplierSupply extends PureComponent {
           query={query}
           isJson
           columns={columns}
-          scroll={{x: '100%'}}
+          scroll={{x: 1400}}
           style={{marginTop: 20}}
           ref='table'
           rowKey={'orderCode'}

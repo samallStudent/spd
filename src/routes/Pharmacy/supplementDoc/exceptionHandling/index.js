@@ -132,7 +132,7 @@ class Putaway extends PureComponent{
           <Button type='primary' onClick={this.showAbnormalModal} >选择异常发药出库单</Button>
         </div>
         <RemoteTable
-          scroll={{x: '100%'}}
+          scroll={{x: 960}}
           columns={columns}
           onChange={this._tableChange}
           query={query}
@@ -174,7 +174,7 @@ class Putaway extends PureComponent{
             query={{}}
             isJson={true}
             url={supplementDoc.billFlowBadVoList}
-            scroll={{x: '100%'}}
+            scroll={{x: 789}}
             style={{marginTop: 20}}
             columns={abnormalModalColumns}
             rowKey={'dispensingNo'}

@@ -292,7 +292,7 @@ class ReplenishmentDetail extends PureComponent{
         <div className='detailCard'>
           <Table
             title={()=>'产品信息'}
-            scroll={{x: '100%'}}
+            scroll={{x: 2574}}
             columns={columns}
             rowKey={'drugCode'}
             bordered

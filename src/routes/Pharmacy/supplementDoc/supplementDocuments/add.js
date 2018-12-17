@@ -441,7 +441,7 @@ class AddSupplementDocuments extends PureComponent{
               dataSource={dataSource}
               title={()=>'产品信息'}
               bordered
-              scroll={{x: '100%'}}
+              scroll={{x: 1950}}
               columns={columns}
               rowKey={'batchNo'}
               style={{marginTop: 24}}
@@ -502,7 +502,7 @@ class AddSupplementDocuments extends PureComponent{
               ref="table"
               isJson={true}
               url={supplementDoc.addProductList}
-              scroll={{x: '100%'}}
+              scroll={{x: 2200}}
               columns={modalColumns}
               rowKey={'id'}
               rowSelection={{

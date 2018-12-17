@@ -126,7 +126,7 @@ class Details extends PureComponent{
                     <h3 style={{marginBottom: 16}}>产品信息</h3>
                     <RemoteTable
                         rowKey="id"
-                        scroll={{x: '100%'}}
+                        scroll={{x: 1850}}
                         query={query}
                         url={drugPricing.CHECK_PRICE_DETAIL}
                         columns={columns}

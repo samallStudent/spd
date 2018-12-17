@@ -166,7 +166,7 @@ class Details extends PureComponent{
                         loading={loading}
                         rowKey="id"
                         columns={columns}
-                        scroll={{x: '100%'}}
+                        scroll={{x: 1512}}
                         dataSource={list}
                         bordered
                         pagination={false}

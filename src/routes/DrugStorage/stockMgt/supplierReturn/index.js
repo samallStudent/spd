@@ -203,7 +203,7 @@ class SupplierReturn extends PureComponent {
           query={query}
           isJson
           columns={columns}
-          scroll={{x: '100%'}}
+          scroll={{x: 1176}}
           style={{marginTop: 20}}
           ref='table'
           rowKey={'id'}

@@ -52,6 +52,11 @@ const columns = [
     width: 224
   },
   {
+   title: '验收人',
+   width: 168,
+   dataIndex: 'receptionUserName'
+  },
+  {
    title: '验收时间',
    width: 224,
    dataIndex: 'receptionTime'

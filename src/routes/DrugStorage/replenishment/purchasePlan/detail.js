@@ -183,7 +183,7 @@ class ReplenishmentDetail extends PureComponent{
             dataSource={createData()}
             bordered
             title={()=>'产品信息'}
-            scroll={{x: '100%'}}
+            scroll={{x: '150%'}}
             columns={columns}
             rowKey={'id'}
             pagination={{

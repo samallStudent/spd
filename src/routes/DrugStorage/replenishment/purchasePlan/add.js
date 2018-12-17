@@ -187,7 +187,7 @@ class NewAdd extends PureComponent{
           columns={modalColumns}
           dataSource={modalData}
           bordered
-          scroll={{ x: '100%' }}
+          scroll={{ x: '150%' }}
           rowKey='id'
           pagination={{
             size: "small",
@@ -207,7 +207,7 @@ class NewAdd extends PureComponent{
           columns={columns}
           bordered
           rowKey='id'
-          scroll={{ x: '100%' }}
+          scroll={{ x: '150%' }}
           pagination={false}
           rowSelection={{
             selectedRowKeys: this.state.selected,

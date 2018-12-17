@@ -240,7 +240,7 @@ class DetailsPickSoldOut extends PureComponent{
             <Table
               bordered
               dataSource={leftDataSource}
-              scroll={{x: '100%'}}
+              scroll={{x: 1900}}
               columns={columns}
               loading={loading}
               pagination={false}
@@ -257,7 +257,7 @@ class DetailsPickSoldOut extends PureComponent{
             <Table
               bordered
               dataSource={rightDataSource}
-              scroll={{x: '100%'}}
+              scroll={{x: 1900}}
               loading={loading}
               columns={readyPickingColumns}
               pagination={false}

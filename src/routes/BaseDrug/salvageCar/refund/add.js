@@ -508,7 +508,7 @@ class AddSalvageTruck extends PureComponent{
               dataSource={dataSource}
               title={()=>'产品信息'}
               bordered
-              scroll={{x: '100%'}}
+              scroll={{x: 2460}}
               columns={columns}
               rowKey={'id'}
               style={{marginTop: 24}}
@@ -613,7 +613,7 @@ class AddSalvageTruck extends PureComponent{
               bordered
               isJson={true}
               url={salvageCar.RESCUECAR_BACK_ADD_LIST}
-              scroll={{x: '100%'}}
+              scroll={{x: 1900}}
               columns={modalColumns}
               rowKey={'id'}
               rowSelection={{

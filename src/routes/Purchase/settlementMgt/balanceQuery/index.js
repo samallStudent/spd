@@ -56,7 +56,7 @@ class Statements extends PureComponent{
                 </div>
                 <div className="detailCard">
                     <Table
-                        scroll={{x: '100%'}}
+                        scroll={{x: '150%'}}
                         bordered={true}
                         columns={columns}
                         dataSource={dataSource}

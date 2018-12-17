@@ -312,7 +312,7 @@ class DetailsOutput extends PureComponent{
             bordered
             loading={loading}
             dataSource={detailVo || []}
-            scroll={{x: '100%'}}
+            scroll={{x: 2624}}
             columns={columns}
             rowKey={'batchNo'}
             pagination={false}

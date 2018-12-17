@@ -257,7 +257,7 @@ class Details extends PureComponent {
             isJson
             query={query}
             url={profiLossRecord.GET_LIST_BY_BILLNO}
-            scroll={{x: '100%'}}
+            scroll={{x: 2800}}
             columns={columns}
             rowKey={'id'}
           />

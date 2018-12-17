@@ -406,7 +406,7 @@ class NewAddGoodsAdjust extends PureComponent{
             bordered
             rowKey='id'
             dataSource={dataSource}
-            scroll={{ x: '100%' }}
+            scroll={{ x: 2250 }}
             pagination={false}
             rowSelection={{
               selectedRowKeys: this.state.selected,
@@ -469,7 +469,7 @@ class NewAddGoodsAdjust extends PureComponent{
             url={goodsAdjust.roomDrugList}
             style={{ marginTop: 16 }} 
             columns={modalColumns}
-            scroll={{ x: '100%' }}
+            scroll={{ x: 2462 }}
             rowKey='id'
             rowSelection={{
               selectedRowKeys: this.state.modalSelected,

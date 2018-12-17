@@ -157,7 +157,7 @@ class ReplenishmentDetail extends PureComponent{
             loading={loading}
             dataSource={roomLocAdjustDetailVoList || []}
             bordered
-            scroll={{x: '100%'}}
+            scroll={{x: 2200}}
             columns={columns}
             rowKey={'drugCode'}
           />

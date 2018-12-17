@@ -236,7 +236,7 @@ class Detail extends PureComponent{
           <hr className="hr" />
           <RemoteTable
             query={query}
-            scroll={{x: '100%'}}
+            scroll={{x: 3300}}
             columns={columns}
             rowKey={'id'}
             url={statisticAnalysis.PROFIT_LOSS_DETAIL_LIST}

@@ -256,7 +256,7 @@ class OrderFulfillment extends PureComponent {
         <RemoteTable
           onChange={this._tableChange}
           query={query}
-          scroll={{x: '100%'}}
+          scroll={{x: 1064}}
           isJson
           columns={columns}
           style={{marginTop: 20}}

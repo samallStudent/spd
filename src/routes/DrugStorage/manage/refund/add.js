@@ -215,7 +215,7 @@ class AddRefund extends PureComponent{
           }}
           dataSource={createData()}
           bordered
-          scroll={{x: '100%'}}
+          scroll={{x: '200%'}}
           columns={columns}
           rowKey={'id'}
           style={{marginTop: 24}}
@@ -246,7 +246,7 @@ class AddRefund extends PureComponent{
             }}
             dataSource={createData()}
             bordered
-            scroll={{x: '100%'}}
+            scroll={{x: '200%'}}
             columns={modalColumns}
             rowKey={'id'}
             style={{marginTop: 24}}

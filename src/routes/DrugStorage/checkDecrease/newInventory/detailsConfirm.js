@@ -172,7 +172,7 @@ class DetailsConfirm extends PureComponent {
         <Table
           dataSource={createData()}
           bordered
-          scroll={{x: '100%'}}
+          scroll={{x: '220%'}}
           columns={columns}
           rowKey={'id'}
           style={{marginTop: 24}}

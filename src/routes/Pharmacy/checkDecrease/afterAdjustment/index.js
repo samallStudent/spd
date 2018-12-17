@@ -253,7 +253,7 @@ class AfterAdjustment extends PureComponent {
           columns={columns}
           rowKey={'id'}
           ref="table"
-          scroll={{x: '100%'}}
+          scroll={{x: 2016}}
           style={{marginTop: 20}}
         />
       </div>

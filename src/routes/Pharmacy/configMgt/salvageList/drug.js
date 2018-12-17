@@ -360,7 +360,7 @@ class BaseMgt extends PureComponent{
             url={baseMgt.ADD_RESCUECAR_MEDICINE}
             style={{ marginTop: 16 }} 
             columns={modalColumns}
-            scroll={{ x: '100%' }}
+            scroll={{ x: 1350 }}
             rowKey='drugCode'
             rowSelection={{
               selectedRowKeys: this.state.modalSelected,
@@ -379,7 +379,7 @@ class BaseMgt extends PureComponent{
             ref='table'
             query={query}
             url={baseMgt.FIND_RESCUECA_CARDINAL_MADICINE}
-            scroll={{x: '100%'}}
+            scroll={{x: 1772}}
             columns={columns}
             rowKey={'id'}
           />

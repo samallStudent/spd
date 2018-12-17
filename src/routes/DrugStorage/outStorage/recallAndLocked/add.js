@@ -427,7 +427,7 @@ class AddRefund extends PureComponent{
             dataSource={dataSource}
             title={()=>'产品信息'}
             bordered
-            scroll={{x: '100%'}}
+            scroll={{x: 2000}}
             columns={columns}
             rowKey={'uuid'}
             style={{marginTop: 24}}
@@ -517,7 +517,7 @@ class AddRefund extends PureComponent{
               bordered
               isJson={true}
               url={outStorage.RECALLORLOCKADDPRODUCT_LIST}
-              scroll={{x: '100%'}}
+              scroll={{x: 1750}}
               columns={modalColumns}
               rowKey={'uuid'}
               style={{marginTop: 20}}

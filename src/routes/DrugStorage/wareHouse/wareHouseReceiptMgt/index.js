@@ -89,7 +89,7 @@ class Putaway extends PureComponent{
           query={query}
           url={wareHouse.depotinstoreList}
           ref="tab"
-          scroll={{x: '100%'}}
+          scroll={{x: 1120}}
           columns={columns}
           rowKey={'id'}
           style={{marginTop: 24}}

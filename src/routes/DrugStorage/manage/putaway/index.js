@@ -178,7 +178,7 @@ class Putaway extends PureComponent{
           }
           bordered
           loading={ this.state.loading}
-          scroll={{x: '100%'}}
+          scroll={{x: '200%'}}
           pagination={{
             size: "small",
             showQuickJumper: true,

@@ -163,7 +163,7 @@ class Details extends PureComponent{
                         query={query}
                         url={salvageCar.GET_RESCUECAR_MEDICEINE_DETAIL_LIST}
                         columns={columns}
-                        scroll={{x: '100%'}}
+                        scroll={{x: 1292}}
                     />
                 </div>
             </div>

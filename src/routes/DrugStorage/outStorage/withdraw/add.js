@@ -392,7 +392,7 @@ class AddOutput extends PureComponent{
             bordered
             pagination={{size: 'small'}}
             dataSource={dataSource}
-            scroll={{x: '100%'}}
+            scroll={{x: 2500}}
             columns={columns}
             rowKey={'batchNo'}
             style={{
@@ -452,7 +452,7 @@ class AddOutput extends PureComponent{
                 this.setState({selectedRowKeyModal, selectedRowModal});
               }
             }}
-            scroll={{x: '100%'}}
+            scroll={{x: 1450}}
             columns={modalColumns}
             rowKey={'batchNo'}
           />

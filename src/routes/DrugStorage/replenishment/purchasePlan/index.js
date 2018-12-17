@@ -104,7 +104,7 @@ class PurchasePlan extends PureComponent{
           bordered
           loading={this.state.loading}
           dataSource={this.state.dataSource}
-          scroll={{ x: '100%' }}
+          scroll={{ x: '130%' }}
           rowKey={'id'}
           pagination={{
             size: "small",

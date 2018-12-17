@@ -228,7 +228,7 @@ class Refund extends PureComponent{
           query={query}
           bordered
           url={outStorage.FINDCOMMONBACK_LIST}
-          scroll={{x: '100%'}}
+          scroll={{x: 1400}}
           columns={columns}
           rowKey={'id'}
           style={{marginTop: 20}}

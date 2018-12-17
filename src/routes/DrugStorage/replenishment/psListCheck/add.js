@@ -249,7 +249,7 @@ class PllistCheckAdd extends PureComponent{
           <Table
             dataSource={createData()}
             bordered
-            scroll={{x: '100%'}}
+            scroll={{x: '200%'}}
             columns={columns}
             rowKey={'id'}
             pagination={{

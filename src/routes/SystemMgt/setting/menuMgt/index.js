@@ -108,7 +108,7 @@ class MenuMgt extends PureComponent{
           dataSource={dataSource}
           style={{marginTop: 20}}
           columns={columns}
-          scroll={{ x: '100%' }}
+          scroll={{ x: 1166 }}
           rowKey='id'
         />
 

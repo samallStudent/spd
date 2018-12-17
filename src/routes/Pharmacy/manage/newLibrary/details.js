@@ -190,7 +190,7 @@ class DetailsNewLibrary extends PureComponent{
           <Table
             dataSource={createData()}
             bordered
-            scroll={{x: '100%'}}
+            scroll={{x: '200%'}}
             columns={columns}
             rowKey={'id'}
             style={{marginTop: 24}}

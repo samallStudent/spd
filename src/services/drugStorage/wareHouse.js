@@ -82,3 +82,11 @@ export function instoreExport(options) {
     body: options
   })  
 }
+
+export function findOriginDept(options) {
+  return request(`${_local}/a/checkaccept/findOriginDept`, {
+    method: 'GET',
+    type: 'formData', 
+    body: options
+  })  
+}

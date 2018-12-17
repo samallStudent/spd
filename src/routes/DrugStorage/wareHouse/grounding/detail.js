@@ -85,8 +85,7 @@ class DetailsPutaway extends PureComponent{
       return {
         id: item.id,
         realNum: item.realNum,
-        realReceiveStore: item.realReceiveStore,
-        productBatchNo: item.productBatchNo
+        realReceiveStore: item.realReceiveStore
       }
     })
     let payload = {
@@ -339,7 +338,7 @@ class DetailsPutaway extends PureComponent{
                 loading={loading}
                 dataSource={listwsj}
                 bordered
-                scroll={{x: '100%'}}
+                scroll={{x: 2150}}
                 columns={notColumns}
                 rowKey={'id'}
                 pagination={false}
@@ -355,7 +354,7 @@ class DetailsPutaway extends PureComponent{
                 loading={loading}
                 dataSource={listysj}
                 bordered
-                scroll={{x: '100%'}}
+                scroll={{x: 1952}}
                 columns={hasColumns}
                 rowKey={'id'}
                 pagination={false}

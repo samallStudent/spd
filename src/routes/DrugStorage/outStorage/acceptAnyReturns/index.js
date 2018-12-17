@@ -279,7 +279,7 @@ class PickSoldOut extends PureComponent{
           ref='table'
           query={query}
           url={outStorage.FINDPICKINGORDER_LIT}
-          scroll={{x: '100%'}}
+          scroll={{x: 1236}}
           columns={columns}
           rowKey={'id'}
           style={{marginTop: 20}}

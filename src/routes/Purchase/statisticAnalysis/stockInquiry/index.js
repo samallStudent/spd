@@ -228,7 +228,7 @@ class StockInquiry extends PureComponent {
           query={query}
           ref="tab"
           style={{marginTop: 20}}
-          scroll={{x: '100%'}}
+          scroll={{x: 1856}}
           columns={columns}
           rowKey="batchNo"
         />

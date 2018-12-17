@@ -212,7 +212,7 @@ class NewAdd extends PureComponent{
               isJson={true}
               columns={columns}
               url={drugPricing.SELECT_DRUG_CODE}
-              scroll={{ x: '100%' }}
+              scroll={{ x: 1550 }}
               rowKey='id'
               rowSelection={{
                 selectedRowKeys: this.state.modalSelected,
@@ -230,7 +230,7 @@ class NewAdd extends PureComponent{
             bordered
             rowKey='id'
             dataSource={dataSource}
-            scroll={{ x: '100%' }}
+            scroll={{ x: 1550 }}
             pagination={false}
             rowSelection={{
               selectedRowKeys: this.state.selected,

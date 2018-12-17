@@ -804,7 +804,7 @@ class PslistCheck extends PureComponent{
               <Table
                 bordered
                 loading={loading}
-                scroll={{x: '100%'}}
+                scroll={{x: 2948}}
                 columns={columnsUnVerfiy}
                 dataSource={unVerfiyList || []}
                 pagination={false}
@@ -826,7 +826,7 @@ class PslistCheck extends PureComponent{
               <Table
                 loading={loading}
                 bordered
-                scroll={{x: '100%'}}
+                scroll={{x: 2948}}
                 columns={columnsVerify || []}
                 dataSource={verifyList}
                 rowKey={'key'}

@@ -243,7 +243,7 @@ class SectionAnalysis extends PureComponent {
           query={query}
           isJson
           columns={columns}
-          scroll={{x: '100%'}}
+          scroll={{x: 1008}}
           style={{marginTop: 20}}
           ref='table'
           rowKey={'id'}

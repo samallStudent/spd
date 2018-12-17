@@ -219,7 +219,7 @@ class ReplenishmentDetail extends PureComponent{
             title={()=>'产品信息'}
             style={{marginTop: 20}}
             columns={columns}
-            scroll={{ x: '100%' }}
+            scroll={{ x: 2086 }}
             rowKey='drugCode'
             dataSource={baseInfo?baseInfo.list:[]}
             pagination={false}

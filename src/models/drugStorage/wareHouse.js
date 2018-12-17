@@ -53,6 +53,13 @@ export default {
         message.error(data.msg);
       }
     },
+    //要哭验收来源部门下拉
+    *findOriginDept({ payload, callback }, {put, call}) {
+      const data = yield call(wareHouse.findOriginDept, payload);
+      if(callback && typeof callback === 'function') {
+        callback(data);
+      };
+    },
     *export({ payload, callback }, {put, call}) {
       const data = yield call(wareHouse.instoreExport, payload);
       if(typeof callback === 'function') {

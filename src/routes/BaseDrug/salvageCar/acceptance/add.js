@@ -302,7 +302,7 @@ class AddNewAcceptance extends PureComponent{
               <Table
                 bordered
                 loading={loading}
-                scroll={{x: '100%'}}
+                scroll={{x: 2460}}
                 columns={columns}
                 dataSource={unVerfiyList || []}
                 pagination={false}
@@ -317,7 +317,7 @@ class AddNewAcceptance extends PureComponent{
               <Table
                 loading={loading}
                 bordered
-                scroll={{x: '100%'}}
+                scroll={{x: 2412}}
                 rowKey={'id'}
                 columns={columns}
                 dataSource={verifyList || []}

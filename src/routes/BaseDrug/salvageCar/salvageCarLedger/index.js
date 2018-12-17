@@ -348,7 +348,7 @@ class salvageLadgerList extends PureComponent{
                query={query}
                ref="salvageCarLedgerTable"
                columns={IndexColumns}
-               scroll={{x: '100%'}}
+               scroll={{x: 2968}}
                rowKey={'id'}
                style={{marginTop: 20}}
                url={salvageCar.GET_DRUG_LEDGER}

@@ -224,6 +224,8 @@ class DetailsNewLibrary extends PureComponent{
                     <div className='ant-form-item-control'>{info.statusName || ''}</div>
                   </div>
               </Col>
+            </Row>
+            <Row>
               <Col span={8}>
                   <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
                       <label>配货部门</label>
@@ -246,6 +248,16 @@ class DetailsNewLibrary extends PureComponent{
                   </div>
                   <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18">
                     <div className='ant-form-item-control'>{info.createDate || ''}</div>
+                  </div>
+              </Col>
+            </Row>
+            <Row>
+              <Col span={8}>
+                  <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
+                      <label>验收人</label>
+                  </div>
+                  <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18">
+                    <div className='ant-form-item-control'>{info.receptionUserName || ''}</div>
                   </div>
               </Col>
               <Col span={8}>

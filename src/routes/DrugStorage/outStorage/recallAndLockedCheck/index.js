@@ -278,7 +278,7 @@ class RecallAndLockedCheck extends PureComponent{
           query={query}
           bordered
           url={outStorage.ROOMRECALL_LIST}
-          scroll={{x: '100%'}}
+          scroll={{x: 1624}}
           columns={columns}
           rowKey={'id'}
           style={{marginTop: 20}}

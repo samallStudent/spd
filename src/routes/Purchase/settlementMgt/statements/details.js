@@ -238,7 +238,7 @@ class Details extends PureComponent {
             isJson={true}
             query={query}
             url={settlementMgt.DETAIL_LIST}
-            scroll={{x: '100%'}}
+            scroll={{x: 1850}}
             columns={columns}
             rowKey={'id'}
             style={{marginTop: 24}}

@@ -222,7 +222,7 @@ class ReplenishmentPlan extends PureComponent {
           query={query}
           isJson
           columns={columns}
-          scroll={{x: '100%'}}
+          scroll={{x: 1344}}
           style={{marginTop: 20}}
           ref='table'
           rowKey={'id'}

@@ -230,7 +230,7 @@ class RecallAndLockedDetail extends PureComponent {
 								bordered
 								dataSource={dataSource}
 								title={() => '产品信息'}
-								scroll={{ x: '100%' }}
+								scroll={{ x: 1950 }}
 								columns={columns}
 								rowKey={'batchNo'}
 								pagination={{

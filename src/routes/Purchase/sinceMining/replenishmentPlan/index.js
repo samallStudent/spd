@@ -255,7 +255,7 @@ class ReplenishmentPlan extends PureComponent {
           onChange={this._tableChange}
           query={query}
           columns={columns}
-          scroll={{x: '100%'}}
+          scroll={{x: 1280}}
           style={{marginTop: 20}}
           ref='table'
           rowKey={'id'}

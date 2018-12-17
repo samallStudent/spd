@@ -133,7 +133,7 @@ class SettlementDetails extends PureComponent {
                 <div className='detailCard'>
                     <Table
                         columns={columns}
-                        scroll={{x: '100%'}}
+                        scroll={{x: '250%'}}
                         bordered
                         title={()=>'产品信息'}
                         dataSource={dataSource}

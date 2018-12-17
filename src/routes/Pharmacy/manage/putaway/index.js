@@ -174,7 +174,7 @@ class Putaway extends PureComponent{
           }
           bordered
           loading={ this.state.loading}
-          scroll={{x: '100%'}}
+          scroll={{x: '200%'}}
           columns={columns}
           rowKey={'id'}
           style={{marginTop: 24}}

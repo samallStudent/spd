@@ -8,7 +8,7 @@
  * @file 药库 - 入库--配送单验收--列表
  */
 import React, { PureComponent } from 'react';
-import { Form, Input, Row, Col, Select, Button, Tooltip, Icon } from 'antd';
+import { Form, Input, Row, message, Col, Select, Button, Tooltip, Icon } from 'antd';
 import { Link } from 'react-router-dom';
 import wareHouse from '../../../../api/drugStorage/wareHouse';
 import RemoteTable from '../../../../components/TableGrid';
@@ -90,10 +90,14 @@ class SearchForm extends PureComponent{
   state = {
     type: [],
     status: [],
-    supplierList: []
+    supplierList: [],
+    originDeptList: []
   }
   componentDidMount = () => {
-    this.props.formProps.dispatch({
+    const {dispatch} = this.props.formProps;
+    const {deptId} = this.props.formProps.users.currentDept;
+    
+    dispatch({
       type: 'base/orderStatusOrorderType',
       payload: {
         type: 'acceptance_checkVo'
@@ -102,15 +106,28 @@ class SearchForm extends PureComponent{
         this.setState({status: data})
       }
     });
-
-    this.props.formProps.dispatch({
+    dispatch({
       type: 'wareHouse/getsupplierList',
       callback: (data)=>{
         this.setState({supplierList: data})
       }
     });
-
-    this.props.formProps.dispatch({
+    dispatch({
+      type: 'wareHouse/findOriginDept',
+      payload: {
+        deptCode: deptId
+      },
+      callback: ({data, code, msg})=>{
+        if(code === 200) {
+          this.setState({
+            originDeptList: data
+          });
+        }else {
+          message.error(`wareHouse/findOriginDept: ${msg}`);
+        };
+      }
+    });
+    dispatch({
       type: 'base/orderStatusOrorderType',
       payload: {
         type: 'depot_type'
@@ -165,7 +182,7 @@ class SearchForm extends PureComponent{
   }
   render(){
     const { getFieldDecorator } = this.props.form;
-    let { type, status, supplierList } = this.state;
+    let { type, status, supplierList, originDeptList } = this.state;
     type = this.listRender(type);
     status = this.listRender(status);
     supplierList = supplierList.map(item=>{
@@ -235,6 +252,28 @@ class SearchForm extends PureComponent{
                   </Select>
                 )
               }
+            </FormItem>
+          </Col>
+          <Col span={8} style={{ display: display }}>
+            <FormItem {...formItemLayout} label={`来源部门`}>
+                {
+                  getFieldDecorator(`deptCode`)(
+                    <Select 
+                      allowClear
+                      showSearch
+                      placeholder={'请选择'}
+                      optionFilterProp="children"
+                      filterOption={(input, option) => option.props.children.indexOf(input) >= 0}
+                    >
+                      <Option value="">全部</Option>
+                      {
+                        originDeptList.map(item =>(
+                          <Option key={item.id} value={item.id}>{item.deptName}</Option>
+                        ))
+                      }
+                    </Select>
+                  )
+                }
             </FormItem>
           </Col>
           <Col span={expand ? 16: 8} style={{ textAlign: 'right', marginTop: 4}} >

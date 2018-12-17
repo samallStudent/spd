@@ -177,7 +177,7 @@ class DetailsOutput extends PureComponent{
           <RetomeTable
             query={query}
             url={outStorage.DETAIL_LIST}
-            scroll={{x: '100%'}}
+            scroll={{x: 2450}}
             columns={columns}
             rowKey={'id'}
             style={{marginTop: 24}}
