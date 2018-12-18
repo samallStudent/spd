@@ -85,7 +85,8 @@ class DetailsPutaway extends PureComponent{
       return {
         id: item.id,
         realNum: item.realNum,
-        realReceiveStore: item.realReceiveStore
+        realReceiveStore: item.realReceiveStore,
+        productBatchNo: item.productBatchNo
       }
     })
     let payload = {

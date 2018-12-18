@@ -63,7 +63,7 @@ class SearchForm extends PureComponent{
           <Col span={8}>
             <FormItem {...formItemLayout} label={`名称`}>
               {
-                getFieldDecorator(`ctmmTradeName`,{
+                getFieldDecorator(`medicinalName`,{
                   initialValue: ''
                 })(
                   <Input placeholder='请输入' />
@@ -74,7 +74,7 @@ class SearchForm extends PureComponent{
           <Col span={8}>
             <FormItem {...formItemLayout} label={`剂型`}>
               {
-                getFieldDecorator(`ctmmDosageFormDesc`,{
+                getFieldDecorator(`dosageDesc`,{
                   initialValue: ''
                 })(
                   <Input placeholder='请输入' />
@@ -85,7 +85,7 @@ class SearchForm extends PureComponent{
           <Col span={8} style={{ display: display }}>
             <FormItem {...formItemLayout} label={`规格`}>
               {
-                getFieldDecorator(`ctmmSpecification`,{
+                getFieldDecorator(`specification`,{
                   initialValue: ''
                 })(
                   <Input placeholder='请输入' />
@@ -94,24 +94,9 @@ class SearchForm extends PureComponent{
             </FormItem>
           </Col>
           <Col span={8} style={{ display: display }}>
-            <FormItem {...formItemLayout} label={`状态`}>
-              {
-                getFieldDecorator(`ctmmStatusCode`,{
-                  initialValue: ''
-                })(
-                  <Select>
-                    <Option key='' value=''>全部</Option>
-                    <Option key='0' value='0'>启用</Option>
-                    <Option key='1' value='1'>停用</Option>
-                  </Select>
-                )
-              }
-            </FormItem>
-          </Col>
-          {/* <Col span={8} style={{ display: display }}>
             <FormItem {...formItemLayout} label={`是否报告药`}>
               {
-                getFieldDecorator('medDrugType',{
+                getFieldDecorator('isReportDrug',{
                   initialValue: ''
                 })(
                   <Select>
@@ -122,7 +107,7 @@ class SearchForm extends PureComponent{
                 )
               }
             </FormItem>
-          </Col> */}
+          </Col>
           <Col span={8} style={{float: 'right', textAlign: 'right', marginTop: 4}} >
            <Button type="primary" htmlType="submit">查询</Button>
            <Button type='default' style={{marginLeft: 8}} onClick={this.handleReset}>重置</Button>

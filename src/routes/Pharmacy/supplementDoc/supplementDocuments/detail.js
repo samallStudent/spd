@@ -143,71 +143,71 @@ class ReplenishmentDetail extends PureComponent{
           }
           <Row>
             <Col span={8}>
-              <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
+              <div className="ant-form-item-label-left ant-col-lg-8 ant-col-xl-8">
                 <label>补登单</label>
               </div>
-              <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18">
+              <div className="ant-form-item-control-wrapper ant-col-lg-16 ant-col-xl-16">
                 <div className='ant-form-item-control'>{baseInfo?baseInfo.makeupCode:''}</div>
               </div>
             </Col>
             <Col span={8}>
-              <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
+              <div className="ant-form-item-label-left ant-col-lg-8 ant-col-xl-8">
                 <label>入库/出库单</label>
               </div>
-              <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18">
+              <div className="ant-form-item-control-wrapper ant-col-lg-16 ant-col-xl-16">
                 <div className='ant-form-item-control'>{baseInfo?baseInfo.storeCode:''}</div>
               </div>
             </Col>
             <Col span={8}>
-              <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
+              <div className="ant-form-item-label-left ant-col-lg-8 ant-col-xl-8">
                 <label>类型</label>
               </div>
-              <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18">
+              <div className="ant-form-item-control-wrapper ant-col-lg-16 ant-col-xl-16">
                 <div className='ant-form-item-control'>{baseInfo?baseInfo.makeupTypeName:''}</div>
               </div>
             </Col>
           </Row>
           <Row>
             <Col span={8}>
-              <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
+              <div className="ant-form-item-label-left ant-col-lg-8 ant-col-xl-8">
                   <label>状态</label>
               </div>
-              <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18">
+              <div className="ant-form-item-control-wrapper ant-col-lg-16 ant-col-xl-16">
                 <div className='ant-form-item-control'>{baseInfo?baseInfo.makeupStatusName:''}</div>
               </div>
             </Col>
             <Col span={8}>
-              <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
+              <div className="ant-form-item-label-left ant-col-lg-8 ant-col-xl-8">
                   <label>补登人</label>
               </div>
-              <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18">
+              <div className="ant-form-item-control-wrapper ant-col-lg-16 ant-col-xl-16">
                 <div className='ant-form-item-control'>{baseInfo?baseInfo.createUserName:''}
                 </div>
               </div>
             </Col>
             <Col span={8}>
-              <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
+              <div className="ant-form-item-label-left ant-col-lg-8 ant-col-xl-8">
                   <label>补登时间</label>
               </div>
-              <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18">
+              <div className="ant-form-item-control-wrapper ant-col-lg-16 ant-col-xl-16">
                 <div className='ant-form-item-control'>{baseInfo?baseInfo.createDate:''}</div>
               </div>
             </Col>
           </Row>
           <Row>
             <Col span={8}>
-              <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
+              <div className="ant-form-item-label-left ant-col-lg-8 ant-col-xl-8">
                   <label>审核人</label>
               </div>
-              <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18">
+              <div className="ant-form-item-control-wrapper ant-col-lg-16 ant-col-xl-16">
                 <div className='ant-form-item-control'>{baseInfo?baseInfo.reviewUserName:''}</div>
               </div>
             </Col>
             <Col span={8}>
-              <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
+              <div className="ant-form-item-label-left ant-col-lg-8 ant-col-xl-8">
                   <label>审核时间</label>
               </div>
-              <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18">
+              <div className="ant-form-item-control-wrapper ant-col-lg-16 ant-col-xl-16">
                 <div className='ant-form-item-control'>{baseInfo?baseInfo.reviewDate:''}</div>
               </div>
             </Col>

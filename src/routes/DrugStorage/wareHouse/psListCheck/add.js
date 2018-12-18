@@ -375,16 +375,59 @@ class PslistAdd extends PureComponent{
       {
         title: '实到数量',
         dataIndex: 'realReceiveQuantity',
-        render: (text,record,index)=>{
-          return <InputNumber 
+        render: (text, record, index)=>{
+          return record.isUsual === 0 ? 
+                  <InputNumber
+                    min={0}
+                    value={text}
+                    precision={0}
                     onChange={(value)=>{
-                      if(value > record.realDeliveryQuantiry){
+                      let pIndex;
+                      if(record.parentId) {
+                        unVerfiyList.forEach((item, i) => {
+                          if(item.id === record.parentId) {
+                            pIndex = i;
+                          };
+                        });
+                      }else {
+                        pIndex = index;
+                      };
+                      let allRealDeliveryQuantiry = unVerfiyList[pIndex].realReceiveQuantity ? unVerfiyList[pIndex].realReceiveQuantity : 0;
+                      if(unVerfiyList[pIndex].children) {
+                        unVerfiyList[pIndex].children.forEach((item) => {
+                          if(item.realReceiveQuantity === "" || item.realReceiveQuantity === undefined) {
+                            item.realReceiveQuantity = 0
+                          };
+                          allRealDeliveryQuantiry += item.realReceiveQuantity;
+                        });
+                      };
+                      let lastRealDeliveryQuantiry = record.realDeliveryQuantiry ? record.realDeliveryQuantiry : 0;
+                      allRealDeliveryQuantiry = allRealDeliveryQuantiry - lastRealDeliveryQuantiry;
+                      if(value + allRealDeliveryQuantiry > unVerfiyList[pIndex].realDeliveryQuantiry){
                         message.warning('请注意：实到数量比配送数量多');
-                      }
+                      };
                       record.realReceiveQuantity = value;
+                      unVerfiyList = [...unVerfiyList];
+                      detailInfo.unVerfiyList = unVerfiyList;
+                      this.setState({
+                        detailInfo: {...detailInfo}
+                      });
                     }} 
-                    defaultValue={text}
-                  />
+                  /> : text;
+        },
+        width: 120
+      },
+      {
+        title: '差额数量',
+        dataIndex: 'balanceAmount',
+        render: (text,record,index)=>{
+          let balanceAmount;
+          if(record.realReceiveQuantity || record.realReceiveQuantity === 0) {
+            balanceAmount = record.realDeliveryQuantiry - record.realReceiveQuantity;
+          }else {
+            balanceAmount = 0;
+          };
+          return <span>{balanceAmount}</span>
         },
         width: 120
       },
@@ -392,12 +435,13 @@ class PslistAdd extends PureComponent{
         title: '生产批号',
         dataIndex: 'productBatchNo',
         render: (text,record,index)=>{
-          return <Input 
-                  onChange={(e)=>{
-                    record.productBatchNo = e.target.value;
-                  }} 
-                  defaultValue={text}
-                  />
+          return record.isUsual === 0 ? 
+                  <Input 
+                    onChange={(e)=>{
+                      record.productBatchNo = e.target.value;
+                    }} 
+                    defaultValue={text}
+                  /> : text;
         },
         width: 168
       },
@@ -405,13 +449,14 @@ class PslistAdd extends PureComponent{
         title: '生产日期',
         dataIndex: 'realProductTime',
         render: (text,record,index)=> {
-          return <DatePicker
+          return record.isUsual === 0 ? 
+                <DatePicker
                   disabledDate={(current) => current && current > moment(record.realValidEndDate)}
                   onChange={(dates, moment) => {
                     record.realProductTime = moment;
                   }}
                   defaultValue={moment(text, 'YYYY-MM-DD')}
-                />
+                /> : text;
         },
         width: 168
       },
@@ -419,13 +464,14 @@ class PslistAdd extends PureComponent{
         title: '有效期至',
         dataIndex: 'realValidEndDate',
         render: (text,record,index)=> {
-          return <DatePicker
+          return record.isUsual === 0 ? 
+                <DatePicker
                   disabledDate={(current) => current && current < moment(record.realProductTime)}
                   onChange={(dates, moment) => {
                     record.realValidEndDate = moment;
                   }}
                   defaultValue={moment(text, 'YYYY-MM-DD')}
-                />
+                /> : text
         },
         width: 168
       },
@@ -433,6 +479,34 @@ class PslistAdd extends PureComponent{
         title: '包装规格',
         dataIndex: 'packageSpecification',
         width: 168
+      },
+      {
+        title: '价格',
+        dataIndex: 'price',
+        width: 112
+      },
+      {
+        title: '采购方式',
+        dataIndex: 'purchaseType',
+        width: 112,
+        render: (text) => text === 1 ? '零库存' : '自采'
+      },
+      {
+        title: '金额',
+        dataIndex: 'amount',
+        width: 112,
+        render: (text, record) => (record.price * record.realReceiveQuantity).toFixed(4)
+      },
+      {
+        title: '是否异常',
+        dataIndex: 'isUsual',
+        width: 112,
+        render: (text, record) => {
+          if(text === 0) {
+            return <span>否</span>;
+          };
+          return <span>是</span>;
+        }
       },
       {
         title: '剂型',
@@ -458,10 +532,15 @@ class PslistAdd extends PureComponent{
         dataIndex: 'RN',
         width: 112,
         render: (text, record, i)=>{
-          return record.id ? 
-                 <a onClick={this.addBatch.bind(this, record, i)}>增加验收批号</a> 
-                 : 
-                 <a onClick={this.removeBatch.bind(this, record, i)}>删除</a>
+          if(record.isUsual === 1) {
+            return "";
+          };
+          if(record.isUsual === 0) {
+              return record.id ? 
+                      <a onClick={this.addBatch.bind(this, record, i)}>增加验收批号</a>
+                      : 
+                      <a onClick={this.removeBatch.bind(this, record, i)}>删除</a>;
+          };
         }
       }
     ];
@@ -487,6 +566,10 @@ class PslistAdd extends PureComponent{
       {
         title: '规格',
         dataIndex: 'ctmmSpecification',
+        className:'ellipsis',
+        render:(text)=>(
+          <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+        ),
         width: 168
       },
       {
@@ -532,6 +615,36 @@ class PslistAdd extends PureComponent{
         title: '包装规格',
         dataIndex: 'packageSpecification',
         width: 168,
+      },
+      {
+        title: '价格',
+        dataIndex: 'price',
+        width: 112
+      },
+      {
+        title: '采购方式',
+        dataIndex: 'purchaseType',
+        width: 112,
+        render: (text) => text === 1 ? '零库存' : '自采'
+      },
+      {
+        title: '金额',
+        dataIndex: 'amount',
+        width: 112,
+        render: (text, record) => (record.price * record.realReceiveQuantiry).toFixed(4)
+      },
+      {
+        title: '是否异常',
+        dataIndex: 'isUsual',
+        width: 112,
+        render: (text, record) => {
+          if(text === 1) {
+            return <span>是</span>
+          };
+          if(text === 0) {
+            return <span>否</span>
+          };
+        }
       },
       {
         title: '剂型',

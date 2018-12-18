@@ -291,16 +291,6 @@ class Details extends PureComponent {
       }
     });
   }
-  handleReset = (e) =>{
-    console.log('重置');
-    let {query} = this.state;
-    this.setState({
-      query: {
-        ...query,
-        hisDrugCodeList: []
-      }
-    });
-  }
   //table回调
   tableCallBack = (data) => {
     this.setTableData(data);
@@ -829,9 +819,6 @@ class Details extends PureComponent {
                         url={common.QUERY_DRUG_BY_LIST}
                         cb={this.onSearch}
                       />
-                    </Col>
-                    <Col span={6}>
-                     <Button style={{ marginLeft: 8 }} onClick={(e)=>this.handleReset(e)}>重置</Button>  
                     </Col>
                   </Row>
                 </div>

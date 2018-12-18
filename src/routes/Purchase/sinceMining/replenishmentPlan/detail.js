@@ -214,12 +214,12 @@ class ReplenishmentDetail extends PureComponent{
               </div>
             </Col>
             <Col span={8}>
-            <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
-              <label>类型</label>
-            </div>
-            <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18">
-              <div className='ant-form-item-control'>{detailsData.planTypeName}</div>
-            </div>
+              <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
+                <label>类型</label>
+              </div>
+              <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18">
+                <div className='ant-form-item-control'>{detailsData.planTypeName}</div>
+              </div>
             </Col>
             <Col span={8}>
               <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
@@ -229,6 +229,8 @@ class ReplenishmentDetail extends PureComponent{
                 <div className='ant-form-item-control'>{detailsData.statusName}</div>
               </div>
             </Col>
+          </Row>
+          <Row>
             <Col span={8}>
               <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
                   <label>发起人</label>
@@ -253,6 +255,8 @@ class ReplenishmentDetail extends PureComponent{
                 <div className='ant-form-item-control'>{detailsData.mobile}</div>
               </div>
             </Col>
+          </Row>
+          <Row>
             <Col span={8}>
               <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
                   <label>收货地址</label>
@@ -292,7 +296,7 @@ class ReplenishmentDetail extends PureComponent{
         <div className='detailCard'>
           <Table
             title={()=>'产品信息'}
-            scroll={{x: 2574}}
+            scroll={{x: '100%'}}
             columns={columns}
             rowKey={'drugCode'}
             bordered

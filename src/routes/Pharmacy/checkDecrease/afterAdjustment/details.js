@@ -47,7 +47,7 @@ class Details extends PureComponent {
       callback: (data) => {
         if(data.msg === 'success') {
           message.success('操作成功');
-          this.props.history.push('/drugStorage/checkDecrease/afterAdjustment');
+          this.props.history.push('/pharmacy/checkDecrease/afterAdjustment');
         }else {
           message.marning('操作失败');
           message.error(data.msg);

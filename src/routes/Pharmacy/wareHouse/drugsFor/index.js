@@ -58,6 +58,11 @@ class DrugsFor extends PureComponent{
         dataIndex: 'applyStatusName'
       },
       {
+        title: '类型',
+        width: 112,
+        dataIndex: 'applyTypeName'
+      },
+      {
         title: '发起人',
         width: 112,
         dataIndex: 'createUserName',

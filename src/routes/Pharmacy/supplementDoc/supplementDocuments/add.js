@@ -47,14 +47,14 @@ const modalColumns = [
     width: 168,
   },
   {
-    title: '剂型',
-    width: 168,
-    dataIndex: 'ctmmDosageFormDesc',
-  },
-  {
     title: '生产批号',
     width: 168,
     dataIndex: 'lot',
+  },
+  {
+    title: '剂型',
+    width: 168,
+    dataIndex: 'ctmmDosageFormDesc',
   },
   {
     title: '生产日期',

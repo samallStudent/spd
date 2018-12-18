@@ -248,10 +248,6 @@ class NewAdd extends PureComponent {
           <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
         )
       }, {
-        title: '剂型',
-        dataIndex: 'ctmmDosageFormDesc',
-        width: 168
-      }, {
         title: '生产厂家',
         dataIndex: 'ctmmManufacturerName',
         width: 224,
@@ -259,6 +255,18 @@ class NewAdd extends PureComponent {
         render: (text) => (
           <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
         )
+      }, {
+        title: '库存上限',
+        dataIndex: 'locaUpperQuantity',
+        width: 112,
+      }, {
+        title: '库存下限',
+        dataIndex: 'localDownQuantity',
+        width: 112,
+      }, {
+        title: '剂型',
+        dataIndex: 'ctmmDosageFormDesc',
+        width: 168
       }, {
         title: '包装规格',
         dataIndex: 'packageSpecification',
@@ -288,22 +296,31 @@ class NewAdd extends PureComponent {
                  />
         }
       }, {
-        title: '药房可用库存',
+        title: (
+          <Tooltip title="配货部门可用库存">
+            <span>配货部门库存</span>
+          </Tooltip>
+        ),
+        dataIndex: 'usableQuantity',
+        width: 112,
+        render: (text) => text ? text : 0
+      }, {
+        title: (
+          <Tooltip title="当前部门可用库存">
+            <span>药房可用库存</span>
+          </Tooltip>
+        ),
         dataIndex: 'localUsableQuantity',
         width: 112,
         render: (text) => text ? text : 0
       }, {
-        title: '最近使用药品数量',
+        title: (
+          <Tooltip title="当前部门近7天的药品发药量">
+            <span>7天使用量</span>
+          </Tooltip>
+        ),
         dataIndex: 'recentlyUseNum',
         width: 168,
-      }, {
-        title: '库存上限',
-        dataIndex: 'locaUpperQuantity',
-        width: 112,
-      }, {
-        title: '库存下限',
-        dataIndex: 'localDownQuantity',
-        width: 112,
       }, {
         title: '批准文号',
         dataIndex: 'approvalNo',

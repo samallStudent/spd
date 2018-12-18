@@ -52,7 +52,7 @@ const columns = [
     width: 168,
   },
   {
-    title: '供应商',
+    title: '供应商/来源部门',
     dataIndex: 'supplierName',
     width: 224,
     className: 'ellipsis',
@@ -257,7 +257,7 @@ class SearchForm extends PureComponent{
           <Col span={8} style={{ display: display }}>
             <FormItem {...formItemLayout} label={`来源部门`}>
                 {
-                  getFieldDecorator(`deptCode`)(
+                  getFieldDecorator(`originDeptCode`)(
                     <Select 
                       allowClear
                       showSearch
@@ -276,7 +276,7 @@ class SearchForm extends PureComponent{
                 }
             </FormItem>
           </Col>
-          <Col span={expand ? 16: 8} style={{ textAlign: 'right', marginTop: 4}} >
+          <Col style={{float:'right', textAlign: 'right', marginTop: 4}} >
            <Button type="primary" htmlType="submit">查询</Button>
            <Button type='default' style={{marginLeft: 8}} onClick={this.handleReset}>重置</Button>
            <a style={{marginLeft: 8, fontSize: 14}} onClick={this.toggle}>

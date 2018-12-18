@@ -76,6 +76,10 @@ const columns = [
     width: 112,
     dataIndex: 'usableQuantity',
   }, {
+    title: '锁定区库存',
+    width: 112,
+    dataIndex: 'lockStoreNum',
+  }, {
     title: '待处理库存',
     dataIndex: 'waitStoreNum',
     width: 112

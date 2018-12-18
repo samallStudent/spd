@@ -209,12 +209,12 @@ class OutCatalogPurchase extends PureComponent{
               </div>
             </Col>
             <Col span={8}>
-            <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
-              <label>类型</label>
-            </div>
-            <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18">
-              <div className='ant-form-item-control'>{ detailsData.planTypeName }</div>
-            </div>
+              <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
+                <label>类型</label>
+              </div>
+              <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18">
+                <div className='ant-form-item-control'>{ detailsData.planTypeName }</div>
+              </div>
             </Col>
             <Col span={8}>
               <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
@@ -224,6 +224,8 @@ class OutCatalogPurchase extends PureComponent{
                 <div className='ant-form-item-control'>{detailsData.statusName}</div>
               </div>
             </Col>
+          </Row>
+          <Row>
             <Col span={8}>
               <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
                   <label>发起人</label>

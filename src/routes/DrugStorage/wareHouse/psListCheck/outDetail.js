@@ -32,63 +32,6 @@ class PslistCheck extends PureComponent{
       expandedRowKeys: []
     }
   }
-  //增加批号
-  /* addBatch = (record, i) => {
-    let {detailInfo, expandedRowKeys, selected} = this.state;
-    let {unVerfiyList} = detailInfo;
-    
-    unVerfiyList[i].children = unVerfiyList[i].children || [];
-    record = {...record};
-    delete record.children;
-    let key = new Date().getTime();
-    unVerfiyList[i].children.push({
-      ...record,
-      parentId: record.id,
-      id: null,
-      key,
-      realReceiveQuantity: ''
-    });
-    detailInfo.unVerfiyList = unVerfiyList;
-    expandedRowKeys.push(record.key);
-    expandedRowKeys = [...new Set(expandedRowKeys)];
-    let isSelect = selected.some(item => {
-      if(item === record.key) {
-        return true;
-      };
-      return false;
-    });
-    if(isSelect) {
-      selected.push(key);
-    }
-    this.setState({
-      detailInfo: {...detailInfo},
-      expandedRowKeys,
-      selected: [...selected]
-    });
-  } */
-  //删除
-  /* removeBatch = (record, i) =>{
-    let {detailInfo, expandedRowKeys} = this.state;
-    let {unVerfiyList} = detailInfo;
-    let index;
-    unVerfiyList.map((item, totalNum)=>{
-      if(record.parentId === item.id) {
-        index = totalNum;
-      };
-      return item;
-    });
-    
-    unVerfiyList[index].children = unVerfiyList[index].children.filter(item => item.key !== record.key);
-    if(!unVerfiyList[index].children.length) {
-      expandedRowKeys = expandedRowKeys.filter(item=>item !== unVerfiyList[index].key);
-    };
-    
-    detailInfo.unVerfiyList = unVerfiyList;
-    this.setState({
-      detailInfo: {...detailInfo},
-      expandedRowKeys
-    });
-  } */
   //tabs切换
   tabsChange = (key) =>{
     if(key === '2') {
@@ -180,7 +123,6 @@ class PslistCheck extends PureComponent{
       message.error('至少选择一条数据');
       return;
     };
-    // if(!this.onCheck()) return;
     this.setState({checkLoading: true});
     selectedRows = this.seekChildren(selectedRows).realSelectedRows; //包含children的二维数组
     let includeChildren = [...selectedRows];//包含children的一维数组
@@ -195,7 +137,7 @@ class PslistCheck extends PureComponent{
     });
     let detailList = includeChildren.map(item=>{
       let i = {
-        realReceiveQuantiry: item.realReceiveQuantity,
+        realReceiveQuantiry: item.realReceiveQuantiry,
         productBatchNo: item.productBatchNo,
         realValidEndDate: item.realValidEndDate,
         realProductTime: item.realProductTime,
@@ -208,7 +150,7 @@ class PslistCheck extends PureComponent{
       }
       return i;
     });
-    console.log(detailList,this.state.id)
+    console.log(detailList);
     this.props.dispatch({
       type: 'base/drugStorageSaveCheck',
       payload: {
@@ -227,78 +169,6 @@ class PslistCheck extends PureComponent{
       }
     })
   }
-  //校验
-  /* onCheck = () => {
-    let {selectedRows, detailInfo} = this.state;
-    selectedRows = [...selectedRows];
-    selectedRows = this.seekChildren(selectedRows).realSelectedRows; //包含children的二维数组
-    let includeChildren = [...selectedRows];//包含children的一维数组
-    selectedRows.map(item => {  
-      if(item.children && item.children.length) {
-        item.children.map(childItem => {
-          includeChildren.push(childItem);
-          return childItem;
-        });
-      };
-      return item;
-    });
-    let isNull = includeChildren.every(item => {
-      if(!item.realReceiveQuantity){
-        message.error('实到数量不能为空');
-        return false;
-      };
-      if(!item.realProductTime){
-        message.error('生产日期不能为空');
-        return false;
-      };
-      if(!item.realValidEndDate){
-        message.error('有效期至不能为空');
-        return false;
-      };
-      if(!item.productBatchNo){
-        message.error('生产批号不能为空');
-        return false;
-      };
-      if(detailInfo.isShowTemprature === 1) {
-        if(!item.realAcceptanceTemperature){
-          message.error('验收温度不能为空');
-          return false;
-        };
-      }
-      return true;
-    });
-    let isLike;
-    isLike = selectedRows.map(item => this.valueCheck(item));
-    isLike = isLike.every(item => item);
-    if(!isLike) {
-      message.warning('提交数据中存在药物批号一样，但是生产日期和有效期至不一样的数据');
-    };
-    return isNull && isLike;
-  } */
-  //日期批号校验
-  /* valueCheck = (list) => {
-    let a = [];
-    a.push(list);
-    if(list.children && list.children.length) {
-      list.children.map(item => {
-        a.push(item);
-        return item;
-      });
-    };
-    var b = [];
-    b = a.map(item=>item.productBatchNo);
-    b = [...new Set(b)];
-    var c = [];
-    for (let i = 0; i < b.length; i++) {
-      c[i] = a.filter(item => item.productBatchNo === b[i]);
-    };
-    var d = [];
-    for (let i = 0; i < c.length; i++) {
-      d[i] = this.checkChildren(c[i]);
-    };
-    d = d.every(item => item);
-    return d;
-  } */
   checkChildren(list) {
     var a = list.every((item, i) => {
       if(i === list.length - 1) {
@@ -322,9 +192,9 @@ class PslistCheck extends PureComponent{
       callback: (data) => {
         if(data.unVerfiyList.length) {
           data.unVerfiyList = data.unVerfiyList.map(item => {
-            item.realReceiveQuantity = item.realDeliveryQuantiry;
+            item.realReceiveQuantiry = item.realDeliveryQuantiry;
             return item;
-          })
+          });
         };
         this.setState({
           detailInfo: data,
@@ -465,62 +335,62 @@ class PslistCheck extends PureComponent{
           </Row>
           <Row>
             <Col span={8}>
-              <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
+              <div className="ant-form-item-label-left ant-col-md-12 ant-col-lg-10 ant-col-xl-8">
                 <label>配送单/验收单</label>
               </div>
-              <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18">
+              <div className="ant-form-item-control-wrapper ant-col-md-12 ant-col-lg-14 ant-col-xl-16">
                 <div className='ant-form-item-control'>{detailInfo.distributeCode || ''}</div>
               </div>
             </Col>
             <Col span={8}>
-              <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
+              <div className="ant-form-item-label-left ant-col-md-12 ant-col-lg-10 ant-col-xl-8">
                 <label>状态</label>
               </div>
-              <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18">
+              <div className="ant-form-item-control-wrapper ant-col-md-12 ant-col-lg-14 ant-col-xl-16">
                 <div className='ant-form-item-control'>{detailInfo.statusName || ''}</div>
               </div>
             </Col>
             <Col span={8}>
-              <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
+              <div className="ant-form-item-label-left ant-col-md-12 ant-col-lg-10 ant-col-xl-8">
                 <label>来源部门</label>
               </div>
-              <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18">
+              <div className="ant-form-item-control-wrapper ant-col-md-12 ant-col-lg-14 ant-col-xl-16">
                 <div className='ant-form-item-control'>{detailInfo.originDeptName || ''}</div>
               </div>
             </Col>
             </Row>
           <Row>
             <Col span={8}>
-              <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
+              <div className="ant-form-item-label-left ant-col-md-12 ant-col-lg-10 ant-col-xl-8">
                 <label>出库人</label>
               </div>
-              <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18">
+              <div className="ant-form-item-control-wrapper ant-col-md-12 ant-col-lg-14 ant-col-xl-16">
                 <div className='ant-form-item-control'>{detailInfo.createName || ''}</div>
               </div>
             </Col>
             <Col span={8}>
-              <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
+              <div className="ant-form-item-label-left ant-col-md-12 ant-col-lg-10 ant-col-xl-8">
                 <label>出库时间</label>
               </div>
-              <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18">
+              <div className="ant-form-item-control-wrapper ant-col-md-12 ant-col-lg-14 ant-col-xl-16">
                 <div className='ant-form-item-control'>{detailInfo.createDate || ''}</div>
               </div>
             </Col>
             <Col span={8}>
-              <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
+              <div className="ant-form-item-label-left ant-col-md-12 ant-col-lg-10 ant-col-xl-8">
                 <label>验收人</label>
               </div>
-              <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18">
+              <div className="ant-form-item-control-wrapper ant-col-md-12 ant-col-lg-14 ant-col-xl-16">
                 <div className='ant-form-item-control'>{detailInfo.receptionUserName || ''}</div>
               </div>
             </Col>
           </Row>
           <Row>
             <Col span={8}>
-              <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
+              <div className="ant-form-item-label-left ant-col-md-12 ant-col-lg-10 ant-col-xl-8">
                 <label>验收时间</label>
               </div>
-              <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18">
+              <div className="ant-form-item-control-wrapper ant-col-md-12 ant-col-lg-14 ant-col-xl-16">
                 <div className='ant-form-item-control'>{detailInfo.receptionTime || ''}</div>
               </div>
             </Col>
