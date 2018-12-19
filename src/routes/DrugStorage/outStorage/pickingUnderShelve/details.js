@@ -176,12 +176,14 @@ class DetailsPickSoldOut extends PureComponent{
       {
         title: '指示货位',
         dataIndex: 'locName',
-        width: 112,
+        width: 168,
+        fixed: 'right',
       },
       {
         title: '配货数量',
         width: 112,
         dataIndex: 'allocationNum',
+        fixed: 'right',
       },
       {
         title: '实际拣货数量',

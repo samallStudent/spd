@@ -111,7 +111,8 @@ class DetailsOutput extends PureComponent{
         updateUserId:'',
         dispensingCode:'',
         uname:'',
-        confUserName:''
+        confUserName:'',
+        key:''
     }
   }
 
@@ -130,6 +131,11 @@ class DetailsOutput extends PureComponent{
                 dispensingCode: this.state.info.dispensingCode,
                 confUserName:this.state.info.confirmUserName
             });
+            if(this.state.info.confirmStatus===2){
+                this.setState({
+                    key:true
+                })
+            }
         }else {
           message.error(data.msg);
         }
@@ -140,23 +146,45 @@ class DetailsOutput extends PureComponent{
 
     handleGetInputValue=(e)=>{
         if(e.target.value===''){
-            message.success('请输入复核人工号');
+            message.success('请输入配药人工号');
             this.setState({
-                confUserName:''
+                key:''
             })
+           if(this.state.info.confirmStatus===2){
+               this.setState({
+                   confUserName:'nulls'
+               })
+           }
+
             return false;
+        }else{
+            this.setState({
+                confUserName:e.target.value,key:true
+            })
+
         }
     }
 
     handleSave=()=>{
 
+        if(this.state.key===''){
+            message.success('请输入配药人工号');
+            return false;
+        }
+      if(this.state.info.confirmStatus===2&&this.state.confUserName!=='nulls'&&this.state.confUserName===this.state.info.confirmUserName){
+          message.success('配药人相同无需重复提交');
+          return false;
+      }else if(this.state.confUserName==='nulls'){
+          message.success('请输入配药人工号');
+          return false;
+      }
         const { updateUserId,dispensingCode} = this.state;
         this.props.dispatch({
             type:'outStorage/reviewSave',
             payload: { updateUserId,dispensingCode},
             callback: (data) => {
                 if(data.msg === 'success') {
-                    message.success('复核成功');
+                    message.success('配药成功');
                     this.props.history.go(-1);
                 }else {
                     message.error(data.msg);
@@ -166,7 +194,7 @@ class DetailsOutput extends PureComponent{
     }
 
     handleEnterKey=(e)=>{
-        if(e.nativeEvent.keyCode === 13){
+        if(e.nativeEvent.keyCode === 13&&e.target.value!==''){
             this.props.dispatch({
                 type: 'outStorage/reviewSearch',
                 payload: {
@@ -179,12 +207,14 @@ class DetailsOutput extends PureComponent{
                             updateUserId: data.data.id,
                             uname:data.data.name
                         });
-                        console.log(this.state.updateUserId)
+                        //console.log(this.state.updateUserId)
                     }else {
                         message.error(data.msg);
                     }
                 }
             })
+        }else if(e.nativeEvent.keyCode === 13&&e.target.value==='') {
+            message.success('请输入配药人工号');
         }
     }
 
@@ -245,19 +275,19 @@ class DetailsOutput extends PureComponent{
               <Col span={8}>
                   <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18" style={styles}>
                       <Form style={{flex:'2'}}>
-                          <FormItem {...formItemLayout} label={`复核人`}>
+                          <FormItem {...formItemLayout} label={`配药人`}>
                               {
                                   getFieldDecorator('confirmUserName',{
                                       initialValue:info.confirmUserName,
                                       rules:[
-                                          {required:true,message:'请输入复核人工号'}
+                                          {required:true,message:'请输入配药人工号'}
                                       ]
-                                  })(<Input placeholder="复核人工号"  onKeyPress={this.handleEnterKey} onChange={this.handleGetInputValue}/>)
+                                  })(<Input placeholder="配药人工号"  onKeyPress={this.handleEnterKey} onChange={this.handleGetInputValue}/>)
                               }
                           </FormItem>
 
                       </Form>
-                      <label style={{marginTop: '10px',marginLeft: '10px'}}>{this.state.uname}</label>
+                      <label style={{'marginTop': '10px','marginLeft': '10px'}}>{this.state.uname}</label>
                   </div>
 
               </Col>
@@ -268,7 +298,7 @@ class DetailsOutput extends PureComponent{
           <RetomeTable
             query={query}
             url={outStorage.DETAIL_LIST}
-            scroll={{x: '100%'}}
+            scroll={{x: 2450}}
             columns={columns}
             rowKey={'id'}
             style={{marginTop: 24}}

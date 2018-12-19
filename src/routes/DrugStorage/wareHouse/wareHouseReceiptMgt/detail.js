@@ -136,74 +136,78 @@ class ReplenishmentDetail extends PureComponent{
           </Row>
           <Row>
             <Col span={8}>
-              <div className="ant-form-item-label ant-col-xs-24 ant-col-sm-5">
+              <div className="ant-form-item-label-left ant-col-xs-24 ant-col-md-12 ant-col-lg-10 ant-col-xl-8">
                 <label>部门</label>
               </div>
-              <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18">
+              <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-md-12 ant-col-lg-14 ant-col-xl-16">
                 <div className='ant-form-item-control'>{data.deptName || ''}</div>
               </div>
             </Col>
             <Col span={8}>
-            <div className="ant-form-item-label ant-col-xs-24 ant-col-sm-5">
-              <label>入库分类</label>
-            </div>
-            <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18">
-              <div className='ant-form-item-control'>{data.inStoreTypeName || ''}</div>
-            </div>
+              <div className="ant-form-item-label-left ant-col-xs-24 ant-col-md-12 ant-col-lg-10 ant-col-xl-8">
+                <label>入库分类</label>
+              </div>
+              <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-md-12 ant-col-lg-14 ant-col-xl-16">
+                <div className='ant-form-item-control'>{data.inStoreTypeName || ''}</div>
+              </div>
             </Col>
             <Col span={8}>
-              <div className="ant-form-item-label ant-col-xs-24 ant-col-sm-5">
+              <div className="ant-form-item-label-left ant-col-xs-24 ant-col-md-12 ant-col-lg-10 ant-col-xl-8">
                 <label>供应商</label>
               </div>
-              <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18">
+              <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-md-12 ant-col-lg-14 ant-col-xl-16">
                 <div className='ant-form-item-control'>{data.ctmaSupplierName || ''}</div>
               </div>
             </Col>
+          </Row>
+          <Row>
             <Col span={8}>
-              <div className="ant-form-item-label ant-col-xs-24 ant-col-sm-5">
+              <div className="ant-form-item-label-left ant-col-xs-24 ant-col-md-12 ant-col-lg-10 ant-col-xl-8">
                   <label>入库单</label>
               </div>
-              <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18">
+              <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-md-12 ant-col-lg-14 ant-col-xl-16">
                 <div className='ant-form-item-control'>{data.inStoreCode || ''}</div>
               </div>
             </Col>
             <Col span={8}>
-              <div className="ant-form-item-label ant-col-xs-24 ant-col-sm-5">
-                  <label>配送单</label>
+              <div className="ant-form-item-label-left ant-col-xs-24 ant-col-md-12 ant-col-lg-10 ant-col-xl-8">
+                  <label>配送单/验收单号</label>
               </div>
-              <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18">
+              <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-md-12 ant-col-lg-14 ant-col-xl-16">
                 <div className='ant-form-item-control'>{data.distributeCode || ''}</div>
               </div>
             </Col>
             <Col span={8}>
-              <div className="ant-form-item-label ant-col-xs-24 ant-col-sm-5">
+              <div className="ant-form-item-label-left ant-col-xs-24 ant-col-md-12 ant-col-lg-10 ant-col-xl-8">
                   <label>订单</label>
               </div>
-              <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18">
+              <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-md-12 ant-col-lg-14 ant-col-xl-16">
                 <div className='ant-form-item-control'>{data.orderCode || ''}</div>
               </div>
             </Col>
+          </Row>
+          <Row>
             <Col span={8}>
-              <div className="ant-form-item-label ant-col-xs-24 ant-col-sm-5">
+              <div className="ant-form-item-label-left ant-col-xs-24 ant-col-md-12 ant-col-lg-10 ant-col-xl-8">
                   <label>入库时间</label>
               </div>
-              <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18">
+              <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-md-12 ant-col-lg-14 ant-col-xl-16">
                 <div className='ant-form-item-control'>{data.createDate || ''}</div>
               </div>
             </Col>
             <Col span={8}>
-              <div className="ant-form-item-label ant-col-xs-24 ant-col-sm-5">
+              <div className="ant-form-item-label-left ant-col-xs-24 ant-col-md-12 ant-col-lg-10 ant-col-xl-8">
                   <label>上架时间</label>
               </div>
-              <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18">
+              <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-md-12 ant-col-lg-14 ant-col-xl-16">
                 <div className='ant-form-item-control'>{data.createDate || ''}</div>
               </div>
             </Col>
             <Col span={8}>
-              <div className="ant-form-item-label ant-col-xs-24 ant-col-sm-5">
+              <div className="ant-form-item-label-left ant-col-xs-24 ant-col-md-12 ant-col-lg-10 ant-col-xl-8">
                   <label>备注</label>
               </div>
-              <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18">
+              <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-md-12 ant-col-lg-14 ant-col-xl-16">
                 <div className='ant-form-item-control'>{data.remarks || ''}</div>
               </div>
             </Col>

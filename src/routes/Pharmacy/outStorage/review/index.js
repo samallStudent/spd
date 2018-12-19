@@ -17,7 +17,7 @@ const columns = [
   {
    title: '出库单',
    dataIndex: 'backNo',
-   width: 168,
+   width: 130,
    render:(text)=>(
     <Link to={{pathname: `/pharmacy/outStorage/review/details/${text}`}}>{text}</Link>
    )
@@ -25,36 +25,31 @@ const columns = [
   {
     title: '发药确认单',
     dataIndex: 'dispensingCode',
-    width: 168
+    width: 130
    },
   {
     title: '内部药房',
-    width: 168,
+    width: 100,
     dataIndex: 'innerDeptName'
   },
   {
     title: '外部药房',
-    width: 168,
+    width: 100,
     dataIndex: 'outDeptName'
   },
   {
     title: '患者姓名',
-    width: 168,
+    width: 110,
     dataIndex: 'sickName'
   },
   {
     title: '就诊卡编号',
-    width: 168,
+    width: 126,
     dataIndex: 'medCardNo'
   },
   {
-    title: '出库分类',
-    width: 168,
-    dataIndex: 'backTypeName'
-  },
-  {
    title: '发药时间',
-   width: 224,
+   width: 180,
    dataIndex: 'dispensingDate'
   },
     {
@@ -63,13 +58,13 @@ const columns = [
         width: 90,
     },
     {
-        title: '复核人',
-        width: 100,
+        title: '配药人',
+        width: 80,
         dataIndex: 'confirmUserName'
     },
     {
-        title: '复核时间',
-        width: 120,
+        title: '配药时间',
+        width: 100,
         dataIndex: 'confirmDate'
     }
 ];
@@ -107,7 +102,7 @@ class Output extends PureComponent{
           onChange={this._tableChange}
           query={query}
           url={outStorage.BILLOUTSOTRE_LIST}
-          scroll={{x: '100%'}}
+          scroll={{x: 1400}}
           columns={columns}
           rowKey={'id'}
           style={{marginTop: 20}}

@@ -16,7 +16,7 @@ const FormItem = Form.Item;
 const Option = Select.Option;
 const columns = [
   {
-   title: '配送单',
+   title: '验收单',
    dataIndex: 'distributeCode',
    width: 168,
    render:(text, record)=>(<Link to={{pathname: `/pharmacy/wareHouse/acceptance/details/id=${record.distributeCode}&state=${record.auditStatus}`}}>{text}</Link>)

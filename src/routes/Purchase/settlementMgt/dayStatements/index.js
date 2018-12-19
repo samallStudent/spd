@@ -141,6 +141,7 @@ class Statements extends PureComponent{
     }
     render() {
         let {getFieldDecorator} = this.props.form;
+        const {match} = this.props;
         const {display} = this.props.base;
         const expand = display === 'block';
         let query = this.props.base.queryConditons;
@@ -187,7 +188,7 @@ class Statements extends PureComponent{
                             </a>
                         </Col>
                         <Col span={24}>
-                            <Link to={{ pathname: `/NewRecon` }}><Button type="primary">生成对账</Button></Link>
+                            <Link to={{ pathname: `${match.path}/generate` }}><Button type="primary">生成对账</Button></Link>
                             <Button style={{marginLeft: 8}} onClick={this.export}>导出</Button>
                         </Col>
                     </Row>

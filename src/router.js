@@ -28,7 +28,7 @@ import AddSupplementDoc from './routes/Pharmacy/supplementDoc/supplementDocument
 import AddInSupplementDoc from './routes/Pharmacy/supplementDoc/supplementDocuments/addIn';
 import BaseAddDrugsApply from './routes/BaseDrug/wareHouse/drugApply/add';
 import BaseAddNewAcceptance from './routes/BaseDrug/wareHouse/acceptance/add';
-// import NewRecon from './routes/Purchase/settlementMgt/dayStatements/newRecon';
+import NewRecon from './routes/Purchase/settlementMgt/dayStatements/newRecon';
 import PriceAdjustment from './routes/Purchase/drugPricing/pricingConfirmation/add';
 import AddSalvageTruck from './routes/BaseDrug/salvageCar/refund/add';
 import AddRescuecarApply from './routes/BaseDrug/salvageCar/drugApply/add';
@@ -128,6 +128,8 @@ function RouterConfig({ history, app }) {
 
           <Route path="/purchase/sinceMining/outCatalogPurchase/add" component={SinceOutCatalog}/>
           <Route path="/purchase/sinceMining/outCatalogPurchase/edit/:planCode" component={SinceOutCatalog}/>
+
+          <Route path="/purchase/settlementMgt/dayStatements/generate" component={NewRecon}/>
 
           <Route path="/purchase/drugPricing/pricingConfirmation/add" component={PriceAdjustment}/>          
           <Route path="/baseDrug/salvageCar/refund/add" component={AddSalvageTruck}/>          

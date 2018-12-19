@@ -276,18 +276,22 @@ class DrugLedger extends PureComponent {
       }, {
         title: '库存数量',
         dataIndex: 'stockNum',
+        fixed: 'right',
         width: 112,
       }, {
         title: '入库数量',
         dataIndex: 'inStockNum',
+        fixed: 'right',
         width: 112,
       }, {
         title: '出库数量',
         dataIndex: 'outStockNum',
+        fixed: 'right',
         width: 112,
       }, {
         title: '结存数量',
         dataIndex: 'balanceNum',
+        fixed: 'right',
         width: 112,
       }
     ];

@@ -54,7 +54,8 @@ class NewAdd extends PureComponent {
           dataSource: data,
           btnLoading: false,
           visible: false,
-          modalSelected: []
+          modalSelected: [],
+          modalSelectedRows: []
         })
       }
     })

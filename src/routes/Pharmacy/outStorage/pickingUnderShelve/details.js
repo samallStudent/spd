@@ -143,16 +143,19 @@ class DetailsPickSoldOut extends PureComponent{
       {
         title: '指示货位',
         width: 168,
+        fixed: 'right',
         dataIndex: 'locName',
       },
       {
         title: '配货数量',
         width: 112,
+        fixed: 'right',
         dataIndex: 'allocationNum',
       },
       {
         title: '实际拣货数量',
         width: 168,
+        fixed: 'right',
         dataIndex: 'amount',
         render:(text,record,index)=>{
           const {pickingType} = this.props.match.params;

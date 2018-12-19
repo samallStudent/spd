@@ -257,7 +257,7 @@ class NewAddGoodsAdjust extends PureComponent{
       {
         title: '目的货位',
         dataIndex: 'goalLocCode',
-        width: 234,
+        width: 280,
         render: (text, record, i) => {
           return <Select
                   style={{width: '100%'}}

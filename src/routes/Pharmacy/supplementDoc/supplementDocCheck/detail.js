@@ -50,7 +50,7 @@ const columns = [
   {
     title: '生产厂家',
     width: 224,
-    dataIndex: 'productCompany',
+    dataIndex: 'ctmmManufacturerName',
     className:'ellipsis',
     render:(text)=>(
       <Tooltip placement="topLeft" title={text}>{text}</Tooltip>

@@ -45,7 +45,7 @@ class Putaway extends PureComponent{
         }
       },
       {
-        title: '配送单',
+        title: '配送单/验收单号',
         width: 168,
         dataIndex: 'distributeCode',
       },
