@@ -11,15 +11,15 @@ const supplyFormItemLayout = {
   labelCol: {
     xs: { span: 24 },
     sm: { span: 5 },
-    md: {span: 8}
+    md: {span: 6}
   },
   wrapperCol: {
     xs: { span: 24 },
     sm: { span: 19 },
-    md: {span: 16}
+    md: {span: 18}
   },
 }
-const formItemLayout ={
+const formItemLayout = {
   labelCol: {
     xs: { span: 24 },
     sm: { span: 24 },
@@ -58,10 +58,9 @@ class EditDrugDirectory extends PureComponent{
     customUnit: [],
     listTransforsVo: [],    //单位信息表
     supplierList:[],//供应商循环数据
-    replanUnitCode: '',
     upperQuantity: 0,
     downQuantity: 0,
-    activeKey: ['1', '2', '3', '4', '5']
+    activeKey: ['1','2','3','4','5','7']
   }
 
   componentDidMount(){
@@ -73,7 +72,7 @@ class EditDrugDirectory extends PureComponent{
         let {listTransforsVo, customUnit} = data.data;
         listTransforsVo.push({
           sort: '补货单位',
-          bigUnit: data.data.replanUnitCode
+          bigUnit: data.data.replanUnit
         });
         customUnit = customUnit || [];
         customUnit = customUnit.map(item => {
@@ -81,12 +80,11 @@ class EditDrugDirectory extends PureComponent{
           item.uuid = uuid;
           return item;
         });
-        let activeKey = customUnit.length ? ['1', '2', '3', '4', '5', '6'] : ['1', '2', '3', '4', '5'];
+        let activeKey = customUnit.length ? ['1','2','3','4','5','6','7'] : ['1','2','3','4','5','7'];
         this.setState({
           fillBackData:data.data,
           medDrugType:data.data.medDrugType,
           listTransforsVo,
-          replanUnitCode: data.data.replanUnitCode,
           customUnit: customUnit,
           activeKey,
           upperQuantity: data.data.upperQuantity,
@@ -125,11 +123,11 @@ class EditDrugDirectory extends PureComponent{
     this.props.dispatch({
       type:'drugStorageConfigMgt/getSupplier',
       payload:null,//{hisDrugCode:data.data.hisDrugCode}
-      callback:(data)=>{
+      callback:(data) => {
         this.setState({supplierSelect:data.data})
       }
     })
-    //获取补货指示h货位
+    //获取补货指示货位
     this.props.dispatch({
       type:'drugStorageConfigMgt/getGoodsTypeInfo',
       payload:{
@@ -150,7 +148,7 @@ class EditDrugDirectory extends PureComponent{
       onOk:()=>{
         this.props.form.validateFields((err,values)=>{
           if(!err){
-            let {replanUnitSelect, replanUnitCode, customUnit} = this.state;
+            let {customUnit} = this.state;
             const isNull = customUnit.every(item => {
               if(!item.unit) {
                 message.error('自定义单位基础单位不能为空!');
@@ -169,18 +167,25 @@ class EditDrugDirectory extends PureComponent{
             if (!isNull) return;
             const { supplier , replanStore , purchaseQuantity ,
               upperQuantity , downQuantity, planStrategyType }  =values; 
-            let replanUnit = replanUnitSelect.filter(item => item.unitCode === replanUnitCode)[0].unit;
+            const defaultSupplier = supplier.some(item => {
+              if(item.whetherDefault) {
+                return true;
+              };
+              return false;
+            });
+            if (!defaultSupplier) return message.warning('请选择一个供应商为默认');// 必须要选择默认供应商
             let postData = {
               customUnit,
               supplier,
               drugInfo:{
-                replanUnit,
-                replanUnitCode , replanStore , purchaseQuantity ,
-                upperQuantity , downQuantity ,
+                upperQuantity,
+                downQuantity,
+                replanStore,
+                purchaseQuantity,
                 planStrategyType,
                 id:this.props.match.params.id,
                 medDrugType:this.state.fillBackData.medDrugType,
-                drugCode:this.state.fillBackData.drugCode||'',
+                drugCode:this.state.fillBackData.drugCode,
                 bigDrugCode:this.state.fillBackData.bigDrugCode,
                 hisDrugCode:this.state.fillBackData.hisDrugCode,
               }
@@ -204,7 +209,7 @@ class EditDrugDirectory extends PureComponent{
                 }else{
                   message.success('保存成功！')
                   const { history } = this.props;
-                  history.push({pathname:"/sys/deptDrugControl/directory"})
+                  history.push({pathname:"/drugStorage/configMgt/drugDirectory"})
                 }
                 
               }
@@ -215,33 +220,6 @@ class EditDrugDirectory extends PureComponent{
       onCancel:()=>{}
     })
   }
-
-  addSupply = ()=>{
-    const { supplierList } = this.state;
-    let keys =supplierList.slice();
-    const nextKeys = keys.concat({
-      supplierCode:null,
-      supplierName:null,
-      supplierPrice:null,
-      whetherDefault:null,
-    });
-    this.setState({
-      supplierList:nextKeys
-    })
-  }
-
-  removeSupply = (ind) => {
-    const { supplierList } = this.state;
-    let keys =supplierList.slice();
-    let ret = keys.filter((key,index) =>index !== ind)
-    this.setState({
-      supplierList:ret
-    })
-
-    let s = this.props.form.getFieldValue('supplier')
-    s = s.filter((key,index) =>index !== ind)
-    this.props.form.setFieldsValue({supplier:s})
-  }
   //使用互斥radio
   onChangeRadio = (e,ind)=>{
     let s = this.props.form.getFieldValue('supplier')
@@ -251,7 +229,7 @@ class EditDrugDirectory extends PureComponent{
       }else{
         item.whetherDefault=null
       }
-      return  item
+      return item;
     })
     this.props.form.setFieldsValue({supplier:s})
   }
@@ -338,28 +316,6 @@ class EditDrugDirectory extends PureComponent{
         title: '单位名称',
         dataIndex: 'bigUnit',
         width: 300,
-        render: (text, record) => {
-          if(typeof record.sort === 'number') {
-            return text;
-          }else {
-            return (
-              <Select
-                onChange={(value) => {
-                  this.setState({
-                    replanUnitCode: value
-                  });
-                }}
-                defaultValue={text}
-              >
-                {
-                  replanUnitSelect.map((item,index)=>(
-                    <Option key={index} value={item.unitCode}>{item.unit}</Option>
-                  ))
-                }
-              </Select>
-            )
-          }
-        }
       },
       {
         title: '转化系数',
@@ -375,7 +331,7 @@ class EditDrugDirectory extends PureComponent{
         title: '单位名称',
         dataIndex: 'unitName',
         render: (text, record) => (
-          <Input 
+          <Input
             defaultValue={text}
             placeholder="请输入单位名称"
             onChange={(e) => {
@@ -468,23 +424,6 @@ class EditDrugDirectory extends PureComponent{
                 }
               </FormItem>
             </Col>
-            {/* <Col span={2} style={{lineHeight: '40px'}}>
-              {supplierList.length > 1 && medDrugType===2 ? (
-                  <Icon
-                    style={{marginRight:8}}
-                    className="dynamic-delete-button"
-                    type="minus-circle-o"
-                    onClick={() => this.removeSupply(index)}
-                  />
-              ) : null}
-              { (supplierList.length-1 === index )  && medDrugType===2 ? (
-                  <Icon
-                    className="dynamic-delete-button"
-                    type="plus-circle-o"
-                    onClick={() => this.addSupply(k)}
-                  />
-              ) : null}
-            </Col> */}
           </Row>
         </Col>
       )
@@ -688,7 +627,12 @@ class EditDrugDirectory extends PureComponent{
                               <Icon type="exclamation-circle" />
                             </Tooltip>
                           </Radio>
-                          <Radio value={2}>补基准水位</Radio>
+                          <Radio value={2}>
+                            <span style={{paddingRight: 8}}>补基准水位</span>
+                            <Tooltip placement="bottom" title="采购的数量为采购量-当前库存">
+                              <Icon type="exclamation-circle" />
+                            </Tooltip>
+                          </Radio>
                         </RadioGroup>
                       )
                     }
@@ -698,7 +642,7 @@ class EditDrugDirectory extends PureComponent{
             </Panel>
 
             <Panel header="供应商" key="3" style={customPanelStyle}>
-             {formItemSupply}
+              {formItemSupply}
             </Panel>
 
             <Panel header="指示货位" key="4" style={customPanelStyle}>
@@ -734,31 +678,25 @@ class EditDrugDirectory extends PureComponent{
                 </Col>
               </Row>
             </Panel>
-
+            <Panel header="药品信息" key="7" style={customPanelStyle}>
+              <Row className='fixHeight'>
+                {this.getLayoutInfo('是否报告药',fillBackData?fillBackData.medDrugTypes:'')}
+                {this.getLayoutInfo('是否贵重',fillBackData.ctmmValuableSign?fillBackData.ctmmValuableSign : '')}
+                {this.getLayoutInfo('是否高危',fillBackData?fillBackData.ctmmCriticalCareMedicine:'')}
+                {this.getLayoutInfo('存储条件',fillBackData.storageConditions?fillBackData.storageConditions :'')}
+                {this.getLayoutInfo('毒麻标识',fillBackData.poisonHemp?fillBackData.poisonHemp :'')}
+              </Row>
+            </Panel>
             <Panel header="药品信息" key="5" style={customPanelStyle}>
               <Row className='fixHeight'>
                 {this.getLayoutInfo('药品名称',fillBackData?fillBackData.ctmmDesc:'')}
                 {this.getLayoutInfo('药品剂量',fillBackData?fillBackData.ctphdmiDosageUnitDesc:'')}
                 {this.getLayoutInfo('药学分类描述',fillBackData?fillBackData.ctphdmiCategoryDesc:'')}
                 {this.getLayoutInfo('管制分类描述',fillBackData?fillBackData.ctphdmiRegulatoryClassDesc:'')}
-                {this.getLayoutInfo('危重药物标志',fillBackData?fillBackData.ctmmCriticalCareMedicine:'')}
                 {this.getLayoutInfo('抗菌药物标志',fillBackData?fillBackData.ctmmAntibacterialsign:'')}
                 {this.getLayoutInfo('国家基本药物标记',fillBackData?fillBackData.ctmmEssentialMedicine:'')}
-                {this.getLayoutInfo('贵重标记',fillBackData.ctmmValuableSign?fillBackData.ctmmValuableSign==="1"?'Y':'N':'')}
                 {this.getLayoutInfo('皮试标志',fillBackData.ctmmSkintestSign?fillBackData.ctmmSkintestSign==="1"?'Y':'N':'')}
-                {this.getLayoutInfo('冷藏标识',fillBackData.refrigerateType?fillBackData.refrigerateType==="1"?'Y':'N':'')}
                 {this.getLayoutInfo('停用标记',fillBackData.ctmmStatusCode?fillBackData.ctmmStatusCode==="1"?'Y':'N':'')}
-               
-               {/* 
-                {this.getLayoutInfo('适应症',12)}
-                {this.getLayoutInfo('禁忌症',12)}
-                {this.getLayoutInfo('不良反应',12)}
-                {this.getLayoutInfo('相互作用',12)}
-                {this.getLayoutInfo('年龄限制',12)}
-                {this.getLayoutInfo('疗程描述',12)}
-                {this.getLayoutInfo('频次描述',12)}
-                {this.getLayoutInfo('注意事项',12)}
-                {this.getLayoutInfo('原描述',12)} */}
               </Row>
             </Panel>
 

@@ -47,6 +47,21 @@ const modalColumns = [
     dataIndex: 'packageSpecification',
   },
   {
+    title: '生产批号',
+    width: 168,
+    dataIndex: 'lot',
+  },
+  {
+    title: '生产日期',
+    width: 168,
+    dataIndex: 'productDate'
+  },
+  {
+    title: '有效期至',
+    width: 168,
+    dataIndex: 'validEndDate'
+  },
+  {
     title: '生产厂家',
     width: 224,
     dataIndex: 'ctmmManufacturerName',
@@ -220,6 +235,16 @@ class AddOutput extends PureComponent{
         title: '当前库存',
         width: 112,
         dataIndex: 'usableQuantity',
+      },
+      {
+        title: '基数药库存',
+        width: 112,
+        dataIndex: 'baseStoreNum',
+      },
+      {
+        title: '库存基数',
+        width: 112,
+        dataIndex: 'baseNum',
       },
       {
         title: '单位',

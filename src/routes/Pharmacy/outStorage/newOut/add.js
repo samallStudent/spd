@@ -37,6 +37,21 @@ const modalColumns = [
     dataIndex: 'ctmmSpecification',
   },
   {
+    title: '生产批号',
+    width: 168,
+    dataIndex: 'lot',
+  },
+  {
+    title: '生产日期',
+    width: 168,
+    dataIndex: 'productDate'
+  },
+  {
+    title: '有效期至',
+    width: 168,
+    dataIndex: 'validEndDate'
+  },
+  {
     title: '生产厂家',
     width: 224,
     dataIndex: 'ctmmManufacturerName',

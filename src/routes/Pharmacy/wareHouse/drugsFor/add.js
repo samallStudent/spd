@@ -282,14 +282,17 @@ class NewAdd extends PureComponent {
         width: 120,
         render: (text, record, i) => {
           return <InputNumber
-                    defaultValue={text}
+                    value={text}
                     min={1}
-                    max={record.locaUpperQuantity}
+                    // max={record.usableQuantity}
                     precision={0}
                     onChange={(value)=>{
-                      if(value > record.locaUpperQuantity) {
-                        return message.warning('申领数量不得大于库存上限!');
+                      if(value > record.usableQuantity) {
+                        return message.warning('申领数量不得大于配货部门可用库存!');
                       };
+                      if((value + record.localUsableQuantity) > record.locaUpperQuantity) {
+                        return message.warning('申领数量加上药房可用库存不得大于库存上限!');
+                      }
                       dataSource = JSON.parse(JSON.stringify(dataSource));
                       dataSource[i].applyNum = value;
                       this.setState({dataSource});

@@ -10,7 +10,10 @@ const singleFormItemLayout = {
   labelCol: {
     xs: { span: 24 },
     sm: { span: 8 },//5
-    md: {span: 10}
+    md: {span: 10},
+    style: {
+      textAlign: 'left'
+    }
   },
   wrapperCol: {
     xs: { span: 24 },
@@ -25,6 +28,7 @@ class EditDrugDirectory extends PureComponent{
     super(props)
     this.state = {
       baseData: {},
+      saveLoading: false
     }
   }
   componentDidMount = () =>{
@@ -57,17 +61,24 @@ class EditDrugDirectory extends PureComponent{
   onSave = () => {
     this.props.form.validateFields((err, values) => {
       if(!err) {
+        this.setState({
+          saveLoading: true
+        });
         const { hisDrugCode } = this.props.match.params;
         this.props.dispatch({
           type: 'drugDirectory/editMedicinalType',
           payload: {
             hisDrugCode,
-            medDrugType: values.medDrugType
+            medDrugType: values.medDrugType,
+            ctmmCriticalCareMedicine: values.ctmmCriticalCareMedicine,
+            ctmmValuableSign: values.ctmmValuableSign,
+            storageCondition: values.storageCondition,
+            poisonHemp: values.poisonHemp
           },
           callback: ({data, code, msg}) => {
             if(code === 200) {
               message.success('操作成功');
-              this.getDetail();
+              this.props.history.push(`/sys/drugDirectory/directory`);
             }else {
               message.error(msg);
             };
@@ -77,7 +88,7 @@ class EditDrugDirectory extends PureComponent{
     });
   }
   render(){
-    const { baseData } = this.state;
+    const { baseData, saveLoading } = this.state;
     const columns = [
       {
         title: '单位属性',
@@ -115,7 +126,7 @@ class EditDrugDirectory extends PureComponent{
         <div className='fullCol-fullChild'>
           <div style={{ display:'flex',justifyContent: 'space-between' }}>
             <h3><b>基本信息</b></h3>
-            <Button onClick={this.onSave} type="primary">保存</Button>
+            <Button loading={saveLoading} onClick={this.onSave} type="primary">保存</Button>
           </div>
           <Row gutter={30}>
             <Col span={8}>
@@ -219,8 +230,8 @@ class EditDrugDirectory extends PureComponent{
           <h3>报告药标识</h3>
           <hr className='hr'/>
           <Form>
-            <Row>
-              <Col span={6}>
+            <Row gutter={30}>
+              <Col span={8}>
                 <FormItem {...singleFormItemLayout} label={`是否报告药`}>
                   {
                     getFieldDecorator(`medDrugType`,{
@@ -235,10 +246,71 @@ class EditDrugDirectory extends PureComponent{
                   }
                 </FormItem>
               </Col>
+              <Col span={8}>
+                <FormItem {...singleFormItemLayout} label={`是否贵重`}>
+                  {
+                    getFieldDecorator(`ctmmValuableSign`,{
+                      initialValue: baseData.ctmmValuableSign ? baseData.ctmmValuableSign : '', 
+                      rules: [{ required: true,message: '请选择是否贵重' }]
+                    })(
+                      <RadioGroup>
+                        <Radio value={'2'}>是</Radio>
+                        <Radio value={'1'}>否</Radio>
+                      </RadioGroup>
+                    )
+                  }
+                </FormItem>
+              </Col>
+              <Col span={8}>
+                <FormItem {...singleFormItemLayout} label={`是否高危`}>
+                  {
+                    getFieldDecorator(`ctmmCriticalCareMedicine`,{
+                      initialValue: baseData.ctmmCriticalCareMedicine ? baseData.ctmmCriticalCareMedicine : '', 
+                      rules: [{ required: true,message: '请选择是否高危' }]
+                    })(
+                      <RadioGroup>
+                        <Radio value={'2'}>是</Radio>
+                        <Radio value={'1'}>否</Radio>
+                      </RadioGroup>
+                    )
+                  }
+                </FormItem>
+              </Col>
+              <Col span={8}>
+                <FormItem {...singleFormItemLayout} label={`存储条件`}>
+                  {
+                    getFieldDecorator(`storageCondition`,{
+                      initialValue: baseData.storageCondition ? baseData.storageCondition : '', 
+                      rules: [{ required: true,message: '请选择存储条件' }]
+                    })(
+                      <RadioGroup>
+                        <Radio value={1}>常温</Radio>
+                        <Radio value={2}>阴凉</Radio>
+                        <Radio value={3}>冷库</Radio>
+                      </RadioGroup>
+                    )
+                  }
+                </FormItem>
+              </Col>
+              <Col span={8}>
+                <FormItem {...singleFormItemLayout} label={`毒麻标识`}>
+                  {
+                    getFieldDecorator(`poisonHemp`,{
+                      initialValue: baseData.poisonHemp ? baseData.poisonHemp : '', 
+                      rules: [{ required: true,message: '请选择毒麻标识' }]
+                    })(
+                      <RadioGroup>
+                        <Radio value={2}>是</Radio>
+                        <Radio value={1}>否</Radio>
+                      </RadioGroup>
+                    )
+                  }
+                </FormItem>
+              </Col>
             </Row>
           </Form>
         </div>
-        <div className='detailCard'>
+        <div className='detailCard' style={{marginTop: 0}}>
           <h3>药品信息</h3>
           <hr className='hr'/>
           <Row className='fixHeight'>
