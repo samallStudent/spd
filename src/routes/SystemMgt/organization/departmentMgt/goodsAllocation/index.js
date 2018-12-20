@@ -8,7 +8,7 @@
  */
 
 import React , { PureComponent } from 'react';
-import {Form , Button , Row , Col, Input , Select , Modal} from 'antd';
+import {Form , Button , Row , Col, Input , Select , Modal, message} from 'antd';
 import { formItemLayout } from '../../../../../utils/commonStyles';
 import RemoteTable from '../../../../../components/TableGrid';
 import { systemMgt } from '../../../../../api/systemMgt';
@@ -93,9 +93,16 @@ class GoodsAllocation extends PureComponent{
         this.props.dispatch({
           type:'Organization/saveOrUpdateGoodsPlace',
           payload:{ ...values },
-          callback:(data)=>{
-            this.onCancelModal();
-            this.refs.tableGoods.fetch();
+          callback:({data, code, msg})=>{
+            if(code === 200) {
+              this.onCancelModal();
+              this.refs.tableGoods.fetch();
+            }else {
+              message.error(msg);
+            };
+            this.setState({
+              addLocLoading: false
+            });
           }
         })
       }

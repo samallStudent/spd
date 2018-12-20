@@ -2,10 +2,11 @@
  * @file 药库 - 盘点损益 - 新建盘点
  */
 import React, { PureComponent } from 'react';
-import { Form, Row, Col, DatePicker, Input, Select, Button, Icon, Modal, Checkbox, Radio, message } from 'antd';
+import { Form, Row, Col, DatePicker, Input, Select, Button, Icon, Modal, Radio, message } from 'antd';
 import { Link } from 'react-router-dom';
 import { formItemLayout } from '../../../../utils/commonStyles';
 import RemoteTable from '../../../../components/TableGrid';
+import FetchSelect from '../../../../components/FetchSelect';
 import {common} from '../../../../api/checkDecrease';
 import {connect} from 'dva';
 import moment from 'moment';
@@ -13,7 +14,6 @@ const FormItem = Form.Item;
 const { RangePicker } = DatePicker;
 const { Option } = Select;
 const RadioGroup = Radio.Group;
-const CheckboxGroup = Checkbox.Group;
 class SearchForm extends PureComponent {
   toggle = () => {
     this.props.formProps.dispatch({
@@ -130,16 +130,11 @@ class NewInventory extends PureComponent {
     visible: false,
     selected: [],
     selectedRows: [],
-    subType: '',
     display: 'none',
     types: [],
     status: [],
     subTypes: [],
     deleteLoadig: false,
-    locTypeList: [],
-    checkValue: [],
-    indeterminate: false,
-    allChecked: false,
     drugFeature: []
   }
   componentDidMount() {
@@ -178,18 +173,6 @@ class NewInventory extends PureComponent {
       }
     });
     dispatch({
-      type: 'base/orderStatusOrorderType',
-      payload: {
-        type: 'location_type'
-      },
-      callback: (data) => {
-        data = data.filter(item => item.value !== "");
-        this.setState({
-          locTypeList: data
-        });
-      }
-    });
-    dispatch({
       type: 'checkDecrease/medHisdrugFeature',
       callback: ({data, code, msg}) => {
         if(code === 200) {
@@ -212,10 +195,6 @@ class NewInventory extends PureComponent {
   //新建
   handleOk = (e) => {
     e.preventDefault();
-    let {checkValue} = this.state;
-    this.props.form.setFieldsValue({
-      locType: checkValue
-    });
     this.props.form.validateFields((err, values) => {
       if(err) return;
       console.log(values);
@@ -294,34 +273,6 @@ class NewInventory extends PureComponent {
       </Row>
     )
   }
-  //多选框渲染
-  renderCheckbox = (list) => {
-    list = list.filter(item => item.value !== "");
-    return list.map(item => {
-      return <Col style={{marginBottom: 10}} key={item.value} span={8}>
-              <Checkbox key={item.value} value={item.value}>{item.label}</Checkbox>
-             </Col>
-    })
-  }
-  //多选框事件
-  changeCheckbox = (checkedValue) => {
-    let {locTypeList} = this.state;
-    this.setState({
-      indeterminate: checkedValue.length > 0 && !(checkedValue.length === locTypeList.length),
-      allChecked: checkedValue.length === locTypeList.length,
-      checkValue: checkedValue
-    });
-  }
-  //全选
-  changeCheckAll = (e) => {
-    let {locTypeList} = this.state;
-    locTypeList = locTypeList.map(item=>item.value);
-    this.setState({
-      checkValue: e.target.checked ? locTypeList : [],
-      indeterminate: false,
-      allChecked: e.target.checked,
-    });
-  }
   //导出 
   export = () => { 
     let { queryConditons } = this.props.base;
@@ -343,7 +294,8 @@ class NewInventory extends PureComponent {
       labelCol: { span: 6 }, 
       wrapperCol: { span: 18 } 
     };
-    const {status, types, checkValue, subTypes, subType, deleteLoadig, locTypeList, indeterminate, allChecked, drugFeature} = this.state;
+    const {status, types, subTypes, deleteLoadig, drugFeature} = this.state;
+    const {checkBillSubType, isLocCheck} = this.props.form.getFieldsValue();
     const columns = [
       {
         title: '盘点单',
@@ -523,25 +475,68 @@ class NewInventory extends PureComponent {
                 </FormItem>
               </Col>
               <Col span={24}>
-                <FormItem label={'货位类别'} style={{marginBottom: 0}} {...formItemLayoutAdd}>
-                  {getFieldDecorator('locType', {
-                    rules: [{ required: true, message: '请选择货位类别' }]
+                <FormItem style={{marginBottom: 0}} label={'盘点范围'} {...formItemLayoutAdd}>
+                  {getFieldDecorator('isLocCheck', {
+                    rules: [{ required: true, message: '请选择盘点范围' }]
                   })(
-                    <Row>
-                      <Col span={8}>
-                        <Checkbox indeterminate={indeterminate} onChange={this.changeCheckAll} checked={allChecked}>全部</Checkbox>
-                      </Col>
-                      <CheckboxGroup value={checkValue} onChange={this.changeCheckbox} style={{width: '100%'}}>
-                        <Row>
-                          {this.renderCheckbox(locTypeList)}
-                        </Row>
-                      </CheckboxGroup>
-                    </Row>
+                    <RadioGroup style={{width: '80%'}}>
+                      <Row>
+                        <Col span={8}>
+                          <Radio value={1}>全部</Radio>
+                        </Col>
+                        <Col span={8}>
+                          <Radio value={2}>自定义</Radio>
+                        </Col>
+                      </Row>
+                    </RadioGroup>
                   )}
                 </FormItem>
               </Col>
               {
-                subType === '3' ?
+                isLocCheck === 2 && 
+                [
+                  <Col span={24} key="start">
+                    <FormItem style={{marginBottom: 0}} label={'起始货位'} {...formItemLayoutAdd}>
+                      {getFieldDecorator('startLocSort', {
+                        rules: [{ required: true, message: '请选择盘点范围' }]
+                      })(
+                        <FetchSelect
+                          queryKey={'positionName'}
+                          style={{width: '100%'}}
+                          allowClear
+                          placeholder='请选择起始货位'
+                          valueAndLabel={{
+                            label: 'positionName',
+                            value: 'sort'
+                          }}
+                          url={common.QUERY_DEPT_LOCATION_INFO}
+                        />
+                      )}
+                    </FormItem>
+                  </Col>,
+                  <Col span={24} key="end">
+                    <FormItem style={{marginBottom: 0}} label={'截止货位'} {...formItemLayoutAdd}>
+                      {getFieldDecorator('endLocSort', {
+                        rules: [{ required: true, message: '请选择截止货位' }]
+                      })(
+                        <FetchSelect
+                          queryKey={'positionName'}
+                          style={{width: '100%'}}
+                          allowClear
+                          valueAndLabel={{
+                            label: 'positionName',
+                            value: 'sort'
+                          }}
+                          placeholder='请选择截止货位'
+                          url={common.QUERY_DEPT_LOCATION_INFO}
+                        />
+                      )}
+                    </FormItem>
+                  </Col>,
+                ]
+              }
+              {
+                checkBillSubType === '3' ?
                   <Col span={24}>
                     <FormItem style={{marginBottom: 0}} label={'起始时间'} {...formItemLayoutAdd}>
                       {getFieldDecorator('checkStartTime', {

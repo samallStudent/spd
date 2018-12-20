@@ -2,7 +2,7 @@
  * @file 药库 - 盘点损益 - 新建盘点 - 详情(待确认)
  */
 import React, { PureComponent } from 'react';
-import {Row, Col, Input, Button, message, Tooltip, DatePicker, InputNumber} from 'antd';
+import {Row, Col, Input, Button, message, Tooltip, DatePicker, InputNumber, Radio} from 'antd';
 import {checkDecrease, common} from '../../../../api/checkDecrease';
 import RetomeTable from '../../../../components/TableGrid';
 import FetchSelect from '../../../../components/FetchSelect/index';
@@ -10,6 +10,7 @@ import {connect} from 'dva';
 import moment from 'moment';
 import {difference} from 'loadsh';
 const monthFormat = 'YYYY-MM-DD';
+const RadioGroup = Radio.Group;
 class Details extends PureComponent {
   constructor(props) {
     super(props);
@@ -25,6 +26,7 @@ class Details extends PureComponent {
       submitLoading: false,
       expandedRowKeys: [],    //展开key
       first: true,    //是否第一次渲染
+      allSubmitLoading: false
     }
   }
   componentDidMount() {
@@ -300,7 +302,6 @@ class Details extends PureComponent {
         return item;
       })
     };
-    debugger
     this.setState({
       dataSource: data,
       tableLoading: false,
@@ -496,17 +497,56 @@ class Details extends PureComponent {
     const {checkBillNo} = this.state.query;
     window.open(`${checkDecrease.CHECK_BILL_PRINT}?checkBillNo=${checkBillNo}`, '_blank')
   }
+  //改变盘点类型列表
+  changeCheck = (e) => {
+    const {query} = this.state;
+    this.setState({
+      query: {
+        ...query,
+        causticType: e.target.value
+      }
+    });
+  }
+  //全部提交
+  allSubmit = () => {
+    this.setState({
+      allSubmitLoading: true
+    });
+    this.props.dispatch({
+      type: 'checkDecrease/submitCheck',
+      payload: {
+        detailList: [],
+        isTotalSubmit: '0',
+        checkBillNo: this.props.match.params.id,
+      },
+      callback: (data) => {
+        if(data.msg === 'success') {
+          message.success('全部提交成功');
+          this.getDetail();
+          this.refs.table.fetch(this.state.query);
+        }else {
+          message.error('全部提交失败');
+          message.error(data.msg);
+        };
+        this.setState({
+          allSubmitLoading: false
+        });
+      }
+    });
+  }
   render() {
-    let {info, submitLoading, checkLoading} = this.state;
+    let {info, submitLoading, checkLoading, allSubmitLoading} = this.state;
     let columns = [
       {
         title: '货位',
         dataIndex: 'locName',
-        width: 112
+        fixed: 'left',
+        width: 168
       },
       {
         title: '货位类型',
         dataIndex: 'positionTypeName',
+        fixed: 'left',
         width: 168
       },
       {
@@ -697,15 +737,19 @@ class Details extends PureComponent {
             <Col span={12} style={{ textAlign: 'right' }}>
                 {
                   info.checkStatus === 1 ?
-                  <Button loading={checkLoading} type='primary' style={{marginRight: 10}} onClick={this.check}>盘点</Button> : null
+                  <Button loading={checkLoading} type='primary' style={{marginRight: 8}} onClick={this.check}>盘点</Button> : null
                 }
                 {
-                  info.checkStatus === 5 ?
+                  info.checkStatus === 2 ?
+                  <Button loading={allSubmitLoading} type='primary' style={{marginRight: 8}} onClick={this.allSubmit}>全部提交</Button> : null
+                }
+                {
+                  info.checkStatus > 1 ?
                   <Button icon='printer' style={{marginRight: 10}} onClick={this.print}>打印</Button> : null
                 }
               </Col> 
           </Row>
-          <Row>
+          <Row gutter={30}>
             <Col span={8}>
               <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-6">
                 <label>状态</label>
@@ -731,7 +775,7 @@ class Details extends PureComponent {
               </div>
             </Col>
           </Row>
-          <Row>
+          <Row gutter={30}>
             <Col span={8}>
               <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-6">
                 <label>制单人</label>
@@ -757,7 +801,7 @@ class Details extends PureComponent {
               </div>
             </Col>
           </Row>
-          <Row>
+          <Row gutter={30}>
             <Col span={8}>
               <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-6">
                 <label>采购方式</label>
@@ -783,7 +827,7 @@ class Details extends PureComponent {
               </div>
             </Col>
           </Row>
-          <Row>
+          <Row gutter={30}>
             <Col span={8}>
               <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-6">
                 <label>备注</label>
@@ -794,24 +838,42 @@ class Details extends PureComponent {
             </Col>
           </Row>
            <div style={{borderBottom: '1px dashed #d9d9d9', marginBottom: 10}}></div>
-          <Row>
-            <Col span={10}>
+          <Row gutter={30}>
+            <Col span={8}>
               <div className="ant-form-item-label-left ant-col-md-24 ant-col-lg-8 ant-col-xl-6">
                 <label>名称</label>
               </div>
               <div className="ant-form-item-control-wrapper ant-col-md-24 ant-col-lg-16 ant-col-xl-18" style={{ marginLeft: -30 }}>
                 <div className='ant-form-item-control'>
-                  <Row>
-                    <Col span={18}>
-                      <FetchSelect
-                        style={{width: '100%'}}
-                        allowClear
-                        placeholder='通用名/商品名'
-                        url={common.QUERY_DRUG_BY_LIST}
-                        cb={this.onSearch}
-                      />
-                    </Col>
-                  </Row>
+                  <FetchSelect
+                    style={{width: '100%'}}
+                    allowClear
+                    placeholder='通用名/商品名'
+                    url={common.QUERY_DRUG_BY_LIST}
+                    cb={this.onSearch}
+                  />
+                </div>
+              </div>
+            </Col>
+            <Col span={8}>
+              <div className="ant-form-item-label-left ant-col-md-24 ant-col-lg-8 ant-col-xl-6">
+                <label>盘点</label>
+              </div>
+              <div className="ant-form-item-control-wrapper ant-col-md-24 ant-col-lg-16 ant-col-xl-18">
+                <div className='ant-form-item-control'>
+                  <RadioGroup onChange={this.changeCheck} style={{width: '100%'}}>
+                    <Row>
+                      <Col span={8}>
+                        <Radio value={''}>全部</Radio>
+                      </Col>
+                      <Col span={8}>
+                        <Radio value={2}>盘点正常</Radio>
+                      </Col>
+                      <Col span={8}>
+                        <Radio value={1}>盘点异常</Radio>
+                      </Col>
+                    </Row>
+                  </RadioGroup>
                 </div>
               </div>
             </Col>

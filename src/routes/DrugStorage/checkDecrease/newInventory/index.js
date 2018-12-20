@@ -6,6 +6,7 @@ import { Form, Row, Col, DatePicker, Input, Select, Button, Icon, Modal, Radio, 
 import { Link } from 'react-router-dom';
 import { formItemLayout } from '../../../../utils/commonStyles';
 import RemoteTable from '../../../../components/TableGrid';
+import FetchSelect from '../../../../components/FetchSelect';
 import {common} from '../../../../api/checkDecrease';
 import {connect} from 'dva';
 import moment from 'moment';
@@ -21,6 +22,7 @@ class SearchForm extends PureComponent {
     });
   }
   componentDidMount() {
+    
     let { queryConditons } = this.props.formProps.base;
     queryConditons = {...queryConditons};
     if(queryConditons.filterStatus && queryConditons.filterStatus.length > 1) {
@@ -130,7 +132,6 @@ class NewInventory extends PureComponent {
     visible: false,
     selected: [],
     selectedRows: [],
-    subType: '',
     types: [],
     status: [],
     subTypes: [],
@@ -293,7 +294,8 @@ class NewInventory extends PureComponent {
       labelCol: { span: 6 }, 
       wrapperCol: { span: 18 } 
     };
-    const {status, types, subTypes, subType, deleteLoadig, drugFeature} = this.state;
+    const {status, types, subTypes, deleteLoadig, drugFeature} = this.state;
+    const {checkBillSubType, isLocCheck} = this.props.form.getFieldsValue();
     const columns = [
       {
         title: '盘点单',
@@ -417,7 +419,7 @@ class NewInventory extends PureComponent {
                   {getFieldDecorator('checkBillSubType', {
                     rules: [{ required: true, message: '请选择子类型' }]
                   })(
-                    <RadioGroup style={{width: '80%'}} onChange={(e) => this.setState({ subType: e.target.value })}>
+                    <RadioGroup style={{width: '80%'}}>
                       {this.radioRender(subTypes)}
                     </RadioGroup>
                   )}
@@ -471,29 +473,91 @@ class NewInventory extends PureComponent {
                   )}
                 </FormItem>
               </Col>
+              <Col span={24}>
+                <FormItem style={{marginBottom: 0}} label={'盘点范围'} {...formItemLayoutAdd}>
+                  {getFieldDecorator('isLocCheck', {
+                    rules: [{ required: true, message: '请选择盘点范围' }]
+                  })(
+                    <RadioGroup style={{width: '80%'}}>
+                      <Row>
+                        <Col span={8}>
+                          <Radio value={1}>全部</Radio>
+                        </Col>
+                        <Col span={8}>
+                          <Radio value={2}>自定义</Radio>
+                        </Col>
+                      </Row>
+                    </RadioGroup>
+                  )}
+                </FormItem>
+              </Col>
               {
-                subType === '3' ?
-                  <Col span={24}>
-                    <FormItem label={'起始时间'} {...formItemLayoutAdd}>
-                      {getFieldDecorator('checkStartTime', {
-                        rules: [{ required: true, message: '请选择起始时间' }],
-                        initialValue: moment(new Date(), moment().format('YYYY-MM-DD 00:00'))
+                isLocCheck === 2 && 
+                [
+                  <Col span={24} key="start">
+                    <FormItem style={{marginBottom: 0}} label={'起始货位'} {...formItemLayoutAdd}>
+                      {getFieldDecorator('startLocSort', {
+                        rules: [{ required: true, message: '请选择盘点范围' }]
                       })(
-                        <DatePicker
-                          showTime
-                          format="YYYY-MM-DD HH:mm"
+                        <FetchSelect
+                          queryKey={'positionName'}
+                          style={{width: '100%'}}
+                          allowClear
+                          placeholder='请选择起始货位'
+                          valueAndLabel={{
+                            label: 'positionName',
+                            value: 'sort'
+                          }}
+                          url={common.QUERY_DEPT_LOCATION_INFO}
                         />
-                        )
-                      }
+                      )}
                     </FormItem>
-                  </Col> 
-                  : 
-                  null
+                  </Col>,
+                  <Col span={24} key="end">
+                    <FormItem style={{marginBottom: 0}} label={'截止货位'} {...formItemLayoutAdd}>
+                      {getFieldDecorator('endLocSort', {
+                        rules: [{ required: true, message: '请选择截止货位' }]
+                      })(
+                        <FetchSelect
+                          queryKey={'positionName'}
+                          style={{width: '100%'}}
+                          allowClear
+                          valueAndLabel={{
+                            label: 'positionName',
+                            value: 'sort'
+                          }}
+                          placeholder='请选择截止货位'
+                          url={common.QUERY_DEPT_LOCATION_INFO}
+                        />
+                      )}
+                    </FormItem>
+                  </Col>,
+                ]
+              }
+              {
+                checkBillSubType === '3' &&
+                <Col span={24}>
+                  <FormItem label={'起始时间'} {...formItemLayoutAdd}>
+                    {getFieldDecorator('checkStartTime', {
+                      rules: [{ required: true, message: '请选择起始时间' }],
+                      initialValue: moment(new Date(), moment().format('YYYY-MM-DD 00:00'))
+                    })(
+                      <DatePicker
+                        style={{
+                          width: '100%'
+                        }}
+                        showTime
+                        format="YYYY-MM-DD HH:mm"
+                      />
+                      )
+                    }
+                  </FormItem>
+                </Col> 
               }
               <Col span={24}>
                 <FormItem style={{marginBottom: 0}} label={'备注'} {...formItemLayoutAdd}>
                   {getFieldDecorator('remarks')(
-                    <Input style={{ width: 280 }} />
+                    <Input style={{ width: '100%' }} />
                   )}
                 </FormItem>
               </Col>

@@ -284,7 +284,6 @@ class NewAdd extends PureComponent {
           return <InputNumber
                     value={text}
                     min={1}
-                    // max={record.usableQuantity}
                     precision={0}
                     onChange={(value)=>{
                       if(value > record.usableQuantity) {
@@ -331,14 +330,6 @@ class NewAdd extends PureComponent {
         width: 224,
       }
     ];
-    if(applyType === '2') {
-      columns.splice(9, 0, {
-        title: '药库可用库存',
-        dataIndex: 'usableQuantity',
-        width: 112,
-        render: (text) => text ? text : 0
-      });
-    };
     const modalColumns = [
       {
         title: '通用名',

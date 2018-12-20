@@ -6,6 +6,7 @@ export const common = {
   SUPPLIER_LIST: `${_local}/a/depot/supplier/all`,     //供应商下拉
   QUERY_DRUG_BY_LIST: `${_local}/a/common/queryDrugByList`,  //搜索
   SHEVE_LIST: `${_local}/a/checkbill/sheveList`,        //全院盘点审核
+  QUERY_DEPT_LOCATION_INFO: `${_local}/a/dept/queryDeptLocationInfo`, //查询部门下货位
 }
 /*-- 新建盘点 --*/
 export const checkDecrease = {

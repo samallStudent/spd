@@ -563,7 +563,10 @@ class EditDrugDirectory extends PureComponent{
                   <FormItem {...formItemLayout} label={`本部门上限`}>
                     {
                       getFieldDecorator(`upperQuantity`,{
-                        initialValue:fillBackData?fillBackData.upperQuantity:''
+                        initialValue:fillBackData?fillBackData.upperQuantity:'',
+                        rules:[
+                          {required:true,message:'请选择本部门上限！'}
+                        ]
                       })(
                         <InputNumber
                           min={downQuantity}
@@ -580,7 +583,10 @@ class EditDrugDirectory extends PureComponent{
                   <FormItem {...formItemLayout} label={`采购量`}>
                     {
                       getFieldDecorator(`purchaseQuantity`,{
-                        initialValue: fillBackData?fillBackData.purchaseQuantity:''
+                        initialValue: fillBackData?fillBackData.purchaseQuantity:'',
+                        rules:[
+                          {required:true,message:'请选择补货量！'}
+                        ]
                       })(
                         <InputNumber
                           max={upperQuantity}
@@ -599,6 +605,9 @@ class EditDrugDirectory extends PureComponent{
                     {
                       getFieldDecorator(`downQuantity`,{
                         initialValue: fillBackData?fillBackData.downQuantity:'',
+                        rules:[
+                          {required:true,message:'请选择本部门下限！'}
+                        ]
                       })(
                         <InputNumber
                           max={upperQuantity}

@@ -41,9 +41,9 @@ class Login extends PureComponent{
           // 正式数据
           let deptInfo = data.deptInfo;
           //上次登录最后一次所在部门
-          const lastDeptInfo = deptInfo.filter(item => item.lastSelect)[0];
+          let lastDeptInfo = deptInfo.filter(item => item.lastSelect)[0];
           if(!lastDeptInfo) {
-            return message.error('未获得上次登录最后一次所在部门');
+            lastDeptInfo = data.deptInfo[0];
           };
           let { menuList } = lastDeptInfo;
           console.log(menuList, 'menuList');

@@ -2,12 +2,13 @@
  * @file 药库 - 盘点损益 - 新建盘点 - 详情(待确认)
  */
 import React, { PureComponent } from 'react';
-import {Row, Col, message, Tooltip, Button} from 'antd';
+import {Row, Col, message, Tooltip, Button, Radio} from 'antd';
 import {profiLossRecord, common} from '../../../../api/checkDecrease';
 import RetomeTable from '../../../../components/TableGrid';
 import FetchSelect from '../../../../components/FetchSelect/index';
 import querystring from 'querystring';
 import {connect} from 'dva';
+const RadioGroup = Radio.Group;
 class Details extends PureComponent {
   constructor(props) {
     super(props);
@@ -57,18 +58,30 @@ class Details extends PureComponent {
     const {causticExcessiveNo} = this.state;
     window.open(`${profiLossRecord.CAUSTIC_EXCESSIVE_PRINT}?causticExcessiveNo=${causticExcessiveNo}`, '_blank')
   }
+  //改变盘点类型列表
+  changeCheck = (e) => {
+    const {query} = this.state;
+    this.setState({
+      query: {
+        ...query,
+        causticType: e.target.value
+      }
+    });
+  }
   render() {
     let {info, query} = this.state;
     let columns = [
       {
         title: '货位',
         dataIndex: 'locName',
+        fixed: 'left',
         width: 168
       },
       {
         title: '货位类型',
         dataIndex: 'positionTypeName',
-        width: 112
+        fixed: 'left',
+        width: 168
       },
       {
         title: '通用名',
@@ -173,7 +186,7 @@ class Details extends PureComponent {
               <Button icon="printer" onClick={this.print}>打印</Button>
             </Col>
           </Row>
-          <Row>
+          <Row gutter={30}>
             <Col span={8}>
               <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-6">
                 <label>盘点单</label>
@@ -199,7 +212,7 @@ class Details extends PureComponent {
               </div>
             </Col>
           </Row>
-          <Row>
+          <Row gutter={30}>
             <Col span={8}>
               <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-6">
                 <label>采购方式</label>
@@ -225,8 +238,8 @@ class Details extends PureComponent {
               </div>
             </Col>
           </Row>
-            <div style={{borderBottom: '1px dashed #d9d9d9', marginBottom: 10}}></div>
-          <Row>
+          <div style={{borderBottom: '1px dashed #d9d9d9', marginBottom: 10}}></div>
+          <Row gutter={30}>
             <Col span={8}>
               <div className="ant-form-item-label-left ant-col-md-24 ant-col-lg-8 ant-col-xl-6">
                 <label>名称</label>
@@ -240,6 +253,28 @@ class Details extends PureComponent {
                     url={common.QUERY_DRUG_BY_LIST}
                     cb={this.onSearch}
                   />
+                </div>
+              </div>
+            </Col>
+            <Col span={8}>
+              <div className="ant-form-item-label-left ant-col-md-24 ant-col-lg-8 ant-col-xl-6">
+                <label>盘点</label>
+              </div>
+              <div className="ant-form-item-control-wrapper ant-col-md-24 ant-col-lg-16 ant-col-xl-18">
+                <div className='ant-form-item-control'>
+                  <RadioGroup onChange={this.changeCheck} style={{width: '100%'}}>
+                    <Row>
+                      <Col span={8}>
+                        <Radio value={''}>全部</Radio>
+                      </Col>
+                      <Col span={8}>
+                        <Radio value={2}>盘点正常</Radio>
+                      </Col>
+                      <Col span={8}>
+                        <Radio value={1}>盘点异常</Radio>
+                      </Col>
+                    </Row>
+                  </RadioGroup>
                 </div>
               </div>
             </Col>

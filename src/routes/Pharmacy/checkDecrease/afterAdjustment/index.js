@@ -247,7 +247,6 @@ class AfterAdjustment extends PureComponent {
         />
         <RemoteTable
           onChange={this._tableChange}
-          isJson
           query={query}
           url={common.CHECKBILL_LIST}
           columns={columns}

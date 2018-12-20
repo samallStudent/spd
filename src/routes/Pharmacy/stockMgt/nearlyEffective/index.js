@@ -194,6 +194,19 @@ class NearlyEffective extends PureComponent {
         title: '临效期天数',
         dataIndex: 'diffDay',
         width: 168,
+        render: (text) => {
+          let color = '#ffd666';
+          if(text <= 30) {
+            color = '#a8071a'
+          };
+          if(text > 30 && text <= 60) {
+            color = '#f5222d';
+          };
+          if(text > 60 && text <= 90) {
+            color = '#FFA39E';
+          }
+          return <span style={{color}}>{text}</span>;
+        }
       }, {
         title: '货位',
         dataIndex: 'goodsName',

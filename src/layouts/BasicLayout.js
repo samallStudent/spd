@@ -14,7 +14,7 @@ class BasicLayout extends PureComponent {
     title: '',
     hasDept: true,
     pathname: '',
-    deptId: [this.props.users.currentDept.deptId]
+    deptId: [this.props.users.currentDept.deptId],
   }
   componentWillReceiveProps(nextProps) {
     if(this.props.users.currentDept.deptId !== nextProps.users.currentDept.deptId) {
@@ -23,7 +23,8 @@ class BasicLayout extends PureComponent {
       });
     }
   }
-  componentWillMount = () =>{
+  componentDidMount = () => {
+    
     let { dispatch, users } = this.props;
     let { userInfo } = users;
     if(!userInfo.id && !userInfo.loginName){
@@ -75,9 +76,8 @@ class BasicLayout extends PureComponent {
           }
         }
       })
-    }
-  }
-  componentDidMount = () => {
+    };
+    //权限路由监听
     this.unListen = this.props.history.listen(({pathname}) => {
       const [deptId] = this.state.deptId;
       pathname = pathname.split('/');
@@ -111,18 +111,6 @@ class BasicLayout extends PureComponent {
     let currMenuList = deptInfo.filter(item => item.deptId === e.key)[0].menuList;
     let tree = menuFormat(currMenuList, true, 1 );
     let menu = tree[0].children[0];
-
-    // menu.children[0].children[0].href = menu.children[0].children[0].href.split('/');
-    // menu.children[0].children[0].href.splice(2, 0, e.key);
-    // menu.children[0].children[0].href = menu.children[0].children[0].href.join('/');
-
-    // if(menu.children[0].children[0].href === this.props.location.pathname) {      //如果切换时路由相同，必须重新渲染
-    //   this.setState({
-    //     hasDept: false
-    //   });
-    // // }
-    // window.sessionStorage.setItem('key', e.key);
-    // window.sessionStorage.setItem('deptName', e.item.props.children);
     let pathnameArr = window.location.href.split('#');
     pathnameArr[1] = menu.children[0].children[0].href;
     let href = window.location.href;
@@ -148,16 +136,6 @@ class BasicLayout extends PureComponent {
           type: 'users/setCurrentMenu',
           payload: { menu : menu }
         });
-        // if(menu.children[0].children[0].href !== this.props.location.pathname) {
-          
-          // history.push({
-          //   pathname: menu.children[0].children[0].href,
-          // });
-        // }else {
-        //   this.setState({
-        //     hasDept: true
-        //   });
-        // }
       }
     })
   }
