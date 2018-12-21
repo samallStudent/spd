@@ -382,7 +382,9 @@ class PslistAdd extends PureComponent{
                     value={text}
                     precision={0}
                     onChange={(value)=>{
+                      if(typeof value !== 'number') return;
                       let pIndex;
+                      //找出当前单据的主单据
                       if(record.parentId) {
                         unVerfiyList.forEach((item, i) => {
                           if(item.id === record.parentId) {
@@ -392,18 +394,24 @@ class PslistAdd extends PureComponent{
                       }else {
                         pIndex = index;
                       };
+                      //得到主单据配送数量
+                      let countRealDeliveryQuantiry = unVerfiyList[pIndex].realDeliveryQuantiry;
+                      //得到主单据下的所有分单据
+                      let branchBills = unVerfiyList[pIndex].children || [];
+                      //得到主单据的实到数量
                       let allRealDeliveryQuantiry = unVerfiyList[pIndex].realReceiveQuantity ? unVerfiyList[pIndex].realReceiveQuantity : 0;
-                      if(unVerfiyList[pIndex].children) {
-                        unVerfiyList[pIndex].children.forEach((item) => {
-                          if(item.realReceiveQuantity === "" || item.realReceiveQuantity === undefined) {
-                            item.realReceiveQuantity = 0
-                          };
-                          allRealDeliveryQuantiry += item.realReceiveQuantity;
-                        });
-                      };
-                      let lastRealDeliveryQuantiry = record.realDeliveryQuantiry ? record.realDeliveryQuantiry : 0;
-                      allRealDeliveryQuantiry = allRealDeliveryQuantiry - lastRealDeliveryQuantiry;
-                      if(value + allRealDeliveryQuantiry > unVerfiyList[pIndex].realDeliveryQuantiry){
+                      branchBills.forEach((item) => {//加上所有分单据的实到数量
+                        if(item.realReceiveQuantity === "" || item.realReceiveQuantity === undefined) {
+                          item.realReceiveQuantity = 0
+                        };
+                        allRealDeliveryQuantiry += item.realReceiveQuantity;
+                      });
+                      //得到当前单据上一次的实到数量
+                      let lastRealReceiveQuantity = record.realReceiveQuantity ? record.realReceiveQuantity : 0;
+                      //减去当前单据的上一次实到数量
+                      allRealDeliveryQuantiry = allRealDeliveryQuantiry - lastRealReceiveQuantity;
+                      //判断所有单据实到数量相加和配送数量的大小
+                      if(value + allRealDeliveryQuantiry > countRealDeliveryQuantiry){
                         message.warning('请注意：实到数量比配送数量多');
                       };
                       record.realReceiveQuantity = value;

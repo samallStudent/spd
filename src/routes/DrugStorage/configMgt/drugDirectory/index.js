@@ -281,7 +281,8 @@ class DrugDirectory extends PureComponent{
     let { modalSelected , modalSelectedRows } = this.state;
     if(modalSelected.length === 0){
       return message.warning('请至少勾选一项')
-    }
+    };
+    this.setState({ addLoading: true});
     let postData=[]
     modalSelectedRows.map(item=>{
       postData.push({
@@ -295,11 +296,19 @@ class DrugDirectory extends PureComponent{
     this.props.dispatch({
       type:'drugStorageConfigMgt/OperDeptDrug',
       payload:{"info":postData},
-      callback:(data)=>{
-        console.log(data)
-        message.success('添加成功');
-        this.refs.table.fetch();
-        this.setState({ addLoading: false, addVisible: false, modalSelected:[],modalSelectedRows: [] })
+      callback:({data, code, msg})=>{
+        if(code === 200) {
+          message.success('添加成功');
+          this.setState({
+            addVisible: false, 
+            modalSelected:[],
+            modalSelectedRows: []
+          });
+          this.refs.table.fetch();
+        }else {
+          message.error(msg);
+        };
+        this.setState({ addLoading: false });
       }
     })
   }
@@ -393,7 +402,7 @@ class DrugDirectory extends PureComponent{
           </Button>,
           <Button key="back"  type='default' onClick={()=>this.setState({ visible: false })}>取消</Button>
         ]}
-        >
+      >
         <Form>
           <FormItem {...formItemLayout} label={`库存上限`}>
             {

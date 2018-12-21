@@ -284,7 +284,10 @@ class DrugDirectory extends PureComponent{
     let { modalSelected , modalSelectedRows } = this.state;
     if(modalSelected.length === 0){
       return message.warning('请至少勾选一项')
-    }
+    };
+    this.setState({
+      addLoading: true
+    });
     let postData=[]
     modalSelectedRows.map(item=>{
       postData.push({
@@ -298,11 +301,21 @@ class DrugDirectory extends PureComponent{
     this.props.dispatch({
       type:'drugStorageConfigMgt/OperDeptDrug',
       payload:{"info":postData},
-      callback:(data)=>{
-        console.log(data)
-        message.success('添加成功');
-        this.refs.table.fetch();
-        this.setState({ addLoading: false, addVisible: false, modalSelected:[],modalSelectedRows: [] })
+      callback:({data, code, msg})=>{
+        if(code === 200) {
+          message.success('添加成功');
+          this.refs.table.fetch();
+          this.setState({ 
+            addVisible: false, 
+            modalSelected:[],
+            modalSelectedRows: [] 
+          });
+        }else {
+          message.error(msg);
+        };
+        this.setState({
+          addLoading: false, 
+        });
       }
     })
   }

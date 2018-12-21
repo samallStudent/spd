@@ -166,7 +166,7 @@ class SearchForm extends PureComponent{
           <Col span={8} style={{ display: display }}>
             <FormItem {...formItemLayout} label={`补货库房`}>
               {
-                getFieldDecorator(`bhkf`)(
+                getFieldDecorator(`deptCode`)(
                   <Select
                     placeholder="请选择"
                     style={{

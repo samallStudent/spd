@@ -174,15 +174,14 @@ class NewInventory extends PureComponent {
       }
     });
     dispatch({
-      type: 'checkDecrease/medHisdrugFeature',
-      callback: ({data, code, msg}) => {
-        if(code === 200) {
-          this.setState({
-            drugFeature: data
-          });
-        }else {
-          message.error(msg);
-        };
+      type: 'base/orderStatusOrorderType',
+      payload: {
+        type: 'med_his_drug_feature'
+      },
+      callback: (data) => {
+        this.setState({
+          drugFeature: data
+        });
       }
     });
   }
@@ -444,8 +443,8 @@ class NewInventory extends PureComponent {
                       <Row>
                         {
                           drugFeature.map(item => (
-                            <Col key={item.ctmmTypeCode} span={8}>
-                              <Radio value={item.ctmmTypeCode}>{item.ctmmTypeName}</Radio>
+                            <Col key={item.value} span={8}>
+                              <Radio value={item.value}>{item.label}</Radio>
                             </Col>
                           ))
                         }
@@ -481,10 +480,10 @@ class NewInventory extends PureComponent {
                     <RadioGroup style={{width: '80%'}}>
                       <Row>
                         <Col span={8}>
-                          <Radio value={1}>全部</Radio>
+                          <Radio value={'0'}>全部</Radio>
                         </Col>
                         <Col span={8}>
-                          <Radio value={2}>自定义</Radio>
+                          <Radio value={'1'}>自定义</Radio>
                         </Col>
                       </Row>
                     </RadioGroup>
@@ -492,7 +491,7 @@ class NewInventory extends PureComponent {
                 </FormItem>
               </Col>
               {
-                isLocCheck === 2 && 
+                isLocCheck === '1' && 
                 [
                   <Col span={24} key="start">
                     <FormItem style={{marginBottom: 0}} label={'起始货位'} {...formItemLayoutAdd}>

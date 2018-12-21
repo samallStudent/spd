@@ -282,9 +282,9 @@ class DetailsPicking extends PureComponent{
         dataIndex: 'applyNum',
       },
       {
-        title: '当前库存',
+        title: '可用库存',
         width: 112,
-        dataIndex: 'totalStoreNum',
+        dataIndex: 'usableQuantity',
       },
       {
         title: '已分配',

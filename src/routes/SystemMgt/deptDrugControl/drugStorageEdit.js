@@ -60,7 +60,8 @@ class EditDrugDirectory extends PureComponent{
     supplierList:[],//供应商循环数据
     upperQuantity: 0,
     downQuantity: 0,
-    activeKey: ['1','2','3','4','5','7']
+    activeKey: ['1','2','3','4','5','7'],
+    isRenderSaveButton: true, //是否渲染保存按钮
   }
 
   componentDidMount(){
@@ -69,7 +70,7 @@ class EditDrugDirectory extends PureComponent{
       type:'drugStorageConfigMgt/GetDrugInfo',
       payload:{id:this.props.match.params.id},
       callback:(data)=>{
-        let {listTransforsVo, customUnit} = data.data;
+        let {listTransforsVo, customUnit, goodsVos} = data.data;
         listTransforsVo.push({
           sort: '补货单位',
           bigUnit: data.data.replanUnit
@@ -81,6 +82,15 @@ class EditDrugDirectory extends PureComponent{
           return item;
         });
         let activeKey = customUnit.length ? ['1','2','3','4','5','6','7'] : ['1','2','3','4','5','7'];
+        if( 
+          Array.isArray(goodsVos[0].replan) && 
+          goodsVos[0].replan.length === 0 
+        ) {
+          message.warning(`该部门下没有补货指示货位，请先添加以后再对该药品进行编辑！`, 3);
+          this.setState({
+            isRenderSaveButton: false
+          });
+        };
         this.setState({
           fillBackData:data.data,
           medDrugType:data.data.medDrugType,
@@ -88,8 +98,9 @@ class EditDrugDirectory extends PureComponent{
           customUnit: customUnit,
           activeKey,
           upperQuantity: data.data.upperQuantity,
-          downQuantity: data.data.downQuantity
-        })
+          downQuantity: data.data.downQuantity,
+          goodsTypeSelect: goodsVos[0].replan
+        });
         if(data.data.supplier && data.data.supplier.length&&data.data.medDrugType===2){//目录外 
           this.setState({
             supplierList:data.data.supplier
@@ -126,18 +137,7 @@ class EditDrugDirectory extends PureComponent{
       callback:(data) => {
         this.setState({supplierSelect:data.data})
       }
-    })
-    //获取补货指示货位
-    this.props.dispatch({
-      type:'drugStorageConfigMgt/getGoodsTypeInfo',
-      payload:{
-        positionType: '1',
-        deptCode: this.props.match.params.deptCode
-      },
-      callback:(data)=>{
-        this.setState({goodsTypeSelect:data.data})
-      }
-    })
+    });
   }
    
 
@@ -291,7 +291,8 @@ class EditDrugDirectory extends PureComponent{
       downQuantity,
       listTransforsVo,
       customUnit,
-      activeKey
+      activeKey,
+      isRenderSaveButton
     } =this.state;
     const { getFieldDecorator } = this.props.form;
     getFieldDecorator('keys', { initialValue: fillBackData?fillBackData.customUnit?fillBackData.customUnit:[]:[] });
@@ -433,7 +434,10 @@ class EditDrugDirectory extends PureComponent{
         <div className='fullCol-fullChild'>
           <div style={{ display:'flex',justifyContent: 'space-between' }}>
             <h3 style={{ fontWeight: 'bold' }}>基本信息</h3>
-            <Button type='primary' onClick={this.onSubmit}>保存</Button>
+            {
+              isRenderSaveButton && 
+              <Button type='primary' onClick={this.onSubmit}>保存</Button>
+            }
           </div>
           <Row>
             <Col span={8}>
@@ -673,6 +677,9 @@ class EditDrugDirectory extends PureComponent{
                             width: 200,
                             marginLeft: 3
                           }}
+                          showSearch
+                          optionFilterProp="children"
+                          filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
                         >
                         {
                           goodsTypeSelect && goodsTypeSelect.length ?
@@ -693,7 +700,7 @@ class EditDrugDirectory extends PureComponent{
                 {this.getLayoutInfo('是否贵重',fillBackData.ctmmValuableSign?fillBackData.ctmmValuableSign : '')}
                 {this.getLayoutInfo('是否高危',fillBackData?fillBackData.ctmmCriticalCareMedicine:'')}
                 {this.getLayoutInfo('存储条件',fillBackData.storageConditions?fillBackData.storageConditions :'')}
-                {this.getLayoutInfo('毒麻标识',fillBackData.poisonHemp?fillBackData.poisonHemp :'')}
+                {this.getLayoutInfo('毒麻标识',fillBackData.poisonHemps?fillBackData.poisonHemps :'')}
               </Row>
             </Panel>
             <Panel header="药品信息" key="5" style={customPanelStyle}>

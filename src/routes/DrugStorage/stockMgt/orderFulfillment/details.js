@@ -70,7 +70,7 @@ const columns = [
     dataIndex: 'productDate'
   },
   {
-    title: '有效期止',
+    title: '有效期至',
     width: 168,
     dataIndex: 'validEndDate'
   },
@@ -216,7 +216,7 @@ class Detail extends PureComponent{
           <RemoteTable
             query={query}
             url={statisticAnalysis.EXECUTE_DETAIL_LIST}
-            title={()=>'损益信息'}
+            title={()=>'订单信息'}
             scroll={{x: '100%'}}
             columns={columns}
             rowKey={'id'}

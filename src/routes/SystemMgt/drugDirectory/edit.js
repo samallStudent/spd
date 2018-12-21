@@ -318,14 +318,10 @@ class EditDrugDirectory extends PureComponent{
           {this.getLayoutInfo('药品剂量',baseData?baseData.ctphdmiDosageUnitDesc:'')}
           {this.getLayoutInfo('药学分类描述',baseData?baseData.ctphdmiCategoryDesc:'')}
           {this.getLayoutInfo('管制分类描述',baseData?baseData.ctphdmiRegulatoryClassDesc:'')}
-          {this.getLayoutInfo('危重药物标志',baseData?baseData.ctmmCriticalCareMedicine:'')}
           {this.getLayoutInfo('抗菌药物标志',baseData?baseData.ctmmAntibacterialsign:'')}
           {this.getLayoutInfo('国家基本药物标记',baseData?baseData.ctmmEssentialMedicine:'')}
-          {this.getLayoutInfo('贵重标记',baseData.ctmmValuableSign?baseData.ctmmValuableSign==="1"?'Y':'N':'')}
           {this.getLayoutInfo('皮试标志',baseData.ctmmSkintestSign?baseData.ctmmSkintestSign==="1"?'Y':'N':'')}
-          {this.getLayoutInfo('冷藏标识',baseData.refrigerateType?baseData.refrigerateType==="1"?'Y':'N':'')}
           {this.getLayoutInfo('停用标记',baseData.ctmmStatusCode?baseData.ctmmStatusCode==="1"?'Y':'N':'')}
-          
           </Row>
         </div>
       </div>

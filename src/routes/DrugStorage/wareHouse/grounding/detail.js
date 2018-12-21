@@ -115,7 +115,7 @@ class DetailsPutaway extends PureComponent{
     const notColumns = [
       {
         title: '指示货位',
-        width: 112,
+        width: 224,
         dataIndex: 'actualStore',
       },
       {
@@ -125,7 +125,7 @@ class DetailsPutaway extends PureComponent{
       },
       {
         title: '实际货位',
-        width: 200,
+        width: 224,
         dataIndex: 'realReceiveStore',
         render: (text, record) => {
           return <Select
@@ -134,6 +134,9 @@ class DetailsPutaway extends PureComponent{
                     record.realReceiveStore = value;
                   }}
                   style={{width: '100%'}}
+                  showSearch
+                  optionFilterProp="children"
+                  filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
                  >
                   {
                     record.acceptoodsVo.map(item=>{

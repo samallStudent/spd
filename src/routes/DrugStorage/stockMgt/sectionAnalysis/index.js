@@ -271,7 +271,7 @@ class SectionAnalysis extends PureComponent {
         dataIndex: 'productDate',
         width: 168,
       }, {
-        title: '有效期止',
+        title: '有效期至',
         dataIndex: 'validEndDate',
         width: 168,
       }, {

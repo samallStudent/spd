@@ -71,7 +71,7 @@ const columns = [
     dataIndex: 'scrq'
   },
   {
-    title: '有效期止',
+    title: '有效期至',
     width: 168,
     dataIndex: 'validEndTime'
   },
