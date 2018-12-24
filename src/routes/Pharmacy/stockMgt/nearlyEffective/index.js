@@ -169,7 +169,7 @@ const WrapperForm = Form.create()(SearchForm);
 class NearlyEffective extends PureComponent {
   state = {
     query: {
-      queryType: 2
+      queryType: 3
     },
   }
   handlQuery = (query) => {

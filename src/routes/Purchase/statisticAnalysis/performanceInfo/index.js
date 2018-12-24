@@ -154,7 +154,7 @@ class SearchForm extends PureComponent{
           <Col span={8}>
             <FormItem {...formItemLayout} label={`子系统`} style={{ display: display }}>
               {
-                getFieldDecorator(`menuCode`)(
+                getFieldDecorator(`shortNameValue`)(
                   <Select
                     allowClear
                     showSearch

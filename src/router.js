@@ -19,6 +19,7 @@ import AddNewBackStorage from './routes/DrugStorage/outStorage/backStorage/add' 
 import AddNewBackStoragePlan from './routes/Pharmacy/outStorage/refund/add' // 药房退库
 import AddBaseBackStoragePlan from './routes/BaseDrug/outStorage/refund/add' // 基数药退库
 import AddNewReCallOrLocked from './routes/DrugStorage/outStorage/recallAndLocked/add'; // 药库 新建召回, 新建锁定
+import AddNewLocked from './routes/Pharmacy/outStorage/locked/add';   //药房新建锁定
 import PharmacyAddNewOutput from './routes/Pharmacy/outStorage/newOut/add';
 import PharmacyAddNewBaseOutput from './routes/Pharmacy/outStorage/baseReplen/add';
 import PslistAdd from './routes/DrugStorage/wareHouse/psListCheck/add';
@@ -112,6 +113,8 @@ function RouterConfig({ history, app }) {
           <Route path="/baseDrug/outStorage/refund/add" component={AddBaseBackStoragePlan}/>
 
           <Route path="/drugStorage/outStorage/recallAndLocked/add/:type" component={AddNewReCallOrLocked}/>
+
+          <Route path="/pharmacy/outStorage/Locked/add" component={AddNewLocked}/>
 
           <Route path="/pharmacy/outStorage/newOut/add" component={PharmacyAddNewOutput}/>
           <Route path="/pharmacy/outStorage/baseReplen/add" component={PharmacyAddNewBaseOutput}/>

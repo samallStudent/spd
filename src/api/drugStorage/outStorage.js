@@ -14,8 +14,11 @@ export const outStorage = {
 
   ROOMRECALL_LIST: `${_local}/a/roomrecall/list`,    // 召回及锁定，召回及锁定审核列表
 
-  RECALLORLOCKADDPRODUCT_LIST: `${_local}/a/roomrecalldetail/selectProduct`,    // 召回及锁定，召回及锁定添加产品列表
+  ROOMRECALL_LOCK_LIST: `${_local}/a/roomrecall/lockList`,    //药房锁定列表
+  ROOMRECALL_LOCK_SHEVE_LIST: `${_local}/a/roomrecall/lockSheveList`,    //药房锁定审核列表
 
+  RECALLORLOCKADDPRODUCT_LIST: `${_local}/a/roomrecalldetail/selectProduct`,    // 召回及锁定，召回及锁定添加产品列表
+  RECALLORLOCKADDPRODUCT_LOCK_LIST: `${_local}/a/roomrecalldetail/selectLockProduct`, //锁定添加产品列表
   /* 拣货下架 */
   FINDPICKINGORDER_LIT: `${_local}/a/common/pickingorder/list`,    //拣货列表
   /* 出库单管理 */

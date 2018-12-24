@@ -24,7 +24,10 @@ export function cacheCurrentDept(options){
     method: 'GET',
     type: 'formData',
     credentials: 'include',
-    body: {}
+    body: {},
+    headers: {
+      'Cache-Control': 'No-cache'
+    }
   })
 }
 

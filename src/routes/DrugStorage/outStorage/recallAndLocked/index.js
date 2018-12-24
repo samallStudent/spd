@@ -23,7 +23,10 @@ class SearchForm extends PureComponent {
     const { dispatch } = this.props.formProps;
     dispatch({
       type: 'base/orderStatusOrorderType',
-      payload: { type: 'recall_status' },
+      payload: { 
+        type: 'recall_status',
+        values: '1,2,3,4'
+      },
       callback: (data) =>{
         this.setState({ recall_status_options: data });
       }

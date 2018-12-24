@@ -57,7 +57,6 @@ class NewAdd extends PureComponent {
     btnLoading: false,
     saveLoading: false,
     applyType: undefined,        //补货方式
-    fetchValue: undefined,
     addDrugType: 1,
     applyTypeList: []
   }
@@ -135,12 +134,16 @@ class NewAdd extends PureComponent {
     };
     query = {
       ...query,
-      existDrugCodeList: dataSource.map(item=>item.drugCode)
+      existDrugCodeList: dataSource.map(item=>item.drugCode),
+      hisDrugCodeList: []
     };
     this.setState({
       visible: true, 
       addDrugType: 1,
-      query: {...query}
+      query: {
+        ...query,
+        hisDrugCodeList: []
+      }
     });
   }
   autoShowModal = () => { //一键添加零库存
@@ -151,7 +154,8 @@ class NewAdd extends PureComponent {
     };
     query = {
       ...query,
-      existDrugCodeList: dataSource.map(item=>item.drugCode)
+      existDrugCodeList: dataSource.map(item=>item.drugCode),
+      hisDrugCodeList: []
     };
     this.setState({
       visible: true, 
@@ -208,6 +212,13 @@ class NewAdd extends PureComponent {
       }
     });
   }
+  onCancel = () => {
+    this.setState({
+      visible: false, 
+      modalSelected: [],
+      modalSelectedRows: []
+    });
+  }
   render() {
     let { 
       visible, 
@@ -218,7 +229,6 @@ class NewAdd extends PureComponent {
       modalLoading,
       btnLoading,
       saveLoading,
-      fetchValue,
       applyTypeList,
       applyType
     } = this.state;
@@ -373,6 +383,7 @@ class NewAdd extends PureComponent {
         )
       },
     ];
+    
     return (
       <div className="fullCol" style={{ padding: 24, background: '#f0f2f5' }}>
         <div className="fullCol-fullChild" style={{margin: '-9px -24px 0'}}>
@@ -388,20 +399,20 @@ class NewAdd extends PureComponent {
             <Col md={12} lg={8} xl={6}>
               <FormItem {...formItemLayout} label="补货方式">
                 <Select
-                    showSearch
-                    disabled={dataSource.length === 0? false : true}
-                    style={{width: "100%"}}
-                    onChange={(value) => {
-                      this.setState({
-                        applyType: value
-                      });
-                      this.getReplenishList(value);
-                    }}
-                    value={applyType}
-                    optionFilterProp="children"
-                    filterOption={(input, option) => option.props.children.indexOf(input) >= 0}
-                    placeholder="请选择"
-                  >
+                  showSearch
+                  disabled={dataSource.length === 0? false : true}
+                  style={{width: "100%"}}
+                  onChange={(value) => {
+                    this.setState({
+                      applyType: value
+                    });
+                    this.getReplenishList(value);
+                  }}
+                  value={applyType}
+                  optionFilterProp="children"
+                  filterOption={(input, option) => option.props.children.indexOf(input) >= 0}
+                  placeholder="请选择"
+                >
                     {
                       applyTypeList.map(item => (
                         <Option key={item.value} value={item.value}>{item.label}</Option>
@@ -449,26 +460,27 @@ class NewAdd extends PureComponent {
           visible={visible}
           width={1100}
           style={{ top: 20 }}
-          onCancel={() => this.setState({ visible: false, modalSelected: [] })}
+          onCancel={this.onCancel}
           footer={[
             <Button key="submit" type="primary" loading={btnLoading} onClick={this.handleOk}>确认</Button>,
-            <Button key="back" onClick={() => this.setState({visible: false, modalSelected: []})}>取消</Button>
+            <Button key="back" onClick={this.onCancel}>取消</Button>
           ]}
         >
           <Row>
             <Col span={7} style={{ marginLeft: 4 }}>
               <FetchSelect
-                value={fetchValue}
+                value={query.hisDrugCodeList[0]}
                 style={{ width: 248 }}
+                allowClear={true}
                 placeholder='通用名/商品名'
                 url={wareHouse.QUERY_DRUG_BY_LIST}
                 cb={(value, option) => {
                   let {query} = this.state;
                   query = {
                     ...query,
-                    hisDrugCodeList: [value]
+                    hisDrugCodeList: value ? [value] : []
                   };
-                  this.setState({query, fetchValue: value});
+                  this.setState({query});
                 }}
               />
             </Col>

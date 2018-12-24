@@ -207,6 +207,13 @@ export function createRecallOrLocked(options) {
   })
 }
 
+export function createLock(options) {
+  return request(`${_local}/a/roomrecall/createLock`,{
+    method: 'POST',
+    type: 'json',
+    body: options
+  })
+}
 // 取消锁定
 export function cancelLocked(options) {
   return request(`${_local}/a/roomrecall/cancelLock`,{
@@ -225,9 +232,24 @@ export function batchAudit(options) {
     body: options
   })
 }
+export function batchThroughAuditLock(options) {
+  return request(`${_local}/a/roomrecall/batchThroughAuditLock`,{
+    method: 'POST',
+    type: 'json',
+    body: options
+  })
+}
  // 审核不通过
 export function reject(options) {
   return request(`${_local}/a/roomrecall/reject`,{
+    method: 'POST',
+    type: 'formData',
+    body: options
+  })
+}
+//药房锁定审核不通过
+export function cancelLock(options) {
+  return request(`${_local}/a/roomrecall/cancelLock`,{
     method: 'POST',
     type: 'formData',
     body: options

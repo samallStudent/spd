@@ -20,7 +20,7 @@ const columns = [
     width: 168,
     render: (text, record) => 
     <span>
-      <Link to={{pathname: `/drugStorage/outStorage/recallAndLockedCheck/details/${text}/${record.recallStatus}`}}>{text}</Link>
+      <Link to={{pathname: `/pharmacy/outStorage/lockedCheck/details/${text}/${record.recallStatus}`}}>{text}</Link>
     </span>
    },
   {
@@ -81,7 +81,7 @@ class SearchFormWrapper extends PureComponent {
       type: 'base/orderStatusOrorderType',
       payload: { 
         type: 'recall_status',
-        values: '1,2,4'
+        values: '1,5'
       },
       callback: (data) =>{
         this.setState({ recall_status_options: data });
@@ -238,19 +238,19 @@ class RecallAndLockedCheck extends PureComponent{
     });
   }
   bitchPass = () =>{
-    let { selectedRows, query } = this.state;
-    if(selectedRows.length === 0){
+    let { selected, query, selectedRows } = this.state;
+    if(selected.length === 0){
       return message.warning('请至少选中一条数据');
-    }
+    };
     let detailList = [];
     selectedRows.map(item => detailList.push({ recallNo: item.recallNo }));
     this.setState({
       batchLoading: true
     })
     this.props.dispatch({
-      type: 'outStorage/batchAudit',
+      type: 'outStorage/batchThroughAuditLock',
       payload: { detailList },
-      callback: () =>{
+      callback: () => {
         message.success('批量处理成功');
         this.refs.table.fetch(query);
         this.setState({
@@ -281,7 +281,7 @@ class RecallAndLockedCheck extends PureComponent{
           ref='table'
           query={query}
           bordered
-          url={outStorage.ROOMRECALL_LIST}
+          url={outStorage.ROOMRECALL_LOCK_SHEVE_LIST}
           scroll={{x: '100%'}}
           columns={columns}
           rowKey={'id'}

@@ -105,7 +105,7 @@ class BasicLayout extends PureComponent {
     });
   }
   handleClick = (e) =>{
-    let { dispatch, users } = this.props;
+    let { users } = this.props;
     if(e.key === this.state.deptId[0]) return;
     let { deptInfo } = users.userInfo;
     let currMenuList = deptInfo.filter(item => item.deptId === e.key)[0].menuList;
@@ -119,25 +119,7 @@ class BasicLayout extends PureComponent {
     href = href.join('#');
     const urlParams = new URL(href);
     urlParams.searchParams.set('depeId', e.key);
-    // window.history.pushState(null, '', urlParams.href);
     window.location.href = urlParams.href;
-    dispatch({
-      type: 'users/setCurrentDept',
-      payload: { id: e.key, deptName: e.item.props.children },
-      callback: () =>{
-        // 切换子系统  清除查询条件并重置显示隐藏
-        dispatch({
-          type: 'base/clearQueryConditions'
-        });
-        dispatch({
-          type: 'base/restoreShowHide'
-        });
-        dispatch({
-          type: 'users/setCurrentMenu',
-          payload: { menu : menu }
-        });
-      }
-    })
   }
   
   menu = (list) => {

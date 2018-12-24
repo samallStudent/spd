@@ -150,11 +150,10 @@ export default {
     *recallDetail({ payload,callback },{ call }){
       const data = yield call(outStorageService.genDetail, payload);
       if(data.code !== 200){
-        return message.error(data.msg||'删除失败')
+        return message.error(data.msg);
       }
-      if(callback) callback(data.data)
+      if(callback) callback(data.data);
     },
-
     // 取消锁定
     *cancelLocked({ payload,callback },{ call }){
       const data = yield call(outStorageService.cancelLocked, payload);
@@ -174,9 +173,25 @@ export default {
       }
       if(callback) callback(data.data)
     },
+    //药房锁定批量通过
+    *batchThroughAuditLock({ payload,callback },{ call }){
+      const data = yield call(outStorageService.batchThroughAuditLock, payload);
+      if(data.code !== 200){
+        return message.error(data.msg||'批量通过失败')
+      }
+      if(callback) callback(data.data)
+    },
     // 审核不通过
-     *auditReject({ payload,callback },{ call }){
+    *auditReject({ payload,callback },{ call }){
       const data = yield call(outStorageService.reject, payload);
+      if(data.code !== 200){
+        return message.error(data.msg||'审核不通过失败')
+      }
+      if(callback) callback(data.data)
+    },
+    //药房锁定审核不通过
+    *cancelLock({ payload,callback },{ call }){
+      const data = yield call(outStorageService.cancelLock, payload);
       if(data.code !== 200){
         return message.error(data.msg||'审核不通过失败')
       }

@@ -1,79 +1,23 @@
-/*
- * @Author: yuwei  召回及锁定审核 /recallAndLockedCheck
- * @Date: 2018-07-24 13:12:15 
-* @Last Modified time: 2018-07-24 13:12:15 
- */
 import React, { PureComponent } from 'react';
-import { Form, Row, Col, Button, Icon, Select , message , Input ,DatePicker, Tooltip } from 'antd';
+import { Form, Row, Col, DatePicker, Input, Select, Button, Icon, message, Tooltip } from 'antd';
 import { Link } from 'react-router-dom';
 import { formItemLayout } from '../../../../utils/commonStyles';
 import RemoteTable from '../../../../components/TableGrid';
 import { outStorage } from '../../../../api/drugStorage/outStorage';
 import { connect } from 'dva';
-const RangePicker = DatePicker.RangePicker;
 const FormItem = Form.Item;
-const Option = Select.Option;
-const columns = [
-  {
-    title: '召回/锁定单号',
-    dataIndex: 'recallNo',
-    width: 168,
-    render: (text, record) => 
-    <span>
-      <Link to={{pathname: `/drugStorage/outStorage/recallAndLockedCheck/details/${text}/${record.recallStatus}`}}>{text}</Link>
-    </span>
-   },
-  {
-    title: '状态',
-    width: 112,
-    dataIndex: 'recallStatusName',
-  },
-  {
-    title: '类型',
-    width: 168,
-    dataIndex: 'recallTypeName',
-  },
-  {
-    title: '供应商',
-    width: 224,
-    dataIndex: 'supplierName',
-    className: 'ellipsis',
-    render:(text)=>(
-        <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
-    )
-  },
-  {
-    title: '召回原因',
-    dataIndex: 'remarks',
-    width: 280
-  },
-  {
-    title: '发起人',
-    width: 112,
-    dataIndex: 'createUserName',
-  },
-  {
-   title: '发起时间',
-   width: 224,
-   dataIndex: 'createDate',
-  },
-  {
-    title: '审核人',
-    width: 112,
-    dataIndex: 'updateUserName',
-  },
-  {
-    title: '审核时间',
-    width: 224,
-    dataIndex: 'updateDate',
-  }
-];
-/* 搜索 - 表单 */
-class SearchFormWrapper extends PureComponent {
+const { RangePicker } = DatePicker;
+const { Option } = Select;
+
+class SearchForm extends PureComponent {
   state = {
     recall_status_options: [],
-    recallReason: [],
-    batchLoading: false
+    recallReason: []
+  }
+  toggle = () => {
+    this.props.formProps.dispatch({
+      type:'base/setShowHide'
+    });
   }
   componentDidMount = () =>{
     const { dispatch } = this.props.formProps;
@@ -81,10 +25,12 @@ class SearchFormWrapper extends PureComponent {
       type: 'base/orderStatusOrorderType',
       payload: { 
         type: 'recall_status',
-        values: '1,2,4'
+        values: '1,3,5,6'
       },
       callback: (data) =>{
-        this.setState({ recall_status_options: data });
+        this.setState({ 
+          recall_status_options: data 
+        });
       }
     });
     dispatch({
@@ -108,11 +54,6 @@ class SearchFormWrapper extends PureComponent {
       return keyItem;
     });
     this.props.form.setFieldsValue(value);
-  }
-  toggle = () => {
-    this.props.formProps.dispatch({
-      type:'base/setShowHide'
-    });
   }
   handleSearch = e => {
     e.preventDefault();
@@ -139,7 +80,6 @@ class SearchFormWrapper extends PureComponent {
       type:'base/clearQueryConditions'
     });
   }
- 
   render() {
     const { recall_status_options, recallReason } = this.state;
     const { getFieldDecorator } = this.props.form;
@@ -158,9 +98,25 @@ class SearchFormWrapper extends PureComponent {
             </FormItem>
           </Col>
           <Col span={8}>
-            <FormItem label={'状态'} {...formItemLayout}>
+            <FormItem label={'原因'} {...formItemLayout}>
+              {getFieldDecorator('recallReasonType',)(
+                <Select
+                  placeholder="请选择原因"
+                  style={{width: '100%'}}
+                >
+                  {
+                    recallReason.map(item => (
+                      <Option key={item.value} value={item.value}>{item.label}</Option>
+                    ))
+                  }
+                </Select>
+              )}
+            </FormItem>
+          </Col>
+          <Col span={8}>
+            <FormItem label={'状态'} {...formItemLayout} style={{ display }}>
               {getFieldDecorator('recallStatus', {
-                initialValue: recall_status_options.length ? recall_status_options[0].value: null
+                initialValue: ''
               })(
                 <Select
                   showSearch
@@ -170,22 +126,6 @@ class SearchFormWrapper extends PureComponent {
                 >
                   {
                      recall_status_options.map((item,index)=> <Option key={index} value={item.value}>{item.label}</Option>)
-                  }
-                </Select>
-              )}
-            </FormItem>
-          </Col>
-          <Col span={8} style={{ display }}>
-            <FormItem label={'原因'} {...formItemLayout}>
-              {getFieldDecorator('remarks',)(
-                <Select
-                  placeholder="请选择原因"
-                  style={{width: '100%'}}
-                >
-                  {
-                    recallReason.map(item => (
-                      <Option key={item.value} value={item.value}>{item.label}</Option>
-                    ))
                   }
                 </Select>
               )}
@@ -209,7 +149,7 @@ class SearchFormWrapper extends PureComponent {
           </Col>
           <Col span={8}>
           </Col>
-          <Col span={8} style={{ textAlign: 'right', marginTop: 4 }}>
+          <Col span={8} style={{float: 'right', textAlign: 'right', marginTop: 4 }}>
             <Button type="primary" htmlType="submit">查询</Button>
             <Button style={{ marginLeft: 8 }} onClick={this.handleReset}>重置</Button>
             <a style={{ marginLeft: 8, fontSize: 14 }} onClick={this.toggle}>
@@ -220,16 +160,34 @@ class SearchFormWrapper extends PureComponent {
       </Form>
     )
   }
- }
-const SearchForm = Form.create()(SearchFormWrapper);
-class RecallAndLockedCheck extends PureComponent{
+}
+const SearchFormWarp = Form.create()(SearchForm);
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      selected: [],
-      selectedRows: []
-    }
+class RecallAndLocked extends PureComponent {
+  state = {
+    loading: false,
+    visible: false,
+    selected: [],
+    selectedRows: [],
+    display: 'none'
+  }
+  delete = () =>{
+    let { selectedRows, query } = this.state;
+    if (selectedRows.length === 0) {
+      return message.warn('请选择一条数据');
+    };
+    selectedRows = selectedRows.map(item => item.recallNo);
+    this.setState({ loading: true });
+    this.props.dispatch({
+      type: 'outStorage/deleteRecallPlan',
+      payload: { recallNos: selectedRows },
+      callback: () =>{
+        message.success('删除成功');
+        this.setState({ loading: false });
+        this.refs.table.fetch({ ...query });
+      }
+    })
+    
   }
   _tableChange = values => {
     this.props.dispatch({
@@ -237,54 +195,74 @@ class RecallAndLockedCheck extends PureComponent{
       payload: values
     });
   }
-  bitchPass = () =>{
-    let { selectedRows, query } = this.state;
-    if(selectedRows.length === 0){
-      return message.warning('请至少选中一条数据');
-    }
-    let detailList = [];
-    selectedRows.map(item => detailList.push({ recallNo: item.recallNo }));
-    this.setState({
-      batchLoading: true
-    })
-    this.props.dispatch({
-      type: 'outStorage/batchAudit',
-      payload: { detailList },
-      callback: () =>{
-        message.success('批量处理成功');
-        this.refs.table.fetch(query);
-        this.setState({
-          batchLoading: false,
-          selectedRows: [],
-          selected: []
-        })
-      }
-    })
-
-  }
-  render(){
+  render() {
+    const { loading } = this.state;
+    const {match} = this.props;
+    const columns = [
+      {
+        title: '召回及锁定单号',
+        dataIndex: 'recallNo',
+        width: 168,
+        render: (text, record) => 
+        <span>
+          <Link to={{pathname: `${match.path}/details/${text}/${record.recallStatus}`}}>{text}</Link>
+        </span>
+       },
+      {
+        title: '状态',
+        width: 112,
+        dataIndex: 'recallStatusName',
+      },
+      {
+        title: '类型',
+        width: 168,
+        dataIndex: 'recallTypeName',
+      },
+      {
+        title: '供应商',
+        width: 224,
+        dataIndex: 'supplierName',
+        className: 'ellipsis',
+        render:(text)=>(
+            <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+        )
+      },
+      {
+        title: '召回原因',
+        width: 280,
+        dataIndex: 'remarks',
+      },
+      {
+        title: '发起人',
+        width: 112,
+        dataIndex: 'createUserName',
+      },
+      {
+        title: '发起时间',
+        width: 224,
+        dataIndex: 'createDate',
+      },
+    ];
     let query = this.props.base.queryConditons;
-    query = {...query};
-    delete query.makingTime;
     delete query.key;
-    let {batchLoading} = this.state;
-    
     return (
       <div className='ysynet-main-content'>
-        <SearchForm
+        <SearchFormWarp 
           formProps={{...this.props}}
         />
-        <Row>
-          <Button type='primary' className='button-gap'onClick={this.bitchPass} loading={batchLoading}>批量通过</Button>
-        </Row>
+        <div>
+          <Button type='primary' style={{ marginLeft: 10 }}><Link to={{pathname: `${match.path}/add`}}>新建锁定</Link></Button>
+          <Button style={{ marginLeft: 10 }} onClick={this.delete} loading={loading}>删除</Button>
+        </div>
         <RemoteTable
+          onChange={this._tableChange}
           ref='table'
           query={query}
           bordered
-          url={outStorage.ROOMRECALL_LIST}
-          scroll={{x: '100%'}}
+          url={outStorage.ROOMRECALL_LOCK_LIST}
           columns={columns}
           rowKey={'id'}
+          scroll={{ x: '100%' }}
           style={{marginTop: 20}}
           rowSelection={{
             selectedRowKeys: this.state.selected,
@@ -292,12 +270,12 @@ class RecallAndLockedCheck extends PureComponent{
               this.setState({selected: selectedRowKeys, selectedRows: selectedRows})
             },
             getCheckboxProps: record => ({
-              disabled: record.recallStatus !== '1',
-            })
+              disabled: record.recallStatus !== '3'
+            }),
           }}
-        /> 
+        />
       </div>
     )
   }
 }
-export default  connect(state => state)(RecallAndLockedCheck) ;
+export default connect(state => state)(RecallAndLocked);

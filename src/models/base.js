@@ -248,6 +248,14 @@ export default {
       }
       if(callback) callback(data.data)
     },
+    //药房 - 确认召回
+    *createLock({ payload,callback },{ call }){
+      const data = yield call(outStorageService.createLock, payload);
+      if(data.code !== 200){
+        return message.error(data.msg||'操作失败')
+      }
+      if(callback) callback(data.data)
+    },
     //公共供应商下拉
     *genSupplierList({ payload,callback },{ call }){
       const data = yield call(outStorageService.genSupplierList, payload);
