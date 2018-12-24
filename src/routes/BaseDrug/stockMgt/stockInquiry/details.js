@@ -31,18 +31,7 @@ const columns = [
         title: '数量',
         dataIndex: "usableQuantity",
         width: 112
-    }, {
-        title: '采购类型',
-        dataIndex: "purchaseType",
-        width: 112,
-        render:(text)=>(
-            <span>{text===1?'零库存':'自采'}</span>
-        )
-    }, {
-        title: '价格',
-        dataIndex: "price",
-        width: 112
-    }, {
+    },{
         title: '供应商',
         dataIndex: 'supplierName',
         width: 224,

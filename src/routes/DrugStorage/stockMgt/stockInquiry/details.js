@@ -38,23 +38,6 @@ const columns = [
         dataIndex: "vacuumNum",
         width: 112
     }, {
-        title: '采购类型',
-        dataIndex: "purchaseType",
-        width: 112,
-        render:(text)=>{
-            if(text === 1) {
-                return <span>零库存</span>
-            };
-            if(text === 2) {
-                return <span>自采</span>
-            };
-            return <span></span>;
-        }
-    }, {
-        title: '价格',
-        dataIndex: "price",
-        width: 112
-    }, {
         title: '供应商',
         dataIndex: 'supplierName',
         width: 224,

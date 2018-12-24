@@ -194,11 +194,6 @@ class AfterAdjustment extends PureComponent {
         width: 168,
       },
       {
-        title: '采购类型',
-        dataIndex: 'purchaseTypeName',
-        width: 112,
-      },
-      {
         title: '盈亏总金额',
         dataIndex: 'excessiveTotalMoney',
         width: 168,

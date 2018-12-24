@@ -325,11 +325,6 @@ class NewInventory extends PureComponent {
         width: 168,
       },
       {
-        title: '采购类型',
-        dataIndex: 'purchaseTypeName',
-        width: 112,
-      },
-      {
         title: '部门',
         dataIndex: 'checkBillDeptName',
         width: 112,
