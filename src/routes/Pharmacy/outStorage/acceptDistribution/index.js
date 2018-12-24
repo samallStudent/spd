@@ -35,6 +35,11 @@ const columns = [
     width: 112,
   },
   {
+    title: '类型',
+    dataIndex: 'applyTypeName',
+    width: 112,
+  },
+  {
     title: '发起人',
     dataIndex: 'createUserName',
     width: 112,

@@ -29,7 +29,7 @@ const columns = [
   {
     title: '配货部门',
     width: 168,
-    dataIndex: 'deptName'
+    dataIndex: 'distributeDeptName'
   },
   {
     title: '状态',
