@@ -61,11 +61,18 @@ class FetchSelect extends React.Component {
     this.state = {
       data: [],
       fetching: false,
-      value: undefined
+      value: undefined,
+      isPropsValue: false,  //判断是否用propsValue
     };
     this.handleChange = debounce(this.handleChange, 800);
   }
- 
+  componentWillReceiveProps = (nextProps) => {
+    if(nextProps.value !== undefined && !this.state.isPropsValue) {
+      this.setState({
+        isPropsValue: true
+      });
+    };
+  }
   getValues = (value,option) => {
     this.setState({
       value
@@ -121,13 +128,14 @@ class FetchSelect extends React.Component {
     }
   }
   render() {
-    let {fetching} = this.state;
+    let {fetching, value, isPropsValue} = this.state;
+    let realValue = isPropsValue ? this.props.value : value;
     return (
       <Select
         showSearch
         defaultValue={this.props.defaultValue}
         onSearch={this.handleChange}
-        value={this.props.value || this.state.value}
+        value={realValue}
         onChange={this.props.onChange || this.getValues}
         notFoundContent={fetching ? <Spin size="small" /> : "暂无搜索结果"}
         style={this.props.style}

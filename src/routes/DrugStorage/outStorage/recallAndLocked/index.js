@@ -250,8 +250,8 @@ class RecallAndLocked extends PureComponent {
         />
         <div>
           <Button type='primary'><Link to={{pathname:`${match.path}/add/recall`}}>新建召回</Link></Button>
-          <Button style={{ marginLeft: 10 }}><Link to={{pathname:`${match.path}/add/locked`}}>新建锁定</Link></Button>
-          <Button style={{ marginLeft: 10 }} onClick={this.delete} loading={loading}>删除</Button>
+          {/* <Button style={{ marginLeft: 10 }}><Link to={{pathname:`${match.path}/add/locked`}}>新建锁定</Link></Button> */}
+          <Button style={{ marginLeft: 8 }} onClick={this.delete} loading={loading}>删除</Button>
         </div>
         <RemoteTable
           onChange={this._tableChange}

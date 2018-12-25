@@ -181,7 +181,9 @@ class NewAdd extends PureComponent {
       btnLoading,
       saveLoading,
       value,
-      applyRescuecarList
+      applyRescuecarList,
+      modalSelectedRows,
+      modalSelected
     } = this.state;
     const columns = [
       {
@@ -359,9 +361,27 @@ class NewAdd extends PureComponent {
               scroll={{ x: '100%' }}
               rowKey='drugCode'
               rowSelection={{
-                selectedRowKeys: this.state.modalSelected,
+                selectedRowKeys: modalSelected,
                 onChange: (selectedRowKeys, selectedRows) => {
-                  this.setState({ modalSelected: selectedRowKeys, modalSelectedRows: selectedRows })
+                  if(selectedRowKeys.length > modalSelected.length) {
+                    this.setState({ 
+                      modalSelected: selectedRowKeys, 
+                      modalSelectedRows: [...new Set([...modalSelectedRows, ...selectedRows])] 
+                    });
+                  }else {
+                    selectedRows = modalSelectedRows.filter(item => {
+                      for (let i = 0; i < selectedRowKeys.length; i++) {
+                        if(item.drugCode === selectedRowKeys[i]) {
+                          return true;
+                        };
+                      };
+                      return false;
+                    });
+                    this.setState({ 
+                      modalSelected: selectedRowKeys, 
+                      modalSelectedRows: selectedRows
+                    });
+                  };
                 }
               }}
               pagination={false}
