@@ -83,17 +83,6 @@ const columns = [
     )
   },
   {
-    title: '采购方式',
-    dataIndex: 'purchaseType',
-    width: 100,
-    render: (text) => text === 1 ? '零库存' : '自采'
-  },
-  {
-    title: '价格',
-    dataIndex: 'price',
-    width: 100
-  },
-  {
     title: '供应商',
     width: 200,
     dataIndex: 'supplierName',

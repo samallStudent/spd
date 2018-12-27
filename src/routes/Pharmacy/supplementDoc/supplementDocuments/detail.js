@@ -80,12 +80,6 @@ const columns = [
       <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
     )
   },
-  {
-    title: '采购方式',
-    width: 100,
-    dataIndex: 'purchaseType',
-    render: (text) => text === 1 ? '零库存' : '自采'
-  }
 ];
 
 class ReplenishmentDetail extends PureComponent{

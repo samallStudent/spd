@@ -216,14 +216,6 @@ class Details extends PureComponent {
           <Row gutter={30}>
             <Col span={8}>
               <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-6">
-                <label>采购方式</label>
-              </div>
-              <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18">
-                <div className='ant-form-item-control'>{info.purchaseTypeName || ''}</div>
-              </div>
-            </Col>
-            <Col span={8}>
-              <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-6">
                 <label>生成人</label>
               </div>
               <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18">
