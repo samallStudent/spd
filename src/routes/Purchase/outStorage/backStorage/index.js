@@ -169,12 +169,11 @@ class SearchFormWrapper extends PureComponent {
           </Col>
           <Col span={8} style={{display: display}}>
              <FormItem label={`状态`} {...formItemLayout}>
-               {getFieldDecorator('backStatus')(
+               {getFieldDecorator('backStatus',{
+                 initialValue: '0'
+                })(
                  <Select 
-                   showSearch
                    placeholder={'请选择'}
-                   optionFilterProp="children"
-                   filterOption={(input, option) => option.props.children.indexOf(input) >= 0}
                    >
                    {
                      back_status_options.map((item,index)=> <Option key={index} value={item.value}>{item.label}</Option>)
@@ -226,7 +225,9 @@ class Refund extends PureComponent{
   //     payload: {backStatus:0}
   //   });
   //  }
-
+state={
+  query:{backStatus:'0'}
+}
   queryHandler = (query) => {
     this.setState({ query:query })
   }
@@ -243,7 +244,7 @@ class Refund extends PureComponent{
     //   payload: {backStatus:0}
     // });
     let query = this.props.base.queryConditons;
-    query = {...query};
+    query = {...this.state.query, ...query};
     delete query.backTime;
     delete query.key;
     //const {match} = this.props;

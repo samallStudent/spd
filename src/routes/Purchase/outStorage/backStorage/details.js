@@ -88,6 +88,8 @@ class DetailsRefund extends PureComponent{
       spinning: false,
       detailsData: {},
       dataSource: [],
+      passLoading: false,
+      rejectLoading:false,
     }
   }
   componentDidMount = () =>{
@@ -134,13 +136,22 @@ class DetailsRefund extends PureComponent{
   //   const {backNo} = this.props.match.params;//printBackDetail
   //   window.open(`${outStorage.PRINT_BACK_DETAIL}?backNo=${backNo}`, '_blank');
   // }
-  pass = () =>{
+  examine = (type) =>{
     let backNo = this.props.match.params.id;
+    if(type===1){
+      this.setState({
+        passLoading: true
+      })
+    }else if(type ===0){
+      this.setState({
+        rejectLoading: true
+      })
+    }
     console.log(backNo);
     this.props.dispatch({
       type:'base/depotBackSubmit',
       payload: { 
-        "type": 1 ,
+        "type": type ,
         backdetailList:[
           {
             backNo
@@ -148,28 +159,23 @@ class DetailsRefund extends PureComponent{
         ]
        },
       callback:(data)=>{
-        message.success('审批通过成功！');
+        if(data.code === 200){
+          message.success('操作成功！');
+          //this.props.history.push('/Purchase/outStorage/backStorage');
+          //this.props.history.push(0);
+        }else{
+          message.success(data.msg);
+        }
+        
+        this.setState({
+          passLoading: false,
+          rejectLoading: false
+        })
       }
     });
   }
 
-  reject = () => {
-    let backNo = this.props.match.params.id;
-    this.props.dispatch({
-      type:'base/depotBackSubmit',
-      payload: { 
-        "type": 2 ,
-        backdetailList:[
-          {
-            backNo
-          }
-        ]
-       },
-      callback:(data)=>{
-        message.success('审批驳回成功！');
-      }
-    });
-  }
+
 
   render(){
     const { detailsData, dataSource, spinning } = this.state;
@@ -185,14 +191,17 @@ class DetailsRefund extends PureComponent{
               <h3>单据信息</h3>
               <div style={{ textAlign: 'right' }}>
                 {
-                  detailsData.backStatus === 3 && 
-                  <Link to={{pathname: `${path}/edit/${this.props.match.params.backNo}`}}>
+                  detailsData.backStatus === 3? 
+                  [<Link to={{pathname: `${path}/edit/${this.props.match.params.backNo}`}}>
                     <Button type='default'>编辑</Button>
-                  </Link>
+                  </Link>]:(
+                    detailsData.backStatus === 0 && 
+                    <span>
+                      <Button type='primary' onClick={this.examine.bind(this,0)} loading={this.state.passLoading}>通过</Button>
+                      <Button style={{marginLeft: 8}}  type='danger' onClick={this.examine.bind(this,1)} loading={this.state.rejectLoading}>驳回</Button>
+                    </span>
+                  )
                 }
-                {/* <Button style={{marginLeft: 8}} onClick={this.print}>打印</Button> */}
-                <Button style={{marginLeft: 8}} type='primary' onClick={this.pass}>通过</Button>
-                <Button style={{marginLeft: 8}}  type='danger' onClick={this.reject}>驳回</Button>
                 </div>
             </div>
             <Row>
