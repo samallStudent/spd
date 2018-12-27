@@ -367,3 +367,13 @@ export function orderFlow(options) {
     body: options,
   })
 }
+
+//药剂科 -- 库存查询  -- 导出
+export function stockExport(options) {
+  return request(`${_local}/a/statics/storeSelect/exportAll`, {
+    method: 'POST',
+    type: 'json',
+    export: true,
+    body: options,
+  })
+}

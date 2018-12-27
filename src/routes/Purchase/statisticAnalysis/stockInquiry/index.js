@@ -80,6 +80,17 @@ class StockInquiry extends PureComponent {
       type:'base/clearQueryConditions'
     });
   }
+  //导出
+  export = () => {
+    let {queryConditons} = this.props.base;
+    queryConditons = {...queryConditons}
+    delete queryConditons.pageNo;
+    console.log(queryConditons);
+    this.props.dispatch({
+      type:'statistics/StockExport',
+      payload: queryConditons
+    });
+  }
   _tableChange = values => {
     this.props.dispatch({
       type:'base/setQueryConditions',
@@ -145,10 +156,27 @@ class StockInquiry extends PureComponent {
         title: '可用库存',
         width: 112,
         dataIndex: 'usableQuantity',
-      }, {
+      }, 
+      {
+        title: '待处理库存',
+        width: 112,
+        dataIndex: 'waitStoreNum',
+      },
+      {
+        title: '锁定区库存',
+        width: 112,
+        dataIndex: 'lockStoreNum',
+      },{
         title: '剂型',
         dataIndex: 'ctmmDosageFormDesc',
         width: 168,
+      },{
+        title: '采购方式',
+        dataIndex: 'purchaseType',
+        width: 168,
+        render:(text)=>(
+          <span>{text===1?'零库存':'自采'}</span>
+        )
       }, {
         title: '批准文号',
         dataIndex: 'approvalNo',
@@ -221,6 +249,7 @@ class StockInquiry extends PureComponent {
             </Col>
           </Row>
         </Form>
+        <Button  type='default' onClick={this.export}>导出</Button>
         <RemoteTable
           onChange={this._tableChange}
           url={statisticAnalysis.QUERY_DRUG_DEPT_LIST}

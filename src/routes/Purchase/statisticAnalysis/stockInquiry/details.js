@@ -32,6 +32,11 @@ const columns = [
         title: '数量',
         dataIndex: "totalQuantity",
         width: 112,
+    },
+    {
+        title: '锁定区库存',
+        dataIndex: "vacuumNum",
+        width: 112,
     }, {
         title: '采购方式',
         dataIndex: "purchaseType",

@@ -1894,6 +1894,20 @@ export const getNavData = app => [
       path: '/purchase/statisticAnalysis/modifyPrice/details/:id',
       component: dynamicWrapper(app, ['purchase/statistics'], () => import('../routes/Purchase/statisticAnalysis/modifyPrice/details')),
     },
+    /*--退货审核2018-12-27S--*/
+    {
+      name: "退货审核",
+      icon: 'setting',
+      path: '/Purchase/outStorage/backStorage',
+      component: dynamicWrapper(app, ['drugStorage/outStorage'], () => import('../routes/Purchase/outStorage/backStorage')),
+    },
+    {
+      name: "退货审核--详情",
+      icon: 'setting',
+      path: '/Purchase/outStorage/backStorage/details/:id',
+      component: dynamicWrapper(app, ['drugStorage/outStorage'], () => import('../routes/Purchase/outStorage/backStorage/details')),
+    },
+    /*--退货审核2018-12-27E--*/
     /*--创世新增2018-12-14-S--*/
     {
       name: "发药复核",//发药复核

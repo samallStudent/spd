@@ -74,3 +74,12 @@ export function roomMakeupDetail(options) {
     body: options,
   })
 }
+
+//全院管理 -- 退货审核  -- 通过/驳回
+export function depotBackSubmit(options) {
+  return request(`${_local}/a/commonback/backdetail/depotBackSubmit`, {
+    method: 'POST',
+    type: 'json',
+    body: options,
+  })
+}

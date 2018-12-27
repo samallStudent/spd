@@ -297,5 +297,12 @@ export default {
             callback && callback(data);
         };
     }, 
+    //药剂科 -- 库存查询导出
+    *StockExport({payload, callback}, {call}) {
+    const data = yield call(statistics.stockExport, payload);
+    if(typeof callback === 'function') {
+      callback && callback(data);
+    };
+    },
   } 
 }

@@ -378,6 +378,13 @@ export default {
       if(callback && typeof callback === 'function') {
         callback(data);
       };
+    },
+     //全员管理 -- 退货审核 -- 通过/驳回
+     *depotBackSubmit({ payload,callback },{ call }){
+      const data = yield call(base.depotBackSubmit, payload);
+      if(callback && typeof callback === 'function') {
+        callback(data);
+      };
     }
   },
   reducers: {

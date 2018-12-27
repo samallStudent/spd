@@ -70,6 +70,13 @@ class SearchForm extends PureComponent{
       }
     })
   }
+  _tableChange = values => {
+    console.log(values);
+    this.props.dispatch({
+      type:'base/setQueryConditions',
+      payload: values
+    });
+  }
   //重置
   handleReset = () => {
     this.props.form.resetFields();
