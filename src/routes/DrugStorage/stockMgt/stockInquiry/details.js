@@ -8,15 +8,15 @@ const columns = [
     {
         title: '生产批号',
         dataIndex: 'lot',
-        width: 168
+        width: 118
     }, {
         title: '生产日期',
         dataIndex: 'productDate',
-        width: 168
+        width: 118
     }, {
         title: '有效期至',
         dataIndex: 'validEndDate',
-        width: 168
+        width: 118
     }, {
         title: '货位',
         dataIndex: "storeLocName",
@@ -28,11 +28,11 @@ const columns = [
     }, {
         title: '单位',
         dataIndex: "unit",
-        width: 112
+        width: 90
     }, {
         title: '数量',
         dataIndex: "usableQuantity",
-        width: 112
+        width: 90
     }, {
         title: '锁定区库存',
         dataIndex: "vacuumNum",

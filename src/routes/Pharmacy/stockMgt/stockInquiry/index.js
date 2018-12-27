@@ -31,7 +31,7 @@ const columns = [
   {
     title: '通用名',
     dataIndex: 'ctmmGenericName',
-    width: 224,
+    width: 200,
     render: (text, record) => {
       return (
         <span>
@@ -42,7 +42,7 @@ const columns = [
   }, {
     title: '商品名',
     dataIndex: 'ctmmTradeName',
-    width: 224,
+    width: 200,
     className: 'ellipsis',
     render:(text)=>(
       <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
@@ -50,11 +50,11 @@ const columns = [
   }, {
     title: '规格',
     dataIndex: 'ctmmSpecification',
-    width: 168,
+    width: 148,
   }, {
     title: '生产厂家',
     dataIndex: 'ctmmManufacturerName',
-    width: 224,
+    width: 200,
     className: 'ellipsis',
     render:(text)=>(
       <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
@@ -66,31 +66,31 @@ const columns = [
   }, {
     title: '单位',
     dataIndex: 'replanUnit',
-    width: 112,
+    width: 90,
   }, {
     title: '库存数量',
     dataIndex: 'totalStoreNum',
-    width: 112,
+    width: 80,
   }, {
     title: '可用库存',
-    width: 112,
+    width: 90,
     dataIndex: 'usableQuantity',
   }, {
     title: '锁定区库存',
-    width: 112,
+    width: 100,
     dataIndex: 'lockStoreNum',
   }, {
     title: '待处理库存',
     dataIndex: 'waitStoreNum',
-    width: 112
+    width: 100
   }, {
     title: '剂型',
     dataIndex: 'ctmmDosageFormDesc',
-    width: 168,
+    width: 90,
   }, {
     title: '批准文号',
     dataIndex: 'approvalNo',
-    width: 168,
+    width: 138,
   }
 ];
 

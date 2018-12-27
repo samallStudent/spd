@@ -38,23 +38,23 @@ class DrugsFor extends PureComponent{
     const columns = [
       {
       title: '申领单',
-      width: 168,
+      width: 158,
       dataIndex: 'applyCode',
       render:(text, record)=>(<Link to={{pathname: `/pharmacy/wareHouse/drugsFor/details/${record.applyCode}`}}>{text}</Link>)
       },
       {
         title: '申领部门',
-        width: 168,
+        width: 148,
         dataIndex: 'applyDeptName',
       },
       {
         title: '配货部门',
-        width: 168,
+        width: 148,
         dataIndex: 'distributeDeptName',
       },
       {
         title: '状态',
-        width: 112,
+        width: 100,
         dataIndex: 'applyStatusName'
       },
       {
@@ -69,7 +69,7 @@ class DrugsFor extends PureComponent{
       },
       {
         title: '发起时间',
-        width: 224,
+        width: 200,
         dataIndex: 'createDate'
       },
     ];

@@ -206,7 +206,7 @@ class PickSoldOut extends PureComponent{
       {
         title: '拣货单',
         dataIndex: 'pickingOrderNo',
-        width: 168,
+        width: 158,
         render:(text,record)=>(
           <span>
             <Link to={{pathname: `/pharmacy/outStorage/pickingUnderShelve/details/${text}/${record.pickingType}`}}>{text}</Link>
@@ -216,37 +216,37 @@ class PickSoldOut extends PureComponent{
       {
        title: '申领部门',
        dataIndex: 'deptName',
-       width: 168,
+       width: 148,
       },
       {
         title: '状态',
         dataIndex: 'statusName',
-        width: 112,
+        width: 90,
       },
       {
         title: '类型',
-        width: 168,
+        width: 100,
         dataIndex: 'type',
       },
       {
         title: '发起人',
         dataIndex: 'createUserName',
-        width: 112,
+        width: 100,
       },
       {
         title: '发起时间',
         dataIndex: 'createDate',
-        width: 224,
+        width: 200,
       },
       {
         title: '拣货人',
         dataIndex: 'pickingUserName',
-        width: 112,
+        width: 100,
       },
       {
         title: '拣货时间',
         dataIndex: 'updateDate',
-        width: 224,
+        width: 200,
       }
     ];
     return (

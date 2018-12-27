@@ -122,17 +122,17 @@ class DetailsPutaway extends PureComponent{
     const notColumns = [
       {
         title: '指示货位',
-        width: 224,
+        width: 180,
         dataIndex: 'actualStore',
       },
       {
         title: '货位类型',
-        width: 112,
+        width: 100,
         dataIndex: 'storeType',
       },
       {
         title: '实际货位',
-        width: 224,
+        width: 200,
         dataIndex: 'realReceiveStore',
         render: (text, record) => {
           return <Select
@@ -155,12 +155,12 @@ class DetailsPutaway extends PureComponent{
       },
       {
         title: '指示数量',
-        width: 112,
+        width: 100,
         dataIndex: 'realReceiveQuantiry',
       },
       {
         title: '实际上架数量',
-        width: 168,
+        width: 110,
         dataIndex: 'realNum',
         // render: (text, record) => {
         //   return <InputNumber
@@ -181,12 +181,12 @@ class DetailsPutaway extends PureComponent{
       },
       {
         title: '单位',
-        width: 112,
+        width: 90,
         dataIndex: 'replanUnit'
       },
       {
         title: '通用名',
-        width: 224,
+        width: 200,
         dataIndex: 'ctmmGenericName',
         className: 'ellipsis',
         render:(text)=>(
@@ -195,7 +195,7 @@ class DetailsPutaway extends PureComponent{
       },
       {
         title: '规格',
-        width: 168,
+        width: 148,
         dataIndex: 'ctmmSpecification',
         className:'ellipsis',
         render:(text)=>(
@@ -204,12 +204,12 @@ class DetailsPutaway extends PureComponent{
       },
       {
         title: '包装规格',
-        width: 168,
+        width: 148,
         dataIndex: 'packageSpecification',
       },
       {
         title: '生产厂家',
-        width: 224,
+        width: 200,
         dataIndex: 'ctmmManufacturerName',
         className: 'ellipsis',
         render:(text)=>(
@@ -218,17 +218,17 @@ class DetailsPutaway extends PureComponent{
       },
       {
         title: '生产批号',
-        width: 168,
+        width: 100,
         dataIndex: 'productBatchNo',
       },
       {
         title: '生产日期',
-        width: 168,
+        width: 118,
         dataIndex: 'realProductTime',
       },
       {
         title: '有效期至',
-        width: 168,
+        width: 118,
         dataIndex: 'realValidEndDate',
       }
     ];
@@ -250,22 +250,22 @@ class DetailsPutaway extends PureComponent{
       },
       {
         title: '指示数量',
-        width: 112,
+        width: 90,
         dataIndex: 'realReceiveQuantiry',
       },
       {
         title: '实际上架数量',
-        width: 168,
+        width: 110,
         dataIndex: 'realNum',
       },
       {
         title: '单位',
-        width: 112,
+        width: 102,
         dataIndex: 'replanUnit'
       },
       {
         title: '通用名',
-        width: 224,
+        width: 200,
         dataIndex: 'ctmmGenericName',
         className: 'ellipsis',
         render:(text)=>(
@@ -274,17 +274,17 @@ class DetailsPutaway extends PureComponent{
       },
       {
         title: '规格',
-        width: 168,
+        width: 148,
         dataIndex: 'ctmmSpecification',
       },
       {
         title: '包装规格',
-        width: 168,
+        width: 148,
         dataIndex: 'packageSpecification',
       },
       {
         title: '生产厂家',
-        width: 224,
+        width: 200,
         dataIndex: 'ctmmManufacturerName',
         className:'ellipsis',
         render:(text)=>(
@@ -293,17 +293,17 @@ class DetailsPutaway extends PureComponent{
       },
       {
         title: '生产批号',
-        width: 168,
+        width: 100,
         dataIndex: 'productBatchNo',
       },
       {
         title: '生产日期',
-        width: 168,
+        width: 118,
         dataIndex: 'realProductTime',
       },
       {
         title: '有效期至',
-        width: 168,
+        width: 118,
         dataIndex: 'realValidEndDate',
       }
     ];

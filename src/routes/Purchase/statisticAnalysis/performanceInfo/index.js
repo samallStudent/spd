@@ -33,7 +33,8 @@ const formItemLayout = {
 class SearchForm extends PureComponent{
   state = {
     subSysList: [],
-    deptList: []
+    deptList: [],
+    businessMenu:[]
   }
   componentDidMount() {
     const {dispatch} = this.props.formProps;
@@ -111,12 +112,49 @@ class SearchForm extends PureComponent{
         };
       }
     })
+  };
+  listenMenu = (value) =>{
+    const {subSysList} = this.state;
+    const {menuCode} = this.props.form.getFieldsValue();
+    if(value === menuCode) return;
+    if(value === undefined) {
+      this.props.form.setFieldsValue({
+        menuCode: undefined
+      });
+      this.setState({
+        businessMenu: []
+      });
+      return;
+    }
+    let i;
+    subSysList.map((item, index) => {
+      if(item.shortNameValue === value) {
+        i = index;
+      };
+      return item;
+    });
+    this.props.form.setFieldsValue({
+      secMenuCode: undefined
+    });
+    this.props.formProps.dispatch({
+      type: 'statistics/operationSecMenu',
+      payload: {
+        parentId : subSysList[i].id 
+      },
+      callback: ({data, code, msg}) => {
+        if(code === 200) {
+          this.setState({
+            businessMenu: data
+          });
+        };
+      }
+    })
   }
   render(){
     const { getFieldDecorator } = this.props.form;
     const {display} = this.props.formProps.base;
     const expand = display === 'block';
-    const { subSysList, deptList } = this.state;
+    const { subSysList, deptList ,businessMenu} = this.state;
     return (
       <Form className="ant-advanced-search-form" onSubmit={this.handleSearch}>
         <Row gutter={30}>
@@ -151,10 +189,41 @@ class SearchForm extends PureComponent{
               }
             </FormItem>
           </Col>
-          <Col span={8}>
-            <FormItem {...formItemLayout} label={`子系统`} style={{ display: display }}>
+          <Col span={8} >
+            <FormItem {...formItemLayout} label={'人员'} style={{ display: display }}>
               {
-                getFieldDecorator(`shortNameValue`)(
+                getFieldDecorator(`operatorName`)(
+                  <Input placeholder='请输入' />
+                )
+              }
+            </FormItem>
+          </Col>
+          <Col span={8}>
+            <FormItem {...formItemLayout} label={`一级菜单`} style={{ display: display }}>
+              {
+                getFieldDecorator(`menuCode`)(
+                  <Select
+                    allowClear
+                    onChange={this.listenMenu}
+                    showSearch
+                    placeholder="请选择"
+                    optionFilterProp="children"
+                    filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
+                  >
+                  {
+                    subSysList.map(item => (
+                      <Option key={item.shortNameValue} value={item.shortNameValue}>{item.name}</Option>
+                    ))
+                  }
+                  </Select>
+                )
+              }
+            </FormItem>
+          </Col>
+          <Col span={8}>
+            <FormItem {...formItemLayout} label={`业务菜单`} style={{ display: display }}>
+              {
+                getFieldDecorator(`secMenuCode`)(
                   <Select
                     allowClear
                     showSearch
@@ -163,8 +232,8 @@ class SearchForm extends PureComponent{
                     filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
                   >
                   {
-                    subSysList.map(item => (
-                      <Option key={item.id} value={item.id}>{item.name}</Option>
+                    businessMenu.map(item => (
+                      <Option key={item.shortNameValue} value={item.shortNameValue}>{item.name}</Option>
                     ))
                   }
                   </Select>
@@ -172,15 +241,7 @@ class SearchForm extends PureComponent{
               }
             </FormItem>
           </Col>
-          <Col span={8} style={{ display: display }}>
-            <FormItem {...formItemLayout} label={'人员'}>
-              {
-                getFieldDecorator(`operatorName`)(
-                  <Input placeholder='请输入' />
-                )
-              }
-            </FormItem>
-          </Col>
+          
           <Col span={8} style={{float: 'right', textAlign: 'right', marginTop: 4}} >
            <Button type="primary" htmlType="submit">查询</Button>
            <Button type='default' style={{marginLeft: 8}} onClick={this.handleReset}>重置</Button>
@@ -221,13 +282,23 @@ class SectionAnalysis extends PureComponent {
         title: '人员',
         dataIndex: 'operatorName',
         width: 168,
-      }, {
-        title: '子系统',
+      }, 
+      {
+        title: '一级菜单',
         dataIndex: 'menuName',
+        width: 168,
+      },
+      {
+        title: '业务菜单',
+        dataIndex: 'secMenuName',
+        width: 168,
+      },{
+        title: '业务操作',
+        dataIndex: 'business',
         width: 224,
       }, {
-        title: '业务',
-        dataIndex: 'business',
+        title: '业务单号',
+        dataIndex: 'businessCode',
         width: 224
       }
     ];

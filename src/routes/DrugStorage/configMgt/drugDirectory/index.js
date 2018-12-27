@@ -143,7 +143,7 @@ const columns = [
   {
     title: '通用名称',
     dataIndex: 'ctmmGenericName',
-    width: 224,
+    width: 200,
     className: 'ellipsis',
     render: (text) => (
       <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
@@ -152,7 +152,7 @@ const columns = [
   {
     title: '商品名称',
     dataIndex: 'ctmmTradeName',
-    width: 224,
+    width: 200,
     className: 'ellipsis',
     render: (text) => (
       <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
@@ -161,32 +161,32 @@ const columns = [
   {
     title: '规格',
     dataIndex: 'ctmmSpecification',
-    width: 168,
+    width: 148,
   },
   {
     title: '剂型',
     dataIndex: 'ctmmDosageFormDesc',
-    width: 168,
+    width:90,
   },
   {
     title: '包装规格',
     dataIndex: 'packageSpecification',
-    width: 168,
+    width: 148,
   },
   {
     title: '单位',
     dataIndex: 'replanUnit',
-    width: 112
+    width: 90
   },
   {
     title: '药品编码',
     dataIndex: 'hisDrugCode',
-    width: 224
+    width: 158
   },
   {
     title: '批准文号',
     dataIndex: 'approvalNo',
-    width: 224,
+    width: 158,
   }
 ]
 
@@ -350,7 +350,7 @@ class DrugDirectory extends PureComponent{
       {
         title: '生产厂家',
         dataIndex: 'ctmmManufacturerName',
-        width: 224,
+        width: 200,
         className: 'ellipsis',
         render:(text)=>(
           <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
@@ -359,12 +359,12 @@ class DrugDirectory extends PureComponent{
       {
         title: '库存上限',
         dataIndex: 'upperQuantity',
-        width: 112
+        width: 100
       },
       {
        title: '库存下限',
        dataIndex: 'downQuantity',
-       width: 112
+       width: 100
       },
       {
         title: '操作',

@@ -243,7 +243,7 @@ class DetailsPicking extends PureComponent{
     const leftColumns = [
       {
         title: '通用名称',
-        width: 224,
+        width: 200,
         dataIndex: 'ctmmGenericName',
         className: 'ellipsis',
         render:(text)=>(
@@ -252,17 +252,17 @@ class DetailsPicking extends PureComponent{
       },
       {
         title: '规格',
-        width: 168,
+        width: 148,
         dataIndex: 'ctmmSpecification',
       },
       {
         title: '剂型',
-        width: 168,
+        width:90,
         dataIndex: 'ctmmDosageFormDesc',
       },
       {
         title: '生产厂家',
-        width: 224,
+        width: 200,
         dataIndex: 'ctmmManufacturerName',
         className:'ellipsis',
         render:(text)=>(
@@ -271,32 +271,32 @@ class DetailsPicking extends PureComponent{
       },
       {
         title: '单位',
-        width: 112,
+        width: 100,
         dataIndex: 'replanUnit',
       },
       {
         title: '申领数量',
-        width: 112,
+        width: 100,
         dataIndex: 'applyNum',
       },
       {
         title: '可用库存',
-        width: 112,
+        width: 100,
         dataIndex: 'usableQuantity',
       },
       {
         title: '已分配',
-        width: 112,
+        width: 100,
         dataIndex: 'finishNum',
       },
       {
         title: '欠品数',
-        width: 112,
+        width: 90,
         dataIndex: 'lackNum',
       },
       {
         title: '预分配数',
-        width: 112,
+        width: 100,
         dataIndex: 'receiveNum'
       },
     ];
@@ -308,17 +308,17 @@ class DetailsPicking extends PureComponent{
       },
       {
         title: '生产日期',
-        width: 168,
+        width: 118,
         dataIndex: 'productDate'
       },
       {
         title: '有效期至',
-        width: 168,
+        width: 118,
         dataIndex: 'validEndDate',
       },
       {
         title: '可分配数',
-        width: 112,
+        width: 100,
         dataIndex: 'allocationNum',
       },
       {

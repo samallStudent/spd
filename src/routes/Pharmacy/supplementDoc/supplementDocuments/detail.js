@@ -11,17 +11,17 @@ const Comfirm = Modal.confirm;
 const columns = [
   {
     title: '数量',
-    width: 112,
+    width: 100,
     dataIndex: 'makeipQuantity',
   },
   {
     title: '单位',
-    width: 112,
+    width: 100,
     dataIndex: 'replanUnit',
   },
   {
     title: '包装规格',
-    width: 168,
+    width: 148,
     dataIndex: 'packageSpecification',
     className:'ellipsis',
     render:(text)=>(
@@ -30,12 +30,12 @@ const columns = [
   },
   {
     title: '目的货位类型',
-    width: 168,
+    width: 148,
     dataIndex: 'positionTypeName',
   },
   {
     title: '通用名',
-    width: 224,
+    width: 200,
     dataIndex: 'ctmmGenericName',
     className: 'ellipsis',
     render:(text)=>(
@@ -44,12 +44,12 @@ const columns = [
   },
   {
     title: '规格',
-    width: 168,
+    width: 148,
     dataIndex: 'ctmmSpecification',
   },
   {
     title: '生产厂家',
-    width: 224,
+    width: 200,
     dataIndex: 'ctmmManufacturerName',
     className:'ellipsis',
     render:(text)=>(
@@ -58,22 +58,22 @@ const columns = [
   },
   {
     title: '生产批号',
-    width: 168,
+    width: 128,
     dataIndex: 'lot',
   },
   {
     title: '生产日期',
-    width: 168,
+    width: 118,
     dataIndex: 'productDate',
   },
   {
     title: '有效期至',
-    width: 168,
+    width: 118,
     dataIndex: 'validEndDate',
   },
   {
     title: '供应商',
-    width: 224,
+    width: 200,
     dataIndex: 'supplierName',
     className:'ellipsis',
     render:(text)=>(
@@ -82,7 +82,7 @@ const columns = [
   },
   {
     title: '采购方式',
-    width: 112,
+    width: 100,
     dataIndex: 'purchaseType',
     render: (text) => text === 1 ? '零库存' : '自采'
   }

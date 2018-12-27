@@ -36,7 +36,7 @@ class Putaway extends PureComponent{
     const columns = [
       {
        title: '入库单',
-       width: 168,
+       width: 158,
        dataIndex: 'inStoreCode',
        render: (text,record) =>{
         return <span>
@@ -46,12 +46,12 @@ class Putaway extends PureComponent{
       },
       {
         title: '配送单/验收单号',
-        width: 168,
+        width: 158,
         dataIndex: 'distributeCode',
       },
       {
         title: '订单',
-        width: 168,
+        width: 158,
         dataIndex: 'orderCode',
       },
       {
@@ -61,7 +61,7 @@ class Putaway extends PureComponent{
       },
       {
         title: '供应商',
-        width: 224,
+        width: 180,
         dataIndex: 'ctmaSupplierName',
         className: 'ellipsis',
         render:(text)=>(
@@ -70,7 +70,7 @@ class Putaway extends PureComponent{
       },
       {
         title: '上架时间',
-        width: 224,
+        width: 200,
         dataIndex: 'createDate'
       }
     ];

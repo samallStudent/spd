@@ -196,19 +196,19 @@ class DrugLedger extends PureComponent {
       {
         title: '类型',
         dataIndex: 'type',
-        width: 168,
+        width: 100,
       }, {
         title: '单号',
         dataIndex: 'orderNo',
-        width: 168,
+        width: 158,
       }, {
         title: '时间',
         dataIndex: 'createDate',
-        width: 224,
+        width: 180,
       }, {
         title: '通用名',
         dataIndex: 'ctmmGenericName',
-        width: 224,
+        width: 200,
         className: 'ellipsis',
         render: (text) => (
           <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
@@ -216,7 +216,7 @@ class DrugLedger extends PureComponent {
       }, {
         title: '商品名',
         dataIndex: 'ctmmTradeName',
-        width: 224,
+        width: 200,
         className: 'ellipsis',
         render: (text) => (
           <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
@@ -224,11 +224,11 @@ class DrugLedger extends PureComponent {
       }, {
         title: '规格',
         dataIndex: 'ctmmSpecification',
-        width: 168,
+        width: 138,
       }, {
         title: '生产厂家',
         dataIndex: 'ctmmManufacturerName',
-        width: 224,
+        width: 200,
         className:'ellipsis',
         render:(text)=>(
           <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
@@ -236,27 +236,27 @@ class DrugLedger extends PureComponent {
       }, {
         title: '单位',
         dataIndex: 'unit',
-        width: 112,
+        width: 90,
       }, {
         title: '生产批号',
         dataIndex: 'lot',
-        width: 168,
+        width: 110,
       }, {
         title: '生产日期',
         dataIndex: 'productDate',
-        width: 168,
+        width: 158,
       }, {
         title: '有效期至',
         dataIndex: 'validEndDate',
-        width: 168,
+        width: 158,
       }, {
         title: '包装规格',
         dataIndex: 'packageSpecification',
-        width: 168,
+        width: 148,
       }, {
         title: '剂型',
         dataIndex: 'ctmmDosageFormDesc',
-        width: 168,
+        width: 90,
       }, {
         title: '供应商',
         dataIndex: 'supplierName',
@@ -268,11 +268,11 @@ class DrugLedger extends PureComponent {
       }, {
         title: '药品编号',
         dataIndex: 'hisDrugCode',
-        width: 168,
+        width: 118,
       }, {
         title: '批准文号',
         dataIndex: 'approvalNo',
-        width: 168,
+        width: 118,
       }, {
         title: '库存数量',
         dataIndex: 'stockNum',
@@ -282,17 +282,17 @@ class DrugLedger extends PureComponent {
         title: '入库数量',
         dataIndex: 'inStockNum',
         fixed: 'right',
-        width: 112,
+        width: 100,
       }, {
         title: '出库数量',
         dataIndex: 'outStockNum',
         fixed: 'right',
-        width: 112,
+        width: 100,
       }, {
         title: '结存数量',
         dataIndex: 'balanceNum',
         fixed: 'right',
-        width: 112,
+        width: 100,
       },
     ];
     const {query} = this.state;

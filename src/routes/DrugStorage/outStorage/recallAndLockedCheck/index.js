@@ -17,7 +17,7 @@ const columns = [
   {
     title: '召回/锁定单号',
     dataIndex: 'recallNo',
-    width: 168,
+    width: 158,
     render: (text, record) => 
     <span>
       <Link to={{pathname: `/drugStorage/outStorage/recallAndLockedCheck/details/${text}/${record.recallStatus}`}}>{text}</Link>
@@ -25,17 +25,17 @@ const columns = [
    },
   {
     title: '状态',
-    width: 112,
+    width: 80,
     dataIndex: 'recallStatusName',
   },
   {
     title: '类型',
-    width: 168,
+    width: 90,
     dataIndex: 'recallTypeName',
   },
   {
     title: '供应商',
-    width: 224,
+    width: 150,
     dataIndex: 'supplierName',
     className: 'ellipsis',
     render:(text)=>(
@@ -45,26 +45,26 @@ const columns = [
   {
     title: '召回原因',
     dataIndex: 'remarks',
-    width: 280
+    width: 190
   },
   {
     title: '发起人',
-    width: 112,
+    width: 80,
     dataIndex: 'createUserName',
   },
   {
    title: '发起时间',
-   width: 224,
+   width: 130,
    dataIndex: 'createDate',
   },
   {
     title: '审核人',
-    width: 112,
+    width: 90,
     dataIndex: 'updateUserName',
   },
   {
     title: '审核时间',
-    width: 224,
+    width: 130,
     dataIndex: 'updateDate',
   }
 ];

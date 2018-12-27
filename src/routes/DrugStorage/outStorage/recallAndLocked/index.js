@@ -199,7 +199,7 @@ class RecallAndLocked extends PureComponent {
       {
         title: '召回及锁定单号',
         dataIndex: 'recallNo',
-        width: 168,
+        width: 158,
         render: (text, record) => 
         <span>
           <Link to={{pathname: `/drugStorage/outStorage/recallAndLocked/details/${text}/${record.recallStatus}`}}>{text}</Link>
@@ -207,17 +207,17 @@ class RecallAndLocked extends PureComponent {
        },
       {
         title: '状态',
-        width: 112,
+        width:90,
         dataIndex: 'recallStatusName',
       },
       {
         title: '类型',
-        width: 168,
+        width: 90,
         dataIndex: 'recallTypeName',
       },
       {
         title: '供应商',
-        width: 224,
+        width: 150,
         dataIndex: 'supplierName',
         className: 'ellipsis',
         render:(text)=>(
@@ -226,17 +226,17 @@ class RecallAndLocked extends PureComponent {
       },
       {
         title: '召回原因',
-        width: 280,
+        width: 200,
         dataIndex: 'remarks',
       },
       {
         title: '发起人',
-        width: 112,
+        width: 80,
         dataIndex: 'createUserName',
       },
       {
         title: '发起时间',
-        width: 224,
+        width: 140,
         dataIndex: 'createDate',
       },
     ];

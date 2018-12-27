@@ -18,22 +18,22 @@ const columns = [
   {
    title: '验收单',
    dataIndex: 'distributeCode',
-   width: 168,
+   width: 158,
    render:(text, record)=>(<Link to={{pathname: `/pharmacy/wareHouse/acceptance/details/id=${record.distributeCode}&state=${record.auditStatus}`}}>{text}</Link>)
   },
   {
     title: '申领单',
-    width: 168,
+    width: 158,
     dataIndex: 'applyCode',
   },
   {
     title: '配货部门',
-    width: 168,
+    width: 128,
     dataIndex: 'deptName'
   },
   {
     title: '状态',
-    width: 112,
+    width: 90,
     dataIndex: 'statusName',
   },
   {
@@ -49,7 +49,7 @@ const columns = [
   {
     title: '发起时间',
     dataIndex: 'createDate',
-    width: 224
+    width: 190
   },
   {
    title: '验收人',
@@ -58,7 +58,7 @@ const columns = [
   },
   {
    title: '验收时间',
-   width: 224,
+   width: 190,
    dataIndex: 'receptionTime'
   }
 ];

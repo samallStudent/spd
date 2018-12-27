@@ -66,7 +66,7 @@ class SpplementDocList extends PureComponent{
     const columns = [
       {
        title: '补登单号',
-       width: 168,
+       width: 158,
        dataIndex: 'makeupCode',
        render: (text,record) =>{
         return <span>
@@ -76,17 +76,17 @@ class SpplementDocList extends PureComponent{
       },
       {
         title: '入库/出库单',
-        width: 168,
+        width: 158,
         dataIndex: 'storeCode',
       },
       {
         title: '状态',
-        width: 112,
+        width: 90,
         dataIndex: 'makeupStatusName',
       },
       {
         title: '部门',
-        width: 168,
+        width: 128,
         dataIndex: 'deptName',
       },
       {
@@ -96,27 +96,27 @@ class SpplementDocList extends PureComponent{
       },
       {
         title: '补登原因',
-        width: 224,
+        width: 200,
         dataIndex: 'makeupCause',
       },
       {
         title: '补登人',
-        width: 112,
+        width: 100,
         dataIndex: 'createUserName',
       },
       {
         title: '补登时间',
-        width: 224,
+        width: 200,
         dataIndex: 'createDate'
       },
       {
         title: '审核人',
-        width: 112,
+        width: 90,
         dataIndex: 'reviewUserName',
       },
       {
         title: '审核时间',
-        width: 224,
+        width: 200,
         dataIndex: 'reviewDate'
       }
     ];

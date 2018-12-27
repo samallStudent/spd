@@ -17,7 +17,7 @@ const styles={
 const columns = [
   {
     title: '通用名称',
-    width: 224,
+    width: 200,
     dataIndex: 'ctmmGenericName',
     className: 'ellipsis',
     render:(text)=>(
@@ -26,7 +26,7 @@ const columns = [
   },
   {
     title: '商品名称',
-    width: 224,
+    width: 200,
     dataIndex: 'ctmmTradeName',
     className: 'ellipsis',
     render:(text)=>(
@@ -35,12 +35,12 @@ const columns = [
   },
   {
     title: '规格',
-    width: 168,
+    width: 148,
     dataIndex: 'ctmmSpecification',
   },
   {
     title: '剂型',
-    width: 168,
+    width: 90,
     dataIndex: 'ctmmDosageFormDesc',
   },
   {
@@ -50,32 +50,32 @@ const columns = [
   },
   {
     title: '发药单位',
-    width: 112,
+    width: 100,
     dataIndex: 'replanUnit'
   },
   {
     title: '发药数量',
-    width: 112,
+    width: 100,
     dataIndex: 'oEORIDispDrugQuantity'
   },
   {
     title: '出库数量',
-    width: 112,
+    width: 100,
     dataIndex: 'backSumNum'
   },
   {
     title: '货位类别',
-    width: 168,
+    width: 148,
     dataIndex: 'outStoreName'
   },
   {
     title: '批准文号',
-    width: 224,
+    width: 180,
     dataIndex: 'approvalNo',
   },
   {
     title: '生产厂家',
-    width: 224,
+    width: 200,
     dataIndex: 'ctmmManufacturerName',
     className:'ellipsis',
     render:(text)=>(
@@ -84,17 +84,17 @@ const columns = [
   },
   {
     title: '生产批号',
-    width: 168,
+    width: 118,
     dataIndex: 'lot',
   },
   {
     title: '生产日期',
-    width: 168,
+    width: 118,
     dataIndex: 'productDate',
   },
   {
     title: '有效期至',
-    width: 168,
+    width: 118,
     dataIndex: 'validEndDate'
   }
 ];

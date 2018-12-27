@@ -11,7 +11,7 @@ import querystring from 'querystring';
 const columns = [
   {
     title: '通用名',
-    width: 224,
+    width: 200,
     dataIndex: 'ctmmGenericName',
     className: 'ellipsis',
     render:(text)=>(
@@ -20,7 +20,7 @@ const columns = [
   },
   {
     title: '商品名',
-    width: 224,
+    width: 200,
     dataIndex: 'ctmmTradeName',
     className: 'ellipsis',
     render:(text)=>(
@@ -29,27 +29,27 @@ const columns = [
   },
   {
     title: '规格',
-    width: 168,
+    width: 148,
     dataIndex: 'ctmmSpecification',
   },
   {
     title: '剂型',
-    width: 168,
+    width: 80,
     dataIndex: 'ctmmDosageFormDesc',
   },
   {
     title: '包装规格',
-    width: 168,
+    width: 148,
     dataIndex: 'packageSpecification'
   },
   {
     title: '单位',
-    width: 112,
+    width: 90,
     dataIndex: 'replanUnit'
   },
   {
     title: '出库数量',
-    width: 112,
+    width: 100,
     dataIndex: 'backNum'
   },
   {
@@ -59,23 +59,23 @@ const columns = [
   },
   {
     title: '生产日期',
-    width: 168,
+    width: 118,
     dataIndex: 'productDate',
   },
   {
     title: '有效期至',
-    width: 168,
+    width: 118,
     dataIndex: 'validEndDate'
     
   },
   {
     title: '批准文号',
-    width: 224,
+    width: 170,
     dataIndex: 'approvalNo',
   },
   {
     title: '生产厂家',
-    width: 224,
+    width: 200,
     dataIndex: 'ctmmManufacturerName',
     className:'ellipsis',
     render:(text)=>(
@@ -85,17 +85,17 @@ const columns = [
   {
     title: '采购方式',
     dataIndex: 'purchaseType',
-    width: 112,
+    width: 100,
     render: (text) => text === 1 ? '零库存' : '自采'
   },
   {
     title: '价格',
     dataIndex: 'price',
-    width: 112
+    width: 100
   },
   {
     title: '供应商',
-    width: 224,
+    width: 200,
     dataIndex: 'supplierName',
     className: 'ellipsis',
     render:(text)=>(

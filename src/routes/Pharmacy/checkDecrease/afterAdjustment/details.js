@@ -86,18 +86,18 @@ class Details extends PureComponent {
         title: '货位',
         dataIndex: 'locName',
         fixed: 'left',
-        width: 168
+        width: 148
       },
       {
         title: '货位类型',
         dataIndex: 'positionTypeName',
         fixed: 'left',
-        width: 168
+        width: 138
       },
       {
         title: '通用名',
         dataIndex: 'ctmmGenericName',
-        width: 224,
+        width: 200,
         className: 'ellipsis',
         render:(text)=>(
           <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
@@ -106,12 +106,12 @@ class Details extends PureComponent {
       {
         title: '规格',
         dataIndex: 'ctmmSpecification',
-        width: 168,
+        width: 138,
       },
       {
         title: '生产厂家',
         dataIndex: 'ctmmManufacturerName',
-        width: 224,
+        width: 200,
         className: 'ellipsis',
         render:(text)=>(
           <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
@@ -120,67 +120,67 @@ class Details extends PureComponent {
       {
         title: '包装规格',
         dataIndex: 'packageSpecification',
-        width: 168,
+        width: 148,
       },
       {
         title: '单位',
         dataIndex: 'unit',
-        width: 112,
+        width: 90,
       },
       {
         title: '账面库存',
         dataIndex: 'accountStoreNum',
-        width: 112,
+        width: 100,
       },
       {
         title: '实际数量',
         dataIndex: 'practicalRepertory',
-        width: 112,
+        width: 100,
       },
       {
         title: '盈亏数量',
         dataIndex: 'checkNum', 
-        width: 112,
+        width: 100,
       },
       {
         title: '账面批号',
-        width: 168,
+        width: 158,
         dataIndex: 'accountBatchNo',
       },
       {
         title: '实际批号',
         dataIndex: 'practicalBatch',
-        width: 168,
+        width: 158,
       },
       {
         title: '生产日期',
         dataIndex: 'accountProductTime',
-        width: 168,
+        width: 118,
       },
       {
         title: '实际生产日期',
         dataIndex: 'realProductTime',
-        width: 168,
+        width: 118,
       },
       {
         title: '有效期至',
         dataIndex: 'accountEndTime',
-        width: 168,
+        width: 118,
       },
       {
         title: '实际有效期至',
         dataIndex: 'validEndTime',
-        width: 168,
+        width: 118,
       },
       {
         title: '单价',
         dataIndex: 'referencePrice',
-        width: 112,
+        width: 100,
       },
       {
         title: '盈亏金额',
         dataIndex: 'mount',
-        width: 112,
+        width: 100,
         render: (text, record) => {
           return (Number(record.referencePrice) * Number(record.checkNum)).toFixed(4);
         }

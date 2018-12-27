@@ -193,7 +193,7 @@ class NearlyEffective extends PureComponent {
       {
         title: '临效期天数',
         dataIndex: 'diffDay',
-        width: 168,
+        width: 90,
         render: (text) => {
           let color = '#ffd666';
           if(text <= 30) {
@@ -210,19 +210,19 @@ class NearlyEffective extends PureComponent {
       }, {
         title: '货位',
         dataIndex: 'goodsName',
-        width: 168,
+        width: 148,
       }, {
         title: '货位类型',
         dataIndex: 'locName',
-        width: 168,
+        width: 148,
       }, {
         title: '库存',
         dataIndex: 'totalQuantity',
-        width: 112
+        width: 90
       }, {
         title: '通用名',
         dataIndex: 'ctmmGenericName',
-        width: 224,
+        width: 200,
         className: 'ellipsis',
         render: (text) => (
           <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
@@ -230,7 +230,7 @@ class NearlyEffective extends PureComponent {
       }, {
         title: '商品名',
         dataIndex: 'ctmmTradeName',
-        width: 224,
+        width: 200,
         className: 'ellipsis',
         render: (text) => (
           <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
@@ -238,11 +238,11 @@ class NearlyEffective extends PureComponent {
       }, {
         title: '规格',
         dataIndex: 'ctmmSpecification',
-        width: 168,
+        width: 128,
       }, {
         title: '生产厂家',
         dataIndex: 'ctmmManufacturerName',
-        width: 224,
+        width: 200,
         className:'ellipsis',
         render:(text)=>(
           <Tooltip placement="right" title={text}>{text}</Tooltip>
@@ -250,31 +250,31 @@ class NearlyEffective extends PureComponent {
       }, {
         title: '单位',
         dataIndex: 'replanUnit',
-        width: 112,
+        width: 90,
       }, {
         title: '生产批号',
         dataIndex: 'lot',
-        width: 168,
+        width:100,
       }, {
         title: '生产日期',
         dataIndex: 'productDate',
-        width: 168,
+        width: 128,
       }, {
         title: '有效期至',
         dataIndex: 'validEndDate',
-        width: 168,
+        width: 128,
       }, {
         title: '包装规格',
         dataIndex: 'packageSpecification',
-        width: 168,
+        width: 148,
       }, {
         title: '剂型',
         dataIndex: 'ctmmDosageFormDesc',
-        width: 168,
+        width: 80,
       }, {
         title: '供应商',
         dataIndex: 'supplierName',
-        width: 168,
+        width: 158,
         className: 'ellipsis',
         render:(text)=>(
             <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
@@ -282,11 +282,11 @@ class NearlyEffective extends PureComponent {
       }, {
         title: '药品编号',
         dataIndex: 'hisDrugCode',
-        width: 168,
+        width: 120,
       }, {
         title: '批准文号',
         dataIndex: 'approvalNo',
-        width: 168,
+        width: 120,
       }
     ];
     const {query} = this.state;

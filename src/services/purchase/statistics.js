@@ -234,6 +234,14 @@ export function operationlogMenu(options) {
     body: options
   })
 }
+//绩效信息表 一级菜单联动
+export function operationSecmenu(options) {
+  return request(`${_local}/a/operationlog/secmenu`, {
+    method: 'GET',
+    type: 'formData',
+    body: options
+  })
+}
 
 //批号追溯详情头部－基本信息
 export function batchGetDrugInfo(options) {

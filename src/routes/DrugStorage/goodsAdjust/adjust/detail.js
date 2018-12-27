@@ -14,7 +14,7 @@ const columns = [
   {
     title: '通用名',
     dataIndex: 'ctmmGenericName',
-		width: 224,
+		width: 158,
     className: 'ellipsis',
     render: (text) => (
       <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
@@ -22,13 +22,13 @@ const columns = [
   },
   {
     title: '规格',
-		width: 168,
+		width: 100,
     dataIndex: 'ctmmSpecification',
   },
   {
     title: '生产厂家',
     dataIndex: 'ctmmManufacturerName',
-		width: 224,
+		width:160,
     className:'ellipsis',
     render:(text)=>(
       <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
@@ -36,27 +36,27 @@ const columns = [
   },
   {
     title: '移动数量',
-		width: 112,
+		width: 90,
     dataIndex: 'adjustNum'
   },
   {
     title: '移动单位',
-		width: 112,
+		width:80,
     dataIndex: 'originalUnitName'
   },
   {
     title: '原库存',
-		width: 112,
+		width: 90,
     dataIndex: 'originalStore'
   },
   {
     title: '原货位',
-		width: 112,
+		width: 90,
     dataIndex: 'originalGoodsName'
   },
   {
     title: '原货位类型',
-		width: 168,
+		width: 118,
     dataIndex: 'originalLocTypeName',
   },
   {
@@ -67,26 +67,26 @@ const columns = [
   {
     title: '目的货位单位',
     dataIndex: 'goalUnitName',
-		width: 168,
+		width: 128,
   },
   {
     title: '目的货位类型',
-		width: 168,
+		width: 128,
     dataIndex: 'goalLocTypeName'
   },
   {
     title: '转换系数',
-		width: 112,
+		width:90,
     dataIndex: 'conversionRate'
   },
   {
     title: '包装规格',
-		width: 168,
+		width:100,
     dataIndex: 'packageSpecification'
   },
   {
     title: '生产批号',
-		width: 168,
+		width: 128,
     dataIndex: 'lot'
   },
 ];

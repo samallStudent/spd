@@ -239,7 +239,7 @@ class NewAdd extends PureComponent {
         title: '通用名称',
         dataIndex: 'ctmmGenericName',
         fixed: 'left',
-        width: 224,
+        width: 200,
         className: 'ellipsis',
         render:(text)=>(
           <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
@@ -247,7 +247,7 @@ class NewAdd extends PureComponent {
       }, {
         title: '商品名',
         dataIndex: 'ctmmTradeName',
-        width: 224,
+        width: 200,
         className: 'ellipsis',
         render:(text)=>(
           <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
@@ -255,7 +255,7 @@ class NewAdd extends PureComponent {
       }, {
         title: '规格',
         dataIndex: 'ctmmSpecification',
-        width: 168,
+        width: 128,
         className: 'ellipsis',
         render: (text) => (
           <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
@@ -263,7 +263,7 @@ class NewAdd extends PureComponent {
       }, {
         title: '生产厂家',
         dataIndex: 'ctmmManufacturerName',
-        width: 224,
+        width: 214,
         className: 'ellipsis',
         render: (text) => (
           <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
@@ -271,46 +271,46 @@ class NewAdd extends PureComponent {
       }, {
         title: '库存上限',
         dataIndex: 'locaUpperQuantity',
-        width: 112,
+        width: 100,
       }, {
         title: '库存下限',
         dataIndex: 'localDownQuantity',
-        width: 112,
+        width: 100,
       }, {
         title: '剂型',
         dataIndex: 'ctmmDosageFormDesc',
-        width: 168
-      }, {
-        title: '包装规格',
-        dataIndex: 'packageSpecification',
-        width: 168
-      }, {
-        title: '单位',
-        dataIndex: 'replanUnit',
-        width: 112,
-      }, {
-        title: '申领数量',
-        dataIndex: 'applyNum',
-        width: 120,
-        render: (text, record, i) => {
-          return <InputNumber
+        width: 90
+      },{
+            title: '申领数量',
+            dataIndex: 'applyNum',
+            width: 120,
+            render: (text, record, i) => {
+                return <InputNumber
                     value={text}
                     min={1}
                     precision={0}
                     onChange={(value)=>{
-                      if(value > record.usableQuantity) {
-                        return message.warning('申领数量不得大于配货部门可用库存!');
-                      };
-                      if((value + record.localUsableQuantity) > record.locaUpperQuantity) {
-                        return message.warning('申领数量加上药房可用库存不得大于库存上限!');
-                      }
-                      dataSource = JSON.parse(JSON.stringify(dataSource));
-                      dataSource[i].applyNum = value;
-                      this.setState({dataSource});
-                    }} 
-                 />
-        }
+                        if(value > record.usableQuantity) {
+                            return message.warning('申领数量不得大于配货部门可用库存!');
+                        };
+                        if((value + record.localUsableQuantity) > record.locaUpperQuantity) {
+                            return message.warning('申领数量加上药房可用库存不得大于库存上限!');
+                        }
+                        dataSource = JSON.parse(JSON.stringify(dataSource));
+                        dataSource[i].applyNum = value;
+                        this.setState({dataSource});
+                    }}
+                />
+            }
+        }, {
+        title: '包装规格',
+        dataIndex: 'packageSpecification',
+        width: 148
       }, {
+        title: '单位',
+        dataIndex: 'replanUnit',
+        width: 100,
+      },  {
         title: (
           <Tooltip title="配货部门可用库存">
             <span>配货部门库存</span>
@@ -335,18 +335,18 @@ class NewAdd extends PureComponent {
           </Tooltip>
         ),
         dataIndex: 'recentlyUseNum',
-        width: 168,
+        width: 148,
       }, {
         title: '批准文号',
         dataIndex: 'approvalNo',
-        width: 224,
+        width: 180,
       }
     ];
     const modalColumns = [
       {
         title: '通用名',
         dataIndex: 'ctmmGenericName',
-        width: 224,
+        width: 200,
         className: 'ellipsis',
         render:(text)=>(
           <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
@@ -354,36 +354,36 @@ class NewAdd extends PureComponent {
       }, {
         title: '商品名',
         dataIndex: 'ctmmTradeName',
-        width: 224,
+        width: 200,
         className: 'ellipsis',
         render:(text)=>(
           <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
         )
       }, {
+            title: '生产厂家',
+            dataIndex: 'ctmmManufacturerName',
+            width: 200,
+            className: 'ellipsis',
+            render: (text) => (
+                <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+            )
+        }, {
         title: '规格',
         dataIndex: 'ctmmSpecification',
-        width: 168,
+        width: 128,
       }, {
         title: '剂型',
         dataIndex: 'ctmmDosageFormDesc',
-        width: 168
+        width: 90
       }, {
         title: '包装规格',
         dataIndex: 'packageSpecification',
-        width: 168
+        width: 148
       }, {
         title: '批准文号',
         dataIndex: 'approvalNo',
-        width: 224,
-      }, {
-        title: '生产厂家',
-        dataIndex: 'ctmmManufacturerName',
-        width: 224,
-        className: 'ellipsis',
-        render: (text) => (
-          <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
-        )
-      },
+        width: 160,
+      }
     ];
     
     return (

@@ -23,12 +23,12 @@ const modalColumns = [
   {
     title: '货位类型',
     dataIndex: 'storeTypeName',
-    width: 168
+    width: 148
   },
   {
     title: '通用名称',
     dataIndex: 'ctmmGenericName',
-    width: 224,
+    width: 200,
     className: 'ellipsis',
     render:(text)=>(
       <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
@@ -37,7 +37,7 @@ const modalColumns = [
   {
     title: '商品名',
     dataIndex: 'ctmmTradeName',
-    width: 224,
+    width: 200,
     className: 'ellipsis',
     render:(text)=>(
       <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
@@ -46,7 +46,7 @@ const modalColumns = [
   {
     title: '规格',
     dataIndex: 'ctmmSpecification',
-    width: 168,
+    width: 148,
     className:'ellipsis',
     render:(text)=>(
       <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
@@ -54,17 +54,17 @@ const modalColumns = [
   },
   {
     title: '剂型',
-    width: 168,
+    width: 90,
     dataIndex: 'ctmmDosageFormDesc',
   },
   {
     title: '包装规格',
-    width: 112,
+    width: 100,
     dataIndex: 'packageSpecification',
   },
   {
     title: '生产厂家',
-    width: 224,
+    width: 200,
     dataIndex: 'ctmmManufacturerName',
     className:'ellipsis',
     render:(text)=>(
@@ -73,7 +73,7 @@ const modalColumns = [
   },
   {
     title: '批准文号',
-    width: 224,
+    width: 180,
     dataIndex: 'approvalNo',
   }
 ]
@@ -81,22 +81,22 @@ const abnormalModalColumns = [
   {
     title: '退药入库单编号',
     dataIndex: 'hisBackNo',
-    width: 224
+    width: 170
   },
   {
     title: '退药时间',
     dataIndex: 'backDate',
-    width: 224
+    width: 200
   },
   {
     title: '药品品类数',
     dataIndex: 'drugTotal',
-    width: 168
+    width: 138
   },
   {
     title: '退药总数量',
     dataIndex: 'backTotal',
-    width: 168
+    width: 138
   },
 ]
 class AddSupplementDocuments extends PureComponent{

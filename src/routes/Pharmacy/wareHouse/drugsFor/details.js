@@ -14,12 +14,12 @@ const columns = [
   },
   {
     title: '单位',
-    width: 112,
+    width: 90,
     dataIndex: 'replanUnit'
   },
   {
     title: '通用名称',
-    width: 224,
+    width: 200,
     dataIndex: 'ctmmGenericName',
     className: 'ellipsis',
     render:(text)=>(
@@ -28,7 +28,7 @@ const columns = [
   },
   {
     title: '商品名称',
-    width: 224,
+    width: 200,
     dataIndex: 'ctmmTradeName',
     className: 'ellipsis',
     render:(text)=>(
@@ -46,22 +46,22 @@ const columns = [
   },
   {
     title: '剂型',
-    width: 168,
+    width: 100,
     dataIndex: 'ctmmDosageFormDesc',
   },
   {
     title: '包装规格',
-    width: 168,
+    width: 148,
     dataIndex: 'packageSpecification'
   },
   {
     title: '批准文号',
-    width: 224,
+    width: 200,
     dataIndex: 'approvalNo',
   },
   {
     title: '生产厂家',
-    width: 224,
+    width: 200,
     dataIndex: 'ctmmManufacturerName',
     className:'ellipsis',
     render:(text)=>(

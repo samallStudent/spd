@@ -200,6 +200,13 @@ export default {
         callback && callback(data);
       };
     },
+    //绩效信息表 一级菜单联动菜单
+    *operationSecMenu({payload, callback}, {call}) {
+      const data = yield call(statistics.operationSecmenu, payload);
+      if(typeof callback === 'function') {
+        callback && callback(data);
+      };
+    },
     //批号追溯详情头部－基本信息
     *batchGetDrugInfo({payload, callback}, {call}) {
         const data = yield call(statistics.batchGetDrugInfo, payload);

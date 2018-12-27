@@ -10,7 +10,7 @@ import {wareHouse} from '../../../../api/pharmacy/wareHouse';
 const columns = [
   {
     title: '通用名',
-    width: 224,
+    width: 200,
     dataIndex: 'ctmmGenericName',
     className: 'ellipsis',
     render:(text)=>(
@@ -19,7 +19,7 @@ const columns = [
   },
   {
     title: '商品名',
-    width: 224,
+    width: 200,
     dataIndex: 'ctmmTradeName',
     className: 'ellipsis',
     render:(text)=>(
@@ -33,57 +33,57 @@ const columns = [
   },
   {
     title: '剂型',
-    width: 168,
+    width: 90,
     dataIndex: 'ctmmDosageFormDesc',
   },
   {
     title: '包装规格',
-    width: 168,
+    width: 148,
     dataIndex: 'packageSpecification'
   },
   {
     title: '单位',
-    width: 112,
+    width: 90,
     dataIndex: 'replanUnit'
   },
   {
     title: '入库数量',
-    width: 112,
+    width: 90,
     dataIndex: 'inQuantity'
   },
   {
     title: '生产批号',
-    width: 168,
+    width: 128,
     dataIndex: 'lot',
   },
   {
     title: '生产日期',
-    width: 168,
+    width: 118,
     dataIndex: 'productDate',
   },
   {
     title: '有效期至',
-    width: 168,
+    width: 118,
     dataIndex: 'validEndDate'
   },
   {
     title: '货位',
-    width: 168,
+    width: 148,
     dataIndex: 'storeLocName'
   },
   {
     title: '货位类型',
-    width: 168,
+    width: 138,
     dataIndex: 'storeTypeName'
   },
   {
     title: '批准文号',
-    width: 224,
+    width: 180,
     dataIndex: 'approvalNo',
   },
   {
     title: '生产厂家',
-    width: 224,
+    width: 200,
     dataIndex: 'ctmmManufacturerName',
     className:'ellipsis',
     render:(text)=>(

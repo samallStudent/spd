@@ -18,17 +18,17 @@ const columns = [
   {
    title: '入库单',
    dataIndex: 'inStoreCode',
-   width: 168,
+   width: 158,
    render:(text, record)=>(<Link to={{pathname: `/pharmacy/wareHouse/newLibrary/details/${text}`}}>{text}</Link>)
   },
   {
     title: '出库单',
-    width: 168,
+    width: 158,
     dataIndex: 'orderCode',
   },
   {
     title: '申领单',
-    width: 168,
+    width: 158,
     dataIndex: 'applyCode',
   },
   {
@@ -39,16 +39,16 @@ const columns = [
   {
     title: '配货部门',
     dataIndex: 'deptName',
-    width: 168,
+    width: 128,
   },
   {
    title: '入库时间',
-   width: 224,
+   width: 200,
    dataIndex: 'createDate',
   },
   {
     title: '备注',
-    width: 280,
+    width: 240,
     dataIndex: 'remarks',
   }
 ];

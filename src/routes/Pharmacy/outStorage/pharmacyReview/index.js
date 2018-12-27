@@ -18,7 +18,7 @@ const columns = [
   {
    title: '出库单',
    dataIndex: 'backNo',
-   width: 168,
+   width: 158,
    render:(text, record)=>
    <span>
       <Link to={{pathname: `/pharmacy/outStorage/pharmacyReview/details/id=${record.backNo}&state=${record.outStoreStatus}`}}>{text}</Link>
@@ -26,42 +26,42 @@ const columns = [
   },
   {
     title: '拣货单',
-    width: 168,
+    width: 158,
     dataIndex: 'pickingNo',
   },
   {
     title: '出库分类',
-    width: 112,
+    width: 100,
     dataIndex: 'backType',
   },
   {
     title: '状态',
-    width: 112,
+    width: 90,
     dataIndex: 'status',
   },
   {
     title: '申领部门',
-    width: 168,
+    width: 148,
     dataIndex: 'deptName'
   },
   {
     title: '发起人',
-    width: 112,
+    width: 100,
     dataIndex: 'createUserName'
   },
   {
    title: '发起时间',
    dataIndex: 'createDate',
-   width: 224
+   width: 200
   },
  {
   title: '复核人',
-  width: 112,
+  width: 100,
   dataIndex: 'checkUserName'
  },
  {
   title: '复核时间',
-  width: 224,
+  width: 200,
   dataIndex: 'checkDate'
  }
 ];

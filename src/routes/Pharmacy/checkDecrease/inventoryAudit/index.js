@@ -191,52 +191,52 @@ class InventoryAudit extends PureComponent {
       {
         title: '状态',
         dataIndex: 'checkStatusName',
-        width: 112,
+        width: 100,
       },
       {
         title: '盘点类型',
         dataIndex: 'checkBillTypeName',
-        width: 168,
+        width: 138,
       },
       {
         title: '盘点子类型',
         dataIndex: 'checkBillSubTypeName',
-        width: 168,
+        width: 138,
       },
       {
         title: '药品特征',
         dataIndex: 'drugFeatureCodeName',
-        width: 168,
+        width: 128,
       },
       {
         title: '盈亏总金额',
         dataIndex: 'excessiveTotalMoney',
-        width: 168,
+        width: 100,
       },
       {
         title: '部门',
         dataIndex: 'checkBillDeptName',
-        width: 112,
+        width: 100,
       },
       {
         title: '盘点责任人',
         dataIndex: 'createUserName',
-        width: 112,
+        width: 100,
       },
       {
         title: '制单时间',
         dataIndex: 'createDate',
-        width: 224,
+        width: 200,
       },
       {
         title: '盘点时间',
         dataIndex: 'checkTime',
-        width: 224,
+        width: 200,
       },
       {
         title: '备注',
         dataIndex: 'remarks',
-        width: 280,
+        width: 200,
       }
     ];
     let query = this.props.base.queryConditons;

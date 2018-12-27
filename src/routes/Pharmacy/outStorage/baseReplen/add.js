@@ -15,7 +15,7 @@ const {Search} = Input;
 const modalColumns = [
   {
     title: '通用名',
-    width: 224,
+    width: 200,
     dataIndex: 'ctmmGenericName',
     className: 'ellipsis',
     render:(text)=>(
@@ -24,7 +24,7 @@ const modalColumns = [
   },
   {
     title: '商品名',
-    width: 224,
+    width: 200,
     dataIndex: 'ctmmTradeName',
     className: 'ellipsis',
     render:(text)=>(
@@ -33,37 +33,37 @@ const modalColumns = [
   },
   {
     title: '规格',
-    width: 168,
+    width: 148,
     dataIndex: 'ctmmSpecification',
   },
   {
     title: '剂型',
-    width: 168,
+    width: 90,
     dataIndex: 'ctmmDosageFormDesc',
   },
   {
     title: '包装规格',
-    width: 168,
+    width: 148,
     dataIndex: 'packageSpecification',
   },
   {
     title: '生产批号',
-    width: 168,
+    width: 138,
     dataIndex: 'lot',
   },
   {
     title: '生产日期',
-    width: 168,
+    width: 118,
     dataIndex: 'productDate'
   },
   {
     title: '有效期至',
-    width: 168,
+    width: 118,
     dataIndex: 'validEndDate'
   },
   {
     title: '生产厂家',
-    width: 224,
+    width: 200,
     dataIndex: 'ctmmManufacturerName',
     className: 'ellipsis',
     render:(text)=>(
@@ -72,7 +72,7 @@ const modalColumns = [
   },
   {
     title: '批准文号',
-    width: 224,
+    width: 200,
     dataIndex: 'approvalNo',
   }
 ];
@@ -233,22 +233,22 @@ class AddOutput extends PureComponent{
       },
       {
         title: '当前库存',
-        width: 112,
+        width: 100,
         dataIndex: 'usableQuantity',
       },
       {
         title: '基数药库存',
-        width: 112,
+        width: 100,
         dataIndex: 'baseStoreNum',
       },
       {
         title: '库存基数',
-        width: 112,
+        width: 100,
         dataIndex: 'baseNum',
       },
       {
         title: '单位',
-        width: 112,
+        width: 100,
         dataIndex: 'replanUnit',
       },
       {
@@ -258,42 +258,42 @@ class AddOutput extends PureComponent{
       },
       {
         title: '商品名',
-        width: 224,
+        width: 200,
         dataIndex: 'ctmmTradeName',
       },
       {
         title: '规格',
-        width: 168,
+        width: 148,
         dataIndex: 'ctmmSpecification',
       },
       {
         title: '剂型',
-        width: 168,
+        width: 90,
         dataIndex: 'ctmmDosageFormDesc',
       },
       {
         title: '包装规格',
-        width: 168,
+        width: 148,
         dataIndex: 'packageSpecification',
       },
       {
         title: '生产批号',
-        width: 168,
+        width: 138,
         dataIndex: 'lot',
       },
       {
         title: '生产日期',
-        width: 168,
+        width: 118,
         dataIndex: 'productDate'
       },
       {
         title: '有效期至',
-        width: 168,
+        width: 118,
         dataIndex: 'validEndDate'
       },
       {
         title: '生产厂家',
-        width: 224,
+        width: 200,
         dataIndex: 'ctmmManufacturerName',
         className:'ellipsis',
         render:(text)=>(
@@ -302,7 +302,7 @@ class AddOutput extends PureComponent{
       },
       {
         title: '供应商',
-        width: 224,
+        width: 200,
         dataIndex: 'supplierName',
         className: 'ellipsis',
         render:(text)=>(
@@ -311,7 +311,7 @@ class AddOutput extends PureComponent{
       },
       {
         title: '批准文号',
-        width: 224,
+        width: 200,
         dataIndex: 'approvalNo',
       }
     ];

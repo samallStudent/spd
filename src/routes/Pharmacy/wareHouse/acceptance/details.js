@@ -11,7 +11,7 @@ import {connect} from 'dva';
 const columns = [
   {
     title: '通用名',
-    width: 224,
+    width: 200,
     dataIndex: 'ctmmGenericName',
     className: 'ellipsis',
     render:(text)=>(
@@ -20,7 +20,7 @@ const columns = [
   },
   {
     title: '商品名',
-    width: 224,
+    width: 200,
     dataIndex: 'ctmmTradeName',
     className: 'ellipsis',
     render:(text)=>(
@@ -34,43 +34,43 @@ const columns = [
   },
   {
     title: '生产批号',
-    width: 168,
+    width: 110,
     dataIndex: 'productBatchNo',
   },
   {
     title: '实到数量',
-    width: 112,
+    width: 100,
     dataIndex: 'realReceiveQuantiry'
   },
   {
     title: '需求数量',
-    width: 112,
+    width: 100,
     dataIndex: 'realDeliveryQuantiry'
   },
   {
     title: '单位',
-    width: 112,
+    width: 90,
     dataIndex: 'replanUnit'
   },
   {
     title: '剂型',
-    width: 168,
+    width: 90,
     dataIndex: 'ctmmDosageFormDesc',
     
   },
   {
     title: '包装规格',
-    width: 168,
+    width: 128,
     dataIndex: 'packageSpecification',
   },
   {
     title: '批准文号',
-    width: 168,
+    width: 128,
     dataIndex: 'approvalNo',
   },
   {
     title: '生产厂家',
-    width: 224,
+    width: 200,
     dataIndex: 'ctmmManufacturerName',
     className: 'ellipsis',
     render:(text)=>(
@@ -79,17 +79,17 @@ const columns = [
   },
   {
     title: '生产日期',
-    width: 168,
+    width: 118,
     dataIndex: 'realProductTime',
   },
   {
     title: '有效期至',
-    width: 168,
+    width: 118,
     dataIndex: 'realValidEndDate'
   },
   {
     title: '供应商',
-    width: 224,
+    width: 200,
     dataIndex: 'supplierName',
     className: 'ellipsis',
     render:(text)=>(

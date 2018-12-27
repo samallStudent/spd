@@ -16,7 +16,7 @@ const columns = [
   {
    title: '出库单',
    dataIndex: 'backNo',
-   width: 168,
+   width: 158,
    render:(text)=>(
     <Link to={{pathname: `/pharmacy/outStorage/output/details/${text}`}}>{text}</Link>
    )
@@ -28,17 +28,17 @@ const columns = [
    },
   {
     title: '内部药房',
-    width: 168,
+    width: 128,
     dataIndex: 'innerDeptName'
   },
   {
     title: '外部药房',
-    width: 168,
+    width: 128,
     dataIndex: 'outDeptName'
   },
   {
     title: '患者姓名',
-    width: 168,
+    width: 138,
     dataIndex: 'sickName'
   },
   {
@@ -48,12 +48,12 @@ const columns = [
   },
   {
     title: '出库分类',
-    width: 168,
+    width: 128,
     dataIndex: 'backTypeName'
   },
   {
    title: '发药时间',
-   width: 224,
+   width: 200,
    dataIndex: 'dispensingDate'
   }
 ];

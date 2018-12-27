@@ -11,11 +11,12 @@ class DetailsConfirm extends PureComponent {
       {
         title: '通用名称',
         dataIndex: 'productName1',
-        render: (text,record) => record.productName
+        render: (text,record) => record.productName,
+          width: 200
       },
       {
         title: '商品名',
-        dataIndex: 'productName'
+        dataIndex: 'productName',width: 200
       },
       {
         title: '规格',
@@ -23,56 +24,56 @@ class DetailsConfirm extends PureComponent {
         className:'ellipsis',
         render:(text)=>(
           <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
-        )
+        ),width: 148
       },
       {
         title: '剂型',
-        dataIndex: 'fmodal'
+        dataIndex: 'fmodal',width: 90
       },
       {
         title: '包装单位',
         dataIndex: 'unit',
-        render: (text) => 'g'
+          render: (text) => 'g',width: 138
       },
       {
         title: '批准文号',
-        dataIndex: 'approvalNo'
+        dataIndex: 'approvalNo',width: 128
       },
       {
         title: '生产厂家',
-        dataIndex: 'productCompany'
+        dataIndex: 'productCompany',width: 200
       },
       {
         title: '库存数量',
-        dataIndex: 'assetsRecord'
+        dataIndex: 'assetsRecord',width: 100
       },
       {
        title: '盘点数量',
-       dataIndex: 'pdNumber'
+       dataIndex: 'pdNumber',width: 100
       },
       {
         title: '盈亏数量',
-        dataIndex: 'ykNumber'
+        dataIndex: 'ykNumber',width: 100
       },
       {
         title: '货位',
-        dataIndex: 'huow'
+        dataIndex: 'huow',width: 100
       },
       {
         title: '生产批号',
-        dataIndex: 'shengcNumber'
+        dataIndex: 'shengcNumber',width: 118
       },
       {
         title: '生产日期',
-        dataIndex: 'shengcDate'
+        dataIndex: 'shengcDate',width: 118
       },
       {
         title: '有效期至',
-        dataIndex: 'yxqz'
+        dataIndex: 'yxqz',width: 118
       },
       {
         title: '供应商',
-        dataIndex: 'supplier'
+        dataIndex: 'supplier',width: 200
       }
     ];
     return (

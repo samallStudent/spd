@@ -32,7 +32,7 @@ const columns = [
   {
    title: '配送单/验收单',
    dataIndex: 'distributeCode',
-   width: 168,
+   width: 154,
    render: (text,record) =>{
      return <span>
        {
@@ -49,12 +49,12 @@ const columns = [
   {
     title: '订单号',
     dataIndex: 'orderCode',
-    width: 168,
+    width: 154,
   },
   {
     title: '供应商/来源部门',
     dataIndex: 'supplierName',
-    width: 224,
+    width: 140,
     className: 'ellipsis',
     render:(text)=>(
         <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
@@ -63,16 +63,16 @@ const columns = [
   {
     title: '状态',
     dataIndex: 'statusName',
-    width: 112,
+    width: 90,
   },
   {
     title: '类型',
     dataIndex: 'typeName',
-    width: 168,
+    width: 100,
   },
   {
     title: '验收人',
-    width: 168,
+    width: 128,
     dataIndex: 'receptionUserName',
   },
   {
@@ -83,7 +83,7 @@ const columns = [
   {
     title: '收货地址',
     dataIndex: 'deptAddress',
-    width: 224,
+    width: 160,
     className: 'ellipsis',
       render:(text)=>(
         <Tooltip placement="topLeft" title={text}>{text}</Tooltip>

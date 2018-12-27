@@ -19,7 +19,7 @@ const columns = [
   {
    title: '出库单',
    dataIndex: 'backNo',
-   width: 168,
+   width: 158,
    render:(text, record)=>
    <span>
       <Link to={{pathname: `/drugStorage/outStorage/withdraw/details/id=${record.backNo}&state=${record.outStoreStatus}`}}>{text}</Link>
@@ -27,17 +27,17 @@ const columns = [
   },
   {
     title: '拣货单',
-    width: 168,
+    width: 158,
     dataIndex: 'pickingNo',
   },
   {
     title: '出库分类',
-    width: 112,
+    width:100,
     dataIndex: 'backType',
   },
   {
     title: '状态',
-    width: 112,
+    width: 98,
     dataIndex: 'status',
   },
   {
