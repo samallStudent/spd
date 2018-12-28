@@ -516,23 +516,6 @@ class PslistCheck extends PureComponent{
         width: 168
       },
       {
-        title: '价格',
-        dataIndex: 'price',
-        width: 112
-      },
-      {
-        title: '采购方式',
-        dataIndex: 'purchaseType',
-        width: 112,
-        render: (text) => text === 1 ? '零库存' : '自采'
-      },
-      {
-        title: '金额',
-        dataIndex: 'amount',
-        width: 112,
-        render: (text, record) => (record.price * record.realReceiveQuantity).toFixed(4)
-      },
-      {
         title: '是否异常',
         dataIndex: 'isUsual',
         width: 112,
@@ -650,23 +633,6 @@ class PslistCheck extends PureComponent{
         title: '包装规格',
         dataIndex: 'packageSpecification',
         width: 168,
-      },
-      {
-        title: '价格',
-        dataIndex: 'price',
-        width: 112
-      },
-      {
-        title: '采购方式',
-        dataIndex: 'purchaseType',
-        width: 112,
-        render: (text) => text === 1 ? '零库存' : '自采'
-      },
-      {
-        title: '金额',
-        dataIndex: 'amount',
-        width: 112,
-        render: (text, record) => (record.price * record.realReceiveQuantiry).toFixed(4)
       },
       {
         title: '是否异常',

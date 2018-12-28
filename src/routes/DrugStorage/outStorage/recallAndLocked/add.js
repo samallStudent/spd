@@ -13,7 +13,6 @@ import {common} from '../../../../api/purchase/purchase';
 import _ from 'lodash';
 import { connect } from 'dva';
 const FormItem = Form.Item;
-const Conform = Modal.confirm;
 const {Option} = Select;
 const formItemLayout = {
   labelCol: {
@@ -282,41 +281,35 @@ class AddRefund extends PureComponent{
     const {  dataSource, isRecall } = this.state;
     this.refs.remarksForm.validateFields((err, values) => {
       if(!err) {
-        Conform({
-          content: isRecall ? "是否确认召回": "是否确认锁定",
-          onOk:()=>{
-            const { dispatch, history } = this.props;
-            let postData = {}, detailList = [];
-            dataSource.map(item => detailList.push({ 
-              bigDrugCode: item.bigDrugCode,
-              lot: item.lot,
-              recallNum: item.totalQuantity,
-              refrigerateType: item.refrigerateType,
-              supplierCode: item.supplierCode,
-            }));
-            postData.detailList = detailList;
-            postData.recallType = isRecall ? '1': '2';
-            postData.recallReasonType = values.recallReasonType;
-            if(values.remarksValue) {
-              postData.remarks = `其他(${values.remarksValue})`;
-            };
+        const { dispatch, history } = this.props;
+        let postData = {}, detailList = [];
+        dataSource.map(item => detailList.push({ 
+          bigDrugCode: item.bigDrugCode,
+          lot: item.lot,
+          recallNum: item.totalQuantity,
+          refrigerateType: item.refrigerateType,
+          supplierCode: item.supplierCode,
+        }));
+        postData.detailList = detailList;
+        postData.recallType = isRecall ? '1': '2';
+        postData.recallReasonType = values.recallReasonType;
+        if(values.remarksValue) {
+          postData.remarks = `其他(${values.remarksValue})`;
+        };
+        this.setState({
+          okLoading: true
+        });
+        console.log(postData,'postData')
+        dispatch({
+          type: 'base/createRecallOrLocked',
+          payload: { ...postData },
+          callback: () => {
+            message.success(`操作成功`);
+            history.push({pathname:"/drugStorage/outStorage/recallAndLocked"});
             this.setState({
-              okLoading: true
+              okLoading: false
             })
-            console.log(postData,'postData')
-            dispatch({
-              type: 'base/createRecallOrLocked',
-              payload: { ...postData },
-              callback: () => {
-                message.success(`操作成功`);
-                history.push({pathname:"/drugStorage/outStorage/recallAndLocked"});
-                this.setState({
-                  okLoading: false
-                })
-              }
-            })
-          },
-          onCancel:()=>{}
+          }
         })
       }
     })

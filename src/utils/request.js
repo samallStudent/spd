@@ -23,15 +23,11 @@ function checkStatus(response) {
  * @return {object}           An object containing either "data" or "err"
  */
 export default function request(url, options) {
-  console.log(url);
   
   const defaultOptions = {
     credentials: 'include',
     mode: 'cors',
     method: 'POST',
-    // headers: {
-    //   "Cache-Control": "No-cache"
-    // }
   };
   const newOptions = { ...defaultOptions, ...options };
   if (newOptions.method === 'POST' || newOptions.method === 'PUT') {

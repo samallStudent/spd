@@ -109,6 +109,9 @@ class SearchFormWrapper extends PureComponent {
       value[keyItem] = queryConditons[keyItem];
       return keyItem;
     });
+    if(!value.backStatus) {
+      value.backStatus = '0';
+    };
     this.props.form.setFieldsValue(value);
   }
   handleSearch = e => {
@@ -167,20 +170,18 @@ class SearchFormWrapper extends PureComponent {
               )}
             </FormItem>
           </Col>
-          <Col span={8} style={{display: display}}>
-             <FormItem label={`状态`} {...formItemLayout}>
-               {getFieldDecorator('backStatus',{
-                 initialValue: '0'
-                })(
-                 <Select 
-                   placeholder={'请选择'}
-                   >
-                   {
-                     back_status_options.map((item,index)=> <Option key={index} value={item.value}>{item.label}</Option>)
-                   }
-                 </Select>
-               )}
-             </FormItem>
+          <Col span={8} style={{display}}>
+            <FormItem label={`状态`} {...formItemLayout}>
+              {getFieldDecorator('backStatus')(
+                <Select 
+                  placeholder={'请选择'}
+                >
+                  {
+                    back_status_options.map((item,index)=> <Option key={index} value={item.value}>{item.label}</Option>)
+                  }
+                </Select>
+              )}
+            </FormItem>
            </Col>
           <Col span={8}  style={{display: display}}>
             <FormItem label={`退货时间`} {...formItemLayout}>
@@ -192,20 +193,21 @@ class SearchFormWrapper extends PureComponent {
           <Col span={8} style={{display: display}}>
             <FormItem label={`供应商`} {...formItemLayout}>
               {getFieldDecorator('supplierCode')(
-               <Select
-                allowClear
-                showSearch
-                optionFilterProp="children"
-                filterOption={(input, option) => option.props.children.indexOf(input) >= 0}
-               >
-                 {
+                <Select
+                  placeholder="请选择"
+                  allowClear
+                  showSearch
+                  optionFilterProp="children"
+                  filterOption={(input, option) => option.props.children.indexOf(input) >= 0}
+                >
+                  {
                     supplierList.map((item,index)=> <Option key={index} value={item.ctmaSupplierCode}>{item.ctmaSupplierName}</Option>)
-                 }
-               </Select>
+                  }
+                </Select>
               )}
             </FormItem>
           </Col>
-          <Col span={8} style={{ textAlign: 'right', marginTop: 4}} >
+          <Col span={8} style={{float: 'right', textAlign: 'right', marginTop: 4}} >
             <Button type="primary" htmlType="submit">查询</Button>
             <Button style={{marginLeft: 8}} onClick={this.handleReset}>重置</Button>
             <a style={{marginLeft: 8, fontSize: 14}} onClick={this.toggle}>
@@ -219,15 +221,11 @@ class SearchFormWrapper extends PureComponent {
  }
 const SearchForm = Form.create()(SearchFormWrapper);
 class Refund extends PureComponent{
-  // componentWillMount = () =>{
-  //   this.props.dispatch({
-  //     type:'base/setQueryConditions',
-  //     payload: {backStatus:0}
-  //   });
-  //  }
-state={
-  query:{backStatus:'0'}
-}
+  state = {
+    query:{
+      backStatus: '0'
+    }
+  }
   queryHandler = (query) => {
     this.setState({ query:query })
   }
@@ -254,9 +252,6 @@ state={
           formProps={{...this.props}}
         />
         <Row>
-          {/* <Button type='primary'>
-            <Link to={{pathname:`${match.path}/add`}}>新建退货</Link>
-          </Button> */}
         </Row>
         <RemoteTable
           onChange={this._tableChange}
