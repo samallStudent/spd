@@ -93,10 +93,11 @@ class DetailsRefund extends PureComponent{
     }
   }
   componentDidMount = () =>{
-    console.log('12');
+   this.getDetailsInfo();
+  }
+  getDetailsInfo = () =>{
     if (this.props.match.params.id) {
       let backNo = this.props.match.params.id;
-      console.log(backNo);
       this.setState({ spinning: true });
         this.props.dispatch({
           type:'base/getBackStorageDetail',
@@ -142,7 +143,7 @@ class DetailsRefund extends PureComponent{
       this.setState({
         passLoading: true
       })
-    }else if(type ===0){
+    }else if(type ===2){
       this.setState({
         rejectLoading: true
       })
@@ -161,8 +162,9 @@ class DetailsRefund extends PureComponent{
       callback:(data)=>{
         if(data.code === 200){
           message.success('操作成功！');
+          this.getDetailsInfo();
           //this.props.history.push('/Purchase/outStorage/backStorage');
-          //this.props.history.push(0);
+
         }else{
           message.success(data.msg);
         }
@@ -197,8 +199,8 @@ class DetailsRefund extends PureComponent{
                   </Link>]:(
                     detailsData.backStatus === 0 && 
                     <span>
-                      <Button type='primary' onClick={this.examine.bind(this,0)} loading={this.state.passLoading}>通过</Button>
-                      <Button style={{marginLeft: 8}}  type='danger' onClick={this.examine.bind(this,1)} loading={this.state.rejectLoading}>驳回</Button>
+                      <Button type='primary' onClick={this.examine.bind(this,1)} loading={this.state.passLoading}>通过</Button>
+                      <Button style={{marginLeft: 8}}  type='danger' onClick={this.examine.bind(this,2)} loading={this.state.rejectLoading}>驳回</Button>
                     </span>
                   )
                 }
