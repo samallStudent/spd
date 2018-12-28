@@ -383,7 +383,7 @@ class SectionAnalysis extends PureComponent {
               </Col>
             </Row>
           )}
-          rowKey={'backNo'}
+          rowKey={'id'}
           url={statisticAnalysis.KSTK_LIST}
           cb={this._tableCallback}
         />
