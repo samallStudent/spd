@@ -44,7 +44,7 @@ class RecallAndLockedDetail extends PureComponent {
 					rejectLoading: true		
 				})
 				dispatch({
-					type: 'outStorage/cancelLock',
+					type: 'outStorage/rejectLock',
 					payload: { recallNo },
 					callback: () =>{
 						message.success('审核不通过成功');

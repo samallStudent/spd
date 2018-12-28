@@ -172,7 +172,6 @@ class Putaway extends PureComponent{
           </Row> */}
           <RemoteTable
             query={{}}
-            isJson={true}
             url={supplementDoc.billFlowBadVoList}
             scroll={{x: '100%'}}
             style={{marginTop: 20}}

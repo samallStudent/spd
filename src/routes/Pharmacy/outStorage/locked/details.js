@@ -34,7 +34,7 @@ class RecallDetail extends PureComponent {
 		})
 	}
     // 取消锁定
-  reject = () => {
+  onUnlocked = () => {
     Modal.confirm({
       content:"您确定要执行此操作？",
       onOk: () => {
@@ -56,7 +56,6 @@ class RecallDetail extends PureComponent {
   }
     render() {
 			const { detailsData, dataSource, spinning, btnLoading } = this.state;
-			const { recallStatus } = this.props.match.params;
         const columns = [
 					{
 						title: '通用名',
@@ -134,10 +133,10 @@ class RecallDetail extends PureComponent {
 										<h2>单据信息</h2>
 									</Col>
 									{
-										recallStatus === '5'
+										detailsData.recallStatus === '5'
 										&&
 										<Col span={12} style={{ textAlign: 'right' }}>
-											<Button type='primary' style={{ marginRight: 10 }} loading={btnLoading} onClick={this.reject} >取消锁定</Button>
+											<Button type='primary' style={{ marginRight: 10 }} loading={btnLoading} onClick={this.onUnlocked} >取消锁定</Button>
 										</Col>
 									}
 								</Row>
