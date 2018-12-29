@@ -115,7 +115,7 @@ class NewAdd extends PureComponent {
   submit = (applyStatus) => {   //提交  保存
     let {dataSource, applyType, query} = this.state;
     let isNull = dataSource.every(item => {
-      if(item.baseApplyNum < 0) {
+      if(item.baseApplyNum <= 0) {
         message.warning('当前提交数据中存在库存不足的数据!');
         return false;
       };
