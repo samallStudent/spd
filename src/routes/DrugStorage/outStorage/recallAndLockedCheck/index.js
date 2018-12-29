@@ -15,7 +15,7 @@ const FormItem = Form.Item;
 const Option = Select.Option;
 const columns = [
   {
-    title: '召回/锁定单号',
+    title: '召回单号',
     dataIndex: 'recallNo',
     width: 158,
     render: (text, record) => 

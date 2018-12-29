@@ -4,7 +4,7 @@
 * @Last Modified time: 2018-07-24 13:12:15 
  */
 import React, { PureComponent } from 'react';
-import { Form, Row, Col, Button, Icon, Select , message , Input ,DatePicker, Tooltip } from 'antd';
+import { Form, Row, Col, Button, Icon, Select , message , Input ,DatePicker } from 'antd';
 import { Link } from 'react-router-dom';
 import { formItemLayout } from '../../../../utils/commonStyles';
 import RemoteTable from '../../../../components/TableGrid';
@@ -15,7 +15,7 @@ const FormItem = Form.Item;
 const Option = Select.Option;
 const columns = [
   {
-    title: '召回/锁定单号',
+    title: '锁定单号',
     dataIndex: 'recallNo',
     width: 168,
     render: (text, record) => 
@@ -32,15 +32,6 @@ const columns = [
     title: '类型',
     width: 168,
     dataIndex: 'recallTypeName',
-  },
-  {
-    title: '供应商',
-    width: 224,
-    dataIndex: 'supplierName',
-    className: 'ellipsis',
-    render:(text)=>(
-        <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
-    )
   },
   {
     title: '召回原因',

@@ -327,12 +327,12 @@ class Details extends PureComponent {
               </div>
             </Col>
             <Col span={8}>
-              <div className="ant-form-item-label-left ant-col-md-24 ant-col-lg-8 ant-col-xl-6">
+              <div className="ant-form-item-label-left ant-col-md-24 ant-col-lg-24 ant-col-xl-6">
                 <label>盘点</label>
               </div>
-              <div className="ant-form-item-control-wrapper ant-col-md-24 ant-col-lg-16 ant-col-xl-18">
+              <div className="ant-form-item-control-wrapper ant-col-md-24 ant-col-lg-24 ant-col-xl-18">
                 <div className='ant-form-item-control'>
-                  <RadioGroup onChange={this.changeCheck} style={{width: '100%'}}>
+                  <RadioGroup defaultValue={""} onChange={this.changeCheck} style={{width: '100%'}}>
                     <Row>
                       <Col span={8}>
                         <Radio value={''}>全部</Radio>

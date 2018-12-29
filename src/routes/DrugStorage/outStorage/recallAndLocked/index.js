@@ -197,7 +197,7 @@ class RecallAndLocked extends PureComponent {
     const { loading } = this.state;
     const columns = [
       {
-        title: '召回及锁定单号',
+        title: '召回单号',
         dataIndex: 'recallNo',
         width: 158,
         render: (text, record) => 

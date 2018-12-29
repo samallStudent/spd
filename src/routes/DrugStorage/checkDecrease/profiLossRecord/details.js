@@ -2,13 +2,12 @@
  * @file 药库 - 盘点损益 - 新建盘点 - 详情(待确认)
  */
 import React, { PureComponent } from 'react';
-import {Row, Col, message, Tooltip, Button, Radio} from 'antd';
+import {Row, Col, message, Tooltip, Button} from 'antd';
 import {profiLossRecord, common} from '../../../../api/checkDecrease';
 import RetomeTable from '../../../../components/TableGrid';
 import FetchSelect from '../../../../components/FetchSelect/index';
 import querystring from 'querystring';
 import {connect} from 'dva';
-const RadioGroup = Radio.Group;
 class Details extends PureComponent {
   constructor(props) {
     super(props);
@@ -245,28 +244,6 @@ class Details extends PureComponent {
                     url={common.QUERY_DRUG_BY_LIST}
                     cb={this.onSearch}
                   />
-                </div>
-              </div>
-            </Col>
-            <Col span={8}>
-              <div className="ant-form-item-label-left ant-col-md-24 ant-col-lg-8 ant-col-xl-6">
-                <label>盘点</label>
-              </div>
-              <div className="ant-form-item-control-wrapper ant-col-md-24 ant-col-lg-16 ant-col-xl-18">
-                <div className='ant-form-item-control'>
-                  <RadioGroup onChange={this.changeCheck} style={{width: '100%'}}>
-                    <Row>
-                      <Col span={8}>
-                        <Radio value={''}>全部</Radio>
-                      </Col>
-                      <Col span={8}>
-                        <Radio value={2}>盘点正常</Radio>
-                      </Col>
-                      <Col span={8}>
-                        <Radio value={1}>盘点异常</Radio>
-                      </Col>
-                    </Row>
-                  </RadioGroup>
                 </div>
               </div>
             </Col>

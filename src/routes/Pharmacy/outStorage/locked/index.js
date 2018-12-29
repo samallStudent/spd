@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { Form, Row, Col, DatePicker, Input, Select, Button, Icon, message, Tooltip } from 'antd';
+import { Form, Row, Col, DatePicker, Input, Select, Button, Icon, message } from 'antd';
 import { Link } from 'react-router-dom';
 import { formItemLayout } from '../../../../utils/commonStyles';
 import RemoteTable from '../../../../components/TableGrid';
@@ -200,7 +200,7 @@ class RecallAndLocked extends PureComponent {
     const {match} = this.props;
     const columns = [
       {
-        title: '召回及锁定单号',
+        title: '锁定单号',
         dataIndex: 'recallNo',
         width: 168,
         render: (text, record) => 
@@ -217,15 +217,6 @@ class RecallAndLocked extends PureComponent {
         title: '类型',
         width: 168,
         dataIndex: 'recallTypeName',
-      },
-      {
-        title: '供应商',
-        width: 224,
-        dataIndex: 'supplierName',
-        className: 'ellipsis',
-        render:(text)=>(
-            <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
-        )
       },
       {
         title: '召回原因',
