@@ -204,6 +204,12 @@ export default {
         callback(data);
       };
     },
+    *exportOutStorageDetalis({ payload,callback },{ call }){
+      const data = yield call(outStorageService.exportOutStorageDetalis, payload);
+      if(callback && typeof callback === 'function') {
+        callback(data);
+      };
+    },
     subscriptions: {
       
     }

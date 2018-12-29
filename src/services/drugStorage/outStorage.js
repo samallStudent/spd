@@ -271,3 +271,12 @@ export function findDepotDeptlist(options) {
     body: options
   })
 }
+
+export function exportOutStorageDetalis(options) {
+  return request(`${_local}/a/statics/back/export`,{
+    method: 'POST',
+    type: 'json',
+    body: options,
+    export: true
+  })
+}

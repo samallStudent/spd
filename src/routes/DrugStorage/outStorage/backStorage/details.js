@@ -133,6 +133,15 @@ class DetailsRefund extends PureComponent{
     window.open(`${outStorage.PRINT_BACK_DETAIL}?backNo=${backNo}`, '_blank');
   }
 
+  //导出
+  export = () => {
+    const {backNo} = this.props.match.params;//printBackDetail
+    this.props.dispatch({
+      type: 'outStorage/exportOutStorageDetalis',
+      payload: { backNo }
+    })
+  }
+
   render(){
     const { detailsData, dataSource, spinning } = this.state;
     let {path} = this.props.match;
@@ -153,6 +162,7 @@ class DetailsRefund extends PureComponent{
                   </Link>
                 }
                 <Button style={{marginLeft: 8}} onClick={this.print}>打印</Button>
+                <Button style={{marginLeft: 8}} onClick={this.export}>导出</Button>
                 </div>
             </div>
             <Row>
@@ -233,7 +243,7 @@ class DetailsRefund extends PureComponent{
               dataSource={dataSource}
               scroll={{x: '100%'}}
               columns={columns}
-              rowKey={'drugCode'}
+              rowKey={'id'}
               pagination={{
                 size: 'small',
                 showQuickJumper: true,
