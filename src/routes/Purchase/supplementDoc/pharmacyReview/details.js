@@ -9,7 +9,7 @@ import {connect} from 'dva';
 import {outStorage} from '../../../../api/drugStorage/outStorage';
 import querystring from 'querystring';
 const columns = [
-  {
+  /*{
     title: '通用名',
     width: 224,
     dataIndex: 'ctmmGenericName',
@@ -17,24 +17,24 @@ const columns = [
     render:(text)=>(
       <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
     )
-  },
+  },*/
   {
     title: '商品名',
-    width: 224,
+    width: 350,
     dataIndex: 'ctmmTradeName',
     className: 'ellipsis',
     render:(text)=>(
       <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
     )
   },
-  {
+ /* {
     title: '规格',
     width: 168,
     dataIndex: 'ctmmSpecification',
-  },
+  },*/
   {
     title: '剂型',
-    width: 168,
+    width: 90,
     dataIndex: 'ctmmDosageFormDesc',
   },
   {
@@ -59,12 +59,12 @@ const columns = [
   },
   {
     title: '生产日期',
-    width: 168,
+    width: 118,
     dataIndex: 'productDate',
   },
   {
     title: '有效期至',
-    width: 168,
+    width: 118,
     dataIndex: 'validEndDate'
     
   },

@@ -264,8 +264,9 @@ class NewAdd extends PureComponent {
       modalSelected,
       modalSelectedRows
     } = this.state;
+
     const columns = [
-      {
+     /* {
         title: '通用名称',
         dataIndex: 'ctmmGenericName',
         width: 224,
@@ -273,22 +274,22 @@ class NewAdd extends PureComponent {
         render:(text)=>(
           <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
         )
-      }, {
+      }, */{
         title: '商品名',
         dataIndex: 'ctmmTradeName',
-        width: 224,
+        width: 350,
         className: 'ellipsis',
         render:(text)=>(
           <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
         )
-      }, {
+      }, /*{
         title: '规格',
         dataIndex: 'ctmmSpecification',
         width: 168,
-      }, {
+      },*/ {
         title: '剂型',
         dataIndex: 'ctmmDosageFormDesc',
-        width: 168
+        width: 90
       }, {
         title: '生产厂家',
         dataIndex: 'ctmmManufacturerName',
@@ -379,17 +380,18 @@ class NewAdd extends PureComponent {
         dataIndex: 'totalPrice',
         width: 168
       }, {
-        title: '药品编码',
-        dataIndex: 'hisDrugCode',
-        width: 168
-      }, {
         title: '批准文号',
         dataIndex: 'approvalNo',
         width: 224,
-      }
+      },
+        {
+            title: '药品编码',
+            dataIndex: 'hisDrugCode',
+            width: 168
+        }
     ];
     const modalColumns = [
-      {
+  /*    {
         title: '通用名称',
         dataIndex: 'ctmmGenericName',
         width: 224,
@@ -397,34 +399,30 @@ class NewAdd extends PureComponent {
         render:(text)=>(
           <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
         )
-      }, {
+      },*/ {
         title: '商品名',
         dataIndex: 'ctmmTradeName',
-        width: 224,
+        width: 350,
         className: 'ellipsis',
         render:(text)=>(
           <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
         )
-      }, {
-        title: '药品编码',
-        dataIndex: 'hisDrugCode',
-        width: 224,
-      }, {
+      } /*{
         title: '规格',
         dataIndex: 'ctmmSpecification',
         width: 168
-      }, {
+      }*/, {
         title: '总库存',
         dataIndex: 'totalStoreNum',
-        width: 112,
+        width: 100,
       }, {
         title: '当前库存',
         dataIndex: 'usableQuantity',
-        width: 112,
+        width: 100,
       }, {
         title: '剂型',
         dataIndex: 'ctmmDosageFormDesc',
-        width: 168
+        width: 90
       }, {
         title: '包装规格',
         dataIndex: 'packageSpecification',
@@ -432,7 +430,7 @@ class NewAdd extends PureComponent {
       }, {
         title: '生产厂家',
         dataIndex: 'ctmmManufacturerName',
-        width: 224,
+        width: 200,
         className: 'ellipsis',
         render: (text) => (
           <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
@@ -440,8 +438,13 @@ class NewAdd extends PureComponent {
       }, {
         title: '批准文号',
         dataIndex: 'approvalNo',
-        width: 224,
+        width: 200,
       },
+        {
+            title: '药品编码',
+            dataIndex: 'hisDrugCode',
+            width: 200,
+        },
     ];
     return (
       <Spin spinning={spinLoading} size="large">
@@ -457,7 +460,7 @@ class NewAdd extends PureComponent {
             </Row>
             <Row>
               <Col span={6}>
-                <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
+                <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-6">
                   <label>补货部门</label>
                 </div>
                 <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-19">
@@ -478,7 +481,7 @@ class NewAdd extends PureComponent {
                       optionFilterProp="children"
                       filterOption={(input, option) => option.props.children.indexOf(input) >= 0} 
                       style={{ width: '100%' }}
-                      placeholder="请选择"
+
                     >
                       {
                         deptModules.map((item,index)=> <Option key={index} value={item.id}>{ item.deptName }</Option>)
@@ -512,7 +515,7 @@ class NewAdd extends PureComponent {
                   allowClear
                   value={value}
                   style={{ width: 248 }}
-                  placeholder='通用名/商品名'
+                  placeholder='商品名'
                   url={replenishmentPlan.QUERY_DRUG_BY_LIST}
                   cb={(value, option) => {
                     let {query} = this.state;

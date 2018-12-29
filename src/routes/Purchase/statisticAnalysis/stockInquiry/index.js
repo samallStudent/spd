@@ -105,7 +105,7 @@ class StockInquiry extends PureComponent {
   render() {
     const {match} = this.props;
     const columns = [
-      {
+     /* {
         title: '通用名',
         dataIndex: 'ctmmGenericName',
         width: 224,
@@ -116,26 +116,26 @@ class StockInquiry extends PureComponent {
             </span>  
           )
         }
-      }, {
+      }, */{
         title: '商品名',
         dataIndex: 'ctmmTradeName',
-        width: 224,
+        width: 350,
         className: 'ellipsis',
         render:(text)=>(
           <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
         )
-      }, {
+      }, /*{
         title: '规格',
         dataIndex: 'ctmmSpecification',
         width: 168,
-      }, {
+      },*/ {
         title: '部门',
         dataIndex: 'deptName',
         width: 168,
       }, {
         title: '生产厂家',
         dataIndex: 'ctmmManufacturerName',
-        width: 224,
+        width: 200,
         className: 'ellipsis',
         render:(text)=>(
           <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
@@ -169,7 +169,7 @@ class StockInquiry extends PureComponent {
       },{
         title: '剂型',
         dataIndex: 'ctmmDosageFormDesc',
-        width: 168,
+        width: 90,
       },{
         title: '采购方式',
         dataIndex: 'purchaseType',
@@ -202,7 +202,7 @@ class StockInquiry extends PureComponent {
                   <FetchSelect
                     allowClear={true}
                     style={{ width: '100%' }}
-                    placeholder='通用名/商品名'
+                    placeholder='商品名'
                     url={common.QUERY_DRUG_BY_LIST}
                   />
                 )}

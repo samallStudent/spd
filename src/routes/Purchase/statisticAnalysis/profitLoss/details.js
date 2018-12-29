@@ -15,7 +15,7 @@ import { connect } from 'dva';
 const columns = [
   {
     title: '货位',
-    width: 112,
+    width: 122,
     dataIndex: 'locName'
   },
   {
@@ -23,7 +23,7 @@ const columns = [
     width: 168,
     dataIndex: 'positionTypeName'
   },
-  {
+  /*{
     title: '通用名',
     width: 224,
     dataIndex: 'ctmmGenericName',
@@ -31,24 +31,24 @@ const columns = [
     render:(text)=>(
       <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
     )
-  },
+  },*/
   {
     title: '商品名',
-    width: 224,
+    width:350,
     dataIndex: 'ctmmTradeName',
     className: 'ellipsis',
     render:(text)=>(
       <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
     )
   },
-  {
+  /*{
     title: '规格',
     width: 168,
     dataIndex: 'ctmmSpecification',
-  },
+  },*/
   {
     title: '生产厂家',
-    width: 224,
+    width: 200,
     dataIndex: 'ctmmManufacturerName',
     className:'ellipsis',
     render:(text)=>(
@@ -67,12 +67,12 @@ const columns = [
   },
   {
     title: '生产日期',
-    width: 168,
+    width: 118,
     dataIndex: 'realProductTime'
   },
   {
     title: '有效期至',
-    width: 168,
+    width: 118,
     dataIndex: 'validEndTime'
   },
   {
@@ -82,7 +82,7 @@ const columns = [
   },
   {
     title: '剂型',
-    width: 168,
+    width: 90,
     dataIndex: 'ctmmDosageFormDesc'
   },
   {
@@ -94,14 +94,10 @@ const columns = [
         <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
     )
   },
-  {
-    title: '药品编码',
-    width: 168,
-    dataIndex: 'hisDrugCode'
-  },
+
   {
     title: '批准文号',
-    width: 224,
+    width: 200,
     dataIndex: 'approvalNo'
   },
   {
@@ -132,6 +128,11 @@ const columns = [
       return Number(record.referencePrice) * Number(record.checkNum);
     }
   },
+    {
+        title: '药品编码',
+        width: 168,
+        dataIndex: 'hisDrugCode'
+    },
 ];
 
 class Detail extends PureComponent{

@@ -4,7 +4,7 @@ import RemoteTable from '../../../../components/TableGrid';
 import {drugPricing} from '../../../../api/purchase/purchase';
 import {connect} from 'dva';
 const columns = [
-    {
+    /*{
         title: '通用名',
         dataIndex: 'ctmmGenericName',
         width: 224,
@@ -12,10 +12,10 @@ const columns = [
         render:(text)=>(
             <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
         )
-    },{
+    },*/{
         title: '商品名',
         dataIndex: 'ctmmTradeName',
-        width: 224,
+        width: 350,
         className: 'ellipsis',
         render:(text)=>(
             <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
@@ -24,11 +24,11 @@ const columns = [
         title: '商品编码',
         dataIndex: 'hisDrugCode',
         width: 224,
-    }, {
+    }, /*{
         title: '药品规格',
         dataIndex: 'ctmmSpecification',
         width: 168,
-    }, {
+    }, */{
         title: '生产厂家',
         dataIndex: 'ctmmManufacturerName',
         width: 224,
@@ -55,7 +55,7 @@ const columns = [
     }, {
         title: '供应商',
         dataIndex: 'supplierName',
-        width: 224,
+        width: 200,
         className: 'ellipsis',
         render:(text)=>(
             <Tooltip placement="topLeft" title={text}>{text}</Tooltip>

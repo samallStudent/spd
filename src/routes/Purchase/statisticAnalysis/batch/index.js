@@ -87,7 +87,7 @@ class SearchForm extends PureComponent{
       <Form className="ant-advanced-search-form" onSubmit={this.handleSearch}>
         <Row gutter={30}>
           <Col span={8}>
-            <FormItem {...formItemLayout} label={`通用名/商品名`}>
+            <FormItem {...formItemLayout} label={`商品名`}>
               {
                 getFieldDecorator(`paramName`)(
                   <Input placeholder='请输入' />
@@ -154,7 +154,7 @@ class OrderRetrospect extends PureComponent {
   render() {
     const {match} = this.props;
     const columns = [
-      {
+      /*{
         title: '通用名',
         dataIndex: 'ctmmGenericName',
         width: 224,
@@ -162,17 +162,17 @@ class OrderRetrospect extends PureComponent {
         render:(text)=>(
             <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
         )
-      },
+      },*/
       {
         title: '商品名',
         dataIndex: 'ctmmTradeName',
-        width: 224,
+        width: 350,
         className: 'ellipsis',
         render:(text)=>(
             <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
         )
       },
-      {
+     /* {
         title: '规格',
         dataIndex: 'ctmmSpecification',
         width: 168,
@@ -180,11 +180,11 @@ class OrderRetrospect extends PureComponent {
         render:(text)=>(
             <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
         )
-      },
+      },*/
       {
         title: '生产厂家',
         dataIndex: 'ctmmManufacturerName',
-        width: 224,
+        width: 200,
         className: 'ellipsis',
         render:(text)=>(
             <Tooltip placement="topLeft" title={text}>{text}</Tooltip>

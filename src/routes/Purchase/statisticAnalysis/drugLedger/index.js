@@ -125,7 +125,7 @@ class SearchForm extends PureComponent{
             </FormItem>
           </Col>
           <Col span={8}>
-            <FormItem {...formItemLayout} label={'商品名/通用名'}>
+            <FormItem {...formItemLayout} label={'商品名'}>
               {
                 getFieldDecorator(`paramsName`)(
                   <Input placeholder='请输入' />
@@ -228,11 +228,11 @@ class DrugLedger extends PureComponent {
       {
         title: '部门',
         dataIndex: 'deptName',
-        width: 168,
+        width: 128,
       }, {
         title: '类型',
         dataIndex: 'type',
-        width: 168,
+        width: 148,
       }, {
         title: '单号',
         dataIndex: 'orderNo',
@@ -241,7 +241,7 @@ class DrugLedger extends PureComponent {
         title: '时间',
         dataIndex: 'createDate',
         width: 224,
-      }, {
+      },/* {
         title: '通用名',
         dataIndex: 'ctmmGenericName',
         width: 224,
@@ -249,22 +249,22 @@ class DrugLedger extends PureComponent {
         render:(text)=>(
           <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
         )
-      }, {
+      }, */{
         title: '商品名',
         dataIndex: 'ctmmTradeName',
-        width: 224,
+        width: 350,
         className: 'ellipsis',
         render:(text)=>(
           <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
         )
-      }, {
+      }, /*{
         title: '规格',
         dataIndex: 'ctmmSpecification',
         width: 168,
-      }, {
+      }, */{
         title: '生产厂家',
         dataIndex: 'ctmmManufacturerName',
-        width: 224,
+        width: 200,
         className:'ellipsis',
         render:(text)=>(
           <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
@@ -280,11 +280,11 @@ class DrugLedger extends PureComponent {
       }, {
         title: '生产日期',
         dataIndex: 'productDate',
-        width: 168,
+        width: 118,
       }, {
         title: '有效期至',
         dataIndex: 'validEndDate',
-        width: 168,
+        width: 118,
       }, {
         title: '包装规格',
         dataIndex: 'packageSpecification',
@@ -292,7 +292,7 @@ class DrugLedger extends PureComponent {
       }, {
         title: '剂型',
         dataIndex: 'ctmmDosageFormDesc',
-        width: 168,
+        width: 90,
       }, {
         title: '供应商',
         dataIndex: 'supplierName',
@@ -301,10 +301,6 @@ class DrugLedger extends PureComponent {
         render:(text)=>(
             <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
         )
-      }, {
-        title: '药品编号',
-        dataIndex: 'hisDrugCode',
-        width: 168,
       }, {
         title: '批准文号',
         dataIndex: 'approvalNo',
@@ -330,6 +326,11 @@ class DrugLedger extends PureComponent {
         fixed: 'right',
         width: 112,
       },
+        {
+            title: '药品编号',
+            dataIndex: 'hisDrugCode',
+            width: 168,
+        },
     ];
     const {query} = this.state;
     return (

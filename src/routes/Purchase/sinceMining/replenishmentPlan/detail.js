@@ -12,7 +12,7 @@ import { Table ,Row, Col,Tooltip, Button, message } from 'antd';
 import { connect } from 'dva';
 import {Link} from 'react-router-dom';
 const columns = [
-  {
+  /*{
     title: '通用名',
     width: 224,
     dataIndex: 'ctmmGenericName',
@@ -20,29 +20,25 @@ const columns = [
     render:(text)=>(
       <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
     )
-  },
+  },*/
   {
     title: '商品名',
-    width: 224,
+    width:350,
     dataIndex: 'ctmmTradeName',
     className: 'ellipsis',
     render:(text)=>(
       <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
     )
   },
-  {
-    title: '药品编码',
-    dataIndex: 'hisDrugCode',
-    width: 224,
-  },
-  {
-    title: '规格',
-    width: 168,
-    dataIndex: 'ctmmSpecification',
-  },
+
+    /*{
+      title: '规格',
+      width: 168,
+      dataIndex: 'ctmmSpecification',
+    },*/
   {
     title: '剂型',
-    width: 168,
+    width: 90,
     dataIndex: 'ctmmDosageFormDesc'
   },
   {
@@ -52,12 +48,12 @@ const columns = [
   },
   {
     title: '批准文号',
-    width: 224,
+    width: 200,
     dataIndex: 'approvalNo'
   },
   {
     title: '生产厂家',
-    width: 224,
+    width: 200,
     dataIndex: 'ctmmManufacturerName',
     className:'ellipsis',
     render:(text)=>(
@@ -66,7 +62,7 @@ const columns = [
   },
   {
     title: '供应商',
-    width: 224,
+    width: 200,
     dataIndex: 'supplierName',
     className: 'ellipsis',
     render:(text)=>(
@@ -103,6 +99,11 @@ const columns = [
     width: 112,
     dataIndex: 'downQuantity'
   },
+    {
+        title: '药品编码',
+        dataIndex: 'hisDrugCode',
+        width: 168,
+    },
 ];
 
 class ReplenishmentDetail extends PureComponent{
@@ -206,7 +207,7 @@ class ReplenishmentDetail extends PureComponent{
           </div>
           <Row>
             <Col span={8}>
-              <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
+              <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-6">
                 <label>计划单号</label>
               </div>
               <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18">
@@ -240,7 +241,7 @@ class ReplenishmentDetail extends PureComponent{
               </div>
             </Col>
             <Col span={8}>
-              <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
+              <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-6">
                   <label>发起时间</label>
               </div>
               <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18">
@@ -248,7 +249,7 @@ class ReplenishmentDetail extends PureComponent{
               </div>
             </Col>
             <Col span={8}>
-              <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
+              <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-6">
                   <label>联系电话</label>
               </div>
               <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18">
@@ -258,7 +259,7 @@ class ReplenishmentDetail extends PureComponent{
           </Row>
           <Row>
             <Col span={8}>
-              <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
+              <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-6">
                   <label>收货地址</label>
               </div>
               <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18">
@@ -274,7 +275,7 @@ class ReplenishmentDetail extends PureComponent{
               </div>
             </Col>
             <Col span={8}>
-              <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
+              <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-6">
                   <label>确认时间</label>
               </div>
               <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18">
@@ -284,7 +285,7 @@ class ReplenishmentDetail extends PureComponent{
           </Row>
           <Row>
             <Col span={8}>
-              <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
+              <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-6">
                   <label>驳回说明</label>
               </div>
               <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18">

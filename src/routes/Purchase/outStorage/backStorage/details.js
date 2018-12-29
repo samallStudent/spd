@@ -11,15 +11,15 @@ import { connect } from 'dva';
 const Conform = Modal.confirm;
 const columns = [
   {
-    title: '通用名称',
-    width: 224,
-    dataIndex: 'ctmmGenericName',
-    className: 'ellipsis',
-    render: (text) => (
-      <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
-    )
+      title: '商品名',
+      width: 350,
+      dataIndex: 'ctmmTradeName',
+      className: 'ellipsis',
+      render:(text)=>(
+          <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+      )
   },
-  {
+  /*{
     title: '规格',
     width: 168,
     dataIndex: 'ctmmSpecification',
@@ -27,7 +27,7 @@ const columns = [
     render:(text)=>(
       <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
     )
-  },
+  },*/
   {
     title: '入库单号',
     width: 280,
@@ -55,18 +55,18 @@ const columns = [
   },
   {
     title: '生产日期',
-    width: 168,
+    width: 118,
     dataIndex: 'productDate',
   },
   {
     title: '有效期至',
-    width: 168,
+    width: 118,
     dataIndex: 'validEndDate',
   },
   {
     title: '生产厂家',
     dataIndex: 'ctmmManufacturerName',
-    width: 224,
+    width: 200,
     className:'ellipsis',
     render:(text)=>(
       <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
@@ -75,7 +75,7 @@ const columns = [
   {
     title: '批准文号',
     dataIndex: 'approvalNo',
-    width: 224
+    width: 200
   }
 ];
 

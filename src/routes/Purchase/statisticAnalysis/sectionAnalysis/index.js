@@ -156,7 +156,7 @@ class SearchForm extends PureComponent{
             </FormItem>
           </Col>
           <Col span={8} style={{ display: display }}>
-            <FormItem {...formItemLayout} label={'商品名/通用名'}>
+            <FormItem {...formItemLayout} label={'商品名'}>
               {
                 getFieldDecorator(`paramName`)(
                   <Input placeholder='请输入' />
@@ -271,7 +271,7 @@ class SectionAnalysis extends PureComponent {
         render:(text)=>(
           <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
         )
-      }, {
+      }, /*{
         title: '通用名',
         dataIndex: 'ctmmGenericName',
         width: 224,
@@ -279,22 +279,22 @@ class SectionAnalysis extends PureComponent {
         render:(text)=>(
           <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
         )
-      }, {
+      }, */{
         title: '商品名',
         dataIndex: 'ctmmTradeName',
-        width: 224,
+        width: 350,
         className: 'ellipsis',
         render:(text)=>(
           <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
         )
-      }, {
+      },/* {
         title: '规格',
         dataIndex: 'ctmmSpecification',
         width: 168,
-      }, {
+      }, */{
         title: '生产厂家',
         dataIndex: 'ctmmManufacturerName',
-        width: 224,
+        width: 200,
         className:'ellipsis',
         render:(text)=>(
           <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
@@ -314,11 +314,11 @@ class SectionAnalysis extends PureComponent {
       }, {
         title: '生产日期',
         dataIndex: 'productDate',
-        width: 168,
+        width: 118,
       }, {
         title: '有效期至',
         dataIndex: 'validEndDate',
-        width: 168,
+        width: 118,
       }, {
         title: '包装规格',
         dataIndex: 'packageSpecification',
@@ -326,7 +326,7 @@ class SectionAnalysis extends PureComponent {
       }, {
         title: '剂型',
         dataIndex: 'ctmmDosageFormDesc',
-        width: 168,
+        width: 90,
       }, {
         title: '供应商',
         dataIndex: 'ctmaSupplierName',
@@ -336,14 +336,15 @@ class SectionAnalysis extends PureComponent {
             <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
         )
       }, {
-        title: '药品编号',
-        dataIndex: 'hisDrugCode',
-        width: 168,
-      }, {
         title: '批准文号',
         dataIndex: 'approvalNo',
         width: 168,
-      }
+      },
+        {
+            title: '药品编号',
+            dataIndex: 'hisDrugCode',
+            width: 168,
+        },
     ];
     const {query, tableFooter} = this.state;
     return (

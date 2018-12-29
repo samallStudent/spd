@@ -221,14 +221,14 @@ class EditDrugDirectory extends PureComponent{
                         <h3><b>基本信息</b></h3>
                     </div>
                     <Row gutter={30}>
-                        <Col span={8}>
+                       {/* <Col span={8}>
                             <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
                                 <label>通用名</label>
                             </div>
                             <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-19">
                                 <div className='ant-form-item-control'>{ baseData.ctmmGenericName ? baseData.ctmmGenericName: ''  }</div>
                             </div>
-                        </Col>
+                        </Col>*/}
                         <Col span={8}>
                             <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
                                 <label>商品名</label>
@@ -237,16 +237,14 @@ class EditDrugDirectory extends PureComponent{
                                 <div className='ant-form-item-control'>{ baseData.ctmmTradeName ? baseData.ctmmTradeName: ''}</div>
                             </div>
                         </Col>
-                        <Col span={8}>
+                      {/*  <Col span={8}>
                             <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
                                 <label>规格</label>
                             </div>
                             <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-19">
                                 <div className='ant-form-item-control'>{ baseData.ctmmSpecification ? baseData.ctmmSpecification: ''}</div>
                             </div>
-                        </Col>
-                    </Row>
-                    <Row gutter={30}>
+                        </Col>*/}
                         <Col span={8}>
                             <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
                                 <label>剂型</label>
@@ -255,8 +253,11 @@ class EditDrugDirectory extends PureComponent{
                                 <div className='ant-form-item-control'>{ baseData.ctmmDosageFormDesc ? baseData.ctmmDosageFormDesc: ''}</div>
                             </div>
                         </Col>
+                    </Row>
+                    <Row gutter={30}>
+
                         <Col span={8}>
-                            <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
+                            <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-7">
                                 <label>包装规格</label>
                             </div>
                             <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-19">
@@ -264,7 +265,7 @@ class EditDrugDirectory extends PureComponent{
                             </div>
                         </Col>
                         <Col span={8}>
-                            <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
+                            <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-7">
                                 <label>生产厂家</label>
                             </div>
                             <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-19">

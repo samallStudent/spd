@@ -80,7 +80,7 @@ class Details extends PureComponent {
         dataIndex: 'backNo',
         width: 168
       },
-      {
+     /* {
         title: '通用名',
         dataIndex: 'ctmmGenericName',
         width: 224,
@@ -88,25 +88,25 @@ class Details extends PureComponent {
         render:(text)=>(
           <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
         )
-      },
+      },*/
       {
         title: '商品名',
         dataIndex: 'ctmmTradeName',
-        width: 224,
+        width: 350,
         className: 'ellipsis',
         render:(text)=>(
           <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
         )
       },
-      {
+     /* {
         title: '规格',
         dataIndex: 'ctmmSpecification',
         width: 168,
-      },
+      },*/
       {
         title: '生产厂家',
         dataIndex: 'ctmmManufacturerName',
-        width: 224,
+        width: 200,
         className: 'ellipsis',
         render:(text)=>(
           <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
@@ -115,7 +115,7 @@ class Details extends PureComponent {
       {
         title: '批准文号',
         dataIndex: 'approvalNo',
-        width: 224
+        width: 200
       },
       {
         title: '包装规格',
@@ -160,17 +160,17 @@ class Details extends PureComponent {
       {
         title: '生产日期',
         dataIndex: 'productDate',
-        width: 168
+        width: 118
       },
       {
         title: '有效期至',
         dataIndex: 'validEndDate',
-        width: 168
+        width: 118
       },
       {
         title: '发药时间',
         dataIndex: 'dispensingDate',
-        width: 168
+        width: 158
       }, 
     ];
     return (
@@ -202,7 +202,7 @@ class Details extends PureComponent {
               </div>
             </Col>
             <Col span={8}>
-              <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-6">
+              <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-7">
                 <label>对账完成时间</label>
               </div>
               <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18">
@@ -239,7 +239,7 @@ class Details extends PureComponent {
                       value={value}
                       style={{width: '100%'}}
                       url={common.QUERY_DRUG_BY_LIST}
-                      placeholder='通用名/产品名/生产厂家/供应商'
+                      placeholder='产品名/生产厂家/供应商'
                       cb={this.changeFetchSelect}
                      />
                   </div>
