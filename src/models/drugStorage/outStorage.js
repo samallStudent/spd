@@ -181,7 +181,7 @@ export default {
       }
       if(callback) callback(data.data)
     },
-    // 审核不通过
+    // 召回审核不通过
     *auditReject({ payload,callback },{ call }){
       const data = yield call(outStorageService.reject, payload);
       if(data.code !== 200){
@@ -189,9 +189,9 @@ export default {
       }
       if(callback) callback(data.data)
     },
-    //药房锁定审核不通过
-    *cancelLock({ payload,callback },{ call }){
-      const data = yield call(outStorageService.cancelLock, payload);
+    //锁定审核不通过
+    *rejectLock({ payload,callback },{ call }){
+      const data = yield call(outStorageService.rejectLock, payload);
       if(data.code !== 200){
         return message.error(data.msg||'审核不通过失败')
       }

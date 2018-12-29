@@ -12,7 +12,7 @@ import { Table ,Row, Col,Tooltip, Button, Modal, Input, message, Spin } from 'an
 import { connect } from 'dva';
 const { TextArea } = Input;
 const columns = [
-  {
+ /* {
     title: '通用名称',
     width: 224,
     dataIndex: 'ctmmGenericName',
@@ -20,45 +20,45 @@ const columns = [
     render:(text)=>(
       <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
     )
-  },
+  },*/
   {
     title: '商品名',
-    width: 224,
+    width: 350,
     dataIndex: 'ctmmTradeName',
     className: 'ellipsis',
     render:(text)=>(
       <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
     )
   },
-  {
+ /* {
     title: '规格',
     width: 168,
     dataIndex: 'ctmmSpecification',
-  },
+  },*/
   {
     title: '剂型',
-    width: 168,
+    width: 90,
     dataIndex: 'ctmmDosageFormDesc',
   },
   {
     title: '包装规格',
-    width: 168,
+    width: 148,
     dataIndex: 'packageSpecification',
   },
   {
     title: '单位',
-    width: 112,
+    width: 90,
     dataIndex: 'replanUnit',
   },
   {
     title: '需求数量',
     dataIndex: 'demandQuantity',
-    width: 112,
+    width: 100,
   },
-  {
+ /* {
     title: '价格',
     dataIndex: 'drugPrice',
-    width: 112,
+    width: 100,
     render: (text,reocrd) =>{
       return text === undefined || text === null ? '0': text
     }
@@ -67,10 +67,10 @@ const columns = [
     title: '金额',
     dataIndex: 'totalPrice',
     width: 168,
-  },
+  },*/
   {
     title: '生产厂家',
-    width: 224,
+    width: 200,
     dataIndex: 'ctmmManufacturerName',
     className: 'ellipsis',
     render:(text)=>(
@@ -79,7 +79,7 @@ const columns = [
   },
   {
     title: '供应商',
-    width: 224,
+    width: 200,
     dataIndex: 'supplierName',
     className: 'ellipsis',
     render:(text)=>(
@@ -88,7 +88,7 @@ const columns = [
   },
   {
     title: '批准文号',
-    width: 224,
+    width: 200,
     dataIndex: 'approvalNo',
   },
 ];
@@ -237,7 +237,7 @@ class PlanCheckDetail extends PureComponent{
                 </div>
               </Col>
               <Col span={8}>
-                <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
+                <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-6">
                     <label>发起时间</label>
                 </div>
                 <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18">
@@ -246,7 +246,7 @@ class PlanCheckDetail extends PureComponent{
                 </div>
               </Col>
               <Col span={8}>
-                <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
+                <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-6">
                     <label>联系电话</label>
                 </div>
                 <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18">
@@ -256,7 +256,7 @@ class PlanCheckDetail extends PureComponent{
             </Row>
             <Row>
               <Col span={8}>
-                <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
+                <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-6">
                     <label>收货地址</label>
                 </div>
                 <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18">
@@ -272,7 +272,7 @@ class PlanCheckDetail extends PureComponent{
                 </div>
               </Col>
               <Col span={8}>
-                <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
+                <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-6">
                     <label>审核时间</label>
                 </div>
                 <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18">

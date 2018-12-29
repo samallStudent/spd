@@ -232,6 +232,7 @@ export function batchAudit(options) {
     body: options
   })
 }
+//锁定审核通过
 export function batchThroughAuditLock(options) {
   return request(`${_local}/a/roomrecall/batchThroughAuditLock`,{
     method: 'POST',
@@ -239,7 +240,7 @@ export function batchThroughAuditLock(options) {
     body: options
   })
 }
- // 审核不通过
+ // 召回审核不通过
 export function reject(options) {
   return request(`${_local}/a/roomrecall/reject`,{
     method: 'POST',
@@ -247,9 +248,9 @@ export function reject(options) {
     body: options
   })
 }
-//药房锁定审核不通过
-export function cancelLock(options) {
-  return request(`${_local}/a/roomrecall/cancelLock`,{
+//药房锁定 审核不通过
+export function rejectLock(options) {
+  return request(`${_local}/a/roomrecall/rejectLock`,{
     method: 'POST',
     type: 'formData',
     body: options
