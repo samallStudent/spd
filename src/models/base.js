@@ -197,6 +197,17 @@ export default {
         message.error(data.msg);
       }
     },
+    
+     //出库单管理 - 申领部门 - 严峻的接口修改
+     *findAllDeptsList({callback, payload}, {call}) {
+      const data = yield call(outStorageService.findAllDeptsList, payload);
+      if(data.code === 200 && data.msg === 'success') {
+        callback && callback(data.data);
+      }else {
+        message.error(data.msg);
+      }
+    },
+
     //药品申领出库 - 新建出库保存
     *confirmOutStore({payload, callback}, {call}) {
       const data = yield call(outStorageService.confirmOutStore, payload);

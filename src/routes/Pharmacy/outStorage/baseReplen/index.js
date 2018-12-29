@@ -173,7 +173,7 @@ class SearchFormWrapper extends PureComponent {
     //   }
     // });
     this.props.formProps.dispatch({
-      type: 'base/findAllDepts',
+      type: 'base/findAllDeptsList',
       callback: (data) => {
         this.setState({
           dept: data

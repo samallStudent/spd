@@ -137,6 +137,15 @@ export function findAllDepts(options) {
   })
 }
 
+//出库单管理 - 申领下拉框 严峻的接口修改
+export function findAllDeptsList(options) {
+  return request(`${_local}/a/common/outstore/findAllDeptList`, {
+    method: 'GET',
+    type: 'formData',
+    body: options
+  })
+}
+
 //出库单新建出库单保存
 export function confirmOutStore(options) {
   return request(`${_local}/a/common/outstore/confirmOutStore`,{
