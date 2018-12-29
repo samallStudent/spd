@@ -3,7 +3,7 @@
  */
 import React, { Component } from 'react';
 
-import { Row, Col, Icon, message, Spin } from 'antd';
+import { Row, Col, Icon, message, Spin, Tooltip } from 'antd';
 
 import {connect} from 'dva';
 
@@ -227,7 +227,11 @@ class Workplace extends Component {
                 >
                   <div className={S['card-item-info']}>
                     <div className={S['item-odd-status']}>
-                      <span className={S['item-odd']}>{item.numberNo}</span>
+                      <span className={S['item-odd']}>
+                        <Tooltip title={item.numberNo} placement='bottom'>
+                          {item.numberNo}
+                        </Tooltip>
+                      </span>
                       <span className={S['item-status']}>{item.statusName}</span>
                     </div>
                     <div className={S['item-module-date']}>

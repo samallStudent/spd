@@ -119,12 +119,12 @@ class SearchForm extends PureComponent{
             </FormItem>
           </Col>
           <Col span={8}>
-            <FormItem {...formItemLayout} label={'商品名/通用名'}>
+            <FormItem {...formItemLayout} label={'商品名'}>
               {
                 getFieldDecorator(`hisDrugCodeList`)(
                   <FetchSelect
                     allowClear={true}
-                    placeholder='通用名/商品名'
+                    placeholder='商品名'
                     query={{queryType: 3}}
                     url={common.QUERY_DRUG_BY_LIST}
                   />
@@ -219,7 +219,7 @@ class NearlyEffective extends PureComponent {
         title: '库存',
         dataIndex: 'totalQuantity',
         width: 90
-      }, {
+      },/* {
         title: '通用名',
         dataIndex: 'ctmmGenericName',
         width: 200,
@@ -227,19 +227,19 @@ class NearlyEffective extends PureComponent {
         render: (text) => (
           <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
         )
-      }, {
+      }, */{
         title: '商品名',
         dataIndex: 'ctmmTradeName',
-        width: 200,
+        width: 350,
         className: 'ellipsis',
         render: (text) => (
           <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
         )
-      }, {
+      }, /*{
         title: '规格',
         dataIndex: 'ctmmSpecification',
         width: 128,
-      }, {
+      }, */{
         title: '生产厂家',
         dataIndex: 'ctmmManufacturerName',
         width: 200,
@@ -258,11 +258,11 @@ class NearlyEffective extends PureComponent {
       }, {
         title: '生产日期',
         dataIndex: 'productDate',
-        width: 128,
+        width: 118,
       }, {
         title: '有效期至',
         dataIndex: 'validEndDate',
-        width: 128,
+        width: 118,
       }, {
         title: '包装规格',
         dataIndex: 'packageSpecification',
@@ -279,15 +279,15 @@ class NearlyEffective extends PureComponent {
         render:(text)=>(
             <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
         )
-      }, {
-        title: '药品编号',
-        dataIndex: 'hisDrugCode',
-        width: 120,
-      }, {
+      },  {
         title: '批准文号',
         dataIndex: 'approvalNo',
         width: 120,
-      }
+      },{
+            title: '药品编号',
+            dataIndex: 'hisDrugCode',
+            width: 120,
+        },
     ];
     const {query} = this.state;
     return (

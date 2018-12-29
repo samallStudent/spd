@@ -38,19 +38,19 @@ const formRemarkLayout = {
 };
 const modalColumns = [
   {
-    title: '通用名称',
-    dataIndex: 'ctmmGenericName',
-    width: 224,
-    className: 'ellipsis',
-    render: (text) => (
-      <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
-    )
+      title: '商品名',
+      width: 350,
+      dataIndex: 'ctmmTradeName',
+      className: 'ellipsis',
+      render: (text) => (
+          <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+      )
   },
-  {
+ /* {
     title: '规格',
     dataIndex: 'ctmmSpecification',
     width: 168,
-  },
+  },*/
   {
     title: '生产批号',
     width: 168,
@@ -58,18 +58,18 @@ const modalColumns = [
   },
   {
     title: '生产日期',
-    width: 168,
+    width: 118,
     dataIndex: 'productDate',
   },
   {
     title: '有效期至',
-    width: 168,
+    width: 118,
     dataIndex: 'validEndDate',
   },
   {
     title: '剂型',
     dataIndex: 'ctmmDosageFormDesc',
-    width: 168,
+    width: 90,
   },
   {
     title: '包装单位',
@@ -79,12 +79,12 @@ const modalColumns = [
   {
     title: '批准文号',
     dataIndex: 'approvalNo',
-    width: 224,
+    width: 200,
   },
   {
     title: '生产厂家',
     dataIndex: 'ctmmManufacturerName',
-    width: 224,
+    width: 200,
     className:'ellipsis',
     render:(text)=>(
       <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
@@ -93,7 +93,7 @@ const modalColumns = [
   {
     title: '供应商',
     dataIndex: 'supplierName',
-    width: 224,
+    width: 200,
     className: 'ellipsis',
     render:(text)=>(
         <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
@@ -416,7 +416,7 @@ class AddRefund extends PureComponent{
         width: 112,
         dataIndex: 'unit',
       },
-      {
+      /*{
         title: '通用名称',
         width: 224,
         dataIndex: 'ctmmGenericName',
@@ -424,24 +424,24 @@ class AddRefund extends PureComponent{
         render:(text)=>(
           <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
         )
-      },
+      },*/
       {
         title: '商品名称',
-        width: 224,
+        width: 350,
         dataIndex: 'ctmmTradeName',
         className:'ellipsis',
         render:(text)=>(
           <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
         )
       },
-      {
+     /* {
         title: '规格',
         width: 168,
         dataIndex: 'ctmmSpecification',
-      },
+      },*/
       {
         title: '生产厂家',
-        width: 224,
+        width: 200,
         dataIndex: 'ctmmManufacturerName',
         className:'ellipsis',
         render:(text)=>(
@@ -455,17 +455,17 @@ class AddRefund extends PureComponent{
       },
       {
         title: '生产日期',
-        width: 168,
+        width: 118,
         dataIndex: 'productDate',
       },
       {
         title: '有效期至',
-        width: 168,
+        width: 118,
         dataIndex: 'validEndDate',
       },
       {
         title: '剂型',
-        width: 168,
+        width: 90,
         dataIndex: 'ctmmDosageFormDesc',
       },
       {
@@ -475,12 +475,12 @@ class AddRefund extends PureComponent{
       },
       {
         title: '批准文号',
-        width: 224,
+        width: 200,
         dataIndex: 'approvalNo',
       },
       {
         title: '供应商',
-        width: 224,
+        width: 200,
         dataIndex: 'supplierName',
         className: 'ellipsis',
         render:(text)=>(
@@ -569,12 +569,12 @@ class AddRefund extends PureComponent{
             <Form onSubmit={this.handleSearch}>
               <Row gutter={30}>
                 <Col span={8}>
-                  <FormItem label={`通用名/商品名`} {...formItemLayout}>
+                  <FormItem label={`商品名`} {...formItemLayout}>
                     {getFieldDecorator('hisDrugCodeList')(
                       <FetchSelect
                         style={{width: '100%'}}
                         allowClear
-                        placeholder='通用名/商品名'
+                        placeholder='商品名'
                         url={outStorage.QUERY_DRUG_BY_LIST}
                       />
                     )}

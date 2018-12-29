@@ -29,7 +29,7 @@ import {connect} from 'dva';
 //  };
 
 const columns = [
-  {
+ /* {
     title: '通用名',
     dataIndex: 'ctmmGenericName',
     width: 200,
@@ -40,19 +40,23 @@ const columns = [
         </span>  
       )
     }
-  }, {
+  }, */{
     title: '商品名',
     dataIndex: 'ctmmTradeName',
-    width: 200,
+    width: 350,
     className: 'ellipsis',
-    render:(text)=>(
-      <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
-    )
-  }, {
+        render: (text, record) => {
+            return (
+                <span>
+          <Link to={{pathname: `/drugStorage/stockMgt/stockInquiry/details/dCode=${record.drugCode}&bCode=${record.hisDrugCode}`}}>{text}</Link>
+        </span>
+            )
+        }
+  }, /*{
     title: '规格',
     dataIndex: 'ctmmSpecification',
     width: 168,
-  }, {
+  }, */{
     title: '生产厂家',
     dataIndex: 'ctmmManufacturerName',
     width: 200,

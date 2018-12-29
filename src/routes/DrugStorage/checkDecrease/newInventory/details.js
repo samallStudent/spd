@@ -570,11 +570,11 @@ class Details extends PureComponent {
           <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
         )
       },
-      {
+     /* {
         title: '规格',
         dataIndex: 'ctmmSpecification',
         width: 100,
-      },
+      },*/
       {
         title: '生产厂家',
         dataIndex: 'ctmmManufacturerName',
@@ -659,7 +659,7 @@ class Details extends PureComponent {
       {
         title: '生产日期',
         dataIndex: 'accountProductTime',
-        width: 148
+        width: 118
       },
       {
         title: '实际生产日期',
@@ -678,12 +678,12 @@ class Details extends PureComponent {
                   placeholder="请输入实际生产日期" 
                  /> : text
         },
-        width: 168
+        width: 118
       },
       {
         title: '有效期至',
         dataIndex: 'accountEndTime',
-        width: 158
+        width: 118
       },
       {
         title: '实际有效期至',
@@ -702,7 +702,7 @@ class Details extends PureComponent {
                   placeholder="请输入实际有效期至" 
                  /> : text
         },
-        width: 158
+        width: 118
       },
       {
         title: '单价',
@@ -722,7 +722,7 @@ class Details extends PureComponent {
       columns.push({
         title: '操作',
         dataIndex: 'action', 
-        width: 100,
+        width: 80,
         render: (text, record, i) => {
           if(record.id && record.checkDetailStatus === 1) {
             return <a onClick={()=>{
@@ -850,7 +850,7 @@ class Details extends PureComponent {
                   <FetchSelect
                     style={{width: '100%'}}
                     allowClear
-                    placeholder='通用名/商品名'
+                    placeholder='商品名'
                     url={common.QUERY_DRUG_BY_LIST}
                     cb={this.onSearch}
                   />

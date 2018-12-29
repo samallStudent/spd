@@ -132,8 +132,7 @@ class Putaway extends PureComponent{
       {
         title: '补登时间',
         width: 200,
-        dataIndex: 'createDate',
-        render:(text,record)=>text?text.substr(0,11):''
+        dataIndex: 'createDate'
       },
       {
         title: '审核人',
@@ -143,8 +142,7 @@ class Putaway extends PureComponent{
       {
         title: '审核时间',
         width: 200,
-        dataIndex: 'reviewDate',
-        render:(text,record)=>text?text.substr(0,11):''
+        dataIndex: 'reviewDate'
       }
     ];
     return (

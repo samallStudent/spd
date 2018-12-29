@@ -135,7 +135,7 @@ class ReplenishmentDetail extends PureComponent{
           payload:postData,
           callback:(data)=>{
             message.success('审核状态变更成功！');
-            this.props.history.push({pathname:"/pharmacy/supplementDoc/supplementDocCheck"});
+            this.props.history.push({pathname:"/purchase/supplementDoc/supplementDocCheck"});
             if(state === 1){
               this.setState({
                 checkLoading:false

@@ -106,6 +106,9 @@
 .item-odd {
   color: rgba(0, 0, 0, 0.6);
   font-family: Arial;
+  width: 70%;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 .item-odd, .item-status {
   font-size: 18px;

@@ -117,19 +117,19 @@ class Details extends PureComponent {
         width: 128
       },
       {
-        title: '通用名',
-        dataIndex: 'ctmmGenericName',
-        width: 168,
-        className: 'ellipsis',
-        render: (text) => (
-          <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
-        )
+          title: '商品名',
+          width: 350,
+          dataIndex: 'ctmmTradeName',
+          className: 'ellipsis',
+          render: (text) => (
+              <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+          )
       },
-      {
+     /* {
         title: '规格',
         dataIndex: 'ctmmSpecification',
         width: 110,
-      },
+      },*/
       {
         title: '生产厂家',
         dataIndex: 'ctmmManufacturerName',
@@ -177,22 +177,22 @@ class Details extends PureComponent {
       {
         title: '生产日期',
         dataIndex: 'accountProductTime',
-        width: 148,
+        width: 118,
       },
       {
         title: '实际生产日期',
         dataIndex: 'realProductTime',
-        width: 148,
+        width: 118,
       },
       {
         title: '有效期至',
         dataIndex: 'accountEndTime',
-        width: 148,
+        width: 118,
       },
       {
         title: '实际有效期至',
         dataIndex: 'validEndTime',
-        width: 148,
+        width: 118,
       },
       {
         title: '单价',
@@ -323,7 +323,7 @@ class Details extends PureComponent {
                   <FetchSelect
                     style={{width: '100%'}}
                     allowClear
-                    placeholder='通用名/商品名'
+                    placeholder='商品名'
                     url={common.QUERY_DRUG_BY_LIST}
                     cb={this.onSearch}
                   />

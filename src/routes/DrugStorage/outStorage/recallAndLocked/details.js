@@ -55,7 +55,7 @@ class RecallDetail extends PureComponent {
     render() {
 			const { detailsData, dataSource, spinning, btnLoading } = this.state;
 			const columns = [
-				{
+			/*	{
 					title: '通用名',
 					dataIndex: 'ctmmGenericName',
 					width: 160,
@@ -63,17 +63,17 @@ class RecallDetail extends PureComponent {
 					render: (text) => (
 						<Tooltip placement="topLeft" title={text}>{text}</Tooltip>
 					)
-				},
+				},*/
 				{
 					title: '商品名',
 					dataIndex: 'ctmmTradeName',
-					width: 160,
+					width: 350,
 					className: 'ellipsis',
 					render: (text) => (
 						<Tooltip placement="topLeft" title={text}>{text}</Tooltip>
 					)
 				},
-				{
+				/*{
 					title: '规格',
 					dataIndex: 'ctmmSpecification',
 					width: 120,
@@ -81,7 +81,7 @@ class RecallDetail extends PureComponent {
 					render: (text) => (
 							<Tooltip placement="topLeft" title={text}>{text}</Tooltip>
 					)
-				},
+				},*/
 				{
 					title: '剂型',
 					width:78,

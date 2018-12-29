@@ -179,19 +179,19 @@ class DetailsPutaway extends PureComponent{
         dataIndex: 'replanUnit'
       },
       {
-        title: '通用名',
-        width: 224,
-        dataIndex: 'ctmmGenericName',
-        className: 'ellipsis',
-        render:(text)=>(
-          <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
-        )
+          title: '商品名',
+          dataIndex: 'ctmmTradeName',
+          width: 350,
+          className: 'ellipsis',
+          render:(text)=>(
+              <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+          )
       },
-      {
+     /* {
         title: '规格',
         width: 168,
         dataIndex: 'ctmmSpecification',
-      },
+      },*/
       {
         title: '包装规格',
         width: 168,
@@ -213,12 +213,12 @@ class DetailsPutaway extends PureComponent{
       },
       {
         title: '生产日期',
-        width: 168,
+        width: 118,
         dataIndex: 'realProductTime',
       },
       {
         title: '有效期至',
-        width: 168,
+        width: 118,
         dataIndex: 'realValidEndDate',
       }
     ];
@@ -254,15 +254,19 @@ class DetailsPutaway extends PureComponent{
         dataIndex: 'replanUnit'
       },
       {
-        title: '通用名',
-        width: 168,
-        dataIndex: 'ctmmGenericName'
+          title: '商品名',
+          dataIndex: 'ctmmTradeName',
+          width: 350,
+          className: 'ellipsis',
+          render:(text)=>(
+              <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+          )
       },
-      {
+     /* {
         title: '规格',
         width: 168,
         dataIndex: 'ctmmSpecification',
-      },
+      },*/
       {
         title: '包装规格',
         width: 168,
@@ -270,7 +274,7 @@ class DetailsPutaway extends PureComponent{
       },
       {
         title: '生产厂家',
-        width: 224,
+        width: 200,
         dataIndex: 'ctmmManufacturerName',
         className:'ellipsis',
         render:(text)=>(
@@ -284,12 +288,12 @@ class DetailsPutaway extends PureComponent{
       },
       {
         title: '生产日期',
-        width: 168,
+        width: 118,
         dataIndex: 'realProductTime',
       },
       {
         title: '有效期至',
-        width: 168,
+        width: 118,
         dataIndex: 'realValidEndDate',
       }
     ];

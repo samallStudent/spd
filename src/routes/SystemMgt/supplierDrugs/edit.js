@@ -142,14 +142,14 @@ class EditDrugDirectory extends PureComponent{
             <Button type='primary' onClick={this.onSubmit}>保存</Button>
           </div>
           <Row>
-            <Col span={8}>
+           {/* <Col span={8}>
               <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
                 <label>通用名</label>
               </div>
               <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18">
                 <div className='ant-form-item-control'>{fillBackData?fillBackData.ctmmGenericName:''}</div>
               </div>
-            </Col>
+            </Col>*/}
             <Col span={8}>
               <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
                 <label>商品名</label>
@@ -168,14 +168,14 @@ class EditDrugDirectory extends PureComponent{
             </Col>
           </Row>
           <Row>
-            <Col span={8}>
+            {/*<Col span={8}>
               <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
                 <label>规格</label>
               </div>
               <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18">
                 <div className='ant-form-item-control'>{fillBackData?fillBackData.ctmmSpecification:''}</div>
               </div>
-            </Col>
+            </Col>*/}
             <Col span={8}>
               <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
                   <label>包装规格</label>

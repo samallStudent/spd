@@ -199,23 +199,23 @@ class NewAddGoodsAdjust extends PureComponent{
     const {visible, value, query, dataSource, okLoading, submitLoading} = this.state;
     const columns = [
       {
-        title: '通用名',
-		    width: 224,
-        dataIndex: 'ctmmGenericName',
-        className: 'ellipsis',
-        render: (text) => (
-          <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
-        )
+          title: '商品名',
+          width: 350,
+          dataIndex: 'ctmmTradeName',
+          className: 'ellipsis',
+          render: (text) => (
+              <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+          )
       },
-      {
+      /*{
         title: '规格',
 		    width: 168,
         dataIndex: 'ctmmSpecification',
-      },
+      },*/
       {
         title: '生产厂家',
         dataIndex: 'ctmmManufacturerName',
-		    width: 224,
+		    width: 200,
         className:'ellipsis',
         render:(text)=>(
           <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
@@ -312,7 +312,7 @@ class NewAddGoodsAdjust extends PureComponent{
         title: '货位类型',
 		    width: 168,
         dataIndex: 'positionTypeName'
-      },{
+      },/*{
         title: '通用名',
 		    width: 224,
         dataIndex: 'ctmmGenericName',
@@ -320,21 +320,21 @@ class NewAddGoodsAdjust extends PureComponent{
         render: (text) => (
           <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
         )
-      },{
+      },*/{
         title: '商品名',
-		    width: 224,
+		    width: 350,
         dataIndex: 'ctmmTradeName',
         className: 'ellipsis',
         render: (text) => (
           <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
         )
-      },{
+      },/*{
         title: '规格',
 		    width: 168,
         dataIndex: 'ctmmSpecification',
-      },{
+      },*/{
         title: '剂型',
-		    width: 168,
+		    width: 90,
         dataIndex: 'ctmmDosageFormDesc',
       },{
         title: '包装规格',
@@ -350,11 +350,11 @@ class NewAddGoodsAdjust extends PureComponent{
         dataIndex: 'replanUnit'
       },{
         title: '生产日期',
-		    width: 168,
+		    width: 118,
         dataIndex: 'productDate'
       },{
         title: '有效期至',
-		    width: 168,
+		    width: 118,
         dataIndex: 'validEndDate'
       },{
         title: '数量',
@@ -363,14 +363,14 @@ class NewAddGoodsAdjust extends PureComponent{
       },{
         title: '生产厂家',
         dataIndex: 'ctmmManufacturerName',
-        width: 224,
+        width: 200,
         className:'ellipsis',
         render:(text)=>(
           <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
         )
       },{
         title: '批准文号',
-		    width: 224,
+		    width: 200,
         dataIndex: 'approvalNo'
       }
     ];
@@ -447,7 +447,7 @@ class NewAddGoodsAdjust extends PureComponent{
                 allowClear
                 value={value}
                 style={{ width: 248 }}
-                placeholder='通用名/商品名'
+                placeholder='商品名'
                 url={goodsAdjust.QUERY_DRUG_BY_LIST}
                 cb={(value, option) => {
                   let {query} = this.state;

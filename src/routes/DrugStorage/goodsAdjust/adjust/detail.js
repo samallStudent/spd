@@ -12,19 +12,19 @@ import {Table ,Row, Col, Tooltip} from 'antd';
 import {connect} from 'dva';
 const columns = [
   {
-    title: '通用名',
-    dataIndex: 'ctmmGenericName',
-		width: 158,
-    className: 'ellipsis',
-    render: (text) => (
-      <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
-    )
+      title: '商品名',
+      width: 350,
+      dataIndex: 'ctmmTradeName',
+      className: 'ellipsis',
+      render: (text) => (
+          <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+      )
   },
-  {
+  /*{
     title: '规格',
 		width: 100,
     dataIndex: 'ctmmSpecification',
-  },
+  },*/
   {
     title: '生产厂家',
     dataIndex: 'ctmmManufacturerName',
@@ -116,7 +116,7 @@ class ReplenishmentDetail extends PureComponent{
           <h3>单据信息</h3>
           <Row>
             <Col span={8}>
-              <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
+              <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-6">
                 <label>移库单号</label>
               </div>
               <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18">
@@ -142,7 +142,7 @@ class ReplenishmentDetail extends PureComponent{
           </Row>
           <Row>
             <Col span={8}>
-              <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
+              <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-6">
                   <label>移库时间</label>
               </div>
               <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18">

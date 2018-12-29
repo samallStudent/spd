@@ -126,22 +126,22 @@ class DetailsPickSoldOut extends PureComponent{
     let {detailsData ,loading, activeKey, leftDataSource, rightDataSource, checkLoading} = this.state;
     const columns = [
       {
-        title: '通用名称',
-        dataIndex: 'ctmmGenericName',
-        width: 224,
-        className: 'ellipsis',
-        render: (text) => (
-          <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
-        )
+          title: '商品名',
+          width: 350,
+          dataIndex: 'ctmmTradeName',
+          className: 'ellipsis',
+          render: (text) => (
+              <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+          )
       },
-      {
+      /*{
         title: '规格',
         dataIndex: 'ctmmSpecification',
         width: 168
-      },
+      },*/
       {
         title: '生产厂家',
-        width: 224,
+        width: 200,
         dataIndex: 'ctmmManufacturerName',
         className:'ellipsis',
         render:(text)=>(
@@ -155,12 +155,12 @@ class DetailsPickSoldOut extends PureComponent{
       },
       {
         title: '生产日期',
-        width: 168,
+        width: 118,
         dataIndex: 'productDate'
       },
       {
         title: '有效期至',
-        width: 168,
+        width: 118,
         dataIndex: 'validEndDate'
       },
       {
@@ -253,7 +253,7 @@ class DetailsPickSoldOut extends PureComponent{
         </Row>
         <Row>
           <Col span={8}>
-            <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
+            <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-6">
               <label>申领部门</label>
             </div>
             <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18">
@@ -269,7 +269,7 @@ class DetailsPickSoldOut extends PureComponent{
             </div>
           </Col>
           <Col span={8}>
-            <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
+            <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-6">
               <label>拣货时间</label>
             </div>
             <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18">

@@ -103,7 +103,7 @@ class SearchForm extends PureComponent{
               }
             </FormItem>
           </Col>
-          <Col span={8} style={{ display: display }}>
+         {/* <Col span={8} style={{ display: display }}>
             <FormItem {...formItemLayout} label={`规格`}>
               {
                 getFieldDecorator(`ctmmSpecification`,{
@@ -113,7 +113,7 @@ class SearchForm extends PureComponent{
                 )
               }
             </FormItem>
-          </Col>
+          </Col>*/}
           <Col span={8} style={{ display: display }}>
             <FormItem {...formItemLayout} label={`状态`}>
               {
@@ -159,7 +159,7 @@ class SearchForm extends PureComponent{
 const WrappSearchForm = Form.create()(SearchForm);
 
 const columns = [
-  {
+  /*{
     title: '通用名称',
     dataIndex: 'ctmmGenericName',
     width: 224,
@@ -167,25 +167,25 @@ const columns = [
     render:(text)=>(
       <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
     )
-  },
+  },*/
   {
     title: '商品名称',
     dataIndex: 'ctmmTradeName',
-    width: 224,
+    width: 350,
     className: 'ellipsis',
     render:(text)=>(
       <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
     )
   },
-  {
+  /*{
     title: '规格',
     dataIndex: 'ctmmSpecification',
     width: 168,
-  },
+  },*/
   {
     title: '剂型',
     dataIndex: 'ctmmDosageFormDesc',
-    width: 168,
+    width: 90,
   },
   {
     title: '包装规格',
@@ -197,16 +197,17 @@ const columns = [
     dataIndex: 'replanUnit',
     width: 112
   },
-  {
-    title: '药品编码',
-    dataIndex: 'hisDrugCode',
-    width: 224
-  },
+
   {
     title: '批准文号',
     dataIndex: 'approvalNo',
     width: 224,
-  }
+  },
+    {
+        title: '药品编码',
+        dataIndex: 'hisDrugCode',
+        width: 200
+    }
 ]
 
 class DrugDirectory extends PureComponent{

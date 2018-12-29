@@ -172,7 +172,7 @@ class BaseMgt extends PureComponent{
   render(){
     const { medalQuery, info, visible, okLoading, value, query, editingKey } = this.state;
     const columns = [
-      {
+     /* {
         title: '通用名称',
         fixed: 'left',
         dataIndex: 'ctmmGenericName',
@@ -181,21 +181,21 @@ class BaseMgt extends PureComponent{
         render:(text)=>(
           <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
         )
-      },
+      },*/
       {
         title: '商品名称',
         dataIndex: 'ctmmTradeName',
-        width: 224,
+        width: 350,
         className: 'ellipsis',
         render:(text)=>(
           <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
         )
       },
-      {
+     /* {
         title: '规格',
         dataIndex: 'ctmmSpecification',
         width: 168,
-      },
+      },*/
       {
         title: '剂型',
         dataIndex: 'ctmmDosageFormDesc',
@@ -204,7 +204,7 @@ class BaseMgt extends PureComponent{
       {
         title: '单位',
         dataIndex: 'replanUnit',
-        width: 112,
+        width: 100,
       },
       {
         title: '包装规格',
@@ -214,12 +214,12 @@ class BaseMgt extends PureComponent{
       {
         title: '批准文号',
         dataIndex: 'approvalNo',
-        width: 224,
+        width: 200,
       },
       {
         title: '生产厂家',
         dataIndex: 'ctmmManufacturerName',
-        width: 224,
+        width: 200,
         className: 'ellipsis',
         render:(text)=>(
           <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
@@ -262,7 +262,7 @@ class BaseMgt extends PureComponent{
       }
     ]
     const modalColumns = [
-      {
+      /*{
         title: '通用名',
         dataIndex: 'ctmmGenericName',
         width: 224,
@@ -270,7 +270,7 @@ class BaseMgt extends PureComponent{
         render:(text)=>(
           <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
         )
-      },{
+      },*/{
         title: '商品名',
         dataIndex: 'ctmmTradeName',
         width: 224,
@@ -278,14 +278,14 @@ class BaseMgt extends PureComponent{
         render:(text)=>(
           <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
         )
-      },{
+      },/*{
         title: '规格',
         dataIndex: 'ctmmSpecification',
         width: 168,
-      },{
+      },*/{
         title: '剂型',
         dataIndex: 'ctmmDosageFormDesc',
-        width: 168,
+        width: 90,
       },{
         title: '包装规格',
         dataIndex: 'packageSpecification',
@@ -293,7 +293,7 @@ class BaseMgt extends PureComponent{
       },{
         title: '生产厂家',
         dataIndex: 'ctmmManufacturerName',
-        width: 224,
+        width: 200,
         className: 'ellipsis',
         render:(text)=>(
           <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
@@ -334,7 +334,7 @@ class BaseMgt extends PureComponent{
                 allowClear
                 value={value}
                 style={{ width: 248 }}
-                placeholder='通用名/商品名'
+                placeholder='商品名'
                 url={goodsAdjust.QUERY_DRUG_BY_LIST}
                 cb={this.setQuery}
               />

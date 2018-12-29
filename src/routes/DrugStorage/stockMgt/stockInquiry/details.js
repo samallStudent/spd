@@ -80,14 +80,14 @@ class Details extends PureComponent{
               <div className="fullCol-fullChild">
                 <h3>基本信息</h3>
                 <Row>
-                    <Col span={8}>
+                   {/* <Col span={8}>
                         <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
                             <label>通用名</label>
                         </div>
                         <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18">
                             <div className='ant-form-item-control'>{info.genericName || ''}</div>
                         </div>
-                    </Col>
+                    </Col>*/}
                     <Col span={8}>
                         <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
                             <label>商品名</label>
@@ -96,14 +96,14 @@ class Details extends PureComponent{
                             <div className='ant-form-item-control'>{info.tradeName || ''}</div>
                         </div>
                     </Col>
-                    <Col span={8}>
+                    {/*<Col span={8}>
                         <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
                             <label>规格</label>
                         </div>
                         <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18">
                             <div className='ant-form-item-control'>{info.specification || ''}</div>
                         </div>
-                    </Col>
+                    </Col>*/}
                     <Col span={8}>
                         <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
                             <label>剂型</label>
@@ -113,7 +113,7 @@ class Details extends PureComponent{
                         </div>
                     </Col>
                     <Col span={8}>
-                        <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
+                        <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-6">
                             <label>包装规格</label>
                         </div>
                         <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18">
@@ -121,7 +121,7 @@ class Details extends PureComponent{
                         </div>
                     </Col>
                     <Col span={8}>
-                        <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
+                        <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-6">
                             <label>生产厂家</label>
                         </div>
                         <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18">
@@ -129,7 +129,7 @@ class Details extends PureComponent{
                         </div>
                     </Col>
                     <Col span={8}>
-                        <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
+                        <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-6">
                             <label>批准文号</label>
                         </div>
                         <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18">

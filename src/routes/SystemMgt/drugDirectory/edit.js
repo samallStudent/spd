@@ -129,19 +129,19 @@ class EditDrugDirectory extends PureComponent{
             <Button loading={saveLoading} onClick={this.onSave} type="primary">保存</Button>
           </div>
           <Row gutter={30}>
-            <Col span={8}>
+            {/*<Col span={8}>
               <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
                 <label>通用名</label>
               </div>
               <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-19">
                 <div className='ant-form-item-control'>{ baseData.ctmmGenericName ? baseData.ctmmGenericName: ''  }</div>
               </div>
-            </Col>
+            </Col>*/}
             <Col span={8}>
-              <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
+              <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-6">
                 <label>商品名</label>
               </div>
-              <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-19">
+              <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-17">
                 <div className='ant-form-item-control'>{ baseData.ctmmTradeName ? baseData.ctmmTradeName: ''}</div>
               </div>
             </Col>
@@ -155,14 +155,14 @@ class EditDrugDirectory extends PureComponent{
             </Col>
           </Row>
           <Row gutter={30}>
-            <Col span={8}>
+            {/*<Col span={8}>
               <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
                 <label>规格</label>
               </div>
               <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-19">
                 <div className='ant-form-item-control'>{ baseData.ctmmSpecification ? baseData.ctmmSpecification: ''}</div>
               </div>
-            </Col>
+            </Col>*/}
             <Col span={8}>
               <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
                   <label>包装规格</label>
@@ -199,20 +199,20 @@ class EditDrugDirectory extends PureComponent{
             </Col>
             <Col span={8}>
               <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
-                  <label>药品编码</label>
-              </div>
-              <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-19">
-                <div className='ant-form-item-control'>{ baseData.hisDrugCode ? baseData.hisDrugCode: ''}</div>
-              </div>
-            </Col>
-            <Col span={8}>
-              <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
                   <label>状态</label>
               </div>
               <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-19">
                 <div className='ant-form-item-control'>{ baseData.statusName ? baseData.statusName: ''}</div>
               </div>
             </Col>
+              <Col span={8}>
+                  <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-6">
+                      <label>药品编码</label>
+                  </div>
+                  <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-17">
+                      <div className='ant-form-item-control'>{ baseData.hisDrugCode ? baseData.hisDrugCode: ''}</div>
+                  </div>
+              </Col>
           </Row>
         </div>
         <div className='detailCard'>

@@ -231,7 +231,7 @@ class PslistCheck extends PureComponent{
         dataIndex: 'unit',
         width: 112
       },
-      {
+      /*{
         title: '通用名称',
         dataIndex: 'ctmmGenericName',
         width: 224,
@@ -239,25 +239,25 @@ class PslistCheck extends PureComponent{
         render:(text)=>(
           <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
         )
-      },
+      },*/
       {
         title: '商品名',
         dataIndex: 'ctmmTradeName',
-        width: 224,
+        width: 350,
         className: 'ellipsis',
         render:(text)=>(
           <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
         )
       },
-      {
+      /*{
         title: '规格',
         dataIndex: 'ctmmSpecification',
         width: 168,
-      },
+      },*/
       {
         title: '剂型',
         dataIndex: 'ctmmDosageFormDesc',
-        width: 168
+        width: 90
       },
       {
         title: '包装规格',
@@ -276,7 +276,7 @@ class PslistCheck extends PureComponent{
         render:(text)=>(
           <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
         ),
-        width: 224
+        width: 200
       },
       {
         title: '生产批号',
@@ -286,12 +286,12 @@ class PslistCheck extends PureComponent{
       {
         title: '生产日期',
         dataIndex: 'realProductTime',
-        width: 168
+        width: 118
       },
       {
         title: '有效期至',
         dataIndex: 'realValidEndDate',
-        width: 168
+        width: 118
       },
       {
         title: '供应商',

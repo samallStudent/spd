@@ -13,7 +13,7 @@ const Option = Select.Option;
 const {Search} = Input;
 
 const modalColumns = [
-  {
+  /*{
     title: '通用名',
     width: 224,
     dataIndex: 'ctmmGenericName',
@@ -21,24 +21,24 @@ const modalColumns = [
     render: (text) => (
       <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
     )
-  },
+  },*/
   {
     title: '商品名',
-    width: 224,
+    width: 350,
     dataIndex: 'ctmmTradeName',
     className: 'ellipsis',
     render: (text) => (
       <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
     )
   },
-  {
+  /*{
     title: '规格',
     width: 168,
     dataIndex: 'ctmmSpecification',
-  },
+  },*/
   {
     title: '剂型',
-    width: 168,
+    width: 90,
     dataIndex: 'ctmmDosageFormDesc',
   },
   {
@@ -48,7 +48,7 @@ const modalColumns = [
   },
   {
     title: '生产厂家',
-    width: 224,
+    width: 200,
     dataIndex: 'ctmmManufacturerName',
     className:'ellipsis',
     render:(text)=>(
@@ -57,7 +57,7 @@ const modalColumns = [
   },
   {
     title: '批准文号',
-    width: 224,
+    width: 200,
     dataIndex: 'approvalNo',
   }
 ];
@@ -238,7 +238,7 @@ class AddOutput extends PureComponent{
         width: 112,
         dataIndex: 'replanUnit',
       },
-      {
+     /* {
         title: '通用名',
         width: 224,
         dataIndex: 'ctmmGenericName',
@@ -246,24 +246,24 @@ class AddOutput extends PureComponent{
         render: (text) => (
           <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
         )
-      },
+      },*/
       {
         title: '商品名',
-        width: 224,
+        width: 350,
         dataIndex: 'ctmmTradeName',
         className: 'ellipsis',
         render: (text) => (
           <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
         )
       },
-      {
+      /*{
         title: '规格',
         width: 168,
         dataIndex: 'ctmmSpecification'
-      },
+      },*/
       {
         title: '剂型',
-        width: 168,
+        width: 90,
         dataIndex: 'ctmmDosageFormDesc',
       },
       {
@@ -278,17 +278,17 @@ class AddOutput extends PureComponent{
       },
       {
         title: '生产日期',
-        width: 168,
+        width: 118,
         dataIndex: 'productDate'
       },
       {
         title: '有效期至',
-        width: 168,
+        width: 118,
         dataIndex: 'validEndDate'
       },
       {
         title: '生产厂家',
-        width: 224,
+        width: 200,
         dataIndex: 'ctmmManufacturerName',
         className:'ellipsis',
         render:(text)=>(
@@ -297,7 +297,7 @@ class AddOutput extends PureComponent{
       },
       {
         title: '供应商',
-        width: 224,
+        width: 200,
         dataIndex: 'supplierName',
         className: 'ellipsis',
         render:(text)=>(
@@ -306,7 +306,7 @@ class AddOutput extends PureComponent{
       },
       {
         title: '批准文号',
-        width:224,
+        width:200,
         dataIndex: 'approvalNo',
       }
     ];
@@ -414,7 +414,7 @@ class AddOutput extends PureComponent{
                 query.detail.paramName = value;
                 this.setState({query});
               }}  
-              placeholder='通用名/商品名' 
+              placeholder='商品名'
               style={{width:200}}
             />
           </Row>

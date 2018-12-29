@@ -140,7 +140,7 @@ class SearchForm extends PureComponent{
 const WrappSearchForm = Form.create()(SearchForm);
 
 const columns = [
-  {
+ /* {
     title: '通用名称',
     dataIndex: 'ctmmGenericName',
     width: 200,
@@ -148,21 +148,21 @@ const columns = [
     render: (text) => (
       <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
     ),
-  },
+  },*/
   {
     title: '商品名称',
     dataIndex: 'ctmmTradeName',
-    width: 200,
+    width: 350,
     className: 'ellipsis',
     render: (text) => (
       <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
     )
   },
-  {
+ /* {
     title: '规格',
     dataIndex: 'ctmmSpecification',
     width: 148,
-  },
+  },*/
   {
     title: '剂型',
     dataIndex: 'ctmmDosageFormDesc',
@@ -178,16 +178,13 @@ const columns = [
     dataIndex: 'replanUnit',
     width: 90
   },
-  {
-    title: '药品编码',
-    dataIndex: 'hisDrugCode',
-    width: 158
-  },
+
   {
     title: '批准文号',
     dataIndex: 'approvalNo',
     width: 158,
   }
+
 ]
 
 class DrugDirectory extends PureComponent{
@@ -377,6 +374,11 @@ class DrugDirectory extends PureComponent{
           </span>
         }
       },
+        {
+            title: '药品编码',
+            dataIndex: 'hisDrugCode',
+            width: 158
+        },
     ];
     let query = {...this.props.base.queryConditons};
     delete query.key;
@@ -464,7 +466,7 @@ class DrugDirectory extends PureComponent{
           <Button key="back"  type='default' onClick={()=>this.setState({ addVisible: false })}>取消</Button>
         ]}
         >
-        <Search placeholder='通用名/商品名/生产厂家' style={{ width: 256 }}
+        <Search placeholder='商品名/生产厂家' style={{ width: 256 }}
           onSearch={(e)=>this.searchModalInsert(e)}/>
         <RemoteTable 
           ref='modalTableInsert'

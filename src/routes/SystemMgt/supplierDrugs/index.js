@@ -129,7 +129,7 @@ class SearchForm extends PureComponent{
                 })(
                   <FetchSelect
                     allowClear={true}
-                    placeholder='通用名/商品名'
+                    placeholder='商品名'
                     query={{queryType: 3}}
                     url={common.QUERY_DRUG_BY_LIST}
                   />
@@ -172,7 +172,7 @@ const columns = [
         <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
     )
   },
-  {
+ /* {
     title: '通用名',
     dataIndex: 'ctmmGenericName',
     width: 224,
@@ -180,11 +180,11 @@ const columns = [
     render:(text)=>(
       <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
     )
-  },
+  },*/
   {
     title: '商品名',
     dataIndex: 'ctmmTradeName',
-    width: 224,
+    width: 350,
     className: 'ellipsis',
     render:(text)=>(
       <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
@@ -193,13 +193,13 @@ const columns = [
   {
     title: '生产厂家',
     dataIndex: 'ctmmManufacturerName',
-    width: 224,
+    width: 200,
     className: 'ellipsis',
     render:(text)=>(
       <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
     )
   },
-  {
+  /*{
     title: '规格',
     dataIndex: 'ctmmSpecification',
     width: 224,
@@ -207,7 +207,7 @@ const columns = [
     render:(text)=>(
       <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
     )
-  },
+  },*/
   {
     title: '采购方式',
     dataIndex: 'purchaseTypeName',
@@ -216,12 +216,12 @@ const columns = [
   {
     title: '采购单位',
     dataIndex: 'replanUnit',
-    width: 112,
+    width: 100,
   },
   {
     title: '价格',
     dataIndex: 'drugPrice',
-    width: 112,
+    width: 100,
     render: (text,record) =>{
       return text === undefined || text == null ? '0.00': text.toFixed(2);
     }

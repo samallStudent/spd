@@ -121,8 +121,12 @@ class StockInquiry extends PureComponent {
         dataIndex: 'ctmmTradeName',
         width: 350,
         className: 'ellipsis',
-        render:(text)=>(
-          <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+        render:(text, record)=>(
+          <span>
+              <Link to={{pathname: `${match.path}/details/${record.deptCode}/${record.drugCode}/${record.hisDrugCode}`}}>
+                <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+              </Link>
+          </span>
         )
       }, /*{
         title: '规格',

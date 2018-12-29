@@ -330,7 +330,7 @@ class PslistAdd extends PureComponent{
     let {loading, activeKey, expandedRowKeys, btnShow, detailInfo, checkLoading} = this.state;
     let {unVerfiyList, verifyList} = detailInfo;
     let columnsUnVerfiy = [
-      {
+     /* {
         title: '通用名称',
         dataIndex: 'ctmmGenericName',
         width: 224,
@@ -338,21 +338,21 @@ class PslistAdd extends PureComponent{
         render:(text)=>(
           <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
         )
-      },
+      },*/
       {
         title: '商品名',
         dataIndex: 'ctmmTradeName',
-        width: 224,
+        width:350,
         className: 'ellipsis',
         render:(text)=>(
           <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
         )
       },
-      {
+      /*{
         title: '规格',
         dataIndex: 'ctmmSpecification',
         width: 168,
-      },
+      },*/
       {
         title: '生产厂家',
         dataIndex: 'ctmmManufacturerName',
@@ -360,7 +360,7 @@ class PslistAdd extends PureComponent{
         render:(text)=>(
           <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
         ),
-        width: 224
+        width: 200
       },
       {
         title: '单位',
@@ -466,7 +466,7 @@ class PslistAdd extends PureComponent{
                   defaultValue={moment(text, 'YYYY-MM-DD')}
                 /> : text;
         },
-        width: 168
+        width: 118
       },
       {
         title: '有效期至',
@@ -481,7 +481,7 @@ class PslistAdd extends PureComponent{
                   defaultValue={moment(text, 'YYYY-MM-DD')}
                 /> : text
         },
-        width: 168
+        width: 118
       },
       {
         title: '包装规格',
@@ -502,12 +502,12 @@ class PslistAdd extends PureComponent{
       {
         title: '剂型',
         dataIndex: 'ctmmDosageFormDesc',
-        width: 168
+        width: 90
       },
       {
         title: '供应商',
         dataIndex: 'supplierName',
-        width: 224,
+        width: 200,
         className: 'ellipsis',
         render:(text)=>(
             <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
@@ -536,7 +536,7 @@ class PslistAdd extends PureComponent{
       }
     ];
     let columnsVerify = [
-      {
+      /*{
         title: '通用名称',
         dataIndex: 'ctmmGenericName',
         width: 224,
@@ -544,17 +544,17 @@ class PslistAdd extends PureComponent{
         render:(text)=>(
           <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
         )
-      },
+      },*/
       {
         title: '商品名',
         dataIndex: 'ctmmTradeName',
-        width: 224,
+        width: 350,
         className: 'ellipsis',
         render:(text)=>(
           <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
         )
       },
-      {
+     /* {
         title: '规格',
         dataIndex: 'ctmmSpecification',
         className:'ellipsis',
@@ -562,11 +562,11 @@ class PslistAdd extends PureComponent{
           <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
         ),
         width: 168
-      },
+      },*/
       {
         title: '生产厂家',
         dataIndex: 'ctmmManufacturerName',
-        width: 224,
+        width: 200,
         className:'ellipsis',
         render:(text)=>(
           <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
@@ -595,12 +595,12 @@ class PslistAdd extends PureComponent{
       {
         title: '生产日期',
         dataIndex: 'realProductTime',
-        width: 168,
+        width: 118,
       },
       {
         title: '有效期至',
         dataIndex: 'realValidEndDate',
-        width: 168,
+        width: 118,
       },
       {
         title: '包装规格',
@@ -623,7 +623,7 @@ class PslistAdd extends PureComponent{
       {
         title: '剂型',
         dataIndex: 'ctmmDosageFormDesc',
-        width: 168,
+        width: 90,
       },
       {
         title: '供应商',
@@ -737,7 +737,7 @@ class PslistAdd extends PureComponent{
               </div>
             </Col>
             <Col span={8}>
-              <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
+              <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-6">
                 <label>收货地址</label>
               </div>
               <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18">

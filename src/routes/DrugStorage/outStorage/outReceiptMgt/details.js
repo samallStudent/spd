@@ -9,7 +9,7 @@ import {connect} from 'dva';
 import {outStorage} from '../../../../api/drugStorage/outStorage';
 import querystring from 'querystring';
 const columns = [
-  {
+  /*{
     title: '通用名',
     width: 224,
     dataIndex: 'ctmmGenericName',
@@ -17,21 +17,21 @@ const columns = [
     render: (text) => (
       <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
     )
-  },
+  },*/
   {
     title: '商品名',
-    width: 224,
+    width: 350,
     dataIndex: 'ctmmTradeName',
     className: 'ellipsis',
     render: (text) => (
       <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
     )
   },
-  {
+  /*{
     title: '剂型',
     width: 168,
     dataIndex: 'ctmmDosageFormDesc',
-  },
+  },*/
   {
     title: '包装规格',
     width: 168,
@@ -54,23 +54,23 @@ const columns = [
   },
   {
     title: '生产日期',
-    width: 168,
+    width: 118,
     dataIndex: 'productDate',
   },
   {
     title: '有效期至',
-    width: 168,
+    width: 118,
     dataIndex: 'validEndDate'
     
   },
   {
     title: '批准文号',
-    width: 224,
+    width: 200,
     dataIndex: 'approvalNo',
   },
   {
     title: '生产厂家',
-    width: 224,
+    width: 200,
     dataIndex: 'ctmmManufacturerName',
     className:'ellipsis',
     render:(text)=>(
@@ -79,7 +79,7 @@ const columns = [
   },
   {
     title: '供应商',
-    width: 224,
+    width: 200,
     dataIndex: 'supplierName',
     className: 'ellipsis',
     render:(text)=>(
@@ -229,7 +229,7 @@ class DetailsOutput extends PureComponent{
               </div>
             </Col>
             <Col span={8}>
-              <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
+              <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-6">
                   <label>申领药房</label>
               </div>
               <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18">
@@ -247,7 +247,7 @@ class DetailsOutput extends PureComponent{
               </div>
             </Col>
             <Col span={8}>
-              <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
+              <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-6">
                   <label>发起时间</label>
               </div>
               <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18">
@@ -255,7 +255,7 @@ class DetailsOutput extends PureComponent{
               </div>
             </Col>
             <Col span={8}>
-              <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
+              <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-6">
                   <label>联系电话</label>
               </div>
               <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18">
@@ -265,7 +265,7 @@ class DetailsOutput extends PureComponent{
           </Row>
           <Row>
             <Col span={8}>
-              <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
+              <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-6">
                   <label>药房地址</label>
               </div>
               <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18">
@@ -281,7 +281,7 @@ class DetailsOutput extends PureComponent{
               </div>
             </Col>
             <Col span={8}>
-              <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
+              <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-6">
                   <label>复核时间</label>
               </div>
               <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18">

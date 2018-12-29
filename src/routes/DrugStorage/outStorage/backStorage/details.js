@@ -11,15 +11,15 @@ import { connect } from 'dva';
 const Conform = Modal.confirm;
 const columns = [
   {
-    title: '通用名称',
-    width: 224,
-    dataIndex: 'ctmmGenericName',
-    className: 'ellipsis',
-    render: (text) => (
-      <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
-    )
+      title: '商品名',
+      width: 350,
+      dataIndex: 'ctmmTradeName',
+      className: 'ellipsis',
+      render: (text) => (
+          <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+      )
   },
-  {
+  /*{
     title: '规格',
     width: 168,
     dataIndex: 'ctmmSpecification',
@@ -27,7 +27,7 @@ const columns = [
     render:(text)=>(
       <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
     )
-  },
+  },*/
   {
     title: '入库单号',
     width: 280,
@@ -55,18 +55,18 @@ const columns = [
   },
   {
     title: '生产日期',
-    width: 168,
+    width: 118,
     dataIndex: 'productDate',
   },
   {
     title: '有效期至',
-    width: 168,
+    width: 118,
     dataIndex: 'validEndDate',
   },
   {
     title: '生产厂家',
     dataIndex: 'ctmmManufacturerName',
-    width: 224,
+    width: 200,
     className:'ellipsis',
     render:(text)=>(
       <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
@@ -75,7 +75,7 @@ const columns = [
   {
     title: '批准文号',
     dataIndex: 'approvalNo',
-    width: 224
+    width: 200
   }
 ];
 
@@ -183,7 +183,7 @@ class DetailsRefund extends PureComponent{
                   </div>
               </Col>
               <Col span={8}>
-                  <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
+                  <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-6">
                       <label>来源部门</label>
                   </div>
                   <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18">
@@ -201,7 +201,7 @@ class DetailsRefund extends PureComponent{
                   </div>
               </Col>
               <Col span={8}>
-                  <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
+                  <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-6">
                       <label>退货时间</label>
                   </div>
                   <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18">
@@ -228,7 +228,7 @@ class DetailsRefund extends PureComponent{
                   </div>
               </Col>
               <Col span={8}>
-                  <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
+                  <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-6">
                       <label>复核时间</label>
                   </div>
                   <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18">

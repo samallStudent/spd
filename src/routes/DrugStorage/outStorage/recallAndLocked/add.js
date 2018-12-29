@@ -37,7 +37,7 @@ const formRemarkLayout = {
   },
 }
 const columns = [
-  {
+  /*{
     title: '通用名称',
     width: 224,
     dataIndex: 'ctmmGenericName',
@@ -45,10 +45,10 @@ const columns = [
     render: (text) => (
       <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
     )
-  },
+  },*/
   {
     title: '商品名称',
-    width: 224,
+    width: 350,
     dataIndex: 'ctmmTradeName',
     className: 'ellipsis',
     render: (text) => (
@@ -64,11 +64,11 @@ const columns = [
       <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
     )
   },
-  {
+  /*{
     title: '规格',
     width: 168,
     dataIndex: 'ctmmSpecification',
-  },
+  },*/
   {
     title: '剂型',
     width: 168,
@@ -91,12 +91,12 @@ const columns = [
   {
     title: '生产日期',
     dataIndex: 'productDate',
-    width: 168,
+    width: 118,
   },
   {
     title: '有效期至',
     dataIndex: 'validEndDate',
-    width: 168,
+    width: 118,
   },
   {
     title: '批准文号',
@@ -106,23 +106,23 @@ const columns = [
 ];
 const modalColumns = [
   {
-    title: '通用名称',
-    dataIndex: 'ctmmGenericName',
-    width: 224,
-    className: 'ellipsis',
-    render: (text) => (
-      <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
-    )
+      title: '商品名',
+      width: 350,
+      dataIndex: 'ctmmTradeName',
+      className: 'ellipsis',
+      render: (text) => (
+          <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+      )
   },
-  {
+  /*{
     title: '规格',
     dataIndex: 'ctmmSpecification',
     width: 168,
-  },
+  },*/
   {
     title: '生产厂家',
     dataIndex: 'ctmmManufacturerName',
-    width: 224,
+    width: 200,
     className:'ellipsis',
     render:(text)=>(
       <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
@@ -136,17 +136,17 @@ const modalColumns = [
   {
     title: '生产日期',
     dataIndex: 'productDate',
-    width: 168,
+    width: 118,
   },
   {
     title: '有效期至',
     dataIndex: 'validEndDate',
-    width: 168,
+    width: 118,
   },
   {
     title: '剂型',
     dataIndex: 'ctmmDosageFormDesc',
-    width: 168,
+    width: 90,
   },
   {
     title: '包装单位',
@@ -156,7 +156,7 @@ const modalColumns = [
   {
     title: '批准文号',
     dataIndex: 'approvalNo',
-    width: 224,
+    width: 200,
   }
 ];
 class RemarksForm extends PureComponent{
@@ -464,13 +464,13 @@ class AddRefund extends PureComponent{
             <Form onSubmit={this.handleSearch}>
               <Row gutter={30}>
                 <Col span={8}>
-                  <FormItem label={`通用名/商品名`} {...formItemLayout}>
+                  <FormItem label={`商品名`} {...formItemLayout}>
                     {getFieldDecorator('hisDrugCodeList', {
                       initialValue: ''
                     })(
                       <FetchSelect
                         allowClear={true}
-                        placeholder='通用名/商品名'
+                        placeholder='商品名'
                         query={{queryType: 3}}
                         url={common.QUERY_DRUG_BY_LIST}
                       />
