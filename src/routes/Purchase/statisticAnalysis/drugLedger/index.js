@@ -280,7 +280,7 @@ class DrugLedger extends PureComponent {
       }, {
         title: '生产日期',
         dataIndex: 'productDate',
-        width: 118,
+        width: 148,
       }, {
         title: '有效期至',
         dataIndex: 'validEndDate',
@@ -288,7 +288,7 @@ class DrugLedger extends PureComponent {
       }, {
         title: '包装规格',
         dataIndex: 'packageSpecification',
-        width: 168,
+        width: 118,
       }, {
         title: '剂型',
         dataIndex: 'ctmmDosageFormDesc',

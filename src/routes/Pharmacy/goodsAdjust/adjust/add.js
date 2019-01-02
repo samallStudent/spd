@@ -435,7 +435,7 @@ class NewAddGoodsAdjust extends PureComponent{
               <FetchSelect
                 allowClear
                 value={value}
-                style={{ width: 248 }}
+                style={{ width: 496 }}
                 placeholder='通用名/商品名'
                 url={goodsAdjust.QUERY_DRUG_BY_LIST}
                 cb={(value, option) => {

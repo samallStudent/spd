@@ -128,7 +128,7 @@ class StockInquiry extends PureComponent {
               </Link>
           </span>
         )
-      }, /*{
+      },/* {
         title: '规格',
         dataIndex: 'ctmmSpecification',
         width: 168,
@@ -177,14 +177,14 @@ class StockInquiry extends PureComponent {
       },{
         title: '采购方式',
         dataIndex: 'purchaseType',
-        width: 168,
+        width: 118,
         render:(text)=>(
           <span>{text===1?'零库存':'自采'}</span>
         )
       }, {
         title: '批准文号',
         dataIndex: 'approvalNo',
-        width: 168,
+        width: 148,
       }
     ];
     const { getFieldDecorator } = this.props.form;

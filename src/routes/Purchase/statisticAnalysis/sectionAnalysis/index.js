@@ -310,7 +310,7 @@ class SectionAnalysis extends PureComponent {
       }, {
         title: '生产批号',
         dataIndex: 'lot',
-        width: 168,
+        width: 148,
       }, {
         title: '生产日期',
         dataIndex: 'productDate',
@@ -339,8 +339,7 @@ class SectionAnalysis extends PureComponent {
         title: '批准文号',
         dataIndex: 'approvalNo',
         width: 168,
-      },
-        {
+      },{
             title: '药品编号',
             dataIndex: 'hisDrugCode',
             width: 168,

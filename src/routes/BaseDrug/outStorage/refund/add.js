@@ -17,13 +17,13 @@ const {Option} = Select;
 const formItemLayout = {
   labelCol: {
     xs: { span: 24 },
-    sm: { span: 8 },//5
-    md: {span: 10}
+    lg: { span: 8 },//5
+    xl: {span: 8}
   },
   wrapperCol: {
     xs: { span: 24 },
-    sm: { span: 16 },//17
-    md: {span: 14}
+    lg: { span: 16 },//17
+    xl: {span: 16}
   },
 }
 const formRemarkLayout = {

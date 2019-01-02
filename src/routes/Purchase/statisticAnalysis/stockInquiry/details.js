@@ -7,7 +7,7 @@ const columns = [
     {
         title: '生产批号',
         dataIndex: 'lot',
-        width: 168,
+        width: 148,
     }, {
         title: '生产日期',
         dataIndex: 'productDate',
@@ -49,7 +49,7 @@ const columns = [
     }, {
         title: '供应商',
         dataIndex: 'supplierName',
-        width: 224,
+        width: 200,
         className: 'ellipsis',
         render:(text)=>(
             <Tooltip placement="topLeft" title={text}>{text}</Tooltip>

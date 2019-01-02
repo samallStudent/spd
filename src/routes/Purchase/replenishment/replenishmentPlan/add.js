@@ -264,7 +264,6 @@ class NewAdd extends PureComponent {
       modalSelected,
       modalSelectedRows
     } = this.state;
-
     const columns = [
      /* {
         title: '通用名称',
@@ -286,14 +285,14 @@ class NewAdd extends PureComponent {
         title: '规格',
         dataIndex: 'ctmmSpecification',
         width: 168,
-      },*/ {
+      }, */{
         title: '剂型',
         dataIndex: 'ctmmDosageFormDesc',
         width: 90
       }, {
         title: '生产厂家',
         dataIndex: 'ctmmManufacturerName',
-        width: 224,
+        width: 200,
         className: 'ellipsis',
         render: (text) => (
           <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
@@ -301,7 +300,7 @@ class NewAdd extends PureComponent {
       }, {
         title: '供应商',
         dataIndex: 'supplierCode',
-        width: 224,
+        width: 200,
         render: (text, record, i) => {
           let {supplierList} = record;
           let supplier = supplierList.map(item=>{
@@ -379,10 +378,10 @@ class NewAdd extends PureComponent {
         title: '金额',
         dataIndex: 'totalPrice',
         width: 168
-      }, {
+      },  {
         title: '批准文号',
         dataIndex: 'approvalNo',
-        width: 224,
+        width: 200,
       },
         {
             title: '药品编码',
@@ -391,7 +390,7 @@ class NewAdd extends PureComponent {
         }
     ];
     const modalColumns = [
-  /*    {
+     /* {
         title: '通用名称',
         dataIndex: 'ctmmGenericName',
         width: 224,
@@ -460,14 +459,15 @@ class NewAdd extends PureComponent {
             </Row>
             <Row>
               <Col span={6}>
-                <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-6">
+                <div className="ant-form-item-label-left ant-col-xs-24 ant-col-lg-8 ant-col-xl-6">
                   <label>补货部门</label>
                 </div>
-                <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-19">
+                <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-lg-16 ant-col-xl-18">
                   <div className='ant-form-item-control'>
                     <Select
                       disabled={dataSource.length === 0? false : true}
                       showSearch
+                      placeholder="请选择"
                       value={query.deptCode}
                       onChange={(value) => {
                         let {query} = this.state;
@@ -510,11 +510,11 @@ class NewAdd extends PureComponent {
             ]}
           >
             <Row style={{display: 'flex', alignItems: 'center'}}>
-              <Col span={7} style={{ marginLeft: 4 }}>
+              <Col span={12} style={{ marginLeft: 4 }}>
                 <FetchSelect
                   allowClear
                   value={value}
-                  style={{ width: 248 }}
+                  style={{ width: '100%' }}
                   placeholder='商品名'
                   url={replenishmentPlan.QUERY_DRUG_BY_LIST}
                   cb={(value, option) => {

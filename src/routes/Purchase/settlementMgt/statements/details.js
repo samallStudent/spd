@@ -64,7 +64,7 @@ class Details extends PureComponent {
   render() {
     let {info, query, value} = this.state;
     const columns = [
-      {
+     /* {
         title: '通用名',
         dataIndex: 'ctmmGenericName',
         width: 224,
@@ -72,21 +72,21 @@ class Details extends PureComponent {
         render:(text)=>(
           <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
         )
-      },
+      },*/
       {
         title: '商品名',
         dataIndex: 'drugName',
-        width: 224,
+        width: 350,
         className: 'ellipsis',
         render:(text)=>(
           <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
         )
       },
-      {
+     /* {
         title: '规格',
         dataIndex: 'ctmmSpecification',
         width: 168,
-      },
+      },*/
       {
         title: '包装规格',
         dataIndex: 'packageSpecification',
@@ -95,7 +95,7 @@ class Details extends PureComponent {
       {
         title: '生产厂家',
         dataIndex: 'ctmmManufacturerName',
-        width: 224,
+        width: 200,
         className: 'ellipsis',
         render:(text)=>(
           <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
@@ -104,7 +104,7 @@ class Details extends PureComponent {
       {
         title: '批准文号',
         dataIndex: 'approvalNo',
-        width: 224
+        width: 200
       },
       {
         title: '结算单位',
@@ -221,7 +221,7 @@ class Details extends PureComponent {
                       value={value}
                       style={{width: '100%'}}
                       url={common.QUERY_DRUG_BY_LIST}
-                      placeholder='通用名/产品名/生产厂家/供应商'
+                      placeholder='产品名/生产厂家/供应商'
                       cb={this.changeFetchSelect}
                      />
                   </div>

@@ -119,14 +119,10 @@ class NewAdd extends PureComponent{
         render:(text)=>(
           <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
         )
-      },/*,{
-        title: '药品规格',
-        dataIndex: 'ctmmSpecification',
-        width: 168,
-      },*/ {
+      }, {
         title: '生产厂家',
         dataIndex: 'ctmmManufacturerName',
-        width: 224,
+        width: 200,
         className:'ellipsis',
         render:(text)=>(
           <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
@@ -134,7 +130,7 @@ class NewAdd extends PureComponent{
       },{
         title: '供应商',
         dataIndex: 'supplierName',
-        width: 224,
+        width: 200,
         className: 'ellipsis',
         render:(text)=>(
             <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
@@ -146,11 +142,11 @@ class NewAdd extends PureComponent{
       }, {
         title: '调整后价格',
         dataIndex: 'newPrice',
-        width: 168,
+        width: 148,
       }, {
         title: '批准文号',
         dataIndex: 'approvalNo',
-        width: 168,
+        width: 148,
       }
     ];
     return (
@@ -187,7 +183,7 @@ class NewAdd extends PureComponent{
               <FetchSelect
                 allowClear
                 value={value}
-                style={{ width: 248 }}
+                style={{ width: 496 }}
                 placeholder='商品名'
                 url={common.QUERY_DRUG_BY_LIST}
                 cb={(value, option) => {

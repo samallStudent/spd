@@ -101,15 +101,15 @@ class Details extends PureComponent {
         fixed: 'left',
         width: 168
       },
-      {
-          title: '商品名',
-          width: 350,
-          dataIndex: 'ctmmTradeName',
-          className: 'ellipsis',
-          render:(text)=>(
-              <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
-          )
-      },
+        {
+            title: '商品名',
+            dataIndex: 'ctmmTradeName',
+            width:350,
+            className: 'ellipsis',
+            render:(text)=>(
+                <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+            )
+        },
       /*{
         title: '规格',
         dataIndex: 'ctmmSpecification',
@@ -151,13 +151,13 @@ class Details extends PureComponent {
       },
       {
         title: '账面批号',
-        width: 168,
+        width: 148,
         dataIndex: 'accountBatchNo',
       },
       {
         title: '实际批号',
         dataIndex: 'practicalBatch',
-        width: 168,
+        width: 148,
       },
       {
         title: '生产日期',

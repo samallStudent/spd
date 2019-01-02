@@ -80,7 +80,7 @@ class Details extends PureComponent {
         dataIndex: 'backNo',
         width: 168
       },
-     /* {
+      /*{
         title: '通用名',
         dataIndex: 'ctmmGenericName',
         width: 224,
@@ -98,7 +98,7 @@ class Details extends PureComponent {
           <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
         )
       },
-     /* {
+      /*{
         title: '规格',
         dataIndex: 'ctmmSpecification',
         width: 168,
@@ -145,7 +145,7 @@ class Details extends PureComponent {
       {
         title: '生产批号',
         dataIndex: 'lot',
-        width: 168
+        width: 148
       },
       {
         title: '参考价格',
@@ -170,7 +170,7 @@ class Details extends PureComponent {
       {
         title: '发药时间',
         dataIndex: 'dispensingDate',
-        width: 158
+        width: 148
       }, 
     ];
     return (

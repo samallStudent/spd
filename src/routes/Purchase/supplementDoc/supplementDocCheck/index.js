@@ -84,7 +84,7 @@ class Putaway extends PureComponent{
 
   render(){
     let query = this.props.base.queryConditons;
-    query = {...query, ...this.state.query};
+    query = {...this.state.query, ...query};
     delete query.key;
     delete query.Time;
     delete query.reviewTime;
@@ -94,11 +94,11 @@ class Putaway extends PureComponent{
        title: '补登单号',
        width: 168,
        dataIndex: 'makeupCode',
-       render: (text,record) =>{
-        return <span>
-                <Link to={{pathname: `/purchase/supplementDoc/supplementDocCheck/detail/${record.makeupCode}`}}>{text}</Link>
-               </span>
-      }
+       render: (text,record) => ( 
+          <span>
+            <Link to={{pathname: `/purchase/supplementDoc/supplementDocCheck/detail/${record.makeupCode}`}}>{text}</Link>
+          </span>
+        )
       },
       {
         title: '入库/出库单',
@@ -214,6 +214,9 @@ class SearchFormWrapper extends PureComponent {
       value[keyItem] = queryConditons[keyItem];
       return keyItem;
     });
+    if(!value.makeupStatus) {
+      value.makeupStatus = '2';
+    };
     this.props.form.setFieldsValue(value);
   } 
   toggle = () => {
@@ -263,10 +266,21 @@ class SearchFormWrapper extends PureComponent {
           </Col>
         
           <Col span={8}>
-            <FormItem label={`补登时间`} {...formItemLayout}>
-              {getFieldDecorator('Time', {})(
-                <RangePicker/>
-              )}
+            <FormItem {...formItemLayout} label={`状态`}>
+              {
+                getFieldDecorator(`makeupStatus`,{
+                  initialValue: fstate && fstate.length?`2`:''
+                })(
+                  <Select placeholder="请输入">
+                    {
+                      fstate && fstate.length ?
+                      fstate.map(item=>(
+                        <Option key={item.value} value={item.value}>{item.label}</Option>
+                      )):null
+                    }
+                  </Select>
+                )
+              }
             </FormItem>
           </Col>
           <Col style={{display}} span={8}>
@@ -277,41 +291,30 @@ class SearchFormWrapper extends PureComponent {
             </FormItem>
           </Col>
           <Col style={{display}} span={8}>
-              <FormItem {...formItemLayout} label={`状态`}>
-                {
-                  getFieldDecorator(`makeupStatus`,{
-                    initialValue: fstate && fstate.length?`2`:''
-                  })(
-                    <Select placeholder="请输入">
-                      {
-                        fstate && fstate.length ?
-                        fstate.map(item=>(
-                          <Option key={item.value} value={item.value}>{item.label}</Option>
-                        )):null
-                      }
-                    </Select>
-                  )
-                }
-              </FormItem>
-            </Col>
-            <Col style={{display}} span={8}>
-              <FormItem {...formItemLayout} label={`类型`}>
-                {
-                  getFieldDecorator('makeupType',{
-                    initialValue: ''
-                  })(
-                    <Select placeholder="请输入">
-                      {
-                        type && type.length ?
-                        type.map(item=>(
-                          <Option key={item.value} value={item.value}>{item.label}</Option>
-                        )):null
-                      }
-                    </Select>
-                  )
-                }
-              </FormItem>
-            </Col>
+            <FormItem label={`补登时间`} {...formItemLayout}>
+              {getFieldDecorator('Time', {})(
+                <RangePicker/>
+              )}
+            </FormItem>
+          </Col>
+          <Col style={{display}} span={8}>
+            <FormItem {...formItemLayout} label={`类型`}>
+              {
+                getFieldDecorator('makeupType',{
+                  initialValue: ''
+                })(
+                  <Select placeholder="请输入">
+                    {
+                      type && type.length ?
+                      type.map(item=>(
+                        <Option key={item.value} value={item.value}>{item.label}</Option>
+                      )):null
+                    }
+                  </Select>
+                )
+              }
+            </FormItem>
+          </Col>
           <Col span={8} style={{ float:'right',textAlign: 'right', marginTop: 4}} >
             <Button type="primary" htmlType="submit">查询</Button>
             <Button style={{margin: '0 8px'}} onClick={this.handleReset}>重置</Button>

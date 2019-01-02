@@ -49,7 +49,7 @@ const columns = [
   },
   {
     title: '生产批号',
-    width: 168,
+    width: 148,
     dataIndex: 'lot',
   },
   {

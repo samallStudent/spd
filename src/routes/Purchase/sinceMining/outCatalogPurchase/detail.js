@@ -30,8 +30,8 @@ const columns = [
       <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
     )
   },
-  /*
-  {
+
+ /* {
     title: '规格',
     width: 168,
     dataIndex: 'ctmmSpecification',
@@ -63,7 +63,7 @@ const columns = [
   },
   {
     title: '生产厂家',
-    width: 224,
+    width: 200,
     dataIndex: 'ctmmManufacturerName',
     className: 'ellipsis',
     render:(text)=>(
@@ -83,7 +83,7 @@ const columns = [
   },
   {
     title: '供应商',
-    width: 224,
+    width: 200,
     dataIndex: 'supplierName',
     className: 'ellipsis',
     render:(text)=>(
@@ -92,7 +92,7 @@ const columns = [
   },
   {
     title: '批准文号',
-    width: 224,
+    width: 200,
     dataIndex: 'approvalNo',
   },
     {

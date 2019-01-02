@@ -12,91 +12,85 @@ import { Table ,Row, Col,Tooltip, Button, Modal, Input, message, Spin } from 'an
 import { connect } from 'dva';
 const { TextArea } = Input;
 const columns = [
-    {
-        title: '序号',
-        width:60,
-        dataIndex: 'index',
-        render:(text,record,index)=>`${index+1}`
-    },
-    /* {
-       title: '通用名称',
-       width: 224,
-       dataIndex: 'ctmmGenericName',
-       className: 'ellipsis',
-       render:(text)=>(
-         <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
-       )
-     },*/
-    {
-        title: '商品名',
-        width: 350,
-        dataIndex: 'ctmmTradeName',
-        className: 'ellipsis',
-        render:(text)=>(
-            <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
-        )
-    },
-    /* {
-       title: '规格',
-       width: 168,
-       dataIndex: 'ctmmSpecification',
-     },*/
-    {
-        title: '剂型',
-        width: 90,
-        dataIndex: 'ctmmDosageFormDesc',
-    },
-    {
-        title: '包装规格',
-        width: 148,
-        dataIndex: 'packageSpecification',
-    },
-    {
-        title: '单位',
-        width: 90,
-        dataIndex: 'replanUnit',
-    },
-    {
-        title: '需求数量',
-        dataIndex: 'demandQuantity',
-        width: 100,
-    },
-     {
-       title: '价格',
-       dataIndex: 'drugPrice',
-       width: 100,
-       render: (text,reocrd) =>{
-         return text === undefined || text === null ? '0': text
-       }
-     },
-     {
-       title: '金额',
-       dataIndex: 'totalPrice',
-       width: 168,
-     },
-    {
-        title: '生产厂家',
-        width: 200,
-        dataIndex: 'ctmmManufacturerName',
-        className: 'ellipsis',
-        render:(text)=>(
-            <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
-        )
-    },
-    {
-        title: '供应商',
-        width: 200,
-        dataIndex: 'supplierName',
-        className: 'ellipsis',
-        render:(text)=>(
-            <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
-        )
-    },
-    {
-        title: '批准文号',
-        width: 200,
-        dataIndex: 'approvalNo',
-    },
+ /* {
+    title: '通用名称',
+    width: 224,
+    dataIndex: 'ctmmGenericName',
+    className: 'ellipsis',
+    render:(text)=>(
+      <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+    )
+  },*/
+  {
+    title: '商品名',
+    width: 350,
+    dataIndex: 'ctmmTradeName',
+    className: 'ellipsis',
+    render:(text)=>(
+      <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+    )
+  },
+ /* {
+    title: '规格',
+    width: 168,
+    dataIndex: 'ctmmSpecification',
+  },*/
+  {
+    title: '剂型',
+    width: 90,
+    dataIndex: 'ctmmDosageFormDesc',
+  },
+  {
+    title: '包装规格',
+    width: 148,
+    dataIndex: 'packageSpecification',
+  },
+  {
+    title: '单位',
+    width: 90,
+    dataIndex: 'replanUnit',
+  },
+  {
+    title: '需求数量',
+    dataIndex: 'demandQuantity',
+    width: 100,
+  },
+ /* {
+    title: '价格',
+    dataIndex: 'drugPrice',
+    width: 100,
+    render: (text,reocrd) =>{
+      return text === undefined || text === null ? '0': text
+    }
+  },
+  {
+    title: '金额',
+    dataIndex: 'totalPrice',
+    width: 168,
+  },*/
+  {
+    title: '生产厂家',
+    width: 200,
+    dataIndex: 'ctmmManufacturerName',
+    className: 'ellipsis',
+    render:(text)=>(
+      <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+    )
+  },
+  {
+    title: '供应商',
+    width: 200,
+    dataIndex: 'supplierName',
+    className: 'ellipsis',
+    render:(text)=>(
+        <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+    )
+  },
+  {
+    title: '批准文号',
+    width: 200,
+    dataIndex: 'approvalNo',
+  },
 ];
 class PlanCheckDetail extends PureComponent{
     state = {

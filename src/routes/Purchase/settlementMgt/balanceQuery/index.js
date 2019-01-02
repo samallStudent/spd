@@ -16,20 +16,24 @@ const columns = [
 }, {
     title: '结算时间',
     dataIndex: 'planTime',
-}, {
+},/* {
     title: '通用名',
     dataIndex: 'geName',
-}, {
+}, */{
     title: '商品名',
     dataIndex: 'productName',
-}, {
+    width:350,
+    render:(text)=>(
+        <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+    )
+},/* {
     title: '规格',
     dataIndex: 'spec',
     className: 'ellipsis',
     render:(text)=>(
         <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
     )
-}, {
+}, */{
     title: '生产厂家',
     dataIndex: 'productCompany',
 }, {

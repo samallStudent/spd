@@ -23,7 +23,7 @@ const columns = [
   },*/
   {
     title: '商品名',
-    width:350,
+    width: 350,
     dataIndex: 'ctmmTradeName',
     className: 'ellipsis',
     render:(text)=>(
@@ -31,11 +31,11 @@ const columns = [
     )
   },
 
-    /*{
-      title: '规格',
-      width: 168,
-      dataIndex: 'ctmmSpecification',
-    },*/
+  /*{
+    title: '规格',
+    width: 168,
+    dataIndex: 'ctmmSpecification',
+  },*/
   {
     title: '剂型',
     width: 90,

@@ -99,7 +99,7 @@ class SearchForm extends PureComponent{
               }
             </FormItem>
           </Col>
-          <Col span={8} style={{ display: display }}>
+         {/* <Col span={8} style={{ display: display }}>
             <FormItem {...formItemLayout} label={`规格`}>
               {
                 getFieldDecorator(`ctmmSpecification`,{
@@ -109,7 +109,7 @@ class SearchForm extends PureComponent{
                 )
               }
             </FormItem>
-          </Col>
+          </Col>*/}
           <Col span={8} style={{ display: display }}>
             <FormItem {...formItemLayout} label={`状态`}>
               {
@@ -194,12 +194,7 @@ const columns = [/*{
   title: '批准文号',
   dataIndex: 'approvalNo',
   width: 200,
-},
-    {
-        title: '药品编码',
-        dataIndex: 'hisDrugCode',
-        width: 224,
-    }]
+}]
 
 class DrugDirectory extends PureComponent{
   state = {
@@ -276,7 +271,7 @@ class DrugDirectory extends PureComponent{
       {
         title: '生产厂家',
         dataIndex: 'ctmmManufacturerName',
-        width: 224,
+        width: 200,
         className: 'ellipsis',
         render:(text)=>(
           <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
@@ -323,7 +318,7 @@ class DrugDirectory extends PureComponent{
           <Form>
             <Row>
               <Col span={10}>
-                <FormItem {...singleFormItemLayout} label={`通用名称`}>
+                {/*<FormItem {...singleFormItemLayout} label={`通用名称`}>
                   {
                     getFieldDecorator(`ctmmGenericName`,{
                       initialValue: '',
@@ -332,7 +327,7 @@ class DrugDirectory extends PureComponent{
                       <Input placeholder='请输入' />
                     )
                   }
-                </FormItem>
+                </FormItem>*/}
                 <FormItem {...singleFormItemLayout} label={`商品名`}>
                   {
                     getFieldDecorator(`ctmmTradeName`,{
@@ -343,7 +338,7 @@ class DrugDirectory extends PureComponent{
                     )
                   }
                 </FormItem>
-                <FormItem {...singleFormItemLayout} label={`规格`}>
+               {/* <FormItem {...singleFormItemLayout} label={`规格`}>
                   {
                     getFieldDecorator(`ctmmSpecification`,{
                       initialValue: '',
@@ -352,7 +347,7 @@ class DrugDirectory extends PureComponent{
                       <Input placeholder='请输入' />
                     )
                   }
-                </FormItem>
+                </FormItem>*/}
                 <FormItem {...singleFormItemLayout} label={`剂型`}>
                   {
                     getFieldDecorator(`ctmmDosageFormDesc`,{

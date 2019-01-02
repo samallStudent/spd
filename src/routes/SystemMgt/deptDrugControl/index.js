@@ -201,13 +201,13 @@ const columns = [
   {
     title: '批准文号',
     dataIndex: 'approvalNo',
-    width: 224,
-  },
-    {
+    width: 200,
+  }
+  ,{
         title: '药品编码',
         dataIndex: 'hisDrugCode',
         width: 200
-    }
+    },
 ]
 
 class DrugDirectory extends PureComponent{

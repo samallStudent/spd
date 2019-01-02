@@ -290,11 +290,11 @@ class NearlyEffective extends PureComponent {
       }, {
         title: '生产批号',
         dataIndex: 'lot',
-        width: 168,
+        width: 148,
       }, {
         title: '生产日期',
         dataIndex: 'productDate',
-        width: 168,
+        width: 118,
       }, {
         title: '有效期至',
         dataIndex: 'validEndDate',

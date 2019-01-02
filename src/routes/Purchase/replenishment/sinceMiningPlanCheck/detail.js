@@ -30,11 +30,11 @@ const columns = [
       <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
     )
   },
-  /*{
+  {
     title: '规格',
     width: 168,
     dataIndex: 'ctmmSpecification',
-  },*/
+  },
   {
     title: '剂型',
     width: 90,
@@ -66,11 +66,11 @@ const columns = [
   {
     title: '金额',
     dataIndex: 'totalPrice',
-    width: 168,
+    width: 148,
   },
   {
     title: '生产厂家',
-    width: 224,
+    width: 200,
     dataIndex: 'ctmmManufacturerName',
     className: 'ellipsis',
     render:(text)=>(
@@ -91,11 +91,6 @@ const columns = [
     width: 200,
     dataIndex: 'approvalNo',
   },
-    {
-        title: '药品编码',
-        dataIndex: 'hisDrugCode',
-        width: 168,
-    },
 ];
 class PlanCheckDetail extends PureComponent{
   state = {

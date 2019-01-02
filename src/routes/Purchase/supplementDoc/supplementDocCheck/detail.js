@@ -33,23 +33,23 @@ const columns = [
     width: 168,
     dataIndex: 'positionTypeName',
   },
-  {
-      title: '商品名',
-      width: 350,
-      dataIndex: 'ctmmTradeName',
-      className: 'ellipsis',
-      render:(text)=>(
-          <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
-      )
-  },
-  /*{
+    {
+        title: '商品名',
+        dataIndex: 'ctmmTradeName',
+        width: 350,
+        className: 'ellipsis',
+        render:(text)=>(
+            <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+        )
+    },
+ /* {
     title: '规格',
     width: 168,
     dataIndex: 'ctmmSpecification',
   },*/
   {
     title: '生产厂家',
-    width: 224,
+    width: 200,
     dataIndex: 'productCompany',
     className:'ellipsis',
     render:(text)=>(
@@ -58,7 +58,7 @@ const columns = [
   },
   {
     title: '生产批号',
-    width: 168,
+    width: 148,
     dataIndex: 'lot',
   },
   {
@@ -79,7 +79,7 @@ const columns = [
   },
   {
     title: '供应商',
-    width: 224,
+    width: 200,
     dataIndex: 'supplierName',
     className: 'ellipsis',
     render:(text)=>(

@@ -258,7 +258,7 @@ class NewAdd extends PureComponent {
         render:(text)=>(
           <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
         )
-      },*/ {
+      }, */{
         title: '商品名',
         dataIndex: 'ctmmTradeName',
         width: 350,
@@ -266,18 +266,18 @@ class NewAdd extends PureComponent {
         render:(text)=>(
           <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
         )
-      }, /*{
+      },/* {
         title: '规格',
         dataIndex: 'ctmmSpecification',
         width: 168,
-      }, */{
+      },*/ {
         title: '剂型',
         dataIndex: 'ctmmDosageFormDesc',
         width: 90
       }, {
         title: '生产厂家',
         dataIndex: 'ctmmManufacturerName',
-        width: 224,
+        width: 200,
         className: 'ellipsis',
         render: (text) => (
           <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
@@ -285,7 +285,7 @@ class NewAdd extends PureComponent {
       }, {
         title: '供应商',
         dataIndex: 'supplierCode',
-        width: 224,
+        width: 200,
         render: (text, record, i) => {
           let {supplierList} = record;
           let supplier = supplierList.map(item=>{
@@ -324,7 +324,7 @@ class NewAdd extends PureComponent {
       }, {
         title: '单位',
         dataIndex: 'replanUnit',
-        width: 100,
+        width: 112,
       }, {
         title: '需求数量',
         dataIndex: 'demandQuantity',
@@ -358,20 +358,20 @@ class NewAdd extends PureComponent {
       }, {
         title: '金额',
         dataIndex: 'totalPrice',
-        width: 148
+        width: 168
       }, {
         title: '批准文号',
         dataIndex: 'approvalNo',
-        width: 200,
+        width: 224,
       },
         {
             title: '药品编码',
             dataIndex: 'hisDrugCode',
             width: 168
-        }
+        },
     ];
     const modalColumns = [
-     /* {
+    /*  {
         title: '通用名称',
         dataIndex: 'ctmmGenericName',
         width: 224,
@@ -387,14 +387,14 @@ class NewAdd extends PureComponent {
         render:(text)=>(
           <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
         )
-      },  /*{
+      },/*{
         title: '规格',
         dataIndex: 'ctmmSpecification',
         width: 168
       },*/ {
         title: '当前库存',
         dataIndex: 'usableQuantity',
-        width: 100,
+        width: 112,
       }, {
         title: '剂型',
         dataIndex: 'ctmmDosageFormDesc',
@@ -420,7 +420,7 @@ class NewAdd extends PureComponent {
             title: '药品编码',
             dataIndex: 'hisDrugCode',
             width: 200,
-        },
+        }
     ];
     return (
       <Spin spinning={spinLoading} size="large">
@@ -436,10 +436,10 @@ class NewAdd extends PureComponent {
             </Row>
             <Row>
               <Col span={6}>
-                <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-6">
+                <div className="ant-form-item-label-left ant-col-xs-24 ant-col-lg-8 ant-col-xl-6">
                   <label>补货部门</label>
                 </div>
-                <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-19">
+                <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-lg-16 ant-col-xl-18">
                   <div className='ant-form-item-control'>
                     <Select
                       disabled={dataSource.length === 0? false : true}
@@ -490,7 +490,7 @@ class NewAdd extends PureComponent {
                 <FetchSelect
                   allowClear
                   value={value}
-                  style={{ width: 248 }}
+                  style={{ width: 496 }}
                   placeholder='商品名'
                   url={replenishmentPlan.QUERY_DRUG_BY_LIST}
                   cb={(value, option) => {

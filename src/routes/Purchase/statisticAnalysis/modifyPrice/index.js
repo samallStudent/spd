@@ -158,7 +158,7 @@ class formSearch extends PureComponent{
                         getFieldDecorator(`keys`)(
                            <FetchSelect
                                 allowClear={true}
-                                placeholder='通用名/商品名'
+                                placeholder='商品名'
                                 query={{queryType: 3}}
                                 url={salvageCar.QUERY_DRUGBY_LIST}
                             />

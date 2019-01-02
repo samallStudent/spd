@@ -364,6 +364,11 @@ class DrugDirectory extends PureComponent{
        width: 100
       },
       {
+        title: '药品编码',
+        dataIndex: 'hisDrugCode',
+        width: 158
+      },
+      {
         title: '操作',
         dataIndex: 'action',
         fixed: 'right',
@@ -373,12 +378,7 @@ class DrugDirectory extends PureComponent{
             <Link to={{pathname: `/drugStorage/configMgt/drugDirectory/edit/${record.detailId}/${record.deptCode}`}}>{'编辑'}</Link>
           </span>
         }
-      },
-        {
-            title: '药品编码',
-            dataIndex: 'hisDrugCode',
-            width: 158
-        },
+      }
     ];
     let query = {...this.props.base.queryConditons};
     delete query.key;

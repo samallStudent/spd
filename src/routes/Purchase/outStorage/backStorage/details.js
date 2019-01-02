@@ -10,16 +10,16 @@ import {Link} from 'react-router-dom';
 import { connect } from 'dva';
 const Conform = Modal.confirm;
 const columns = [
-  {
-      title: '商品名',
-      width: 350,
-      dataIndex: 'ctmmTradeName',
-      className: 'ellipsis',
-      render:(text)=>(
-          <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
-      )
-  },
-  /*{
+    {
+        title: '商品名',
+        dataIndex: 'ctmmTradeName',
+        width:350,
+        className: 'ellipsis',
+        render:(text)=>(
+            <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+        )
+    },
+ /* {
     title: '规格',
     width: 168,
     dataIndex: 'ctmmSpecification',
@@ -30,7 +30,7 @@ const columns = [
   },*/
   {
     title: '入库单号',
-    width: 280,
+    width: 240,
     dataIndex: 'inStoreCode',
   },
   {
@@ -50,7 +50,7 @@ const columns = [
   },
   {
     title: '生产批号',
-    width: 168,
+    width: 148,
     dataIndex: 'lot',
   },
   {

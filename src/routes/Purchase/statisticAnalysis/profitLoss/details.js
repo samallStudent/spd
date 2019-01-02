@@ -15,7 +15,7 @@ import { connect } from 'dva';
 const columns = [
   {
     title: '货位',
-    width: 122,
+    width: 112,
     dataIndex: 'locName'
   },
   {

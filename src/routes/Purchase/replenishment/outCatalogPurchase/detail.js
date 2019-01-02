@@ -12,7 +12,7 @@ import { Table ,Row, Col, Tooltip, Button, message } from 'antd';
 import {Link} from 'react-router-dom';
 import { connect } from 'dva';
 const columns = [
-  /*{
+ /* {
     title: '通用名称',
     width: 224,
     dataIndex: 'ctmmGenericName',
@@ -48,7 +48,7 @@ const columns = [
   },
   {
     title: '单位',
-    width: 100,
+    width: 112,
     dataIndex: 'replanUnit',
   },
   {
@@ -59,11 +59,11 @@ const columns = [
   {
     title: '需求数量',
     dataIndex: 'demandQuantity',
-    width: 100,
+    width: 112,
   },
   {
     title: '生产厂家',
-    width: 224,
+    width: 200,
     dataIndex: 'ctmmManufacturerName',
     className: 'ellipsis',
     render:(text)=>(
@@ -72,7 +72,7 @@ const columns = [
   },
   {
     title: '供应商',
-    width: 224,
+    width: 200,
     dataIndex: 'supplierName',
     className: 'ellipsis',
     render:(text)=>(
@@ -82,12 +82,12 @@ const columns = [
   {
     title: '价格',
     dataIndex: 'price',
-    width: 100
+    width: 112
   },
   {
     title: '金额',
     dataIndex: 'amount',
-    width: 120,
+    width: 112,
     render: (text, record) => (record.price * record.demandQuantity).toFixed(4)
   },
   {
@@ -98,7 +98,7 @@ const columns = [
     {
         title: '药品编码',
         dataIndex: 'hisDrugCode',
-        width: 224,
+        width: 200,
     }
 ];
 

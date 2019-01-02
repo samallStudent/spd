@@ -11,7 +11,7 @@ import React, { PureComponent } from 'react';
 import { Table, Row, Col, Tooltip, message } from 'antd';
 import { connect } from 'dva';
 const columns = [
-  {
+  /*{
     title: '通用名',
     width: 224,
     dataIndex: 'ctmmGenericName',
@@ -19,17 +19,17 @@ const columns = [
     render:(text)=>(
       <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
     )
-  },
+  },*/
   {
     title: '商品名',
-    width: 224,
+    width: 350,
     dataIndex: 'goodsName',
     className: 'ellipsis',
     render:(text)=>(
       <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
     )
   },
-  {
+  /*{
     title: '规格',
     width: 168,
     dataIndex: 'goodsSpec',
@@ -37,10 +37,10 @@ const columns = [
     render:(text)=>(
       <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
     )
-  },
+  },*/
   {
     title: '生产厂家',
-    width: 224,
+    width: 200,
     dataIndex: 'producerName',
     className:'ellipsis',
     render:(text)=>(
@@ -52,14 +52,10 @@ const columns = [
     width: 168,
     dataIndex: 'packageSpecification'
   },
-  {
-    title: '药品编码',
-    width: 168,
-    dataIndex: 'goodsCode'
-  },
+
   {
     title: '批准文号',
-    width: 224,
+    width: 200,
     dataIndex: 'registKey'
   },
   {
@@ -77,6 +73,11 @@ const columns = [
     width: 112,
     dataIndex: 'settleAmount'
   },
+    {
+        title: '药品编码',
+        width: 168,
+        dataIndex: 'goodsCode'
+    }
 ];
 
 class Detail extends PureComponent{

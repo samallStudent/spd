@@ -120,7 +120,7 @@ class NewAdd extends PureComponent{
         <Row>
           <Col span={7} style={{marginLeft: 4}}>
             <Search 
-              style={{ width: 248 }}
+              style={{ width: 496 }}
               placeholder='通用名/商品名'
             />
           </Col>

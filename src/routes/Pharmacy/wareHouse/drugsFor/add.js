@@ -472,7 +472,7 @@ class NewAdd extends PureComponent {
             <Col span={7} style={{ marginLeft: 4 }}>
               <FetchSelect
                 value={query.hisDrugCodeList[0]}
-                style={{ width: 248 }}
+                style={{ width: 496 }}
                 allowClear={true}
                 placeholder='通用名/商品名'
                 url={wareHouse.QUERY_DRUG_BY_LIST}

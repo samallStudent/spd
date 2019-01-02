@@ -16,7 +16,7 @@ const columns = [
     dataIndex: 'backNo',
     width: 168
   },
- /* {
+  /*{
     title: '通用名',
     width: 224,
     dataIndex: 'ctmmGenericName',
@@ -34,7 +34,7 @@ const columns = [
       <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
     )
   },
-  /*{
+ /* {
     title: '规格',
     width: 168,
     dataIndex: 'ctmmSpecification',
@@ -89,7 +89,7 @@ const columns = [
   },
   {
     title: '生产批号',
-    width: 168,
+    width: 148,
     dataIndex: 'lot',
   },
   {

@@ -70,12 +70,12 @@ const columns = [
   },
   {
     title: '批准文号',
-    width: 224,
+    width: 200,
     dataIndex: 'approvalNo',
   },
   {
     title: '生产厂家',
-    width: 224,
+    width: 200,
     dataIndex: 'ctmmManufacturerName',
     className:'ellipsis',
     render:(text)=>(
