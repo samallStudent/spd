@@ -123,7 +123,7 @@ class DetailsNewLibrary extends PureComponent{
     this.props.dispatch({
       type: 'base/deliverRequest',
       payload: {
-        distributeCode: this.state.id
+        distributeCode: this.state.id,
       },
       callback: (data) => {
         this.setState({

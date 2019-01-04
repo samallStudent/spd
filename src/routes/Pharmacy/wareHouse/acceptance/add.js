@@ -148,7 +148,7 @@ class AddNewAcceptance extends PureComponent{
     this.props.dispatch({
       type: 'base/deliverRequest',
       payload: {
-        distributeCode: value
+        distributeCode: value,
       },
       callback: (data) => {
         this.setState({

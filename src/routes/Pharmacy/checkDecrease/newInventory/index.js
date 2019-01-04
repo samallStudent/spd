@@ -331,7 +331,7 @@ class NewInventory extends PureComponent {
       },
       {
         title: '盘点责任人',
-        dataIndex: 'sheveUserName',
+        dataIndex: 'createUserName',
         width: 100,
       },
       {
