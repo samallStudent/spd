@@ -38,19 +38,19 @@ const formRemarkLayout = {
 }
 const modalColumns = [
   {
-    title: '通用名称',
-    dataIndex: 'ctmmGenericName',
-    width: 224,
+      title: '药品名称',
+      dataIndex: 'ctmmTradeName',
+      width: 350,
     className: 'ellipsis',
     render:(text)=>(
       <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
     )
   },
-  {
+ /* {
     title: '规格',
     dataIndex: 'ctmmSpecification',
     width: 168,
-  },
+  },*/
   {
     title: '入库单号',
     width: 168,
@@ -58,23 +58,23 @@ const modalColumns = [
   },
   {
     title: '生产批号',
-    width: 168,
+    width: 148,
     dataIndex: 'lot',
   },
   {
     title: '生产日期',
-    width: 168,
+    width: 118,
     dataIndex: 'productDate',
   },
   {
     title: '有效期至',
-    width: 168,
+    width: 118,
     dataIndex: 'validEndDate',
   },
   {
     title: '剂型',
     dataIndex: 'ctmmDosageFormDesc',
-    width: 168,
+    width: 90,
   },
   {
     title: '包装单位',
@@ -84,12 +84,12 @@ const modalColumns = [
   {
     title: '批准文号',
     dataIndex: 'approvalNo',
-    width: 168,
+    width: 148,
   },
   {
     title: '生产厂家',
     dataIndex: 'ctmmManufacturerName',
-    width: 224,
+    width: 200,
     className:'ellipsis',
     render:(text)=>(
       <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
@@ -410,10 +410,10 @@ class AddRefund extends PureComponent{
       },
       {
         title: '有效期至',
-        width: 168,
+        width: 118,
         dataIndex: 'validEndDate',
       },
-      {
+     /* {
         title: '通用名称',
         width: 224,
         dataIndex: 'ctmmGenericName',
@@ -421,29 +421,29 @@ class AddRefund extends PureComponent{
         render:(text)=>(
           <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
         )
-      },
+      },*/
       {
-        title: '商品名称',
-        width: 224,
+        title: '药品名称',
+        width: 350,
         dataIndex: 'ctmmTradeName',
         className: 'ellipsis',
         render:(text)=>(
           <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
         )
       },
-      {
+     /* {
         title: '规格',
         width: 168,
         dataIndex: 'ctmmSpecification',
-      },
+      },*/
       {
         title: '剂型',
-        width: 168,
+        width: 90,
         dataIndex: 'ctmmDosageFormDesc',
       },
       {
         title: '包装规格',
-        width: 168,
+        width: 148,
         dataIndex: 'packageSpecification',
         className:'ellipsis',
         render:(text)=>(
@@ -452,22 +452,22 @@ class AddRefund extends PureComponent{
       },
       {
         title: '生产批号',
-        width: 168,
+        width: 148,
         dataIndex: 'lot',
       },
       {
         title: '生产日期',
-        width: 168,
+        width: 118,
         dataIndex: 'productDate',
       },
       {
         title: '批准文号',
-        width: 224,
+        width: 200,
         dataIndex: 'approvalNo',
       },
       {
         title: '生产厂家',
-        width: 224,
+        width: 200,
         dataIndex: 'ctmmManufacturerName',
         className:'ellipsis',
         render:(text)=>(
@@ -476,7 +476,7 @@ class AddRefund extends PureComponent{
       },
       {
         title: '供应商',
-        width: 224,
+        width: 200,
         dataIndex: 'supplierName',
         className: 'ellipsis',
         render:(text)=>(
@@ -583,12 +583,12 @@ class AddRefund extends PureComponent{
             <Form onSubmit={this.handleSearch}>
               <Row gutter={30}>
                 <Col span={8}>
-                  <FormItem label={`通用名/商品名`} {...formItemLayout}>
+                  <FormItem label={`药品名称`} {...formItemLayout}>
                     {getFieldDecorator('hisDrugCodeList')(
                       <FetchSelect
                         style={{width: '100%'}}
                         allowClear
-                        placeholder='通用名/商品名'
+                        placeholder='药品名称'
                         url={outStorage.QUERY_DRUG_BY_LIST}
                       />
                     )}

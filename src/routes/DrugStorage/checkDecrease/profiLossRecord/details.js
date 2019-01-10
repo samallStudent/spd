@@ -83,7 +83,7 @@ class Details extends PureComponent {
         width: 168
       },
       {
-          title: '商品名',
+          title: '药品名称',
           width: 350,
           dataIndex: 'ctmmTradeName',
           className: 'ellipsis',
@@ -240,7 +240,7 @@ class Details extends PureComponent {
                   <FetchSelect
                     style={{width: '100%'}}
                     allowClear
-                    placeholder='商品名'
+                    placeholder='药品名称'
                     url={common.QUERY_DRUG_BY_LIST}
                     cb={this.onSearch}
                   />

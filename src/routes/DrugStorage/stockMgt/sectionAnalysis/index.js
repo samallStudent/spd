@@ -124,7 +124,7 @@ class SearchForm extends PureComponent{
             </FormItem>
           </Col>
           <Col span={8} style={{ display: display }}>
-            <FormItem {...formItemLayout} label={'商品名'}>
+            <FormItem {...formItemLayout} label={'药品名称'}>
               {
                 getFieldDecorator(`paramName`)(
                   <Input placeholder='请输入' />
@@ -235,7 +235,7 @@ class SectionAnalysis extends PureComponent {
           <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
         )
       }, */{
-        title: '商品名',
+        title: '药品名称',
         dataIndex: 'ctmmTradeName',
         width: 350,
         className: 'ellipsis',

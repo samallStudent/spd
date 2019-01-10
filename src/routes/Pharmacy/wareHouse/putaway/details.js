@@ -185,15 +185,15 @@ class DetailsPutaway extends PureComponent{
         dataIndex: 'replanUnit'
       },
       {
-        title: '通用名',
-        width: 200,
-        dataIndex: 'ctmmGenericName',
+          title: '药品名称',
+          dataIndex: 'ctmmTradeName',
+          width: 350,
         className: 'ellipsis',
         render:(text)=>(
           <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
         )
       },
-      {
+     /* {
         title: '规格',
         width: 148,
         dataIndex: 'ctmmSpecification',
@@ -201,7 +201,7 @@ class DetailsPutaway extends PureComponent{
         render:(text)=>(
           <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
         )
-      },
+      },*/
       {
         title: '包装规格',
         width: 148,
@@ -264,19 +264,19 @@ class DetailsPutaway extends PureComponent{
         dataIndex: 'replanUnit'
       },
       {
-        title: '通用名',
-        width: 200,
-        dataIndex: 'ctmmGenericName',
+          title: '药品名称',
+          dataIndex: 'ctmmTradeName',
+          width: 350,
         className: 'ellipsis',
         render:(text)=>(
           <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
         )
       },
-      {
+      /*{
         title: '规格',
         width: 148,
         dataIndex: 'ctmmSpecification',
-      },
+      },*/
       {
         title: '包装规格',
         width: 148,

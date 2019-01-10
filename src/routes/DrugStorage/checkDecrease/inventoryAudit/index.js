@@ -222,7 +222,7 @@ class InventoryAudit extends PureComponent {
       {
         title: '盘点责任人',
         dataIndex: 'createUserName',
-        width: 90,
+        width: 100,
       },
       {
         title: '制单时间',

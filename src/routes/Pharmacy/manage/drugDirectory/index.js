@@ -12,7 +12,7 @@ import { createData } from '../../../../common/data';
 const FormItem = Form.Item;
 const Option = Select.Option;
 const columns = [
-  {
+ /* {
    title: '通用名称',
    dataIndex: 'index',
    width:150,
@@ -20,14 +20,17 @@ const columns = [
     <span>
       <Link to={{pathname: `/pharmacy/manage/drugDirectory/edit`}}>{record.productName}</Link>
     </span>
-  },
+  },*/
   {
-    title: '商品名称',
-    width:150,
+    title: '药品名称',
+    width:350,
     dataIndex: 'productName',
-    
+    render: (text, record) => 
+      <Tooltip placement="topLeft" title={text}>
+        <Link to={{pathname: `/pharmacy/manage/drugDirectory/edit`}}>{record.productName}</Link>
+      </Tooltip>
   },
-  {
+  /*{
     title: '规格',
     width:150,
     dataIndex: 'spec',
@@ -35,10 +38,10 @@ const columns = [
     render:(text)=>(
       <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
     )
-  },
+  },*/
   {
     title: '剂型',
-    width:100,
+    width:90,
     dataIndex: 'fmodal',
   },
   {

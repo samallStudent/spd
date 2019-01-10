@@ -310,7 +310,7 @@ class NewAddGoodsAdjust extends PureComponent{
         title: '货位类型',
         dataIndex: 'positionTypeName',
         width: 168,
-      },{
+      },/*{
         title: '通用名',
         dataIndex: 'ctmmGenericName',
         width: 224,
@@ -318,22 +318,22 @@ class NewAddGoodsAdjust extends PureComponent{
         render:(text)=>(
           <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
         )
-      },{
-        title: '商品名',
+      },*/{
+        title: '药品名称',
         dataIndex: 'ctmmTradeName',
-        width: 224,
+        width: 350,
         className: 'ellipsis',
         render:(text)=>(
           <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
         )
-      },{
+      },/*{
         title: '规格',
         dataIndex: 'ctmmSpecification',
         width: 168,
-      },{
+      },*/{
         title: '剂型',
         dataIndex: 'ctmmDosageFormDesc',
-        width: 168,
+        width: 90,
       },{
         title: '包装规格',
         dataIndex: 'packageSpecification',
@@ -350,7 +350,7 @@ class NewAddGoodsAdjust extends PureComponent{
       {
         title: '生产批号',
         dataIndex: 'lot',
-        width: 168,
+        width: 148,
       },
       {
         title: '单位',
@@ -360,7 +360,7 @@ class NewAddGoodsAdjust extends PureComponent{
       {
         title: '批准文号',
         dataIndex: 'approvalNo',
-        width: 224,
+        width: 200,
       }
     ];
     return (
@@ -436,7 +436,7 @@ class NewAddGoodsAdjust extends PureComponent{
                 allowClear
                 value={value}
                 style={{ width: 496 }}
-                placeholder='通用名/商品名'
+                placeholder='药品名称'
                 url={goodsAdjust.QUERY_DRUG_BY_LIST}
                 cb={(value, option) => {
                   let {query} = this.state;

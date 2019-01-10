@@ -149,7 +149,7 @@ class SearchForm extends PureComponent{
 const WrappSearchForm = Form.create()(SearchForm);
 
 const columns = [
-  {
+  /*{
     title: '通用名称',
     dataIndex: 'ctmmGenericName',
     width: 224,
@@ -157,11 +157,11 @@ const columns = [
     render:(text)=>(
       <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
     )
-  },
+  },*/
   {
-    title: '商品名称',
+    title: '药品名称',
     dataIndex: 'ctmmTradeName',
-    width: 224,
+    width: 350,
     className: 'ellipsis',
     render:(text)=>(
       <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
@@ -175,23 +175,24 @@ const columns = [
   {
     title: '剂型',
     dataIndex: 'ctmmDosageFormDesc',
-    width: 168
+    width: 90
   },
   {
     title: '包装规格',
     dataIndex: 'packageSpecification',
-    width: 168
+    width: 148
   },
-  {
-    title: '药品编码',
-    dataIndex: 'hisDrugCode',
-    width: 168
-  },
+
   {
     title: '批准文号',
     dataIndex: 'approvalNo',
     width: 168
-  }
+  },
+    {
+        title: '药品编码',
+        dataIndex: 'hisDrugCode',
+        width: 168
+    },
 ]
 
 class DrugDirectory extends PureComponent{
@@ -482,7 +483,7 @@ class DrugDirectory extends PureComponent{
           <Button key="back"  type='default' onClick={()=>this.setState({ addVisible: false })}>取消</Button>
         ]}
       >
-        <Search placeholder='通用名/商品名/生产厂家' style={{ width: 256 }}
+        <Search placeholder='药品名称/生产厂家' style={{ width: 256 }}
           onSearch={(e)=>this.searchModalInsert(e)}/>
         <RemoteTable 
           ref='modalTableInsert'

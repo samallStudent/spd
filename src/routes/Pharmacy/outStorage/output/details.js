@@ -9,7 +9,7 @@ import RetomeTable from '../../../../components/TableGrid';
 import outStorage from '../../../../api/pharmacy/outStorage';
 import {connect} from 'dva';
 const columns = [
-  {
+ /* {
     title: '通用名称',
     width: 200,
     dataIndex: 'ctmmGenericName',
@@ -17,21 +17,21 @@ const columns = [
     render:(text)=>(
       <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
     )
-  },
+  },*/
   {
-    title: '商品名称',
-    width: 200,
+    title: '药品名称',
+    width: 350,
     dataIndex: 'ctmmTradeName',
     className: 'ellipsis',
     render:(text)=>(
       <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
     )
   },
-  {
+  /*{
     title: '规格',
     width: 148,
     dataIndex: 'ctmmSpecification',
-  },
+  },*/
   {
     title: '剂型',
     width: 90,

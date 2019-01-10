@@ -33,7 +33,7 @@ class EditDrugDirectory extends PureComponent{
             <Col span={10}>
               <div className="ant-row ant-form-item">
                 <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
-                    <label>商品名</label>
+                    <label>药品名称</label>
                 </div>
                 <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18">
                   <div className='ant-form-item-control'>
@@ -57,7 +57,7 @@ class EditDrugDirectory extends PureComponent{
                 )}
               </FormItem>
             </Col>
-            <Col span={10}>
+            {/*<Col span={10}>
               <div className="ant-row ant-form-item">
                 <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
                     <label>通用名</label>
@@ -68,7 +68,7 @@ class EditDrugDirectory extends PureComponent{
                   </div>
                 </div>
               </div>
-            </Col>
+            </Col>*/}
             <Col span={8}>
               <FormItem label={`库房上限`} {...formItemLayout}>
                 {getFieldDecorator('kufangshangxian', {})(

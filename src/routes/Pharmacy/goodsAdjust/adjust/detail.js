@@ -12,23 +12,23 @@ import {Table ,Row, Col, Tooltip, Spin} from 'antd';
 import {connect} from 'dva';
 const columns = [
   {
-    title: '通用名',
-    dataIndex: 'ctmmGenericName',
-    width: 224,
+      title: '药品名称',
+      dataIndex: 'ctmmTradeName',
+      width: 350,
     className: 'ellipsis',
     render:(text)=>(
       <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
     )
   },
-  {
+  /*{
     title: '规格',
     dataIndex: 'ctmmSpecification',
     width: 168,
-  },
+  },*/
   {
     title: '生产厂家',
     dataIndex: 'ctmmManufacturerName',
-    width: 224,
+    width: 200,
     className:'ellipsis',
     render:(text)=>(
       <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
@@ -82,12 +82,12 @@ const columns = [
   {
     title: '包装规格',
     dataIndex: 'packageSpecification',
-    width: 168,
+    width: 148,
   },
   {
     title: '生产批号',
     dataIndex: 'lot',
-    width: 168,
+    width: 148,
   }
 ];
 

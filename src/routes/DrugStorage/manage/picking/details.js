@@ -76,7 +76,7 @@ class DetailsPicking extends PureComponent{
         render:(text,record)=>record.productName
       },
       {
-        title: '商品名称',
+        title: '药品名称',
         width:150,
         dataIndex: 'productName',
       },
@@ -261,7 +261,7 @@ class DetailsPicking extends PureComponent{
             <Row>
               <Col span={8}>
                   <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
-                      <label>商品名称</label>
+                      <label>药品名称</label>
                   </div>
                   <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18">
                     <div className='ant-form-item-control'>注射用复方甘草酸苷</div>

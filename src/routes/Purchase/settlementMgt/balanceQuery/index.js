@@ -20,7 +20,7 @@ const columns = [
     title: '通用名',
     dataIndex: 'geName',
 }, */{
-    title: '商品名',
+    title: '药品名称',
     dataIndex: 'productName',
     width:350,
     render:(text)=>(

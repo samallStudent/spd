@@ -21,7 +21,7 @@ const FormItem = Form.Item;
 
 const IndexColumns = [
     {
-        title: '药品',
+        title: '药品名称',
         dataIndex: 'ctmmGenericName',
         width: 224,
         className:'ellipsis',
@@ -158,7 +158,7 @@ class formSearch extends PureComponent{
                         getFieldDecorator(`keys`)(
                            <FetchSelect
                                 allowClear={true}
-                                placeholder='商品名'
+                                placeholder='药品名称'
                                 query={{queryType: 3}}
                                 url={salvageCar.QUERY_DRUGBY_LIST}
                             />

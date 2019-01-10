@@ -33,7 +33,7 @@ const columns = [
     )
   },*/
   {
-    title: '商品名',
+    title: '药品名称',
     width:350,
     dataIndex: 'ctmmTradeName',
     className: 'ellipsis',
@@ -210,26 +210,26 @@ class Detail extends PureComponent{
             </div>
             </Col>
             <Col span={8}>
-              <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-7">
+              <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-9">
                 <label>损益总数量</label>
               </div>
-              <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-17">
+              <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-15">
                 <div className='ant-form-item-control'>{detailsData.excessiveTotalAmount}</div>
               </div>
             </Col>
             <Col span={8}>
-              <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-7">
+              <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-9">
                   <label>实际总损益金额</label>
               </div>
-              <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-17">
+              <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-15">
                 <div className='ant-form-item-control'>{detailsData.excessiveTotalMoney}</div>
               </div>
             </Col>
             <Col span={8}>
-              <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-7">
+              <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-9">
                   <label>生成时间</label>
               </div>
-              <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-17">
+              <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-15">
                 <div className='ant-form-item-control'>{detailsData.createDate}</div>
               </div>
             </Col>

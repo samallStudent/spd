@@ -23,7 +23,7 @@ const modalColumns = [
     )
   },*/
   {
-    title: '商品名',
+    title: '药品名称',
     width: 350,
     dataIndex: 'ctmmTradeName',
     className: 'ellipsis',
@@ -269,7 +269,7 @@ class AddOutput extends PureComponent{
         )
       },*/
       {
-        title: '商品名',
+        title: '药品名称',
         width: 350,
         dataIndex: 'ctmmTradeName',
         className: 'ellipsis',
@@ -453,7 +453,7 @@ class AddOutput extends PureComponent{
                 query.detail.paramName = value;
                 this.setState({query});
               }}  
-              placeholder='商品名'
+              placeholder='药品名称'
               style={{width:200}}
             />
           </Row>

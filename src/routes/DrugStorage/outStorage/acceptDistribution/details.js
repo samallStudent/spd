@@ -244,7 +244,7 @@ class DetailsPicking extends PureComponent{
         const { detailsData, leftDataSource, rightDataSource, rightLoading, loading, hasStyle} = this.state;
         const leftColumns = [
             {
-                title: '商品名',
+                title: '药品名称',
                 dataIndex: 'ctmmTradeName',
                 width: 350,
                 className: 'ellipsis',

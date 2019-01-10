@@ -93,23 +93,22 @@ class DetailsPickSoldOut extends PureComponent{
     const { detailsData ,loading, activeKey, leftDataSource, rightDataSource } = this.state;
     const columns = [
       {
-        title: '通用名称',
-        width: 224,
+          title: '药品名称',
+          dataIndex: 'ctmmTradeName',
+          width: 350,
         fixed: 'left',
-        dataIndex: 'ctmmGenericName',
-        className: 'ellipsis',
         render:(text)=>(
           <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
         )
       },
-      {
+      /*{
         title: '规格',
         width: 168,
         dataIndex: 'ctmmSpecification',
-      },
+      },*/
       {
         title: '生产厂家',
-        width: 224,
+        width: 200,
         dataIndex: 'ctmmManufacturerName',
         className:'ellipsis',
         render:(text)=>(
@@ -118,22 +117,22 @@ class DetailsPickSoldOut extends PureComponent{
       },
       {
         title: '生产批号',
-        width: 168,
+        width: 148,
         dataIndex: 'lot'
       },
       {
         title: '生产日期',
-        width: 168,
+        width: 118,
         dataIndex: 'productDate'
       },
       {
         title: '有效期至',
-        width: 168,
+        width: 118,
         dataIndex: 'validEndDate'
       },
       {
         title: '包装规格',
-        width: 168,
+        width: 148,
         dataIndex: 'packageSpecification',
       },
       {
@@ -153,7 +152,7 @@ class DetailsPickSoldOut extends PureComponent{
       },
       {
         title: '实际拣货数量',
-        width: 168,
+        width: 128,
         dataIndex: 'amount',
         render:(text,record,index)=>{
           return <InputNumber

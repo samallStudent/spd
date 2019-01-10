@@ -119,12 +119,12 @@ class SearchForm extends PureComponent{
             </FormItem>
           </Col>
           <Col span={8}>
-            <FormItem {...formItemLayout} label={'商品名/通用名'}>
+            <FormItem {...formItemLayout} label={'药品名称'}>
               {
                 getFieldDecorator(`hisDrugCodeList`)(
                   <FetchSelect
                     allowClear={true}
-                    placeholder='通用名/商品名'
+                    placeholder='药品名称'
                     query={{queryType: 3}}
                     url={common.QUERY_DRUG_BY_LIST}
                   />
@@ -219,7 +219,7 @@ class NearlyEffective extends PureComponent {
         title: '库存',
         dataIndex: 'totalQuantity',
         width: 90
-      }, {
+      },/* {
         title: '通用名',
         dataIndex: 'ctmmGenericName',
         width: 200,
@@ -227,19 +227,19 @@ class NearlyEffective extends PureComponent {
         render:(text)=>(
           <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
         )
-      }, {
-        title: '商品名',
+      }, */{
+        title: '药品名称',
         dataIndex: 'ctmmTradeName',
-        width: 200,
+        width: 350,
         className: 'ellipsis',
         render:(text)=>(
           <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
         )
-      }, {
+      }, /*{
         title: '规格',
         dataIndex: 'ctmmSpecification',
         width: 148,
-      }, {
+      },*/ {
         title: '生产厂家',
         dataIndex: 'ctmmManufacturerName',
         width: 200,
@@ -279,15 +279,16 @@ class NearlyEffective extends PureComponent {
         render:(text)=>(
             <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
         )
-      }, {
-        title: '药品编号',
-        dataIndex: 'hisDrugCode',
-        width: 138,
-      }, {
+      },  {
         title: '批准文号',
         dataIndex: 'approvalNo',
         width: 128,
-      }
+      },
+        {
+            title: '药品编号',
+            dataIndex: 'hisDrugCode',
+            width: 138,
+        },
     ];
     const {query} = this.state;
     return (

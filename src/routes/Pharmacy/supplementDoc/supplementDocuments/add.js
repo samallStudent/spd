@@ -23,7 +23,7 @@ const modalColumns = [
     dataIndex: 'positionTypeName',
     width: 148
   },
-  {
+  /*{
     title: '通用名称',
     dataIndex: 'ctmmGenericName',
     width: 200,
@@ -31,21 +31,21 @@ const modalColumns = [
     render:(text)=>(
       <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
     )
-  },
+  },*/
   {
-    title: '商品名',
+    title: '药品名称',
     dataIndex: 'ctmmTradeName',
-    width: 200,
+    width: 350,
     className: 'ellipsis',
     render:(text)=>(
       <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
     )
   },
-  {
+  /*{
     title: '规格',
     dataIndex: 'ctmmSpecification',
     width: 148,
-  },
+  },*/
   {
     title: '生产批号',
     width: 138,
@@ -320,22 +320,22 @@ class AddSupplementDocuments extends PureComponent{
         dataIndex: 'positionTypeName',
       },
       {
-        title: '通用名',
-        width: 224,
-        dataIndex: 'ctmmGenericName',
+          title: '药品名称',
+          dataIndex: 'ctmmTradeName',
+          width: 350,
         className: 'ellipsis',
         render:(text)=>(
           <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
         )
       },
-      {
+     /* {
         title: '规格',
         width: 168,
         dataIndex: 'ctmmSpecification',
-      },
+      },*/
       {
         title: '生产厂家',
-        width: 224,
+        width: 200,
         dataIndex: 'ctmmManufacturerName',
         className: 'ellipsis',
         render:(text)=>(
@@ -344,7 +344,7 @@ class AddSupplementDocuments extends PureComponent{
       },
       {
         title: '包装规格',
-        width: 168,
+        width: 148,
         dataIndex: 'packageSpecification',
         className:'ellipsis',
         render:(text)=>(
@@ -353,17 +353,17 @@ class AddSupplementDocuments extends PureComponent{
       },
       {
         title: '批准文号',
-        width: 168,
+        width: 148,
         dataIndex: 'approvalNo',
       },
       {
         title: '生产日期',
-        width: 168,
+        width: 118,
         dataIndex: 'productDate',
       },
       {
         title: '有效期至',
-        width: 168,
+        width: 118,
         dataIndex: 'validEndDate',
       }
     ];
@@ -486,7 +486,7 @@ class AddSupplementDocuments extends PureComponent{
                 <Select
                   showSearch
                   showArrow={false}
-                  placeholder="通用名/商品名"
+                  placeholder="药品名称"
                   notFoundContent={fetching ? <Spin size="small" /> : null}
                   filterOption={false}
                   onSearch={this.fetchSelect}

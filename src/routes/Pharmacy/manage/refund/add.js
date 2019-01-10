@@ -27,7 +27,7 @@ const columns = [
     render:(text,record)=>record.productName
   },
   {
-    title: '商品名称',
+    title: '药品名称',
     width:150,
     dataIndex: 'productName',
   },
@@ -52,12 +52,12 @@ const columns = [
   },
   {
     title: '生产日期',
-    width:150,
+    width:118,
     dataIndex: 'productCompany3',
   },
   {
     title: '有效期至',
-    width:150,
+    width:118,
     dataIndex: 'productCompany4',
   },
   {
@@ -84,26 +84,26 @@ const modalColumns = [
   },
   {
     title: '生产日期',
-    width:150,
+    width:118,
     dataIndex: 'productCompany3',
   },
   {
     title: '有效期至',
-    width:150,
+    width:118,
     dataIndex: 'productCompany4',
   },
-  {
+  /*{
     title: '通用名称',
     width:100,
     dataIndex: 'productName1',
     render:(text,record)=>record.productName
-  },
+  },*/
   {
-    title: '商品名称',
-    width:150,
+    title: '药品名称',
+    width:350,
     dataIndex: 'productName',
   },
-  {
+ /* {
     title: '规格',
     width:150,
     dataIndex: 'spec',
@@ -111,10 +111,10 @@ const modalColumns = [
     render:(text)=>(
       <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
     )
-  },
+  },*/
   {
     title: '剂型',
-    width:150,
+    width:90,
     dataIndex: 'fmodal',
   },
   {
@@ -221,7 +221,7 @@ class AddRefund extends PureComponent{
           onOk={()=>this.addToMain()}
           onCancel={()=>this.setState({visible:false,selectedRowKey:[]})}>
           <Row>
-            <Input placeholder='通用名/商品名/供应商/生产厂家/批号' style={{width:300}}/>
+            <Input placeholder='药品名称/供应商/生产厂家/批号' style={{width:300}}/>
           </Row>
           <Table
             rowSelection={{

@@ -65,7 +65,7 @@ class RecallDetail extends PureComponent {
 					)
 				},*/
 				{
-					title: '商品名',
+					title: '药品名称',
 					dataIndex: 'ctmmTradeName',
 					width: 350,
 					className: 'ellipsis',
@@ -89,7 +89,7 @@ class RecallDetail extends PureComponent {
 				},
 				{
 					title: '包装规格',
-					width: 100,
+					width: 140,
 					dataIndex: 'packageSpecification',
 				},
 				{

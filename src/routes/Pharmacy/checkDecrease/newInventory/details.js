@@ -137,12 +137,22 @@ class Details extends PureComponent {
     if(selectedRows.length === 0) {
       return message.warning('至少选择一条数据');
     };
-    
     if(!this.onCheck()) return;
     this.setState({
       submitLoading: true
     });
-    let detailList = selectedRows.map(item => {
+    selectedRows = this.seekChildren(selectedRows).realSelectedRows; //包含children的二维数组
+    let includeChildren = [...selectedRows];//包含children的一维数组
+    selectedRows.map(item => {  
+      if(item.children && item.children.length) {
+        item.children.map(childItem => {
+          includeChildren.push(childItem);
+          return childItem;
+        });
+      };
+      return item;
+    });
+    let detailList = includeChildren.map(item => {
       return {
         accountBatchNo: item.accountBatchNo,
         accountEndTime: item.accountEndTime,
@@ -550,19 +560,19 @@ class Details extends PureComponent {
         width: 138
       },
       {
-        title: '通用名称',
-        dataIndex: 'ctmmGenericName',
-        width: 200,
+          title: '药品名称',
+          dataIndex: 'ctmmTradeName',
+          width: 350,
         className: 'ellipsis',
         render:(text)=>(
           <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
         )
       },
-      {
+      /*{
         title: '规格',
         dataIndex: 'ctmmSpecification',
         width: 148,
-      },
+      },*/
       {
         title: '生产厂家',
         dataIndex: 'ctmmManufacturerName',
@@ -666,7 +676,7 @@ class Details extends PureComponent {
                   placeholder="请输入实际生产日期" 
                  /> : text
         },
-        width:138
+        width: 168
       },
       {
         title: '有效期至',
@@ -690,7 +700,7 @@ class Details extends PureComponent {
                   placeholder="请输入实际有效期至" 
                  /> : text
         },
-        width: 138
+        width: 168
       },
       {
         title: '单价',
@@ -838,7 +848,7 @@ class Details extends PureComponent {
                   <FetchSelect
                     style={{width: '100%'}}
                     allowClear
-                    placeholder='通用名/商品名'
+                    placeholder='药品名称'
                     url={common.QUERY_DRUG_BY_LIST}
                     cb={this.onSearch}
                   />

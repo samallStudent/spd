@@ -69,9 +69,10 @@ class Putaway extends PureComponent{
         render:(text,record)=>record.productName
       },
       {
-        title: '商品名称',
-        width:150,
+        title: '药品名称',
+        width:350,
         dataIndex: 'productName',
+        render:(text,record)=>record.productName
       },
       {
         title: '规格',
@@ -84,7 +85,7 @@ class Putaway extends PureComponent{
       },
       {
         title: '剂型',
-        width:150,
+        width:90,
         dataIndex: 'fmodal',
       },
       {

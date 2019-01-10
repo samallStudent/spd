@@ -169,7 +169,7 @@ const columns = [
     )
   },*/
   {
-    title: '商品名称',
+    title: '药品名称',
     dataIndex: 'ctmmTradeName',
     width: 350,
     className: 'ellipsis',
@@ -203,11 +203,7 @@ const columns = [
     dataIndex: 'approvalNo',
     width: 200,
   }
-  ,{
-        title: '药品编码',
-        dataIndex: 'hisDrugCode',
-        width: 200
-    },
+  ,
 ]
 
 class DrugDirectory extends PureComponent{
@@ -412,6 +408,11 @@ class DrugDirectory extends PureComponent{
        dataIndex: 'downQuantity',
        width: 112
       },
+        {
+            title: '药品编码',
+            dataIndex: 'hisDrugCode',
+            width: 200
+        },
       {
         title: '操作',
         dataIndex: 'action',
@@ -563,7 +564,7 @@ class DrugDirectory extends PureComponent{
             <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-20">
               <div className='ant-form-item-control'>
                 <Search
-                  placeholder='通用名/商品名/生产厂家' 
+                  placeholder='通用名/药品名称/生产厂家'
                   style={{ width: '100%' }}
                   onSearch={this.searchModalInsert}
                 />

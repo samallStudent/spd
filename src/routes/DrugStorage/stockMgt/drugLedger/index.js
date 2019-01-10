@@ -114,7 +114,7 @@ class SearchForm extends PureComponent{
             </FormItem>
           </Col>
           <Col span={8}>
-            <FormItem {...formItemLayout} label={'商品名'}>
+            <FormItem {...formItemLayout} label={'药品名称'}>
               {
                 getFieldDecorator(`paramsName`)(
                   <Input placeholder='请输入' />
@@ -214,7 +214,7 @@ class DrugLedger extends PureComponent {
           <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
         )
       }, */{
-        title: '商品名',
+        title: '药品名称',
         dataIndex: 'ctmmTradeName',
         width: 350,
         className: 'ellipsis',
@@ -270,10 +270,6 @@ class DrugLedger extends PureComponent {
         dataIndex: 'approvalNo',
         width: 118,
       }, {
-            title: '药品编号',
-            dataIndex: 'hisDrugCode',
-            width: 118,
-        }, {
         title: '库存数量',
         dataIndex: 'stockNum',
         fixed: 'right',
@@ -294,6 +290,12 @@ class DrugLedger extends PureComponent {
         fixed: 'right',
         width: 100,
       },
+        {
+            title: '药品编号',
+            fixed: 'right',
+            dataIndex: 'hisDrugCode',
+            width: 148,
+        }
     ];
     const {query} = this.state;
     return (

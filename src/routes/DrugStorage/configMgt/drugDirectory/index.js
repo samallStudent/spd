@@ -150,7 +150,7 @@ const columns = [
     ),
   },*/
   {
-    title: '商品名称',
+    title: '药品名称',
     dataIndex: 'ctmmTradeName',
     width: 350,
     className: 'ellipsis',
@@ -466,7 +466,7 @@ class DrugDirectory extends PureComponent{
           <Button key="back"  type='default' onClick={()=>this.setState({ addVisible: false })}>取消</Button>
         ]}
         >
-        <Search placeholder='商品名/生产厂家' style={{ width: 256 }}
+        <Search placeholder='药品名称/生产厂家' style={{ width: 256 }}
           onSearch={(e)=>this.searchModalInsert(e)}/>
         <RemoteTable 
           ref='modalTableInsert'

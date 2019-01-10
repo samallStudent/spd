@@ -15,7 +15,7 @@ import { connect } from 'dva';
 const columns = [
   {
     title: '货位',
-    width: 112,
+    width: 120,
     dataIndex: 'locName'
   },
   {
@@ -33,7 +33,7 @@ const columns = [
     )
   },*/
   {
-    title: '商品名',
+    title: '药品名称',
     width: 350,
     dataIndex: 'ctmmTradeName',
     className: 'ellipsis',

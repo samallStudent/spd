@@ -165,7 +165,7 @@ const columns = [/*{
   }
 },*/
 {
-  title: '商品名',
+  title: '药品名称',
   dataIndex: 'ctmmTradeName',
   width: 350,
   className: 'ellipsis',
@@ -328,11 +328,11 @@ class DrugDirectory extends PureComponent{
                     )
                   }
                 </FormItem>*/}
-                <FormItem {...singleFormItemLayout} label={`商品名`}>
+                <FormItem {...singleFormItemLayout} label={`药品名称`}>
                   {
                     getFieldDecorator(`ctmmTradeName`,{
                       initialValue: '',
-                      rules: [{ required: true,message: '请输入商品名' }]
+                      rules: [{ required: true,message: '请输入药品名称' }]
                     })(
                       <Input placeholder='请输入' />
                     )

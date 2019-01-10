@@ -24,60 +24,74 @@ class BasicLayout extends PureComponent {
     }
   }
   componentDidMount = () => {
-    
     let { dispatch, users } = this.props;
     let { userInfo } = users;
+
     if(!userInfo.id && !userInfo.loginName){
       this.setState({hasDept: false});
       dispatch({
         type: 'users/userLogin',
         payload: { refresh: true },
-        callback: (data) =>{
-          if(data.deptInfo && data.deptInfo.length){
-            let deptInfo = data.deptInfo;
-            let { menuList } = deptInfo[0];
-            let tree = menuFormat(menuList,true,1);
-            const urlParams = new URL(window.location.href);
-            const id = urlParams.searchParams.get('depeId');
-            const filterDeptInfo = deptInfo.filter(item => item.deptId === id);
-            const deptName = filterDeptInfo[0].deptName;
-            if(filterDeptInfo.length === 0) {
-              message.error('该部门不存在，请勿直接修改地址栏')
-              this.props.history.go(-1);
-            };
-            if(id && deptName) {
-              console.log('刷新');
-              dispatch({
-                type: 'users/setCurrentDept',
-                payload: { id, deptName },
-                callback: () => {
-                  this.setState({
-                    hasDept: true
-                  });
-                  let currMenuList = filterDeptInfo[0].menuList;
-                  let tree = menuFormat(currMenuList, true, 1 );
-                  let menu = tree[0].children[0];
-                  dispatch({
-                    type: 'users/setCurrentMenu',
-                    payload: { menu : menu }
-                  });
-                }
-              });
-            }else {
-              console.log('登录');
-              dispatch({
-                type: 'users/setCurrentMenu',
-                payload: { menu : tree[0].children[0] },
-              });
-              this.setState({
-                hasDept: true
-              });
-            };
-          }
-        }
-      })
+        callback: (data) => this.loginVerify(data)
+      });
     };
-    //权限路由监听
+    //权限管理
+    this.authorityMgt();
+
+    // 监听浏览器弹窗关闭
+  }
+  //登录验证
+  loginVerify = ({data, code, msg}) => {
+    const {deptInfo, token} = data;
+    const {users, dispatch} = this.props;
+
+    if(code !== 200 || token !== users.localToken) {
+      message.warning('会话失效，请重新登录');
+      const urlParams = new URL(window.location.href);
+      urlParams.searchParams.delete('depeId');
+      window.history.pushState(null, '', urlParams.href);
+      this.props.history.push('/login');
+      return;
+    };
+    
+    if(deptInfo.length === 0) {
+      return message.warning('当前登录用户没有配置部门!');
+    };
+    
+    // let { menuList } = deptInfo[0];
+    const urlParams = new URL(window.location.href);
+    const id = urlParams.searchParams.get('depeId');
+
+    const filterDeptInfo = deptInfo.filter(item => item.deptId === id);
+    const deptName = filterDeptInfo[0].deptName;
+
+    if(filterDeptInfo.length === 0) {
+      message.error('该部门不存在，请勿直接修改地址栏')
+      this.props.history.go(-1);
+    };
+    
+    if(id && deptName) {
+      console.log('刷新');
+      let currMenuList = filterDeptInfo[0].menuList;
+      let tree = menuFormat(currMenuList, true, 1 );
+      let menu = tree[0].children[0];
+      dispatch({
+        type: 'users/setCurrentDept',
+        payload: { id, deptName },
+        callback: () => {
+          this.setState({
+            hasDept: true
+          });
+          dispatch({
+            type: 'users/setCurrentMenu',
+            payload: { menu : menu }
+          });
+        }
+      });
+    }
+  }
+  //权限路由监听
+  authorityMgt = () => {
     this.unListen = this.props.history.listen(({pathname}) => {
       const [deptId] = this.state.deptId;
       pathname = pathname.split('/');
@@ -96,6 +110,7 @@ class BasicLayout extends PureComponent {
   }
   componentWillUnMount = () => {
     if(this.unListen && typeof this.unListen === 'function') {
+      //关闭路由监听事件
       this.unListen();
     };
   }

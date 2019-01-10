@@ -283,7 +283,7 @@ class NewAdd extends PureComponent{
           <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
         )
       },*/{
-        title: '商品名',
+        title: '药品名称',
         dataIndex: 'ctmmTradeName',
         width: 350,
         className: 'ellipsis',
@@ -401,7 +401,7 @@ class NewAdd extends PureComponent{
           <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
         )
       },*/ {
-        title: '商品名',
+        title: '药品名称',
         dataIndex: 'ctmmTradeName',
         width: 350,
         className: 'ellipsis',
@@ -500,7 +500,7 @@ class NewAdd extends PureComponent{
                 allowClear
                 value={value}
                 style={{ width: 496 }}
-                placeholder='商品名'
+                placeholder='药品名称'
                 url={replenishmentPlan.QUERY_DRUG_BY_LIST}
                 cb={(value, option) => {
                   let {query} = this.state;

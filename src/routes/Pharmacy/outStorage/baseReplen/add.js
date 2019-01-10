@@ -13,7 +13,7 @@ const Option = Select.Option;
 const {Search} = Input;
 
 const modalColumns = [
-  {
+  /*{
     title: '通用名',
     width: 200,
     dataIndex: 'ctmmGenericName',
@@ -21,9 +21,9 @@ const modalColumns = [
     render:(text)=>(
       <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
     )
-  },
+  },*/
   {
-    title: '商品名',
+    title: '药品名称',
     width: 200,
     dataIndex: 'ctmmTradeName',
     className: 'ellipsis',
@@ -31,11 +31,11 @@ const modalColumns = [
       <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
     )
   },
-  {
+ /* {
     title: '规格',
     width: 148,
     dataIndex: 'ctmmSpecification',
-  },
+  },*/
   {
     title: '剂型',
     width: 90,
@@ -251,21 +251,21 @@ class AddOutput extends PureComponent{
         width: 100,
         dataIndex: 'replanUnit',
       },
-      {
+     /* {
         title: '通用名',
         width: 168,
         dataIndex: 'ctmmGenericName'
-      },
+      },*/
       {
-        title: '商品名',
-        width: 200,
+        title: '药品名称',
+        width: 350,
         dataIndex: 'ctmmTradeName',
       },
-      {
+     /* {
         title: '规格',
         width: 148,
         dataIndex: 'ctmmSpecification',
-      },
+      },*/
       {
         title: '剂型',
         width: 90,
@@ -438,7 +438,7 @@ class AddOutput extends PureComponent{
                 query.detail.paramName = value;
                 this.setState({query});
               }}  
-              placeholder='通用名/商品名' 
+              placeholder='药品名称'
               style={{width:200}}
             />
           </Row>

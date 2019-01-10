@@ -95,19 +95,19 @@ class Details extends PureComponent {
         width: 138
       },
       {
-        title: '通用名',
-        dataIndex: 'ctmmGenericName',
-        width: 200,
+          title: '药品名称',
+          dataIndex: 'ctmmTradeName',
+        width: 350,
         className: 'ellipsis',
         render:(text)=>(
           <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
         )
       },
-      {
+     /* {
         title: '规格',
         dataIndex: 'ctmmSpecification',
         width: 138,
-      },
+      },*/
       {
         title: '生产厂家',
         dataIndex: 'ctmmManufacturerName',
@@ -294,7 +294,7 @@ class Details extends PureComponent {
                   <FetchSelect
                     style={{width: '100%'}}
                     allowClear
-                    placeholder='通用名/商品名'
+                    placeholder='药品名称'
                     url={common.QUERY_DRUG_BY_LIST}
                     cb={this.onSearch}
                   />

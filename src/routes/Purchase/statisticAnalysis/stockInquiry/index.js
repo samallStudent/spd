@@ -117,7 +117,7 @@ class StockInquiry extends PureComponent {
           )
         }
       }, */{
-        title: '商品名',
+        title: '药品名称',
         dataIndex: 'ctmmTradeName',
         width: 350,
         className: 'ellipsis',
@@ -206,7 +206,7 @@ class StockInquiry extends PureComponent {
                   <FetchSelect
                     allowClear={true}
                     style={{ width: '100%' }}
-                    placeholder='商品名'
+                    placeholder='药品名称'
                     url={common.QUERY_DRUG_BY_LIST}
                   />
                 )}

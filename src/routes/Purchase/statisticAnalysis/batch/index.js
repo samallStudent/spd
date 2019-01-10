@@ -87,7 +87,7 @@ class SearchForm extends PureComponent{
       <Form className="ant-advanced-search-form" onSubmit={this.handleSearch}>
         <Row gutter={30}>
           <Col span={8}>
-            <FormItem {...formItemLayout} label={`商品名`}>
+            <FormItem {...formItemLayout} label={`药品名称`}>
               {
                 getFieldDecorator(`paramName`)(
                   <Input placeholder='请输入' />
@@ -164,7 +164,7 @@ class OrderRetrospect extends PureComponent {
         )
       },*/
       {
-        title: '商品名',
+        title: '药品名称',
         dataIndex: 'ctmmTradeName',
         width: 350,
         className: 'ellipsis',

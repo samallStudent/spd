@@ -72,7 +72,7 @@ class EditDrugDirectory extends PureComponent{
         });
         listTransforsVo.push({
           sort: '发药单位',
-          bigUnit: fillBackData.ctpHdmsBasicUnitDesc
+          bigUnit: fillBackData.dispensingUnit
         });
         //整合自定义单位数据
         customUnit = customUnit || [];
@@ -443,7 +443,7 @@ class EditDrugDirectory extends PureComponent{
             </Col>*/}
             <Col span={8}>
               <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
-                <label>商品名</label>
+                <label>药品名称</label>
               </div>
               <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18">
                 <div className='ant-form-item-control'>{fillBackData?fillBackData.ctmmTradeName:''}</div>

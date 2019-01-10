@@ -34,19 +34,19 @@ const columns = [
     dataIndex: 'positionTypeName',
   },
   {
-    title: '通用名',
-    width: 200,
-    dataIndex: 'ctmmGenericName',
+      title: '药品名称',
+      dataIndex: 'ctmmTradeName',
+      width: 350,
     className: 'ellipsis',
     render:(text)=>(
       <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
     )
   },
-  {
+  /*{
     title: '规格',
     width: 148,
     dataIndex: 'ctmmSpecification',
-  },
+  },*/
   {
     title: '生产厂家',
     width: 200,

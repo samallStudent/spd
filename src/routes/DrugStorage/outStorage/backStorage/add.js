@@ -38,7 +38,7 @@ const formRemarkLayout = {
 };
 const modalColumns = [
   {
-      title: '商品名',
+      title: '药品名称',
       width: 350,
       dataIndex: 'ctmmTradeName',
       className: 'ellipsis',
@@ -426,7 +426,7 @@ class AddRefund extends PureComponent{
         )
       },*/
       {
-        title: '商品名称',
+        title: '药品名称',
         width: 350,
         dataIndex: 'ctmmTradeName',
         className:'ellipsis',
@@ -569,12 +569,12 @@ class AddRefund extends PureComponent{
             <Form onSubmit={this.handleSearch}>
               <Row gutter={30}>
                 <Col span={8}>
-                  <FormItem label={`商品名`} {...formItemLayout}>
+                  <FormItem label={`药品名称`} {...formItemLayout}>
                     {getFieldDecorator('hisDrugCodeList')(
                       <FetchSelect
                         style={{width: '100%'}}
                         allowClear
-                        placeholder='商品名'
+                        placeholder='药品名称'
                         url={outStorage.QUERY_DRUG_BY_LIST}
                       />
                     )}

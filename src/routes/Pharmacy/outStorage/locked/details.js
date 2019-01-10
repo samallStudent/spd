@@ -57,7 +57,7 @@ class RecallDetail extends PureComponent {
     render() {
 			const { detailsData, dataSource, spinning, btnLoading } = this.state;
         const columns = [
-					{
+				/*	{
 						title: '通用名',
 						dataIndex: 'ctmmGenericName',
 						width: 224,
@@ -65,17 +65,17 @@ class RecallDetail extends PureComponent {
 						render: (text) => (
 							<Tooltip placement="topLeft" title={text}>{text}</Tooltip>
 						)
-					},
+					},*/
 					{
-						title: '商品名',
+						title: '药品名称',
 						dataIndex: 'ctmmTradeName',
-						width: 224,
+						width: 350,
 						className: 'ellipsis',
 						render: (text) => (
 							<Tooltip placement="topLeft" title={text}>{text}</Tooltip>
 						)
 					},
-					{
+				/*	{
 						title: '规格',
 						dataIndex: 'ctmmSpecification',
 						width: 168,
@@ -83,36 +83,36 @@ class RecallDetail extends PureComponent {
 						render: (text) => (
 								<Tooltip placement="topLeft" title={text}>{text}</Tooltip>
 						)
-					},
+					},*/
 					{
 						title: '剂型',
-						width: 168,
+						width: 90,
 						dataIndex: 'ctmmDosageFormDesc'
 					},
 					{
 						title: '包装规格',
-						width: 168,
+						width: 148,
 						dataIndex: 'packageSpecification',
 					},
 					{
 						title: '生产批号',
-						width: 168,
+						width: 148,
 						dataIndex: 'lot'
 					},
 					{
 						title: '生产日期',
-						width: 168,
+						width: 118,
 						dataIndex: 'productDate',
 					},
 					{
 						title: '有效期至',
-						width: 168,
+						width: 118,
 						dataIndex: 'validEndDate',
 					},
 					{
 						title: '生产厂家',
 						dataIndex: 'ctmmManufacturerName',
-						width: 224,
+						width: 200,
 						className: 'ellipsis',
 						render: (text) => (
 								<Tooltip placement="topLeft" title={text}>{text}</Tooltip>
@@ -121,7 +121,7 @@ class RecallDetail extends PureComponent {
 					{
 						title: '批准文号',
 						dataIndex: 'approvalNo',
-						width: 224,
+						width: 200,
 					},
         ];
         return (

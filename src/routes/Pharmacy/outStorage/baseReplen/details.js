@@ -18,7 +18,7 @@ const columns = [
     )
   },
   {
-    title: '商品名',
+    title: '药品名称',
     width: 200,
     dataIndex: 'ctmmTradeName',
     className: 'ellipsis',

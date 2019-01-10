@@ -33,7 +33,7 @@ class EditDrugDirectory extends PureComponent{
             <Col span={10}>
               <div className="ant-row ant-form-item">
                 <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
-                    <label>商品名</label>
+                    <label>药品名称</label>
                 </div>
                 <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18">
                   <div className='ant-form-item-control'>

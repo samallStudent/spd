@@ -129,7 +129,7 @@ class SearchForm extends PureComponent{
                 })(
                   <FetchSelect
                     allowClear={true}
-                    placeholder='商品名'
+                    placeholder='药品名称'
                     query={{queryType: 3}}
                     url={common.QUERY_DRUG_BY_LIST}
                   />
@@ -182,7 +182,7 @@ const columns = [
     )
   },*/
   {
-    title: '商品名',
+    title: '药品名称',
     dataIndex: 'ctmmTradeName',
     width: 350,
     className: 'ellipsis',

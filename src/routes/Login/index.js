@@ -19,9 +19,9 @@ class Login extends PureComponent{
         this.props.dispatch({
           type: 'users/EncryptPassword',
           payload: { password },
-          callback: (data) =>{
+          callback: (data) => {
             let newPassword = data.password;
-            this.userLogin(userName,newPassword);
+            this.userLogin(userName, newPassword);
           }
         }) 
       }
@@ -32,42 +32,53 @@ class Login extends PureComponent{
     dispatch({
       type: 'users/userLogin',
       payload: { username, password },
-      callback: (data) => {
+      callback: ({data, msg, code}) => {
         this.setState({ loading: false });
-        if(!data) {
-          return message.warning('用户或密码错误, 请重试.');
+        if(code !== 200) {
+          return message.warning(msg);
         };
-        if(data.deptInfo && data.deptInfo.length){
-          // 正式数据
-          let deptInfo = data.deptInfo;
-          //上次登录最后一次所在部门
-          let lastDeptInfo = deptInfo.filter(item => item.lastSelect)[0];
-          if(!lastDeptInfo) {
-            lastDeptInfo = data.deptInfo[0];
-          };
-          let { menuList } = lastDeptInfo;
-          console.log(menuList, 'menuList');
-          //得到菜单树
-          let tree = menuFormat(menuList, true, 1) ;
-          console.log(tree,'ret');
-          let subChildren = tree[0].children[0].children[0];
-          let href = subChildren.children ? subChildren.children[0].href: subChildren.href;
-          href =  href && href[href.length -1] === '/'? href.substring(0,href.length-1): href;
-          this.props.dispatch({
-            type: 'users/setCurrentMenu',
-            payload: { menu : tree[0].children[0] },
-          });
-          //将部门ID set到url上;
-          let newHref = window.location.href;
-          newHref = newHref.split('#');
-          newHref[1] = href;
-          newHref = newHref.join('#');
-          const urlParams = new URL(newHref);
-          urlParams.searchParams.set('depeId', lastDeptInfo.deptId);
-          window.location.href = urlParams.href;
+        const {deptInfo} = data;
+        if(deptInfo.length === 0) {
+          return message.warning('当前登录用户没有配置部门!');
         };
+        // 正式数据
+        //上次登录最后一次所在部门
+        let lastDeptInfo = deptInfo.filter(item => item.lastSelect)[0];
+        if(!lastDeptInfo) {
+          lastDeptInfo = data.deptInfo[0];
+        };
+        let { menuList } = lastDeptInfo;
+
+        if(menuList.length === 0) {
+          return message.warning('当前用户部门没有配置菜单！');
+        };
+        
+        //得到菜单树
+        let tree = menuFormat(menuList, true, 1) ;
+
+        this.props.dispatch({
+          type: 'users/setCurrentMenu',
+          payload: { menu : tree[0].children[0] },
+        });
+        //将部门ID set到url上;
+        let newHref = window.location.href;
+        newHref = newHref.split('#');
+        newHref[1] = this.getHref(tree);
+        newHref = newHref.join('#');
+        
+        const urlParams = new URL(newHref);
+        urlParams.searchParams.set('depeId', lastDeptInfo.deptId);
+        
+        window.location.href = urlParams.href;
+        window.sessionStorage.setItem("token", data.token);
       }
     })
+  }
+  getHref = (tree) => {
+    let subChildren = tree[0].children[0].children[0];
+    let href = subChildren.children ? subChildren.children[0].href: subChildren.href;
+    href =  href && href[href.length -1] === '/'? href.substring(0,href.length-1): href;
+    return href;
   }
   render(){
     const { getFieldDecorator } = this.props.form;

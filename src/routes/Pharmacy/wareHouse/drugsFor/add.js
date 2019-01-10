@@ -235,7 +235,7 @@ class NewAdd extends PureComponent {
       modalSelectedRows
     } = this.state;
     let columns = [
-      {
+    /*  {
         title: '通用名称',
         dataIndex: 'ctmmGenericName',
         fixed: 'left',
@@ -244,15 +244,15 @@ class NewAdd extends PureComponent {
         render:(text)=>(
           <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
         )
-      }, {
-        title: '商品名',
+      }, */{
+        title: '药品名称',
         dataIndex: 'ctmmTradeName',
-        width: 200,
+        width: 350,
         className: 'ellipsis',
         render:(text)=>(
           <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
         )
-      }, {
+      },/* {
         title: '规格',
         dataIndex: 'ctmmSpecification',
         width: 128,
@@ -260,10 +260,10 @@ class NewAdd extends PureComponent {
         render: (text) => (
           <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
         )
-      }, {
+      }, */{
         title: '生产厂家',
         dataIndex: 'ctmmManufacturerName',
-        width: 214,
+        width: 200,
         className: 'ellipsis',
         render: (text) => (
           <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
@@ -343,7 +343,7 @@ class NewAdd extends PureComponent {
       }
     ];
     const modalColumns = [
-      {
+     /* {
         title: '通用名',
         dataIndex: 'ctmmGenericName',
         width: 200,
@@ -351,10 +351,10 @@ class NewAdd extends PureComponent {
         render:(text)=>(
           <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
         )
-      }, {
-        title: '商品名',
+      },*/ {
+        title: '药品名称',
         dataIndex: 'ctmmTradeName',
-        width: 200,
+        width: 350,
         className: 'ellipsis',
         render:(text)=>(
           <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
@@ -367,11 +367,11 @@ class NewAdd extends PureComponent {
             render: (text) => (
                 <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
             )
-        }, {
+        }, /*{
         title: '规格',
         dataIndex: 'ctmmSpecification',
         width: 128,
-      }, {
+      }, */{
         title: '剂型',
         dataIndex: 'ctmmDosageFormDesc',
         width: 90
@@ -474,7 +474,7 @@ class NewAdd extends PureComponent {
                 value={query.hisDrugCodeList[0]}
                 style={{ width: 496 }}
                 allowClear={true}
-                placeholder='通用名/商品名'
+                placeholder='药品名称'
                 url={wareHouse.QUERY_DRUG_BY_LIST}
                 cb={(value, option) => {
                   let {query} = this.state;

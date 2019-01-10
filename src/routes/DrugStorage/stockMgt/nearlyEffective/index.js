@@ -119,12 +119,12 @@ class SearchForm extends PureComponent{
             </FormItem>
           </Col>
           <Col span={8}>
-            <FormItem {...formItemLayout} label={'商品名'}>
+            <FormItem {...formItemLayout} label={'药品名称'}>
               {
                 getFieldDecorator(`hisDrugCodeList`)(
                   <FetchSelect
                     allowClear={true}
-                    placeholder='商品名'
+                    placeholder='药品名称'
                     query={{queryType: 3}}
                     url={common.QUERY_DRUG_BY_LIST}
                   />
@@ -228,7 +228,7 @@ class NearlyEffective extends PureComponent {
           <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
         )
       }, */{
-        title: '商品名',
+        title: '药品名称',
         dataIndex: 'ctmmTradeName',
         width: 350,
         className: 'ellipsis',

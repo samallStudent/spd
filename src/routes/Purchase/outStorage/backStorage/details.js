@@ -11,7 +11,7 @@ import { connect } from 'dva';
 const Conform = Modal.confirm;
 const columns = [
     {
-        title: '商品名',
+        title: '药品名称',
         dataIndex: 'ctmmTradeName',
         width:350,
         className: 'ellipsis',

@@ -1,5 +1,4 @@
 import * as usersService from '../services/users';
-import { routerRedux } from 'dva/router';
 import { message } from 'antd';
 
 export default {
@@ -10,7 +9,8 @@ export default {
     },
     currentMenuList: {},
     deptList: [],
-    currentDept: {}
+    currentDept: {},
+    localToken: window.sessionStorage.getItem("token") || '',    //本地token
   },
   reducers: {
     userInfo(state,action){
@@ -62,21 +62,16 @@ export default {
       if(callback) callback(data.data);
     },
     // 用户登陆
-    *userLogin({ payload, callback },{ put, call }){
+    *userLogin({ payload, callback },{ put, call, select }){
       const data = yield call(usersService.userLogin, payload);
-      
+      const users = yield select(state => state.users);
+      console.log(users);
+      if(typeof callback === 'function') {
+        callback && callback(data);
+      };
       if(data.code === 200 && data.msg === 'success'){
-        yield put({ type: 'userInfo', payload: data.data });
-        callback && callback(data.data);
-      }else if(data.code === 500) {
-        callback && callback(data.data);
-      }else {
-        message.warning('会话失效，请重新登录');
-        const urlParams = new URL(window.location.href);
-        urlParams.searchParams.delete('depeId');
-        window.history.pushState(null, '', urlParams.href);
-        yield put(routerRedux.push('/login'));
-      }
+        yield put({ type: 'userInfo', payload: data.data })
+      };
     },
     //修改密码
     *updatePassWordById({ payload, callback },{ put, call }){

@@ -33,7 +33,7 @@ const columns = [
     render:(text,record)=>record.productName
   },
   {
-    title: '商品名称',
+    title: '药品名称',
     width:150,
     dataIndex: 'productName',
   },
@@ -90,7 +90,7 @@ const modalColumns = [
     render:(text,record)=>record.productName
   },
   {
-    title: '商品名称',
+    title: '药品名称',
     width:150,
     dataIndex: 'productName',
   },
@@ -220,7 +220,7 @@ class AddOutput extends PureComponent{
           onOk={()=>this.addToMain()}
           onCancel={()=>this.setState({visible:false,selectedRowKey:[]})}>
           <Row>
-            <Input placeholder='通用名/商品名' style={{width:200}}/>
+            <Input placeholder='通用名/药品名称' style={{width:200}}/>
           </Row>
           <Table
             rowSelection={{

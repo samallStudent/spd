@@ -39,7 +39,7 @@ const columns = [
       )
     }
   }, {
-    title: '商品名',
+    title: '药品名称',
     dataIndex: 'ctmmTradeName',
     width: 224,
     className: 'ellipsis',
@@ -142,7 +142,7 @@ class StockInquiry extends PureComponent {
                       allowClear={true}
                       value={value}
                       style={{ width: 248 }}
-                      placeholder='通用名/商品名'
+                      placeholder='通用名/药品名称'
                       // url={goodsAdjust.QUERY_DRUG_BY_LIST}
                       cb={(value) => {
                         this.setState({

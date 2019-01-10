@@ -121,7 +121,7 @@ class NewAdd extends PureComponent{
           <Col span={7} style={{marginLeft: 4}}>
             <Search 
               style={{ width: 496 }}
-              placeholder='通用名/商品名'
+              placeholder='通用名/药品名称'
             />
           </Col>
           <Col span={7} style={{textAlign: 'left', marginTop: 4}}>

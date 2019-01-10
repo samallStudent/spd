@@ -367,7 +367,7 @@ class PslistCheck extends PureComponent{
         )
       },*/
       {
-        title: '商品名',
+        title: '药品名称',
         dataIndex: 'ctmmTradeName',
         width: 350,
         className: 'ellipsis',
@@ -493,7 +493,7 @@ class PslistCheck extends PureComponent{
                   defaultValue={moment(text, 'YYYY-MM-DD')}
                 /> : text;
         },
-        width: 118
+        width: 168
       },
       {
         title: '有效期至',
@@ -508,7 +508,7 @@ class PslistCheck extends PureComponent{
                   defaultValue={moment(text, 'YYYY-MM-DD')}
                 /> : text
         },
-        width: 118
+        width: 168
       },
       {
         title: '包装规格',
@@ -573,7 +573,7 @@ class PslistCheck extends PureComponent{
         )
       },*/
       {
-        title: '商品名',
+        title: '药品名称',
         dataIndex: 'ctmmTradeName',
         width: 350,
         className: 'ellipsis',

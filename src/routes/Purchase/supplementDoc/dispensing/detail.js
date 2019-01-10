@@ -25,7 +25,7 @@ const columns = [
     dataIndex: 'packageSpecification',
   },
     {
-        title: '商品名',
+        title: '药品名称',
         dataIndex: 'ctmmTradeName',
         width: 350,
         className: 'ellipsis',

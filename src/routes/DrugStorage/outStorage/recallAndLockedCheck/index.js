@@ -49,7 +49,7 @@ const columns = [
   },
   {
     title: '发起人',
-    width: 80,
+    width:100,
     dataIndex: 'createUserName',
   },
   {

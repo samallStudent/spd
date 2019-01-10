@@ -242,19 +242,19 @@ class DetailsPicking extends PureComponent{
     const { detailsData, leftDataSource, rightDataSource, rightLoading, loading, hasStyle} = this.state;
     const leftColumns = [
       {
-        title: '通用名称',
-        width: 200,
-        dataIndex: 'ctmmGenericName',
+          title: '药品名称',
+          dataIndex: 'ctmmTradeName',
+          width: 350,
         className: 'ellipsis',
         render:(text)=>(
           <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
         )
       },
-      {
+     /* {
         title: '规格',
         width: 148,
         dataIndex: 'ctmmSpecification',
-      },
+      },*/
       {
         title: '剂型',
         width:90,

@@ -7,15 +7,15 @@ import React, { PureComponent } from 'react';
 import { Table ,Row, Col , Tooltip} from 'antd';
 import { createData } from '../../../../common/data';
 const columns = [
-  {
+  /*{
     title: '通用名称',
     width:100,
     dataIndex: 'productName1',
     render:(text,record)=>record.productName
-  },
+  },*/
   {
-    title: '商品名称',
-    width:150,
+    title: '药品名称',
+    width:350,
     dataIndex: 'productName',
   },
   {
@@ -29,7 +29,7 @@ const columns = [
   },
   {
     title: '剂型',
-    width:150,
+    width:90,
     dataIndex: 'fmodal',
   },
   {
@@ -50,12 +50,12 @@ const columns = [
   },
   {
     title: '生产日期',
-    width:150,
+    width:118,
     dataIndex: 'approvalNo3',
   },
   {
     title: '有效期至',
-    width:150,
+    width:118,
     dataIndex: 'approvalNo45',
   },
   {

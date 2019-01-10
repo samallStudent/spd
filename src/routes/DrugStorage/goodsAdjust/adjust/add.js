@@ -199,7 +199,7 @@ class NewAddGoodsAdjust extends PureComponent{
     const {visible, value, query, dataSource, okLoading, submitLoading} = this.state;
     const columns = [
       {
-          title: '商品名',
+          title: '药品名称',
           width: 350,
           dataIndex: 'ctmmTradeName',
           className: 'ellipsis',
@@ -321,7 +321,7 @@ class NewAddGoodsAdjust extends PureComponent{
           <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
         )
       },*/{
-        title: '商品名',
+        title: '药品名称',
 		    width: 350,
         dataIndex: 'ctmmTradeName',
         className: 'ellipsis',
@@ -447,7 +447,7 @@ class NewAddGoodsAdjust extends PureComponent{
                 allowClear
                 value={value}
                 style={{ width: 496 }}
-                placeholder='商品名'
+                placeholder='药品名称'
                 url={goodsAdjust.QUERY_DRUG_BY_LIST}
                 cb={(value, option) => {
                   let {query} = this.state;

@@ -202,14 +202,14 @@ class EditDrugDirectory extends PureComponent{
                         <h3><b>基本信息</b></h3>
                     </div>
                     <Row gutter={30}>
-                        <Col span={8}>
+                        {/*<Col span={8}>
                             <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
                                 <label>通用名</label>
                             </div>
                             <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-19">
                                 <div className='ant-form-item-control'>{ baseData.ctmmGenericName ? baseData.ctmmGenericName: ''  }</div>
                             </div>
-                        </Col>
+                        </Col>*/}
                         <Col span={8}>
                             <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
                                 <label>商品名</label>

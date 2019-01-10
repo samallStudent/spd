@@ -22,7 +22,7 @@ const columns = [
         title: '通用名',
         dataIndex: 'name',
     }, {
-        title: '商品名',
+        title: '药品名称',
         dataIndex: 'productName',
     }, {
         title: '规格',

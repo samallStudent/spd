@@ -114,7 +114,7 @@ class SearchForm extends PureComponent{
             </FormItem>
           </Col>
           <Col span={8}>
-            <FormItem {...formItemLayout} label={'商品名/通用名'}>
+            <FormItem {...formItemLayout} label={'药品名称'}>
               {
                 getFieldDecorator(`paramsName`)(
                   <Input placeholder='请输入' />
@@ -209,7 +209,7 @@ class DrugLedger extends PureComponent {
         title: '时间',
         dataIndex: 'createDate',
         width: 200,
-      }, {
+      }, /*{
         title: '通用名',
         dataIndex: 'ctmmGenericName',
         width: 200,
@@ -217,19 +217,19 @@ class DrugLedger extends PureComponent {
         render:(text)=>(
           <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
         )
-      }, {
-        title: '商品名',
+      }, */{
+        title: '药品名称',
         dataIndex: 'ctmmTradeName',
-        width: 200,
+        width: 350,
         className: 'ellipsis',
         render:(text)=>(
           <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
         )
-      }, {
+      }, /*{
         title: '规格',
         dataIndex: 'ctmmSpecification',
         width: 148,
-      }, {
+      }, */{
         title: '生产厂家',
         dataIndex: 'ctmmManufacturerName',
         width: 200,

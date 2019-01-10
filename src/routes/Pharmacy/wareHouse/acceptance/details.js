@@ -9,7 +9,7 @@ import querystring from 'querystring';
 import {wareHouse} from '../../../../api/pharmacy/wareHouse';
 import {connect} from 'dva';
 const columns = [
-  {
+  /*{
     title: '通用名',
     width: 200,
     dataIndex: 'ctmmGenericName',
@@ -17,21 +17,21 @@ const columns = [
     render:(text)=>(
       <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
     )
-  },
+  },*/
   {
-    title: '商品名',
-    width: 200,
+    title: '药品名称',
+    width: 350,
     dataIndex: 'ctmmTradeName',
     className: 'ellipsis',
     render:(text)=>(
       <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
     )
   },
-  {
+ /* {
     title: '规格',
     width: 168,
     dataIndex: 'ctmmSpecification',
-  },
+  },*/
   {
     title: '生产批号',
     width: 110,

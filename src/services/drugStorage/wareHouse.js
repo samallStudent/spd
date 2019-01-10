@@ -9,7 +9,7 @@ import { _local } from '../../api/local';
 
 export function detailsInfo(options) {
   return request(`${_local}/a/checkaccept/detail`,{ //配送单详情
-    method: 'GET',
+    method: 'POST',
     type: 'formData',
     body: options
   })

@@ -13,7 +13,7 @@ import RemoteTable from '../../../../components/TableGrid';
 import {statisticAnalysis} from '../../../../api/purchase/purchase';
 import { connect } from 'dva';
 const columns = [
-  {
+ /* {
     title: '通用名',
     width: 224,
     dataIndex: 'ctmmGenericName',
@@ -21,24 +21,24 @@ const columns = [
     render: (text) => (
       <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
     )
-  },
+  },*/
   {
-    title: '商品名',
-    width: 224,
+    title: '药品名称',
+    width: 350,
     dataIndex: 'ctmmTradeName',
     className: 'ellipsis',
     render: (text) => (
       <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
     )
   },
-  {
+  /*{
     title: '规格',
     width: 168,
     dataIndex: 'ctmmSpecification'
-  },
+  },*/
   {
     title: '生产厂家',
-    width: 224,
+    width: 200,
     dataIndex: 'ctmmManufacturerName',
     className:'ellipsis',
     render:(text)=>(
@@ -61,39 +61,40 @@ const columns = [
   },
   {
     title: '生产批号',
-    width: 168,
+    width: 148,
     dataIndex: 'lot'
   },
   {
     title: '生产日期',
-    width: 168,
+    width: 118,
     dataIndex: 'productDate'
   },
   {
     title: '有效期至',
-    width: 168,
+    width: 118,
     dataIndex: 'validEndDate'
   },
   {
     title: '包装规格',
-    width: 168,
+    width: 148,
     dataIndex: 'packageSpecification'
   },
   {
     title: '剂型',
-    width: 168,
+    width: 90,
     dataIndex: 'ctmmDosageFormDesc'
   },
-  {
-    title: '药品编码',
-    width: 168,
-    dataIndex: 'hisDrugCode'
-  },
+
   {
     title: '批准文号',
-    width: 224,
+    width: 200,
     dataIndex: 'approvalNo'
   },
+    {
+        title: '药品编码',
+        width: 168,
+        dataIndex: 'hisDrugCode'
+    },
 ];
 
 class Detail extends PureComponent{

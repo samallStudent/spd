@@ -33,7 +33,7 @@ const columns = [
     render:(text,record)=>record.productName
   },
   {
-    title: '商品名称',
+    title: '药品名称',
     width:150,
     dataIndex: 'productName',
   },
@@ -105,7 +105,7 @@ const modalColumns = [
     render:(text,record)=>record.productName
   },
   {
-    title: '商品名称',
+    title: '药品名称',
     width:150,
     dataIndex: 'productName',
   },
@@ -235,7 +235,7 @@ class AddRefund extends PureComponent{
           onOk={()=>this.addToMain()}
           onCancel={()=>this.setState({visible:false,selectedRowKey:[]})}>
           <Row>
-            <Input placeholder='通用名/商品名/供应商/生产厂家/批号' style={{width:300}}/>
+            <Input placeholder='通用名/药品名称/供应商/生产厂家/批号' style={{width:300}}/>
           </Row>
           <Table
             rowSelection={{

@@ -18,7 +18,7 @@ const columns = [
     render:(text,record)=>record.productName
   },
   {
-    title: '商品名称',
+    title: '药品名称',
     width: 150,
     dataIndex: 'productName',
   },

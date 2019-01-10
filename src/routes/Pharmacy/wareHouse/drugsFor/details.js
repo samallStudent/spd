@@ -17,7 +17,7 @@ const columns = [
     width: 90,
     dataIndex: 'replanUnit'
   },
-  {
+  /*{
     title: '通用名称',
     width: 200,
     dataIndex: 'ctmmGenericName',
@@ -25,10 +25,10 @@ const columns = [
     render:(text)=>(
       <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
     )
-  },
+  },*/
   {
-    title: '商品名称',
-    width: 200,
+    title: '药品名称',
+    width: 350,
     dataIndex: 'ctmmTradeName',
     className: 'ellipsis',
     render:(text)=>(

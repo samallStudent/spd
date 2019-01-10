@@ -28,7 +28,7 @@ import {connect} from 'dva';
 //  };
 
 const columns = [
-  {
+  /*{
     title: '通用名',
     dataIndex: 'ctmmGenericName',
     width: 200,
@@ -39,19 +39,21 @@ const columns = [
         </span>  
       )
     }
-  }, {
-    title: '商品名',
+  },*/ {
+    title: '药品名称',
     dataIndex: 'ctmmTradeName',
-    width: 200,
+    width: 350,
     className: 'ellipsis',
-    render:(text)=>(
-      <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+    render:(text, record)=>(
+      <Tooltip placement="topLeft" title={text}>
+        <Link to={{pathname: `/pharmacy/stockMgt/stockInquiry/details/dCode=${record.drugCode}&bCode=${record.hisDrugCode}`}}>{text}</Link>        
+      </Tooltip>
     )
-  }, {
+  }, /*{
     title: '规格',
     dataIndex: 'ctmmSpecification',
     width: 148,
-  }, {
+  }, */{
     title: '生产厂家',
     dataIndex: 'ctmmManufacturerName',
     width: 200,
@@ -176,7 +178,7 @@ class StockInquiry extends PureComponent {
                       allowClear={true}
                       value={value}
                       style={{ width: 248 }}
-                      placeholder='通用名/商品名'
+                      placeholder='药品名称'
                       url={goodsAdjust.QUERY_DRUG_BY_LIST}
                       cb={(value) => {
                         this.setState({

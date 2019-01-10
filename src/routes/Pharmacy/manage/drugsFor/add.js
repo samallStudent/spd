@@ -8,15 +8,15 @@ import { Table , Col, Button, Modal , message, Input ,  Affix , Row , Tooltip} f
 import { createData } from '../../../../common/data';
 const Conform = Modal.confirm;
 const columns = [
-  {
+  /*{
     title: '通用名称',
     width:100,
     dataIndex: 'productName1',
     render:(text,record)=>record.productName
-  },
+  },*/
   {
-    title: '商品名称',
-    width:150,
+    title: '药品名称',
+    width:350,
     dataIndex: 'productName',
   },
   {
@@ -30,7 +30,7 @@ const columns = [
   },
   {
     title: '剂型',
-    width:150,
+    width:90,
     dataIndex: 'fmodal',
   },
   {
@@ -72,18 +72,18 @@ const columns = [
   } 
 ];
 const modalColumns = [  
-  {
+ /* {
     title: '通用名称',
     width:100,
     dataIndex: 'productName1',
     render:(text,record)=>record.productName
-  },
+  },*/
   {
-    title: '商品名称',
-    width:150,
+    title: '药品名称',
+    width:350,
     dataIndex: 'productName',
   },
-  {
+  /*{
     title: '规格',
     width:150,
     dataIndex: 'spec',
@@ -91,10 +91,10 @@ const modalColumns = [
     render:(text)=>(
       <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
     )
-  },
+  },*/
   {
     title: '剂型',
-    width:150,
+    width:90,
     dataIndex: 'fmodal',
   },
   {
@@ -197,7 +197,7 @@ class AddDrugsFor extends PureComponent{
           onOk={()=>this.addToMain()}
           onCancel={()=>this.setState({visible:false,selectedRowKey:[]})}>
           <Row>
-            <Input placeholder='通用名/商品名' style={{width:300}}/>
+            <Input placeholder='药品名称' style={{width:300}}/>
           </Row>
           <Table
             rowSelection={{

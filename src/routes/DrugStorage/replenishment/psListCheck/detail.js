@@ -17,7 +17,7 @@ const columns = [
     width:200,
   },
   {
-    title: '商品名',
+    title: '药品名称',
     width:220,
     dataIndex: 'productName'
   },
