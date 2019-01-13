@@ -10,6 +10,9 @@ export const wareHouse = {
   QUERY_DRUG_BY_LIST: `${_local}/a/common/queryDrugByList`,  //申领入库 - 新建申领-添加产品
   PRINT_INSTORE_DETAIL: `${_local}/a/instoredetail/print/printInstoreDetail`,   //入库单打印
   PRINT_ROOM_DETAIL: `${_local}/a/deliver/print/printRoomDetail`,     //药房验收打印
+
+  /** 验收 - 上架 - 详情分页 */
+  CHECK_EXAM_DETAIL: `${_local}/a/exam/detail`,   //验收详情分页列表
 }
 
  // 药房 - 补登单据 

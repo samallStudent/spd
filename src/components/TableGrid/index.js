@@ -17,8 +17,11 @@ class RemoteTable extends Component {
       searchParams: {}
     }
   };
+  static defaultProps = {
+    hasInitRequest: true, //是否默认请求
+  }
   componentDidMount() {
-    this.fetch();
+    this.props.hasInitRequest && this.fetch();
   }
   componentWillReceiveProps = (nextProps) => {
     if ((nextProps.url !== this.props.url) || 

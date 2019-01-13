@@ -14,6 +14,8 @@ export default {
   SUPPLIER_LIST: `${_local}/a/depot/supplier/all`,    //供应商下拉
   /* 上架 */
   shelfList: `${_local}/a/depot/shelfList/selectShelf`,           //上架列表
+  SHELF_INFO_LIST: `${_local}/a/shelfInfo/shelfInfoList`,         //上架详情列表
+  
   PRINT_INSTORE_DETAIL: `${_local}/a/instoredetail/print/printInstoreDetail`,   //入库管理打印
   PRINT_DETAIL: `${_local}/a/deliver/print/printDetail`,      //药库验收打印
 }

@@ -108,7 +108,7 @@ class BasicLayout extends PureComponent {
       };
     });
   }
-  componentWillUnMount = () => {
+  componentWillUnmount = () => {
     if(this.unListen && typeof this.unListen === 'function') {
       //关闭路由监听事件
       this.unListen();

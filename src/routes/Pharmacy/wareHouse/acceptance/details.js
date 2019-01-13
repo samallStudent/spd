@@ -4,9 +4,10 @@
 * @Last Modified time: 2018-07-24 13:13:55 
  */
 import React, { PureComponent } from 'react';
-import { Table ,Row, Col, Tabs, Tooltip, Button, message } from 'antd';
+import { Row, Col, Tabs, Tooltip, Button, message } from 'antd';
 import querystring from 'querystring';
 import {wareHouse} from '../../../../api/pharmacy/wareHouse';
+import RemoteTable from '../../../../components/TableGrid';
 import {connect} from 'dva';
 const columns = [
   /*{
@@ -106,11 +107,17 @@ class DetailsNewLibrary extends PureComponent{
       checkLoading: false,
       detailInfo: {},
       defaultActiveKey: null,
-      btnShow: false,
-      loading: false,
       id: info.id,
       info: {},
-      selected: []
+      selected: [],
+      unacceptedQuery: {    //未验收请求体
+        distributeCode: info.id,
+        status: 1
+      },    
+      acceptedQuery: {     //验收请求体
+        distributeCode: info.id,
+        status: 2
+      }
     }
   }
 
@@ -119,21 +126,34 @@ class DetailsNewLibrary extends PureComponent{
   }
 
   queryDetail() {
-    this.setState({loading: true});
     this.props.dispatch({
-      type: 'base/deliverRequest',
+      type: 'base/checkDetailHead',
       payload: {
         distributeCode: this.state.id,
       },
-      callback: (data) => {
+      callback: ({data, msg, code}) => {
+        if(code !== 200) return message.error(msg);
         this.setState({
           loading: false,
           info: data,
           defaultActiveKey: data.auditStatus === 1? '1' : '2',
-          btnShow: data.auditStatus === 1 ? true : false,
         })
       }
-    })
+    });
+    // this.props.dispatch({
+    //   type: 'base/deliverRequest',
+    //   payload: {
+    //     distributeCode: this.state.id,
+    //   },
+    //   callback: (data) => {
+    //     this.setState({
+    //       loading: false,
+    //       info: data,
+    //       defaultActiveKey: data.auditStatus === 1? '1' : '2',
+    //       btnShow: data.auditStatus === 1 ? true : false,
+    //     })
+    //   }
+    // });
   }
 
   rowChange = (selectedRowKeys, selectedRows) => {
@@ -167,13 +187,14 @@ class DetailsNewLibrary extends PureComponent{
           checkLoading: false
         });
         this.queryDetail();
+        this.unacceptedTable.fetch();
+        this.acceptedTable && this.acceptedTable.fetch();
       }
     })
   }
 
   tabsChange = (key) =>{
     this.setState({
-      btnShow: key === '1', 
       defaultActiveKey: key
     });
   }
@@ -186,8 +207,13 @@ class DetailsNewLibrary extends PureComponent{
   }
 
   render(){
-    let {defaultActiveKey, btnShow, loading, info, checkLoading } = this.state;
-    let {verifyList, unVerfiyList} = info;
+    let {
+      defaultActiveKey, 
+      info, checkLoading, 
+      unacceptedQuery, 
+      acceptedQuery 
+    } = this.state;
+    let {auditStatus} = info;
     return (
       <div className='fullCol'>
           <div className='fullCol-fullChild'>
@@ -271,9 +297,17 @@ class DetailsNewLibrary extends PureComponent{
             </Row>
           </div>
         <div className='detailCard'>
-          <Tabs activeKey={defaultActiveKey} onChange={this.tabsChange} tabBarExtraContent={ btnShow && unVerfiyList && unVerfiyList.length > 0? <Button loading={checkLoading} type='primary' onClick={this.saveCheck}>确认验收</Button> : null}>
+          <Tabs 
+            activeKey={defaultActiveKey} 
+            onChange={this.tabsChange} 
+            tabBarExtraContent={ 
+              auditStatus === 1 && defaultActiveKey === "1" ? 
+              <Button loading={checkLoading} type='primary' onClick={this.saveCheck}>确认验收</Button> 
+              : null
+            }
+          >
             <TabPane tab="待验收" key="1">
-              <Table
+              {/* <Table
                 bordered
                 loading={loading}
                 scroll={{x: '100%'}}
@@ -285,10 +319,22 @@ class DetailsNewLibrary extends PureComponent{
                   selectedRowKeys: this.state.selected,
                   onChange: this.rowChange
                 }}
+              /> */}
+              <RemoteTable 
+                ref={(node) => this.unacceptedTable = node}
+                query={unacceptedQuery}
+                columns={columns}
+                scroll={{ x: '100%' }}
+                url={wareHouse.CHECK_EXAM_DETAIL}
+                rowSelection={{
+                  selectedRowKeys: this.state.selected,
+                  onChange: this.rowChange
+                }}
+                rowKey='id'
               />
             </TabPane>
             <TabPane tab="已验收" key="2">
-              <Table
+              {/* <Table
                 loading={loading}
                 bordered
                 scroll={{x: '100%'}}
@@ -296,6 +342,14 @@ class DetailsNewLibrary extends PureComponent{
                 dataSource={verifyList || []}
                 rowKey={'id'}
                 pagination={false}
+              /> */}
+              <RemoteTable
+                ref={(node) => this.acceptedTable = node}
+                query={acceptedQuery}
+                columns={columns}
+                scroll={{ x: '100%' }}
+                url={wareHouse.CHECK_EXAM_DETAIL}
+                rowKey='id'
               />
             </TabPane>
           </Tabs>

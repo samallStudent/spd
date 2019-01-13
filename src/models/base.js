@@ -73,6 +73,13 @@ export default {
         message.warning(data.msg);
       };
     },
+    //公共 - 验收详情头部
+    *checkDetailHead({ payload, callback },{ put, call }) {
+      const data = yield call(wareHouse.checkDetailHead, payload);
+      if(callback && typeof callback === 'function') {
+        callback(data);
+      };
+    },
     //药库 - 入库 - 配送单详情 - 确认验收
     *drugStorageSaveCheck({ payload, callback }, {put, call}) {
       const data = yield call(wareHouse.saveCheck, payload);

@@ -4,7 +4,9 @@
 * @Last Modified time: 2018-07-24 13:13:55 
  */
 import React, { PureComponent } from 'react';
-import { Table ,Row, Col, Tabs, Button, Tooltip, message, Icon, Input } from 'antd';
+import { Row, Col, Tabs, Button, Tooltip, message, Icon, Input } from 'antd';
+import RemoteTable from '../../../../components/TableGrid';
+import {wareHouse} from '../../../../api/pharmacy/wareHouse';
 import {connect} from 'dva';
 const columns = [
   {
@@ -110,7 +112,17 @@ class AddNewAcceptance extends PureComponent{
       btnShow: false,
       loading: false,
       info: {},
-      selected: []
+      selected: [],
+      unacceptedQuery: {    //未验收请求体
+        distributeCode: null,
+        status: 1
+      },    
+      acceptedQuery: {     //验收请求体
+        distributeCode: null,
+        status: 2
+      },
+      hasInitRequest: false, 
+      defaultActiveKey: '1'
     }
   }
 
@@ -145,35 +157,58 @@ class AddNewAcceptance extends PureComponent{
 
   search = (value) => {
     this.setState({loading: true});
+    // this.props.dispatch({
+    //   type: 'base/deliverRequest',
+    //   payload: {
+    //     distributeCode: value,
+    //   },
+    //   callback: (data) => {
+    //     this.setState({
+    //       loading: false,
+    //       info: data
+    //     })
+    //   }
+    // });
     this.props.dispatch({
-      type: 'base/deliverRequest',
+      type: 'base/checkDetailHead',
       payload: {
         distributeCode: value,
       },
-      callback: (data) => {
+      callback: ({data, msg, code}) => {
+        if(code !== 200) return message.error(msg);
         this.setState({
           loading: false,
-          info: data
+          info: data,
+          defaultActiveKey: data.auditStatus === 1? '1' : '2',
+          hasInitRequest: true,
+          unacceptedQuery: {    //未验收请求体
+            distributeCode: value,
+            status: 1
+          },    
+          acceptedQuery: {     //验收请求体
+            distributeCode: value,
+            status: 2
+          },
         })
       }
-    })
+    });
   }
  
   tabsChange = (key) =>{
-    let {info} = this.state;
-    let {listUnCheck} = info;
-    
-    if(key === '2') {
-      this.setState({btnShow: false});
-    };
-    if(key === '1' && listUnCheck !== undefined && listUnCheck.length !== 0) {
-      this.setState({btnShow: true});
-    };
+    this.setState({
+      defaultActiveKey: key
+    });
   }
 
   render(){
-    let {btnShow, loading, info} = this.state;
-    let {verifyList, unVerfiyList} = info;
+    let { 
+      info, 
+      defaultActiveKey, 
+      hasInitRequest, 
+      unacceptedQuery, 
+      acceptedQuery 
+    } = this.state;
+    let {auditStatus} = info;
     return (
       <div className='fullCol' style={{padding: '0 24px 24px', background: 'rgb(240, 242, 245)'}}>
         <div className='fullCol-fullChild' style={{margin: '0 -24px'}}>
@@ -249,6 +284,8 @@ class AddNewAcceptance extends PureComponent{
                   <div className='ant-form-item-control'>{info.statusName || ''}</div>
                 </div>
             </Col>
+          </Row>
+          <Row>
             <Col span={8}>
                 <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
                     <label>配货部门</label>
@@ -273,6 +310,8 @@ class AddNewAcceptance extends PureComponent{
                   <div className='ant-form-item-control'>{info.createDate || ''}</div>
                 </div>
             </Col>
+          </Row>
+          <Row>
             <Col span={8}>
                 <div className="ant-form-item-label-left ant-col-xs-24 ant-col-sm-5">
                     <label>验收时间</label>
@@ -284,9 +323,17 @@ class AddNewAcceptance extends PureComponent{
           </Row>
         </div>
         <div className='detailCard' style={{margin: '30px -6px'}}>
-          <Tabs onChange={this.tabsChange} tabBarExtraContent={ btnShow && unVerfiyList && unVerfiyList.length > 0 ? <Button type='primary' onClick={this.saveCheck}>确认验收</Button> : null}>
+          <Tabs 
+            activeKey={defaultActiveKey} 
+            onChange={this.tabsChange} 
+            tabBarExtraContent={ 
+              auditStatus === 1 && defaultActiveKey === "1" ?  
+              <Button type='primary' onClick={this.saveCheck}>确认验收</Button> 
+              : null
+            }
+          >
             <TabPane tab="待验收" key="1">
-              <Table
+              {/* <Table
                 bordered
                 loading={loading}
                 scroll={{x: '100%'}}
@@ -298,10 +345,22 @@ class AddNewAcceptance extends PureComponent{
                   selectedRowKeys: this.state.selected,
                   onChange: this.rowChange
                 }}
+              /> */}
+              <RemoteTable 
+                query={unacceptedQuery}
+                columns={columns}
+                scroll={{ x: '100%' }}
+                hasInitRequest={hasInitRequest}
+                url={wareHouse.CHECK_EXAM_DETAIL}
+                rowSelection={{
+                  selectedRowKeys: this.state.selected,
+                  onChange: this.rowChange
+                }}
+                rowKey='id'
               />
             </TabPane>
             <TabPane tab="已验收" key="2">
-              <Table
+              {/* <Table
                 loading={loading}
                 bordered
                 scroll={{x: '100%'}}
@@ -309,6 +368,14 @@ class AddNewAcceptance extends PureComponent{
                 dataSource={verifyList || []}
                 rowKey={'id'}
                 pagination={false}
+              /> */}
+              <RemoteTable
+                query={acceptedQuery}
+                columns={columns}
+                scroll={{ x: '100%' }}
+                url={wareHouse.CHECK_EXAM_DETAIL}
+                hasInitRequest={hasInitRequest}
+                rowKey='id'
               />
             </TabPane>
           </Tabs>

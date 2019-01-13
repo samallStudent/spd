@@ -100,6 +100,14 @@ export function roomacceptanceInfo(options) {
   })
 }
 
+export function shelfInfoHead(options) {
+  return request(`${_local}/a/shelfInfo/shelfInfoTitle`, {
+    method: 'POST',
+    type: 'formData',
+    body: options
+  })
+}
+
 export function finish(options) {
   return request(`${_local}/a/checkacceptdetail/finish`, {
     method: 'POST',
