@@ -41,6 +41,7 @@ class GoodsAllocation extends PureComponent{
     goosTypeSelect:[],//货位类型接口下拉框
     getUserListSelect:[],//责任人下拉框
     addLocLoading: false,
+    maxSort: 0, //最大排序
   }
 
   componentDidMount(){
@@ -122,8 +123,9 @@ class GoodsAllocation extends PureComponent{
   //编辑货位-
   editModal=(record)=>{
     this.setState({record,visible:true,modalTitle:'编辑'});
-    const { positionName , positionType , chargeInPerson } = record ;
-    this.props.form.setFieldsValue({ positionName , positionType :`${positionType}`, chargeInPerson })
+    const { positionName , positionType , chargeInPerson ,sort} = record ;
+    console.log(record);
+    this.props.form.setFieldsValue({ positionName , positionType :`${positionType}`, chargeInPerson , sort })
   }
 
   render(){
@@ -149,6 +151,10 @@ class GoodsAllocation extends PureComponent{
             }
           }
         }
+      },
+      {
+        title: '货位排序号',
+        dataIndex: 'sort',
       },
       {
         title: '货位责任人',
@@ -196,8 +202,13 @@ class GoodsAllocation extends PureComponent{
                 this.setState({selectRowKeys})
               }
             }}
-            size={"small"}
             rowKey='id'
+            cb={(value, option) => {
+              this.setState({
+                maxSort: value[0].maxSort
+              })
+              console.log(value+'option:'+option)
+            }}
           />
         </div>
 
@@ -215,6 +226,29 @@ class GoodsAllocation extends PureComponent{
                   rules: [{ required: true,message: '请输入货位名称' }]
                 })(
                   <Input />
+                )
+              }
+            </FormItem>
+            <FormItem {...singleFormItemLayout} label={`货位排序号`} extra={`只能输入${this.state.maxSort}号以后的序号`}>
+              {
+                getFieldDecorator(`sort`,{
+                  rules: [{
+                      required: true,
+                      message: '请输入数字', 
+                      whitespace: true,
+                      type:'number',
+                      transform(value) {
+                        if(value){
+                          return Number(value);
+                      }
+                    },
+                  }]
+                })(
+                  <Input />
+                  // <div>
+                  //   
+                  //   <span></span>
+                  // </div>
                 )
               }
             </FormItem>
