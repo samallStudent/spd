@@ -23,6 +23,12 @@ const columns = [
     )
   },*/
   {
+    title: '序号',
+    width: 50,
+    dataIndex: 'serialNumber',
+    render: (text, record, index) => index + 1
+  },
+  {
     title: '药品名称',
     width:350,
     dataIndex: 'ctmmTradeName',

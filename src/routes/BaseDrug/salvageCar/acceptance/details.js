@@ -4,7 +4,9 @@
 * @Last Modified time: 2018-07-24 13:13:55 
  */
 import React, { PureComponent } from 'react';
-import { Table ,Row, Col, Tabs, Tooltip, Button, message, Spin } from 'antd';
+import { Row, Col, Tabs, Tooltip, Button, message, Spin } from 'antd';
+import { wareHouse } from '../../../../api/pharmacy/wareHouse';
+import RemoteTable from '../../../../components/TableGrid';
 import {_local} from '../../../../api/local';
 import {connect} from 'dva';
 const columns = [
@@ -94,17 +96,26 @@ const columns = [
 const {TabPane} = Tabs;
 class DetailsNewLibrary extends PureComponent{
   constructor(props){
-    super(props)
+    super(props);
+    const { id } = this.props.match.params;
     this.state={
       checkLoading: false,
       detailInfo: {},
       activeKey: '1',
       btnShow: false,
       loading: false,
-      id: this.props.match.params.id,
+      id,
       info: {},
-      selected: []
-    }
+      selected: [],
+      unacceptedQuery: {    //未验收请求体
+        distributeCode: id,
+        status: 1
+      },    
+      acceptedQuery: {     //验收请求体
+        distributeCode: id,
+        status: 2
+      }
+    };
   }
 
   componentDidMount() {
@@ -114,16 +125,16 @@ class DetailsNewLibrary extends PureComponent{
   queryDetail() {
     this.setState({loading: true});
     this.props.dispatch({
-      type: 'base/deliverRequest',
+      type: 'base/checkDetailHead',
       payload: {
         distributeCode: this.state.id,
       },
-      callback: (data) => {
+      callback: ({data, code, msg}) => {
+        this.setState({ loading: false });
+        if(code !== 200) return message.error(msg);
         this.setState({
-          loading: false,
           info: data,
-          activeKey: data.auditStatus + '',
-          btnShow: data.auditStatus === 1
+          activeKey: data.auditStatus === 1 ? '1' : '3',
         })
       }
     })
@@ -144,28 +155,30 @@ class DetailsNewLibrary extends PureComponent{
     });
     let detailList = selected.map(item => ({id: item}));
     this.props.dispatch({
-      type: 'base/rescuecarSaveCheck',
+      type: 'base/commonConfirmCheck',
       payload: {
         detailList,
-        distributeCode: id
+        distributeCode: id,
+        checkType: 4
       },
-      callback: (data) => {
-        message.success('确认验收成功');
+      callback: ({data, code, msg}) => {
         this.setState({
           checkLoading: false
         });
+        if(code !== 200) return message.error(msg);
+        message.success('确认验收成功');
         this.queryDetail();
+        this.unacceptedTable.fetch();
+        this.acceptedTable && this.acceptedTable.fetch();
+        this.setState({
+          selected: []
+        });
       }
     })
   }
 
   tabsChange = (activeKey) =>{
-    if(activeKey === '3') {
-      this.setState({activeKey, btnShow: false});
-    };
-    if(activeKey === '1') {
-      this.setState({activeKey, btnShow: true});
-    };
+    this.setState({ activeKey });
   }
 
   //打印
@@ -176,9 +189,21 @@ class DetailsNewLibrary extends PureComponent{
     window.open(`${_local}/a/deliver/print/rescuecarprint?distributeCode=${distributeCode}&status=${activeKey}`, '_blank');
   }
 
+  tableOnChange = () => {
+    this.setState({
+      selected: []
+    });
+  }
+
   render(){
-    let {btnShow, loading, info, checkLoading, activeKey } = this.state;
-    let {verifyList, unVerfiyList} = info;
+    let { 
+      loading, 
+      info, 
+      checkLoading, 
+      activeKey,
+      unacceptedQuery,
+      acceptedQuery
+    } = this.state;
     return (
       <div className='fullCol'>
         <div  className='fullCol-fullChild'>
@@ -255,12 +280,13 @@ class DetailsNewLibrary extends PureComponent{
           <Tabs 
             activeKey={activeKey} 
             onChange={this.tabsChange} 
-            tabBarExtraContent={ btnShow && unVerfiyList && unVerfiyList.length > 0? 
+            tabBarExtraContent={ 
+              activeKey === '1' && info.auditStatus === 1 ? 
               <Button loading={checkLoading} type='primary' onClick={this.saveCheck}>确认验收</Button> : 
               null
             }>
             <TabPane tab="待验收" key="1">
-              <Table
+              {/* <Table
                 bordered
                 loading={loading}
                 scroll={{x: '100%'}}
@@ -272,10 +298,25 @@ class DetailsNewLibrary extends PureComponent{
                   selectedRowKeys: this.state.selected,
                   onChange: this.rowChange
                 }}
+              /> */}
+              <RemoteTable 
+                ref={(node) => this.unacceptedTable = node}
+                query={unacceptedQuery}
+                columns={columns}
+                scroll={{ x: '100%' }}
+                url={wareHouse.CHECK_EXAM_DETAIL}
+                rowSelection={{
+                  selectedRowKeys: this.state.selected,
+                  onChange: this.rowChange
+                }}
+                rowKey='id'
+                pagination={{
+                  onChange: this.tableOnChange
+                }}
               />
             </TabPane>
             <TabPane tab="已验收" key="3">
-              <Table
+              {/* <Table
                 loading={loading}
                 bordered
                 scroll={{x: '100%'}}
@@ -283,6 +324,14 @@ class DetailsNewLibrary extends PureComponent{
                 columns={columns}
                 dataSource={verifyList || []}
                 pagination={false}
+              /> */}
+              <RemoteTable
+                ref={(node) => this.acceptedTable = node}
+                query={acceptedQuery}
+                columns={columns}
+                scroll={{ x: '100%' }}
+                url={wareHouse.CHECK_EXAM_DETAIL}
+                rowKey='id'
               />
             </TabPane>
           </Tabs>

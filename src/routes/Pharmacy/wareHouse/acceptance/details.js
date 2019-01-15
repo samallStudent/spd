@@ -156,6 +156,13 @@ class DetailsNewLibrary extends PureComponent{
     // });
   }
 
+  tableOnChange = () => {
+    this.setState({
+      selected: [],
+      selectedRows: []
+    });
+  }
+
   rowChange = (selectedRowKeys, selectedRows) => {
     this.setState({selected: selectedRowKeys, selectedRows: selectedRows})
   }
@@ -176,19 +183,24 @@ class DetailsNewLibrary extends PureComponent{
       }
     });
     this.props.dispatch({
-      type: 'base/saveCheck',
+      type: 'base/commonConfirmCheck',
       payload: {
         detailList,
-        distributeCode
+        distributeCode,
+        checkType: 2
       },
-      callback: (data) => {
-        message.success('确认验收成功');
+      callback: ({data, code, msg}) => {
         this.setState({
           checkLoading: false
         });
+        if(code !== 200) return message.error(msg);
+        message.success('确认验收成功');
         this.queryDetail();
         this.unacceptedTable.fetch();
         this.acceptedTable && this.acceptedTable.fetch();
+        this.setState({
+          selected: []
+        });
       }
     })
   }
@@ -331,6 +343,9 @@ class DetailsNewLibrary extends PureComponent{
                   onChange: this.rowChange
                 }}
                 rowKey='id'
+                pagination={{
+                  onChange: this.tableOnChange
+                }}
               />
             </TabPane>
             <TabPane tab="已验收" key="2">

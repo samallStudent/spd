@@ -91,7 +91,7 @@ class DetailsPutaway extends PureComponent{
       }
     });
     let payload = {
-      distributeCode: this.state.acceptanceCode,
+      distributeCode: querystring.parse(this.props.match.params.id).code,
       detailListVo
     };
     
@@ -101,11 +101,15 @@ class DetailsPutaway extends PureComponent{
       callback: (data) => {
         message.success('上架成功');
         this.getDetails();
-        this.listysjTable.fetch();
-        this.listwsjTable && this.listwsjTable.fetch();
-        this.setState({saveLoading: false});
+        this.listysjTable && this.listysjTable.fetch();
+        this.listwsjTable.fetch();
+        this.setState({
+          saveLoading: false,
+          selectedRowKeys: [],
+          selectedRow: [],
+        });
       }
-    })
+    });
   }
 
   changeTabs = (key) => {
@@ -415,7 +419,7 @@ class DetailsPutaway extends PureComponent{
               }}
             /> */}
             <RemoteTable
-              ref={(node) => this.listysjTable = node}
+              ref={(node) => this.listwsjTable = node}
               loading={loading}
               query={listwsjQuery}
               columns={notColumns}

@@ -9,7 +9,7 @@ import { Link } from 'react-router-dom';
 import { supplementDoc } from '../../../../api/pharmacy/wareHouse';
 import RemoteTable from '../../../../components/TableGrid';
 import { connect } from 'dva';
-import { difference } from 'loadsh';
+import { difference } from 'lodash';
 // const {Search} = Input;
 class Putaway extends PureComponent{
 

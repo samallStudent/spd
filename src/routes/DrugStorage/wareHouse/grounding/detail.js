@@ -14,7 +14,7 @@ const {TabPane} = Tabs;
 
 class DetailsPutaway extends PureComponent{
   state = {
-    acceptanceCode: '',
+    acceptanceCode: this.props.match.params.id,
     defaultActive: '',
     loading: true,
     info: {},
@@ -88,9 +88,13 @@ class DetailsPutaway extends PureComponent{
       callback: (data) => {
         message.success('上架成功');
         this.getDetails();
-        this.listysjTable.fetch();
-        this.listwsjTable && this.listwsjTable.fetch();
-        this.setState({saveLoading: false});
+        this.listwsjTable.fetch();
+        this.listysjTable && this.listysjTable.fetch();
+        this.setState({
+          saveLoading: false,
+          selectedRowKeys: [],
+          selectedRow: [],
+        });
       }
     })
   }
@@ -399,7 +403,7 @@ class DetailsPutaway extends PureComponent{
                 }}
               /> */}
               <RemoteTable
-                ref={(node) => this.listysjTable = node}
+                ref={(node) => this.listwsjTable = node}
                 loading={loading}
                 query={listwsjQuery}
                 columns={notColumns}

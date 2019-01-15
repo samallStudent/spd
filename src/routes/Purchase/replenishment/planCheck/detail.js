@@ -11,93 +11,13 @@ import React, { PureComponent } from 'react';
 import { Table ,Row, Col,Tooltip, Button, Modal, Input, message, Spin } from 'antd';
 import { connect } from 'dva';
 const { TextArea } = Input;
-const columns = [
- /* {
-    title: '通用名称',
-    width: 224,
-    dataIndex: 'ctmmGenericName',
-    className: 'ellipsis',
-    render:(text)=>(
-      <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
-    )
-  },*/
-  {
-    title: '药品名称',
-    width: 350,
-    dataIndex: 'ctmmTradeName',
-    className: 'ellipsis',
-    render:(text)=>(
-      <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
-    )
-  },
- /* {
-    title: '规格',
-    width: 168,
-    dataIndex: 'ctmmSpecification',
-  },*/
-  {
-    title: '剂型',
-    width: 90,
-    dataIndex: 'ctmmDosageFormDesc',
-  },
-  {
-    title: '包装规格',
-    width: 148,
-    dataIndex: 'packageSpecification',
-  },
-  {
-    title: '单位',
-    width: 90,
-    dataIndex: 'replanUnit',
-  },
-  {
-    title: '需求数量',
-    dataIndex: 'demandQuantity',
-    width: 100,
-  },
- /* {
-    title: '价格',
-    dataIndex: 'drugPrice',
-    width: 100,
-    render: (text,reocrd) =>{
-      return text === undefined || text === null ? '0': text
-    }
-  },
-  {
-    title: '金额',
-    dataIndex: 'totalPrice',
-    width: 168,
-  },*/
-  {
-    title: '生产厂家',
-    width: 200,
-    dataIndex: 'ctmmManufacturerName',
-    className: 'ellipsis',
-    render:(text)=>(
-      <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
-    )
-  },
-  {
-    title: '供应商',
-    width: 200,
-    dataIndex: 'supplierName',
-    className: 'ellipsis',
-    render:(text)=>(
-        <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
-    )
-  },
-  {
-    title: '批准文号',
-    width: 200,
-    dataIndex: 'approvalNo',
-  },
-];
 class PlanCheckDetail extends PureComponent{
     state = {
         detailsData: {},
         loading: false,
         visible: false,
         value: undefined,
+        page: 1
     }
     componentDidMount = () => {
         this.getDetail();
@@ -185,7 +105,94 @@ class PlanCheckDetail extends PureComponent{
 
     }
     render(){
-        const { detailsData, loading, visible, value } = this.state;
+        const { detailsData, loading, visible, value, page } = this.state;
+        const columns = [
+            {
+                title: '序号',
+                width: 50,
+                dataIndex: 'serialNumber',
+                render: (text, record, index) => (page - 1) * 10 + (index + 1)
+            },
+            /* {
+                title: '通用名称',
+                width: 224,
+                dataIndex: 'ctmmGenericName',
+                className: 'ellipsis',
+                render:(text)=>(
+                <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+                )
+            },*/
+            {
+                title: '药品名称',
+                width: 350,
+                dataIndex: 'ctmmTradeName',
+                className: 'ellipsis',
+                render:(text)=>(
+                <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+                )
+            },
+            /* {
+                title: '规格',
+                width: 168,
+                dataIndex: 'ctmmSpecification',
+            },*/
+            {
+                title: '剂型',
+                width: 90,
+                dataIndex: 'ctmmDosageFormDesc',
+            },
+            {
+                title: '包装规格',
+                width: 148,
+                dataIndex: 'packageSpecification',
+            },
+            {
+                title: '单位',
+                width: 90,
+                dataIndex: 'replanUnit',
+            },
+            {
+                title: '需求数量',
+                dataIndex: 'demandQuantity',
+                width: 100,
+            },
+            /* {
+                title: '价格',
+                dataIndex: 'drugPrice',
+                width: 100,
+                render: (text,reocrd) =>{
+                return text === undefined || text === null ? '0': text
+                }
+            },
+            {
+                title: '金额',
+                dataIndex: 'totalPrice',
+                width: 168,
+            },*/
+            {
+                title: '生产厂家',
+                width: 200,
+                dataIndex: 'ctmmManufacturerName',
+                className: 'ellipsis',
+                render:(text)=>(
+                <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+                )
+            },
+            {
+                title: '供应商',
+                width: 200,
+                dataIndex: 'supplierName',
+                className: 'ellipsis',
+                render:(text)=>(
+                    <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+                )
+            },
+            {
+                title: '批准文号',
+                width: 200,
+                dataIndex: 'approvalNo',
+            },
+        ];
         return (
             <Spin spinning={loading}>
                 <div className='fullCol fadeIn'>
@@ -292,7 +299,8 @@ class PlanCheckDetail extends PureComponent{
                             pagination={{
                                 size: 'small',
                                 showQuickJumper: true,
-                                showSizeChanger: true
+                                showSizeChanger: true,
+                                onChange: (page) => this.setState({ page })
                             }}
                         />
                     </div>

@@ -143,12 +143,14 @@ class AddNewAcceptance extends PureComponent{
       }
     });
     this.props.dispatch({
-      type: 'base/saveCheck',
+      type: 'base/commonConfirmCheck',
       payload: {
         detailList,
-        distributeCode
+        distributeCode,
+        checkType: 2
       },
-      callback: (data) => {
+      callback: ({data, code, msg}) => {
+        if(code !== 200) return message.error(msg);
         message.success('确认验收成功');
         this.props.history.go(1);
       }
@@ -197,6 +199,12 @@ class AddNewAcceptance extends PureComponent{
   tabsChange = (key) =>{
     this.setState({
       defaultActiveKey: key
+    });
+  }
+
+  tableOnChange = () => {
+    this.setState({
+      selected: [],
     });
   }
 
@@ -357,6 +365,9 @@ class AddNewAcceptance extends PureComponent{
                   onChange: this.rowChange
                 }}
                 rowKey='id'
+                pagination={{
+                  onChange: this.tableOnChange
+                }}
               />
             </TabPane>
             <TabPane tab="已验收" key="2">

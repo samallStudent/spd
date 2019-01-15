@@ -8,12 +8,11 @@
   @file  药库 - 入库--出库单验收-详情
 */
 import React, { PureComponent } from 'react';
-import {Row, Col, Tooltip,  Button, Tabs, Table, message} from 'antd';
+import {Row, Col, Tooltip,  Button, Tabs, message} from 'antd';
 import {connect} from 'dva';
 import wareHouse from '../../../../api/drugStorage/wareHouse';
+import RemoteTable from '../../../../components/TableGrid';
 import querystring from 'querystring';
-import {difference} from 'lodash';
-
 const TabPane = Tabs.TabPane;
 
 class PslistCheck extends PureComponent{
@@ -24,97 +23,35 @@ class PslistCheck extends PureComponent{
       selected: [],
       selectedRows: [],
       loading: true,
-      btnShow: false,
       defaultActiveKey: '1',
       id: info.id,
       detailInfo: {},
       checkLoading: false,
-      expandedRowKeys: []
+      unacceptedQuery: {
+        distributeCode: info.id,
+        status: 1
+      },
+      acceptedQuery: {
+        distributeCode: info.id,
+        status: 2
+      },
     }
-  }
-  //tabs切换
-  tabsChange = (key) =>{
-    if(key === '2') {
-      this.setState({
-        btnShow: false,
-        defaultActiveKey: key
-      });
-    };
-    if(key === '1') {
-      this.setState({
-        btnShow: true,
-        defaultActiveKey: key
-      });
-    };
-  }
-  //选中rows
-  changeSelectRow = (selectedRowKeys, selectedRows) => {
-    this.setState({ selectedRows: selectedRows});
-  }
-  //全选
-  selectAll = (selected, selectedRows) => {
-    if(selected) {
-      this.setState({
-        selected: this.seekChildren(selectedRows).realSelectedRowsKey
-      });
-    }else {
-      this.setState({ 
-        selected: [],
-        selectedRows: []
-      });
-    };
-  }
-  //展开
-  onExpandedRowsChange = (expandedRows) => {
-    this.setState({expandedRowKeys: expandedRows});
-  }
-  //选中
-  changeSelect = (selectedRows, isSelect) => {
-    let {selected} = this.state;
-    let {children} = selectedRows;
-    if(isSelect) {  //选中
-      selected.push(selectedRows.key);
-      if(children && children.length) {
-        children.map(item=>{
-          selected.push(item.key);
-          return item;
-        });
-      }
-    }else {
-      selected = difference(selected, [selectedRows.key]);
-      if(children && children.length) {
-        let childrenSelect = children.map(item=>item.key);
-        selected = difference(selected, childrenSelect);
-      }
-    };
-    this.setState({
-      selected: [...selected]
-    })
-  }
-  //寻找全选时的children
-  seekChildren = (selectedRows) => {
-    let {detailInfo} = this.state;
-    let dataSource = detailInfo.unVerfiyList;
-    let realSelectedRowsKey = selectedRows.map(item=>item.key);
-    let realSelectedRows = [];
-    for (let i = 0; i < selectedRows.length; i++) {
-      for (let j = 0; j < dataSource.length; j++) {
-        if(dataSource[j].key === selectedRows[i].key) {
-          realSelectedRows.push(dataSource[j]);
-          if(dataSource[j].children && dataSource[j].children.length) {
-            let childrenKey = dataSource[j].children.map(childItem=>childItem.key)
-            realSelectedRowsKey = [...realSelectedRowsKey, ...childrenKey]
-          }
-        }
-      }
-    };
-    return {
-      realSelectedRowsKey,
-      realSelectedRows
-    };
   }
   componentDidMount = () => {
     this.queryDetail();
+  }
+  //tabs切换
+  tabsChange = (key) =>{
+    this.setState({
+      defaultActiveKey: key
+    });
+  }
+  //选中rows
+  changeSelectRow = (selectedRowKeys, selectedRows) => {
+    this.setState({ 
+      selectedRows: selectedRows,
+      selected: selectedRowKeys
+    });
   }
   //验收
   saveCheck = () => {
@@ -124,18 +61,7 @@ class PslistCheck extends PureComponent{
       return;
     };
     this.setState({checkLoading: true});
-    selectedRows = this.seekChildren(selectedRows).realSelectedRows; //包含children的二维数组
-    let includeChildren = [...selectedRows];//包含children的一维数组
-    selectedRows.map(item => {  
-      if(item.children && item.children.length) {
-        item.children.map(childItem => {
-          includeChildren.push(childItem);
-          return childItem;
-        });
-      };
-      return item;
-    });
-    let detailList = includeChildren.map(item=>{
+    let detailList = selectedRows.map(item=>{
       let i = {
         realReceiveQuantiry: item.realReceiveQuantiry,
         productBatchNo: item.productBatchNo,
@@ -150,36 +76,22 @@ class PslistCheck extends PureComponent{
       }
       return i;
     });
-    console.log(detailList);
     this.props.dispatch({
-      type: 'base/drugStorageSaveCheck',
+      type: 'base/commonConfirmCheck',
       payload: {
         detailList,
-        distributeCode: this.state.id
+        distributeCode: this.state.id,
+        checkType: 1
       },
-      callback: (data) => {
-        if(data.code === 200) {
-          message.success('确认验收成功');
-          this.queryDetail();
-        }else {
-          message.error(data.msg);
-          message.warning('验收失败');
-        };
+      callback: ({data, code, msg}) => {
         this.setState({checkLoading: false});
+        if(code !== 200) return message.error(msg);
+        message.success('确认验收成功');
+        this.queryDetail();
+        this.unacceptedTable.fetch();
+        this.acceptedTable && this.acceptedTable.fetch();
       }
     })
-  }
-  checkChildren(list) {
-    var a = list.every((item, i) => {
-      if(i === list.length - 1) {
-        return true;
-      };
-      if(list[i].realProductTime === list[i + 1].realProductTime && list[i].realValidEndDate === list[i + 1].realValidEndDate) {
-        return true;
-      };
-      return false;
-    });
-    return a;
   }
   //获取详情
   queryDetail = () => {
@@ -190,16 +102,8 @@ class PslistCheck extends PureComponent{
         distributeCode: this.state.id,
       },
       callback: (data) => {
-        if(data.unVerfiyList.length) {
-          data.unVerfiyList = data.unVerfiyList.map(item => {
-            item.realReceiveQuantiry = item.realDeliveryQuantiry;
-            return item;
-          });
-        };
         this.setState({
           detailInfo: data,
-          loading: false,
-          btnShow: data.auditStatus === 1? true : false,
           defaultActiveKey: data.auditStatus === 1? '1' : '2',
         });
       }
@@ -211,9 +115,31 @@ class PslistCheck extends PureComponent{
     const {defaultActiveKey} = this.state;
     window.open(`${wareHouse.PRINT_DETAIL}?distributeCode=${distributeCode}&status=${defaultActiveKey}`, '_blank');
   }
+  //未验收Table回调
+  unVerfiyTableCallBack = (data) => {
+    if(data.length) {
+      data = data.map(item => {
+        item.realReceiveQuantiry = item.realDeliveryQuantiry;
+        return item;
+      });
+      this.setState({
+        unVerfiyList: data,
+      });
+    };
+    this.setState({
+      loading: false
+    });
+  }
   render(){
-    let {loading, defaultActiveKey, expandedRowKeys, btnShow, detailInfo, checkLoading} = this.state;
-    let {unVerfiyList, verifyList} = detailInfo;
+    let {
+      loading, 
+      defaultActiveKey, 
+      detailInfo, 
+      checkLoading,
+      unacceptedQuery,
+      acceptedQuery,
+      unVerfiyList
+    } = this.state;
     
     let columns = [
       {
@@ -386,9 +312,17 @@ class PslistCheck extends PureComponent{
           </Row>
         </div>
         <div className='detailCard'>
-          <Tabs activeKey={defaultActiveKey} onChange={this.tabsChange} tabBarExtraContent={ btnShow && unVerfiyList && unVerfiyList.length? <Button loading={checkLoading} type='primary' onClick={this.saveCheck}>确认验收</Button> : null}>
+          <Tabs 
+            activeKey={defaultActiveKey} 
+            onChange={this.tabsChange} 
+            tabBarExtraContent={ 
+              defaultActiveKey === '1' && detailInfo.auditStatus === 1 ? 
+              <Button loading={checkLoading} type='primary' onClick={this.saveCheck}>确认验收</Button> 
+              : null
+            }
+          >
             <TabPane tab="待验收" key="1">
-              <Table
+              {/* <Table
                 bordered
                 loading={loading}
                 scroll={{x: '100%'}}
@@ -396,21 +330,32 @@ class PslistCheck extends PureComponent{
                 dataSource={unVerfiyList || []}
                 pagination={false}
                 rowKey={'key'}
-                expandedRowKeys={expandedRowKeys}
-                onExpandedRowsChange={this.onExpandedRowsChange}
                 rowSelection={{
                   selectedRowKeys: this.state.selected,
-                  onChange: this.changeSelectRow,
-                  onSelect: this.changeSelect,
-                  onSelectAll: this.selectAll,
-                  getCheckboxProps: record => ({
-                    disabled: record.id === null
-                  })
+                  onChange: this.changeSelectRow
+                }}
+              /> */}
+              <RemoteTable 
+                ref={(node) => this.unacceptedTable = node}
+                query={unacceptedQuery}
+                columns={columns}
+                dataSource={unVerfiyList}
+                loading={loading}
+                scroll={{ x: '100%' }}
+                url={wareHouse.CHECK_EXAM_DETAIL}
+                rowKey='key'
+                pagination={{
+                  onChange: this.tableOnChange
+                }}
+                cb={this.unVerfiyTableCallBack}
+                rowSelection={{
+                  selectedRowKeys: this.state.selected,
+                  onChange: this.changeSelectRow
                 }}
               />
             </TabPane>
             <TabPane tab="已验收" key="2">
-              <Table
+              {/* <Table
                 loading={loading}
                 bordered
                 scroll={{x: '100%'}}
@@ -418,6 +363,14 @@ class PslistCheck extends PureComponent{
                 dataSource={verifyList}
                 rowKey={'key'}
                 pagination={false}
+              /> */}
+              <RemoteTable
+                ref={(node) => this.acceptedTable = node}
+                query={acceptedQuery}
+                columns={columns}
+                scroll={{ x: '100%' }}
+                url={wareHouse.CHECK_EXAM_DETAIL}
+                rowKey='key'
               />
             </TabPane>
           </Tabs>

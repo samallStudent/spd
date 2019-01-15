@@ -70,10 +70,18 @@ export function findApplyDepts(options) { // 拣货申请部门
 export function getPickingDetail(options) { // 拣货详情
   return request(`${_local}/a/common/pickingorderdetail/getPickingDetail`,{ 
     method: 'GET',
-    type: 'json',
+    type: 'formData',
     body: options
   })
 };
+
+export function getPickingDetailPad(options) {
+  return request(`${_local}/a/common/pickingorderdetail/getPickingDetailPad`,{ 
+    method: 'GET',
+    type: 'formData',
+    body: options
+  })
+}
 
 export function finishPicking(options) { // 确认拣货
   return request(`${_local}/a/common/pickingorder/finishPicking`,{ 

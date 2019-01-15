@@ -149,7 +149,8 @@ class RemoteTable extends Component {
       footer, 
       showHeader, 
       title, 
-      query 
+      query,
+      pagination
     } = this.props; 
     columns = [...columns];
     columns = columns.map((item, i) => {
@@ -158,6 +159,7 @@ class RemoteTable extends Component {
       };
       return item;
     });
+    pagination = pagination ? {...this.state.pagination, ...pagination} : this.state.pagination;
     return (
       <Table 
         {...this.props}
@@ -169,7 +171,7 @@ class RemoteTable extends Component {
         size={this.props.size || 'default'}
         dataSource={this.props.data || this.state.data}
         loading={this.props.loading || this.state.loading}
-        pagination={this.state.pagination}
+        pagination={pagination}
         onChange={this.handleTableChange}
         rowClassName={rowClassName}
         title={title || null}
