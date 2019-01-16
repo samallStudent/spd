@@ -90,12 +90,20 @@ export default {
     },
 
     /*  出库拣货 详情  */
-    *getpickingDetail({ payload,callback },{ call }){
+    *getpickingDetail({ payload, callback },{ call }){
       const data = yield call(outStorageService.getPickingDetail, payload);
       if(data.code !== 200){
         return message.error(data.msg||'获取拣货详情失败')
       }
       if(callback) callback(data.data)
+    },
+
+    /** 拣货下架 - 详情 - 头部 */
+    *getPickingDetailPad({ payload, callback },{ call }){
+      const data = yield call(outStorageService.getPickingDetailPad, payload);
+      if(callback && typeof callback === 'function') {
+        callback(data)
+      };
     },
 
     // 查询配货明细的单条配货记录

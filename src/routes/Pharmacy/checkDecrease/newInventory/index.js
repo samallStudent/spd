@@ -373,7 +373,7 @@ class NewInventory extends PureComponent {
           columns={columns}
           rowKey={'id'}
           ref="table"
-          scroll={{x: '100%'}}
+          scroll={{x: '100%', y: 300}}
           style={{marginTop: 20}}
           rowSelection={{
             selectedRowKeys: this.state.selected,
@@ -515,7 +515,7 @@ class NewInventory extends PureComponent {
                       })(
                         <FetchSelect
                           queryKey={'positionName'}
-                          style={{width: '100%'}}
+                          style={{width: '100%', y: 300}}
                           allowClear
                           valueAndLabel={{
                             label: 'positionName',

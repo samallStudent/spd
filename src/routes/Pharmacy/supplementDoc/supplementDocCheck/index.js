@@ -159,7 +159,7 @@ class Putaway extends PureComponent{
           style={{marginTop: 20}}
           columns={columns}
           loading={this.state.loading}
-          scroll={{ x: '100%' }}
+          scroll={{ x: '100%' , y: 300}}
           url={supplementDoc.list}
           rowSelection={{
             selectedRowKeys: this.state.selected, 

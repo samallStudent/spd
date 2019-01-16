@@ -358,7 +358,7 @@ class DrugDirectory extends PureComponent{
         query={query}
         style={{marginTop: 20}}
         columns={IndexColumns}
-        scroll={{ x: '100%' }}
+        scroll={{ x: '100%', y: 300 }}
         url={drugMgt.FIND_MEDICINE_CATALOG}
         // rowSelection={{
         //   selectedRowKeys: this.state.selected,

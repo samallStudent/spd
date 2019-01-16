@@ -9,7 +9,7 @@ import { Link } from 'react-router-dom';
 import { supplementDoc } from '../../../../api/pharmacy/wareHouse';
 import RemoteTable from '../../../../components/TableGrid';
 import { connect } from 'dva';
-import { difference } from 'loadsh';
+import { difference } from 'lodash';
 // const {Search} = Input;
 class Putaway extends PureComponent{
 
@@ -132,7 +132,7 @@ class Putaway extends PureComponent{
           <Button type='primary' onClick={this.showAbnormalModal} >选择异常发药出库单</Button>
         </div>
         <RemoteTable
-          scroll={{x: '100%'}}
+          scroll={{x: '100%', y: 300}}
           columns={columns}
           onChange={this._tableChange}
           query={query}

@@ -31,5 +31,6 @@ export default {
     RESCUECAR_APPLY_QUERY_DRUG: `${_local}/a/rescuecarapply/queryDrugByDept`, 
 
     /* 药品验收列表 */
-    CHECK_RESCUECAR_LIST: `${_local}/a/checkaccept/rescuecarlist`,
+    CHECK_RESCUECAR_LIST: `${_local}/a/exam/list`,
+    // CHECK_RESCUECAR_LIST: `${_local}/a/checkaccept/rescuecarlist`,
   }

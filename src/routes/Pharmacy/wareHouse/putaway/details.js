@@ -4,70 +4,64 @@
 * @Last Modified time: 2018-07-24 13:13:55 
  */
 import React, { PureComponent } from 'react';
-import {Table, Row, Col, Select, Button, Tabs, message, Tooltip} from 'antd';
+import { Row, Col, Select, Button, Tabs, message, Tooltip} from 'antd';
 import {connect} from 'dva';
 import querystring from 'querystring';
+import RemoteTable from '../../../../components/TableGrid';
+import wareHouse from '../../../../api/drugStorage/wareHouse';
 const Option = Select.Option;
 const {TabPane} = Tabs;
 
 
 class DetailsPutaway extends PureComponent{
   state = {
-    acceptanceCode: '',
     defaultActive: '',
-    loading: false,
+    loading: true,
     info: {},
     selectedRowKeys: [],
     selectedRow: [],
-    saveLoading: false
+    saveLoading: false,
+    listwsjData: [], 
+    listysjQuery: {
+      distributeCode: querystring.parse(this.props.match.params.id).code,
+      upFinishType: 1
+    },
+    listwsjQuery: {
+      distributeCode: querystring.parse(this.props.match.params.id).code,
+      upFinishType: 0
+    }
   }
-  componentWillMount() {
-    console.log(this.props);
+  // componentWillMount() {
+  //   console.log(this.props);
     
-    let infoCode = this.props.match.params.id;
+  //   let infoCode = this.props.match.params.id;
     
-    infoCode = querystring.parse(infoCode);
-    this.setState({
-      acceptanceCode: infoCode.code,
-    })
-  }
+  //   infoCode = querystring.parse(infoCode);
+  //   this.setState({
+  //     acceptanceCode: infoCode.code,
+  //   })
+  // }
   
   componentDidMount() {
     this.getDetails();
   }
   getDetails = () => {
-    this.setState({loading: true});
+    //roomacceptanceInfo
     this.props.dispatch({
-      type: 'pharmacy/roomacceptanceInfo',
+      type: 'pharmacy/shelfInfoHead',
       payload: {
-        distributeCode: this.state.acceptanceCode
+        distributeCode: this.state.listwsjQuery.distributeCode
       },
-      callback: (data) => {
-        let {listwsj} = data;
-        if(listwsj.length > 0) {
-          listwsj.map(item => {   //如果实际货位下拉框不包含指示货位，则默认第一个
-          let isSame =  item.acceptoodsVo.some(itemNum => {
-            if(item.realReceiveStore !== itemNum.id) {
-              return false;
-            }else {
-              return true;
-            }
-          });
-          if(!isSame) {
-            item.realReceiveStore = item.acceptoodsVo[0].id;
-          }
-            return item;
-          });
-          data.listwsj = listwsj;
-        }
+      callback: ({data, code, msg}) => {
+        if(code !== 200) return message.error(msg);
         this.setState({
           info: data,
-          loading: false,
           defaultActive: data.auditStatus === 2? '1' : '2',
         })
       }
     })
   }
+  
   //确认
   onSubmit = () =>{
     let {selectedRow} = this.state;
@@ -97,7 +91,7 @@ class DetailsPutaway extends PureComponent{
       }
     });
     let payload = {
-      distributeCode: this.state.acceptanceCode,
+      distributeCode: querystring.parse(this.props.match.params.id).code,
       detailListVo
     };
     
@@ -107,18 +101,56 @@ class DetailsPutaway extends PureComponent{
       callback: (data) => {
         message.success('上架成功');
         this.getDetails();
-        this.setState({saveLoading: false});
+        this.listysjTable && this.listysjTable.fetch();
+        this.listwsjTable.fetch();
+        this.setState({
+          saveLoading: false,
+          selectedRowKeys: [],
+          selectedRow: [],
+        });
       }
-    })
+    });
   }
 
   changeTabs = (key) => {
     this.setState({defaultActive: key});
   }
 
+  listysjTableCallBack = (data) => {
+    if(data.length > 0) {
+      data = data.map(item => {   //如果实际货位下拉框不包含指示货位，则默认第一个
+        let isSame =  item.acceptoodsVo.some(itemNum => {
+          if(item.realReceiveStore !== itemNum.id) {
+            return false;
+          }else {
+            return true;
+          }
+        });
+        if(!isSame) {
+          item.realReceiveStore = item.acceptoodsVo[0].id;
+        }
+        return item;
+      });
+      this.setState({
+        listwsjData: data
+      });
+    }
+    this.setState({
+      loading: false
+    });
+  }
+
   render(){
-    let {defaultActive, info, loading, saveLoading} = this.state;
-    let {listwsj, listysj} = info;  
+    let {
+      defaultActive, 
+      info, 
+      loading, 
+      saveLoading,
+      listysjQuery,
+      listwsjQuery,
+      selectedRow,
+      listwsjData
+    } = this.state;
     const notColumns = [
       {
         title: '指示货位',
@@ -138,7 +170,19 @@ class DetailsPutaway extends PureComponent{
           return <Select
                   defaultValue={text}
                   onChange={(value)=>{
+                    const whetherInclude = selectedRow.some((item) => item.id === record.id);
                     record.realReceiveStore = value;
+                    if(whetherInclude) {
+                      selectedRow = selectedRow.map(item => {
+                        if(item.id === record.id) {
+                          item.realReceiveStore = value;
+                        };
+                        return item;
+                      })
+                      this.setState({
+                        selectedRow
+                      });
+                    };
                   }}
                   style={{width: '100%'}}
                   showSearch
@@ -264,9 +308,9 @@ class DetailsPutaway extends PureComponent{
         dataIndex: 'replanUnit'
       },
       {
-          title: '药品名称',
-          dataIndex: 'ctmmTradeName',
-          width: 350,
+        title: '药品名称',
+        dataIndex: 'ctmmTradeName',
+        width: 350,
         className: 'ellipsis',
         render:(text)=>(
           <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
@@ -349,9 +393,18 @@ class DetailsPutaway extends PureComponent{
           </Col>
         </Row>
         <hr className='hr'/>
-        <Tabs onChange={this.changeTabs} activeKey={defaultActive} tabBarExtraContent={defaultActive === "1" && listwsj && listwsj.length > 0 ? <Button loading={saveLoading} onClick={this.onSubmit} type="primary">确认上架</Button> : null}>
+        <Tabs 
+          onChange={this.changeTabs} 
+          activeKey={defaultActive} 
+          tabBarExtraContent={
+            defaultActive === "1" && info.auditStatus === 2 ? 
+            <Button loading={saveLoading} onClick={this.onSubmit} type="primary">确认上架</Button> 
+            : null
+          }
+        >
           <TabPane tab="待上架" key="1">
-            <Table
+            
+            {/* <Table
               loading={loading}
               dataSource={listwsj}
               bordered
@@ -364,10 +417,26 @@ class DetailsPutaway extends PureComponent{
                   this.setState({selectedRowKeys, selectedRow});
                 }
               }}
+            /> */}
+            <RemoteTable
+              ref={(node) => this.listwsjTable = node}
+              loading={loading}
+              query={listwsjQuery}
+              columns={notColumns}
+              scroll={{ x: '100%' }}
+              dataSource={listwsjData}
+              cb={this.listysjTableCallBack}
+              url={wareHouse.SHELF_INFO_LIST}
+              rowKey='id'
+              rowSelection={{
+                onChange: (selectedRowKeys, selectedRow) => {
+                  this.setState({selectedRowKeys, selectedRow});
+                }
+              }}
             />
           </TabPane>
           <TabPane tab="已上架" key="2">
-            <Table
+            {/* <Table
               loading={loading}
               dataSource={listysj}
               bordered
@@ -375,6 +444,14 @@ class DetailsPutaway extends PureComponent{
               columns={hasColumns}
               rowKey={'drugCode'}
               pagination={false}
+            /> */}
+            <RemoteTable
+              ref={(node) => this.listysjTable = node}
+              query={listysjQuery}
+              columns={hasColumns}
+              scroll={{ x: '100%' }}
+              url={wareHouse.SHELF_INFO_LIST}
+              rowKey='id'
             />
           </TabPane>
         </Tabs>

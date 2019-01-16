@@ -86,6 +86,13 @@ export default {
         message.error(data.msg);
       };
     },
+    //上架详情头部
+    *shelfInfoHead({payload, callback}, {call}) {
+      const data = yield call(wareHouse.shelfInfoHead, payload);
+      if(callback && typeof callback === 'function') {
+        callback(data);
+      };
+    },
     *finish({payload, callback}, {call}) {
       const data = yield call(wareHouse.finish, payload);
       if(data.code === 200 && data.msg === 'success') {

@@ -182,7 +182,7 @@ class DrugStorageConfigMgt extends PureComponent{
           bordered
           loading={loading}
           dataSource={dataSource}
-          scroll={{ x:'100%' }}
+          scroll={{ x:'100%' , y: 300}}
           pagination={{
             size: 'small',
             showQuickJumper: true,

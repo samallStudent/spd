@@ -17,8 +17,11 @@ class RemoteTable extends Component {
       searchParams: {}
     }
   };
+  static defaultProps = {
+    hasInitRequest: true, //是否默认请求
+  }
   componentDidMount() {
-    this.fetch();
+    this.props.hasInitRequest && this.fetch();
   }
   componentWillReceiveProps = (nextProps) => {
     if ((nextProps.url !== this.props.url) || 
@@ -59,7 +62,8 @@ class RemoteTable extends Component {
     this.props.fetchBefore && this.props.fetchBefore();
     if(url){
       let pagination = this.state.pagination;
-      pagination.current = params.pageNo ? params.pageNo : pagination.pageNo;
+      pagination.current = params.pageNo ? params.pageNo : pagination.current;
+      params.pageNo = params.pageNo ? params.pageNo : pagination.current ? pagination.current : 1;
       pagination.pageSize = params.pageSize ? params.pageSize : pagination.pageSize;
       let dataMethod, contentType;
       if(this.props.isJson) {
@@ -146,7 +150,8 @@ class RemoteTable extends Component {
       footer, 
       showHeader, 
       title, 
-      query 
+      query,
+      pagination
     } = this.props; 
     columns = [...columns];
     columns = columns.map((item, i) => {
@@ -155,6 +160,7 @@ class RemoteTable extends Component {
       };
       return item;
     });
+    pagination = pagination ? {...this.state.pagination, ...pagination} : this.state.pagination;
     return (
       <Table 
         {...this.props}
@@ -166,7 +172,7 @@ class RemoteTable extends Component {
         size={this.props.size || 'default'}
         dataSource={this.props.data || this.state.data}
         loading={this.props.loading || this.state.loading}
-        pagination={this.state.pagination}
+        pagination={pagination}
         onChange={this.handleTableChange}
         rowClassName={rowClassName}
         title={title || null}

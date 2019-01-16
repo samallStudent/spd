@@ -230,7 +230,7 @@ class salvageStockList extends PureComponent{
                query={query}
                ref="salvageCarTable"
                columns={IndexColumns}
-               scroll={{x: '100%'}}
+               scroll={{x: '100%', y: 300}}
                rowKey={'batchNo'}
                style={{marginTop: 20}}
                url={salvageCar.GET_SALVGECAR_LIST}

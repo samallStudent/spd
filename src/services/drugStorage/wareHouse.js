@@ -14,6 +14,14 @@ export function detailsInfo(options) {
     body: options
   })
 };
+/* 配送单验收 - 头部*/
+export function checkDetailHead(options) {
+  return request(`${_local}/a/exam/detailhead`,{ //配送单详情
+    method: 'POST',
+    type: 'formData',
+    body: options
+  })
+};
 /* 上架 */
 export function putawayInfo(options) {
   return request(`${_local}/a/checkacceptdetail/shelfInfo`,{ //上架列表详情

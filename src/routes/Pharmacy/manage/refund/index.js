@@ -95,7 +95,7 @@ class Refund extends PureComponent{
           dataSource={createData()}
           bordered
           loading={ this.state.loading}
-          scroll={{x: '100%'}}
+          scroll={{x: '100%', y: 300}}
           columns={columns}
           rowKey={'id'}
           style={{marginTop: 20}}

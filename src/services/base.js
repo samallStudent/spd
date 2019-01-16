@@ -11,6 +11,15 @@ export function SearchProductSelect(options){
   })
 }
 
+//公共确认验收
+export function commonConfirmCheck(options) {
+  return request(`${_local}/a/examdetail/checkList`,{ 
+    method: 'POST',
+    type: 'json',
+    body: options
+  })
+}
+
 
 //补货单据-新增出库/入库
 export function InsertMakeup(options){

@@ -8,7 +8,7 @@ import RetomeTable from '../../../../components/TableGrid';
 import FetchSelect from '../../../../components/FetchSelect/index';
 import {connect} from 'dva';
 import moment from 'moment';
-import {difference} from 'loadsh';
+import {difference} from 'lodash';
 const monthFormat = 'YYYY-MM-DD';
 const RadioGroup = Radio.Group;
 class Details extends PureComponent {

@@ -185,7 +185,13 @@ const columns = [
     width: 158,
   }
 
-]
+];
+const columnsModel =columns.concat() ;
+columnsModel.splice(3,1,{
+  title: '单位',
+  dataIndex: 'ctpHdmsCheckinUnitDesc',
+  width: 90
+})
 
 class DrugDirectory extends PureComponent{
   state = {
@@ -472,8 +478,8 @@ class DrugDirectory extends PureComponent{
           ref='modalTableInsert'
           query={{}}
           style={{marginTop: 20}}
-          columns={columns}
-          scroll={{ x: '100%' }}
+          columns={columnsModel}
+          scroll={{ x: '100%',y:300 }}
           url={configMgt.findDepotFilterList}
           rowSelection={{
             selectedRowKeys: this.state.modalSelected,
@@ -490,7 +496,7 @@ class DrugDirectory extends PureComponent{
         query={query}
         style={{marginTop: 20}}
         columns={IndexColumns}
-        scroll={{ x: '100%' }}
+        scroll={{ x: '100%',y:300 }}
         url={configMgt.findDepotlist}
         rowSelection={{
           selectedRowKeys: this.state.selected,
