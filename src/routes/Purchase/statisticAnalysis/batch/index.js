@@ -221,7 +221,7 @@ class OrderRetrospect extends PureComponent {
         <RemoteTable
           onChange={this._tableChange}
           query={query}
-          scroll={{x: '100%'}}
+          scroll={{x: '100%', y: 300}}
           isJson
           columns={columns}
           style={{marginTop: 20}}

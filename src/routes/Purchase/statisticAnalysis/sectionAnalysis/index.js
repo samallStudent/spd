@@ -360,7 +360,7 @@ class SectionAnalysis extends PureComponent {
           query={query}
           isJson
           columns={columns}
-          scroll={{x: '100%'}}
+          scroll={{x: '100%', y: 300}}
           style={{marginTop: 20}}
           ref='table'
           footer={() => (
