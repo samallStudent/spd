@@ -232,7 +232,7 @@ class StockInquiry extends PureComponent {
           ref="tab"
           bordered={true}
           style={{marginTop: 20}}
-          scroll={{x: '100%'}}
+          scroll={{x: '100%' , y:300 }}
           columns={columns}
           rowKey="drugCode"
         />
