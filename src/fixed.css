@@ -50,10 +50,13 @@
 .ant-row-bottom{
   margin-bottom: 24px;
 }
-.ant-table-body .ant-table-thead> tr{
+.ant-table-body .ant-table-thead> tr,.ant-table-body .ant-table-fixed-header>tr,
+.ant-table-header .ant-table-thead> tr,.ant-table-header .ant-table-fixed-header>tr{
   height: 40px;
 }
-.ant-table-body .ant-table-thead > tr > th, .ant-table-content .ant-table-fixed-right .ant-table-thead > tr > th,.ant-table-content .ant-table-fixed-left .ant-table-thead > tr > th{
+.ant-table-body .ant-table-thead > tr > th, .ant-table-content .ant-table-fixed-right .ant-table-thead > tr > th,.ant-table-content .ant-table-fixed-left .ant-table-thead > tr > th,
+.ant-table-header .ant-table-thead > tr > th
+{
   font-weight: bold;
   padding-left: 16px !important;
 }
@@ -385,7 +388,7 @@ td:hover .editable-cell-icon {
 	animation-fill-mode: forwards;
 }
 
-.ant-table-thead > tr > th{
+.ant-table-thead > tr > th, .ant-table-fixed-header{
   background: #f5f5f5 !important;
 }
 .ant-table-tbody > tr.ant-table-row-selected td{

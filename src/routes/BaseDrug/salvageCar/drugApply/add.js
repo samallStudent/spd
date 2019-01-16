@@ -51,7 +51,7 @@ class NewAdd extends PureComponent {
     });
   }
   handleOk = () => {
-    let {modalSelectedRows, query} = this.state;
+    let {modalSelectedRows, query, dataSource} = this.state;
     if(modalSelectedRows.length === 0) {
       return message.warning('至少选择一条信息');
     };
@@ -66,7 +66,7 @@ class NewAdd extends PureComponent {
       callback: ({data, code, msg}) => {
         if(code === 200) {
           this.setState({
-            dataSource: data,
+            dataSource: [...dataSource, ...data],
             btnLoading: false,
             visible: false,
             modalSelected: [],

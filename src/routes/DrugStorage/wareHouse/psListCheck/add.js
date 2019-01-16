@@ -212,6 +212,7 @@ class PslistAdd extends PureComponent{
         this.queryDetail();
         this.unacceptedTable.fetch();
         this.acceptedTable && this.acceptedTable.fetch();
+        this.tableOnChange();
       }
     })
   }

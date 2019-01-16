@@ -151,14 +151,13 @@ class BaseMgt extends PureComponent{
         stockBase: stockBaseValue,
         deptCode: query.deptCode
       },
-      callback: (data) => {
-        if(data.code === 200) {
-          this.setState({
-            editingKey: '',
-            stockBaseValue: ''
-          });
-          this.refs.table.fetch();
-        }
+      callback: ({data, code, msg}) => {
+        if(code !== 200) return message.error(msg);
+        this.setState({
+          editingKey: '',
+          stockBaseValue: ''
+        });
+        this.refs.table.fetch();
       }
     })
   }
