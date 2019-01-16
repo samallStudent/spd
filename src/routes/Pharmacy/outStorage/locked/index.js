@@ -253,7 +253,7 @@ class RecallAndLocked extends PureComponent {
           url={outStorage.ROOMRECALL_LOCK_LIST}
           columns={columns}
           rowKey={'id'}
-          scroll={{ x: '100%' }}
+          scroll={{ x: '100%' , y: 300}}
           style={{marginTop: 20}}
           rowSelection={{
             selectedRowKeys: this.state.selected,

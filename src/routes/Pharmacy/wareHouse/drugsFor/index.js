@@ -91,7 +91,7 @@ class DrugsFor extends PureComponent{
           ref="tab"
           query={query}
           url={wareHouse.APPLYLIST}
-          scroll={{x: '100%'}}
+          scroll={{x: '100%', y: 300}}
           columns={columns}
           rowKey={'applyCode'}
           style={{marginTop: 24}}

@@ -515,7 +515,7 @@ class NewInventory extends PureComponent {
                       })(
                         <FetchSelect
                           queryKey={'positionName'}
-                          style={{width: '100%'}}
+                          style={{width: '100%', y: 300}}
                           allowClear
                           valueAndLabel={{
                             label: 'positionName',

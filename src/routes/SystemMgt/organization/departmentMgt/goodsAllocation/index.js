@@ -245,10 +245,6 @@ class GoodsAllocation extends PureComponent{
                   }]
                 })(
                   <Input />
-                  // <div>
-                  //   
-                  //   <span></span>
-                  // </div>
                 )
               }
             </FormItem>
