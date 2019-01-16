@@ -373,7 +373,7 @@ class NewInventory extends PureComponent {
           columns={columns}
           rowKey={'id'}
           ref="table"
-          scroll={{x: '100%' , y:300}}
+          scroll={{x: '100%'}}
           style={{marginTop: 20}}
           rowSelection={{
             selectedRowKeys: this.state.selected,
