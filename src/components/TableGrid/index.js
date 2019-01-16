@@ -62,7 +62,7 @@ class RemoteTable extends Component {
     this.props.fetchBefore && this.props.fetchBefore();
     if(url){
       let pagination = this.state.pagination;
-      pagination.current = params.pageNo ? params.pageNo : pagination.pageNo;
+      pagination.current = params.pageNo ? params.pageNo : pagination.current;
       params.pageNo = params.pageNo ? params.pageNo : pagination.current ? pagination.current : 1;
       pagination.pageSize = params.pageSize ? params.pageSize : pagination.pageSize;
       let dataMethod, contentType;
