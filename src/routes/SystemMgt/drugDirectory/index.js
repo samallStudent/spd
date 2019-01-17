@@ -286,7 +286,6 @@ class DrugDirectory extends PureComponent{
         title: '状态',
         dataIndex: 'ctmmStatusCode',
         width: 112,
-        fixed: 'right',
         render: text => <Badge status={text==="0" ? "success" :"error"} text={text==="0" ? "启用" :"停用"}/>
       },
     ];
@@ -430,7 +429,7 @@ class DrugDirectory extends PureComponent{
           bordered
           query={query}
           url={systemMgt.MEDICINEMATERIAL_LIST}
-          scroll={{x: '100%'}}
+          scroll={{x: '100%', y: 300}}
           columns={IndexColumns}
           rowKey={'id'}
         />

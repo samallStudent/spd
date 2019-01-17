@@ -242,7 +242,7 @@ class OutCatalogPurchase extends PureComponent{
           onChange={this._tableChange}
           url={replenishmentPlan.PLANLIST}
           columns={columns}
-          scroll={{ x: '100%' }}
+          scroll={{ x: '100%', y: 300 }}
           rowKey={'id'}
           rowSelection={{
             selectedRowKeys: this.state.selected,
