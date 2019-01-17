@@ -12,21 +12,23 @@ import drugStorage from '../../../../api/drugStorage/stockInquiry';
 
 import goodsAdjust from '../../../../api/drugStorage/goodsAdjust';
 
+
 import {connect} from 'dva';
+import FormItem from 'antd/lib/form/FormItem';
 
 // const FormItem = Form.Item;
 // const {Option} = Select;
 
-// const formItemLayout = {
-//   labelCol: {
-//     xs: { span: 24 },
-//     sm: { span: 5 },
-//   },
-//   wrapperCol: {
-//     xs: { span: 24 },
-//     sm: { span: 19 },
-//   },
-//  };
+const formItemLayout = {
+  labelCol: {
+    xs: { span: 24 },
+    sm: { span: 5 },
+  },
+  wrapperCol: {
+    xs: { span: 24 },
+    sm: { span: 19 },
+  },
+ };
 
 const columns = [
  /* {
@@ -48,7 +50,8 @@ const columns = [
         render: (text, record) => {
             return (
                 <span>
-          <Link to={{pathname: `/drugStorage/stockMgt/stockInquiry/details/dCode=${record.drugCode}&bCode=${record.hisDrugCode}`}}>{text}</Link>
+          <Link to={{pathname: `/drugStorage/stockMgt/stockInquiry/details/dCode=${record.drugCode}&bCode=${record.hisDrugCode}
+          &locCode=${record.goodsCode?record.goodsCode:""}`}}>{text}</Link>
         </span>
             )
         }
@@ -96,14 +99,18 @@ const columns = [
     title: '批准文号',
     dataIndex: 'approvalNo',
     width: 180,
+  },{
+    title: '货位名称',
+    dataIndex: 'positionName',
+    width: 180,
   }
 ];
 
 
 class StockInquiry extends PureComponent {
-  state = {
-    value: undefined
-  }
+  // state = {
+  //   value: undefined
+  // }
   componentDidMount() {
     let { queryConditons } = this.props.base;
     //找出表单的name 然后set
@@ -119,9 +126,8 @@ class StockInquiry extends PureComponent {
   handleSearch = (e) => {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
-      // values.deptCode = values.deptCode === undefined? "" : values.deptCode;
-      values.hisDrugCodeList = this.state.value ? [this.state.value] : [];
-
+      values.hisDrugCodeList = values.hisDrugCodeList ? [values.hisDrugCodeList] : [];
+      values.locCodeList = values.locCodeList ? [values.locCodeList] : [];
       this.props.dispatch({
         type:'base/updateConditions',
         payload: values
@@ -138,9 +144,9 @@ class StockInquiry extends PureComponent {
   //重置
   handleReset = () => {
     this.props.form.resetFields();
-    this.setState({
-      value: undefined
-    });
+    // this.setState({
+    //   value: undefined
+    // });
     // let {query, value} = this.state;
     // if(!value) return;
     // this.setState({
@@ -161,18 +167,19 @@ class StockInquiry extends PureComponent {
     });
   }
   export = () => {
-    const {value} = this.state;
-    const hisDrugCodeList = value ? [value] : [];
+    let { queryConditons } = this.props.base;
+    queryConditons = { ...queryConditons };
+    delete queryConditons.pageNo;
+    // console.log(queryConditons)
     this.props.dispatch({
       type: 'stockInquiry/stockInquiryExport',
       payload: {
-        hisDrugCodeList
+        queryConditons
       }
     })
   }
   render() {
-    // const { getFieldDecorator } = this.props.form;
-    const {value} = this.state;
+    const { getFieldDecorator } = this.props.form;
     let query = this.props.base.queryConditons;
     delete query.key;
     return (
@@ -180,27 +187,33 @@ class StockInquiry extends PureComponent {
         <Form onSubmit={this.handleSearch}>
           <Row gutter={30}>
             <Col span={8}>
-              <div className="ant-row ant-form-item">
-                <div className="ant-form-item-label ant-col-xs-24 ant-col-sm-5">
-                  <label>关键字</label>
-                </div>
-                <div className="ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-19">
-                  <div className="ant-form-item-control">
+                <FormItem label="关键字" {...formItemLayout}>
+                  {getFieldDecorator('hisDrugCodeList')(
                     <FetchSelect
                       allowClear={true}
-                      value={value}
                       style={{ width: 248 }}
                       placeholder='通用名/药品名称'
                       url={goodsAdjust.QUERY_DRUG_BY_LIST}
-                      cb={(value, option) => {
-                        this.setState({
-                          value
-                        });
-                      }}
                     />
-                  </div>
-                </div>
-              </div>
+                  )}
+                </FormItem>
+            </Col>
+            <Col span={8}>
+            <FormItem label="货位名称" {...formItemLayout}>
+                  {getFieldDecorator('locCodeList')(
+                    <FetchSelect
+                      queryKey={"positionName"}
+                      valueAndLabel={{
+                        value: 'id',
+                        label: 'positionName'
+                      }}
+                      allowClear={true}
+                      style={{ width: 248 }}
+                      placeholder='请输入货位名称'
+                      url={drugStorage.locList}
+                    />
+                  )}
+                </FormItem>
             </Col>
             <Col span={8}>
               {/* <FormItem label={`药品类型`} {...formItemLayout}>
