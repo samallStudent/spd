@@ -99,10 +99,6 @@ const columns = [
     title: '批准文号',
     dataIndex: 'approvalNo',
     width: 180,
-  },{
-    title: '货位名称',
-    dataIndex: 'positionName',
-    width: 180,
   }
 ];
 
@@ -169,13 +165,15 @@ class StockInquiry extends PureComponent {
   export = () => {
     let { queryConditons } = this.props.base;
     queryConditons = { ...queryConditons };
+    delete queryConditons.pageSize;
     delete queryConditons.pageNo;
-    // console.log(queryConditons)
+    delete queryConditons.sortField;
+    delete queryConditons.sortOrder;
+    delete queryConditons.key;
+    console.log(queryConditons)
     this.props.dispatch({
       type: 'stockInquiry/stockInquiryExport',
-      payload: {
-        queryConditons
-      }
+      payload: queryConditons
     })
   }
   render() {
@@ -194,6 +192,7 @@ class StockInquiry extends PureComponent {
                       style={{ width: 248 }}
                       placeholder='通用名/药品名称'
                       url={goodsAdjust.QUERY_DRUG_BY_LIST}
+
                     />
                   )}
                 </FormItem>

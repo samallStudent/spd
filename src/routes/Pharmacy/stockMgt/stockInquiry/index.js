@@ -96,10 +96,6 @@ const columns = [
     title: '批准文号',
     dataIndex: 'approvalNo',
     width: 138,
-  },{
-    title: '货位名称',
-    dataIndex: 'goodsName',
-    width: 138,
   }
 ];
 
@@ -161,13 +157,17 @@ class StockInquiry extends PureComponent {
     let {queryConditons} = this.props.base;
     queryConditons = {...queryConditons}
     delete queryConditons.pageNo;
+    delete queryConditons.pageSize;
+    delete queryConditons.pageNo;
+    delete queryConditons.sortField;
+    delete queryConditons.sortOrder;
+    delete queryConditons.key;
     console.log(queryConditons);
     this.props.dispatch({
       type: 'stockInquiry/stockInquiryExport',
-      payload: {
+      payload: 
         // hisDrugCodeList
         queryConditons
-      }
     })
   }
   render() {
