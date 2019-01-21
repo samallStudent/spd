@@ -336,7 +336,8 @@ class PlanOrder extends PureComponent{
             isJson={true}
             query={query}
             ref='table'
-            scroll={{ x: '100%', y: 300 }}
+            isDetail={true}
+            scroll={{ x: '100%',  }}
             rowKey={'id'}
             url={replenishmentPlan.PURCHASEORDERLIST}
             rowSelection={{

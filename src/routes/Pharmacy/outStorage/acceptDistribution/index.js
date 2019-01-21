@@ -224,7 +224,8 @@ class Picking extends PureComponent{
           url={outStorage.FINDDISTRIBUTE_LIST}
           ref='table'
           query={query}
-          scroll={{x: '100%', y: 300}}
+          scroll={{x: '100%'}}
+          isDetail={true}
           columns={columns}
           rowKey={'id'}
           style={{marginTop: 20}}

@@ -80,7 +80,8 @@ class Putaway extends PureComponent{
         <RemoteTable
           query={query}
           url={goodsAdjust.goodsList}
-          scroll={{x: '100%', y: 300}}
+          scroll={{x: '100%'}}
+          isDetail={true}
           columns={columns}
           rowKey={'locAdjustNo'}
           style={{marginTop: 24}}

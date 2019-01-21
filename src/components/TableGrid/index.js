@@ -14,7 +14,8 @@ class RemoteTable extends Component {
         size: 'small'
       },
       loading: false,
-      searchParams: {}
+      searchParams: {},
+      scroll: {}
     }
   };
   static defaultProps = {
@@ -22,7 +23,25 @@ class RemoteTable extends Component {
   }
   componentDidMount() {
     this.props.hasInitRequest && this.fetch();
+    this.props.isDetail && this.initTableHeight();
   }
+
+  initTableHeight = () => {
+    const screenHeight = document.body.clientHeight;//当前屏幕高度
+    let childDom = document.querySelector('.ant-table-wrapper');
+    var offsetH = childDom.offsetTop ;//table距离浏览器顶部的高度
+    var headH = childDom.querySelector('.ant-table-thead') || childDom.querySelector('.ant-table-body');
+    /* table  scroll y值 = 屏幕高度 - 底部bottom（80）- 当前table距离浏览器顶部高度*/
+    let DomHeight = screenHeight - offsetH - 30 - 50 - headH.offsetHeight; 
+    DomHeight = DomHeight <= 38 ? 38: DomHeight;//设置最小高度
+    // document.querySelector('.ant-table').querySelector('.ant-table-body').style['max-height']=DomHeight+'px';
+    this.setState({
+      scroll: {
+        y: DomHeight
+      }
+    });
+  }
+
   componentWillReceiveProps = (nextProps) => {
     if ((nextProps.url !== this.props.url) || 
       (typeof nextProps.query === 'string' ? nextProps.query !== this.props.query : !objCompare(nextProps.query, this.props.query))) {
@@ -161,6 +180,7 @@ class RemoteTable extends Component {
       return item;
     });
     pagination = pagination ? {...this.state.pagination, ...pagination} : this.state.pagination;
+    scroll = scroll ? {...scroll, ...this.state.scroll} : this.state.scroll;
     return (
       <Table 
         {...this.props}

@@ -268,7 +268,7 @@ class NewAddGoodsAdjust extends PureComponent{
                   }}
                   type="JSON"
                   style={{ width: '100%' }}
-                  placeholder='药品名称'
+                  placeholder='请输入货位搜索选择'
                   url={goodsAdjust.QUERY_TARGET_LOCATION}
                   cb={(value, data) => {
                     this.changeGoalLoc(value, i, data);

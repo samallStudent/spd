@@ -82,7 +82,8 @@ class DrugsFor extends PureComponent{
           ref="tab"
           query={query}
           url={salvageCar.GET_RESCUECAR_APPLY_LIST}
-          scroll={{x: '100%', y: 300}}
+          scroll={{x: '100%'}}
+          isDetail={true}
           columns={columns}
           rowKey={'applyCode'}
           style={{marginTop: 24}}

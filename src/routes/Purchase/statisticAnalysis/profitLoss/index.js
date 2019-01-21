@@ -271,7 +271,8 @@ class ProfitLoss extends PureComponent {
         <RemoteTable
           onChange={this._tableChange}
           query={query}
-          scroll={{x: '100%', y: 300}}
+          scroll={{x: '100%'}}
+          isDetail={true}
           columns={columns}
           style={{marginTop: 20}}
           ref='table'

@@ -4,24 +4,33 @@
 * @Last Modified time: 2018-07-24 13:13:55 
  */
 import React, { PureComponent } from 'react';
-import { Table ,Row, Col, Button, Modal, Tabs, message , InputNumber, Tooltip } from 'antd';
+import { Row, Col, Button, Modal, Tabs, message , InputNumber, Tooltip } from 'antd';
 import { connect } from 'dva';
+import { outStorage } from '../../../../api/drugStorage/outStorage';
+import RemoteTable from '../../../../components/TableGrid';
 import { Link } from 'react-router-dom';
 const TabPane = Tabs.TabPane; 
 const Conform = Modal.confirm;
 class DetailsPickSoldOut extends PureComponent{
   constructor(props) {
     super(props);
+    const { pickingOrderNo } = this.props.match.params;
+    console.log(pickingOrderNo);
+    
     this.state = {
       detailsData: {},
-      loading: false,
       activeKey: null,
-      pickingStatus: null, // 拣货状态 显示tabs
-      leftDataSource: [], // 待拣货
-      rightDataSource: [], // 已拣货
       selected: [],
       selectedRows: [],
-      okLoading: false
+      okLoading: false,
+      pendingQuery: {
+        pickingOrderNo,
+        pickingStatus: 0
+      },
+      pickedQuery: {
+        pickingOrderNo,
+        pickingStatus: 1
+      }
     }
   }
   
@@ -34,19 +43,12 @@ class DetailsPickSoldOut extends PureComponent{
       let { pickingOrderNo } = this.props.match.params;
       this.setState({ loading: true });
       this.props.dispatch({
-        type:'outStorage/getpickingDetail',
+        type:'outStorage/getPickingDetailPad',
         payload: { pickingOrderNo },
-        callback:(data)=>{
-          data.notDetail = data.notDetail.map(item => {
-            item.amount = item.allocationNum;
-            return item;
-          });
+        callback:({data, code, msg})=>{
+          if(code !== 200) return message.error(msg);
           this.setState({ 
             detailsData: data, 
-            loading: false,
-            leftDataSource: data.notDetail,
-            rightDataSource: data.existDetail,
-            pickingStatus: data.status,
             activeKey: data.status === 1? '1': '2'
           });
         }
@@ -59,8 +61,6 @@ class DetailsPickSoldOut extends PureComponent{
     if(selectedRows.length === 0) {
       return message.warning('至少选择一条数据');
     };
-    console.log(detailsData);
-    
     Conform({
       content:"您确定要执行此操作？",
       onOk:()=>{
@@ -69,7 +69,7 @@ class DetailsPickSoldOut extends PureComponent{
         selectedRows.map(item => pickingDetail.push({
           drugCode: item.drugCode,
           id: item.id,
-          pickingNum: item.amount ? item.amount : 1,
+          pickingNum: item.amount === undefined ? item.allocationNum : item.amount,
         }));
         postData.pickingDetail = pickingDetail;
         postData.applyNo = detailsData.applyOrder;
@@ -82,20 +82,34 @@ class DetailsPickSoldOut extends PureComponent{
             message.success('操作成功！');
             this.setState({okLoading:false})
             this.getDetail();
+            this.pickingTable.fetch();
+            this.pickedTable && this.pickedTable.fetch();
+            this.tableOnChange();
           }
         })
       },
       onCancel:()=>{}
     })
   }
-
+  tableOnChange = () => {
+    this.setState({
+      selected: [],
+      selectedRows: [],
+    });
+  }
   render(){
-    const { detailsData ,loading, activeKey, leftDataSource, rightDataSource } = this.state;
+    const { 
+      detailsData,
+      activeKey, 
+      pendingQuery,
+      pickedQuery,
+      selected
+    } = this.state;
     const columns = [
       {
-          title: '药品名称',
-          dataIndex: 'ctmmTradeName',
-          width: 350,
+        title: '药品名称',
+        dataIndex: 'ctmmTradeName',
+        width: 350,
         fixed: 'left',
         render:(text)=>(
           <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
@@ -148,20 +162,31 @@ class DetailsPickSoldOut extends PureComponent{
       {
         title: '配货数量',
         width: 112,
+        fixed: 'right',
         dataIndex: 'allocationNum',
       },
       {
         title: '实际拣货数量',
         width: 128,
+        fixed: 'right',
         dataIndex: 'amount',
         render:(text,record,index)=>{
           return <InputNumber
                     min={1}
                     max={record.allocationNum}
                     precision={0}
-                    defaultValue={text} 
+                    defaultValue={record.allocationNum} 
                     onChange={(value) => {
                       record.amount = value;
+                      const newSelected = selected.map(item => {
+                        if(item.id === record.id) {
+                          item.amount = value;
+                        };
+                        return item;
+                      });
+                      this.setState({
+                        selected: newSelected
+                      });
                     }}
                   />
         }
@@ -237,9 +262,14 @@ class DetailsPickSoldOut extends PureComponent{
         <Tabs  
           activeKey={activeKey} 
           onChange={(activeKey)=>this.setState({ activeKey })} 
-          tabBarExtraContent={ (activeKey  === '1' && leftDataSource.length > 0) ? <Button  type='primary'  onClick={()=>this.onSubmit()} loading={this.state.okLoading}>确认拣货</Button> : null}>
+          tabBarExtraContent={ 
+            activeKey  === '1' && detailsData.status === 1 ? 
+            <Button  type='primary'  onClick={()=>this.onSubmit()} loading={this.state.okLoading}>确认拣货</Button> 
+            : null
+          }
+        >
           <TabPane tab="待拣货" key="1">
-            <Table
+            {/* <Table
               bordered
               dataSource={leftDataSource}
               scroll={{x: '100%'}}
@@ -253,10 +283,30 @@ class DetailsPickSoldOut extends PureComponent{
                   this.setState({selected: selectedRowKeys, selectedRows: selectedRows})
                 }
               }}
+            /> */}
+            <RemoteTable 
+              ref={(node) => this.pickingTable = node}
+              query={pendingQuery}
+              columns={columns}
+              scroll={{ x: '100%' }}
+              url={outStorage.PICKING_DETAIL_LIST}
+              rowSelection={{
+                selectedRowKeys: selected,
+                onChange: (selectedRowKeys, selectedRows) => {
+                  this.setState({
+                    selected: selectedRowKeys, 
+                    selectedRows: selectedRows
+                  });
+                }
+              }}
+              rowKey='id'
+              pagination={{
+                onChange: this.tableOnChange
+              }}
             />
           </TabPane>
           <TabPane tab="已拣货" key="2">
-            <Table
+            {/* <Table
               bordered
               dataSource={rightDataSource}
               scroll={{x: '100%'}}
@@ -264,6 +314,14 @@ class DetailsPickSoldOut extends PureComponent{
               columns={readyPickingColumns}
               pagination={false}
               rowKey={'id'}
+            /> */}
+            <RemoteTable 
+              ref={(node) => this.pickedTable = node}
+              query={pickedQuery}
+              columns={readyPickingColumns}
+              scroll={{ x: '100%' }}
+              url={outStorage.PICKING_DETAIL_LIST}
+              rowKey='id'
             />
           </TabPane>
         </Tabs>

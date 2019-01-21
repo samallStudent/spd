@@ -43,15 +43,6 @@ class DetailsPickSoldOut extends PureComponent{
         payload: { pickingOrderNo },
         callback:({data, code, msg})=>{
           if(code !== 200) return message.error(msg);
-          
-          if(data.notDetail) {
-            data.notDetail = data.notDetail.map(item => {
-              return {
-                ...item,
-                amount: item.allocationNum ? item.allocationNum : 1
-              }
-            })
-          }
           this.setState({ 
             detailsData: data, 
             activeKey: data.status === 1? '1': '2'

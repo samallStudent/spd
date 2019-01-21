@@ -201,7 +201,8 @@ class StockInquiry extends PureComponent {
           style={{marginTop: 20}}
           query={query}
           ref="tab"
-          scroll={{x: '100%', y: 300}}
+          scroll={{x: '100%'}}
+          isDetail={true}
           columns={columns}
           rowKey="drugCode"
         />

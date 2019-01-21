@@ -223,7 +223,8 @@ class BaseMgt extends PureComponent{
         ref='table'
         query={query}
         url={baseMgt.FIND_ALL_CARDINAL_MADICINE_LIST}
-        scroll={{x: '100%', y: 300}}
+        scroll={{x: '100%'}}
+          isDetail={true}
         columns={IndexColumns}
         rowKey={'deptCode'}
       />

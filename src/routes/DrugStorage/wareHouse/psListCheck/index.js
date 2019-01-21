@@ -329,7 +329,8 @@ class DistributionCheck extends PureComponent{
           url={wareHouse.depotdistributeList}
           onChange={this._tableChange}
           columns={columns}
-          scroll={{ x: '100%',y:300 }}
+          isDetail={true}
+          scroll={{ x: '100%', }}
           rowKey={'id'}
         />
       </div>
