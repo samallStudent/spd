@@ -8,13 +8,12 @@
  * @file 药房 - 货位调整--新建货位
  */
 import React, { PureComponent } from 'react';
-import {Row, message, InputNumber, Col, Button, Table, Modal, Select, Icon, Tooltip} from 'antd';
+import {Row, message, InputNumber, Col, Button, Table, Modal, Icon, Tooltip} from 'antd';
 import RemoteTable from '../../../../components/TableGrid/index';
 import goodsAdjust from '../../../../api/drugStorage/goodsAdjust';
 import FetchSelect from '../../../../components/FetchSelect/index';
 import {connect} from 'dva';
 import _ from 'lodash';
-const {Option} = Select;
 class NewAddGoodsAdjust extends PureComponent{
   state = {
     isShow: false,
@@ -172,22 +171,15 @@ class NewAddGoodsAdjust extends PureComponent{
     });
   }
 
-  changeGoalLoc = (value, i, record) => {
+  changeGoalLoc = (value, i, data) => {
     let {dataSource} = this.state;
-    let index;
-    record.targetLocInfoVoList.map((item, n)=>{
-      if(item.id === value) {
-        index = n;
-      };
-      return item;
-    })
     dataSource[i].goalLocCode = value;
-    dataSource[i].goalBigDrugCode = record.targetLocInfoVoList[index].goalBigDrugCode;
-    dataSource[i].goalDrugCode = record.targetLocInfoVoList[index].goalDrugCode;
-    dataSource[i].targetUnit = record.targetLocInfoVoList[index].targetUnit;
-    dataSource[i].targetUnitCode = record.targetLocInfoVoList[index].targetUnitCode
-    dataSource[i].targetTypeName = record.targetLocInfoVoList[index].targetTypeName;
-    dataSource[i].conversionRate = record.targetLocInfoVoList[index].conversionRate;
+    dataSource[i].goalBigDrugCode = data.goalBigDrugCode;
+    dataSource[i].goalDrugCode = data.goalDrugCode;
+    dataSource[i].targetUnit = data.targetUnit;
+    dataSource[i].targetUnitCode = data.targetUnitCode
+    dataSource[i].targetTypeName = data.targetTypeName;
+    dataSource[i].conversionRate = data.conversionRate;
     this.setState({
       dataSource: [...dataSource]
     });
@@ -259,20 +251,41 @@ class NewAddGoodsAdjust extends PureComponent{
         dataIndex: 'goalLocCode',
         width: 280,
         render: (text, record, i) => {
-          return <Select
-                  style={{width: '100%'}}
-                  placeholder="请选择目的货位"
-                  onChange={(value)=>{this.changeGoalLoc(value, i, record)}}
-                  showSearch
-                  optionFilterProp="children"
-                  filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
-                 >
-                  {
-                    record.targetLocInfoVoList.map(item=>{
-                      return <Option key={item.id} value={item.id}>{item.targetLocName}</Option>
-                    })
-                  }
-                 </Select>
+          return <FetchSelect
+                  queryKey={{
+                    drugCode: record.drugCode,
+                    goodsCode: record.goodsCode,
+                    id: record.id,
+                    lot: record.lot,
+                    valueKey: 'goodsName'
+                  }}
+                  allowClear
+                  valueAndLabel={{
+                    value: 'id',
+                    label: 'targetLocName'
+                  }}
+                  type="JSON"
+                  style={{ width: '100%' }}
+                  placeholder='请输入货位搜索选择'
+                  url={goodsAdjust.QUERY_TARGET_LOCATION}
+                  cb={(value, data) => {
+                    this.changeGoalLoc(value, i, data);
+                  }}
+                />
+          // return <Select
+          //         style={{width: '100%'}}
+          //         placeholder="请选择目的货位"
+          //         onChange={(value)=>{this.changeGoalLoc(value, i, record)}}
+          //         showSearch
+          //         optionFilterProp="children"
+          //         filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
+          //        >
+          //         {
+          //           record.targetLocInfoVoList.map(item=>{
+          //             return <Option key={item.id} value={item.id}>{item.targetLocName}</Option>
+          //           })
+          //         }
+          //        </Select>
         }
       },
       {

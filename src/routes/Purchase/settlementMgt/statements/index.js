@@ -158,7 +158,8 @@ class SettlementMgt extends PureComponent {
                     url={settlementMgt.SETTLE_LIST}
                     columns={columns}
                     rowKey={'id'}
-                    scroll={{x: '100%', y: 300}}
+                    scroll={{x: '100%'}}
+          isDetail={true}
                 />
             </div>
         )

@@ -116,7 +116,8 @@ class DrugsFor extends PureComponent{
           }
           bordered
           loading={ this.state.loading}
-          scroll={{x: '100%', y: 300}}
+          scroll={{x: '100%'}}
+          isDetail={true}
           columns={columns}
           rowKey={'id'}
           style={{marginTop: 24}}

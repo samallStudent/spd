@@ -199,7 +199,8 @@ class Statements extends PureComponent{
                     rowKey="id"
                     query={query}
                     columns={columns}
-                    scroll={{ x: '100%', y: 300 }}
+                    isDetail={true}
+                    scroll={{ x: '100%',  }}
                     url={dayStatements.DAILY_LIST}
                 />
             </div>

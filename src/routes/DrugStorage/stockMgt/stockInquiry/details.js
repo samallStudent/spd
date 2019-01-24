@@ -55,7 +55,8 @@ class Details extends PureComponent{
         info = querystring.parse(info);
         this.state = {
             query: {
-                drugCode: info.dCode
+                drugCode: info.dCode,
+                locCode : info.locCode,
             },
             hisDrugCode: info.bCode,
             info: {}
@@ -66,7 +67,7 @@ class Details extends PureComponent{
         this.props.dispatch({
             type: 'stockInquiry/repertoryDetail',
             payload: {
-                hisDrugCode: this.state.hisDrugCode
+                hisDrugCode: this.state.hisDrugCode,
             },
             callback: (data) => {
                 this.setState({info: data});

@@ -122,6 +122,7 @@ class NewAdd extends PureComponent {
           btnLoading: false,
           visible: false,
           modalSelected: [],
+          modalSelectedRows: [],
           query: {
             ...query,
             existDrugCodeList

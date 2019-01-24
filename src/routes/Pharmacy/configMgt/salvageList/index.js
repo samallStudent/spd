@@ -183,7 +183,8 @@ class BaseMgt extends PureComponent{
         ref='table'
         query={query}//a/rescuecardetail/findRescuecarMedicineList
         url={baseMgt.FIND_RESCUECAR_MADICINE_LIST}
-        scroll={{x: '100%', y: 300}}
+        scroll={{x: '100%'}}
+          isDetail={true}
         columns={IndexColumns}
         rowKey={'deptCode'}
       />

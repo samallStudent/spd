@@ -73,23 +73,38 @@ class FetchSelect extends React.Component {
       });
     };
   }
-  getValues = (value,option) => {
+  getValues = (value, option) => {
+    let { data } = this.state;
     this.setState({
       value
     });
+    data = data.find(item => item.id === value)
     let {cb} = this.props;
-    if(typeof cb === 'function') {
-      cb && cb(value,option);
-    }
+    if(cb && typeof cb === 'function') {
+      cb(value, data);
+    };
   }
   handleChange = (value) => {
     if(value === '') return;
+    let queryKey = this.props.queryKey;
     // fake(value, data => this.setState({ data }), this.props.url, this.props.query,this.props.parmas);
     this.setState({ data: [], fetching: true });
     let body;
-    if(this.props.queryKey) {
-      body = {
-        [this.props.queryKey]: value
+    if(queryKey) {
+      if(typeof queryKey === 'string') {
+        body = {
+          [this.props.queryKey]: value
+        };
+      };
+      if(typeof queryKey === 'object') {
+        queryKey = {...queryKey};
+        body = {
+          ...queryKey,
+          [queryKey.valueKey] : value
+        };
+        delete body.valueKey;
+        console.log(body);
+        
       };
     }else {
       body = {

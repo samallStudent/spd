@@ -180,7 +180,7 @@ class DetailsPickSoldOut extends PureComponent{
         render:(text,record,index)=>{
           const {pickingType} = this.props.match.params;
           if(pickingType === '1') {
-            return <span>{text}</span>
+            return <span>{record.allocationNum}</span>
           }else {
             return <InputNumber
                     min={1}

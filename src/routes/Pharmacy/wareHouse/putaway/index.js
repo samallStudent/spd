@@ -70,7 +70,8 @@ class Putaway extends PureComponent{
           onChange={this._tableChange}
           url={wareHouse.ROOMACCEPTANCE}
           query={query}
-          scroll={{x: '100%', y: 300}}
+          scroll={{x: '100%'}}
+          isDetail={true}
           columns={columns}
           rowKey={'id'}
           style={{marginTop: 24}}

@@ -479,7 +479,7 @@ class DrugDirectory extends PureComponent{
           query={{}}
           style={{marginTop: 20}}
           columns={columnsModel}
-          scroll={{ x: '100%',y:300 }}
+          scroll={{ x: '100%', }}
           url={configMgt.findDepotFilterList}
           rowSelection={{
             selectedRowKeys: this.state.modalSelected,
@@ -496,7 +496,8 @@ class DrugDirectory extends PureComponent{
         query={query}
         style={{marginTop: 20}}
         columns={IndexColumns}
-        scroll={{ x: '100%',y:300 }}
+        isDetail={true}
+        scroll={{ x: '100%', }}
         url={configMgt.findDepotlist}
         rowSelection={{
           selectedRowKeys: this.state.selected,

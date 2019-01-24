@@ -55,7 +55,8 @@ class Details extends PureComponent{
         info = querystring.parse(info);
         this.state = {
             query: {
-                drugCode: info.dCode
+                drugCode: info.dCode,
+                locCode:  info.locCode,
             },
             bigDrugCode: info.bCode,
             info: {}

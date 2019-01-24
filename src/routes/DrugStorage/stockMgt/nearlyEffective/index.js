@@ -306,7 +306,8 @@ class NearlyEffective extends PureComponent {
             query={query}
             isJson
             columns={columns}
-            scroll={{x: '100%' , y:300}}
+          isDetail={true}
+            scroll={{x: '100%' , }}
             style={{marginTop: 20}}
             ref='table'
             rowKey={'batchNo'}
