@@ -37,7 +37,7 @@ const columns = [
         title: '数量',
         dataIndex: 'totalQuantity',
         width: 112,
-    },{
+    },/*{
         title: '单价',
         dataIndex: 'newPrice',
         width: 60,
@@ -45,7 +45,7 @@ const columns = [
         title: '金额',
         dataIndex: 'totalPrice',
         width: 60,
-    },{
+    },*/{
         title: '供应商',
         dataIndex: 'supplierName',
         width: 224,

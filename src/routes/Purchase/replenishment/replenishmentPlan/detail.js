@@ -81,7 +81,7 @@ const columns = [
         <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
     )
   },
-  {
+ /* {
     title: '价格',
     dataIndex: 'price',
     width: 100
@@ -91,7 +91,7 @@ const columns = [
     dataIndex: 'amount',
     width: 100,
     render: (text, record) => (record.price * record.demandQuantity).toFixed(4)
-  },
+  },*/
   {
     title: '批准文号',
     width: 200,

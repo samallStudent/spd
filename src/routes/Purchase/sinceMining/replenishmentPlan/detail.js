@@ -79,7 +79,7 @@ const columns = [
     width: 112,
     dataIndex: 'usableQuantity'
   },
-  {
+ /* {
     title: '单价',
     width: 112,
     dataIndex: 'drugPrice'
@@ -88,7 +88,7 @@ const columns = [
     title: '金额',
     width: 112,
     dataIndex: 'totalPrice'
-  },
+  },*/
   {
     title: '库存上限',
     width: 112,

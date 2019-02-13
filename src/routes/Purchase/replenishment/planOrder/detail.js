@@ -77,7 +77,7 @@ const columns = [
       return text === undefined || text === null ? '0': text
     }
   },
-  {
+  /*{
     title: '价格',
     width: 112,
     dataIndex: 'drugPrice',
@@ -89,7 +89,7 @@ const columns = [
     title: '金额',
     width: 168,
     dataIndex: 'totalPrice',
-  },
+  },*/
   {
     title: '供应商',
     width: 200,

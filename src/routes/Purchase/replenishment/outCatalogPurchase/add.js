@@ -365,7 +365,7 @@ class NewAdd extends PureComponent{
                     }} 
                 />
         }
-      },{
+      },/*{
         title: '单价',
         dataIndex: 'drugPrice',
         width: 112,
@@ -377,7 +377,7 @@ class NewAdd extends PureComponent{
           let amount = record.demandQuantity ? record.demandQuantity: 1;
           return (amount * record.drugPrice).toFixed(4)
         }
-      },{
+      },*/{
         title: '批准文号',
         dataIndex: 'approvalNo',
         width: 168,

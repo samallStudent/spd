@@ -58,8 +58,8 @@ class PslistCheck extends PureComponent{
       parentId: record.id,
       id: null,
       key,
-      realReceiveQuantity: '',
-      realDeliveryQuantiry: 0
+      realNum: '',
+        realReceiveQuantiry: 0
     });
     expandedRowKeys.push(record.key);
     expandedRowKeys = [...new Set(expandedRowKeys)];
@@ -190,7 +190,7 @@ class PslistCheck extends PureComponent{
     });
     let detailList = includeChildren.map(item=>{
       let i = {
-        realReceiveQuantiry: item.realReceiveQuantity,
+        realReceiveQuantiry: item.realNum,
         productBatchNo: item.productBatchNo,
         realValidEndDate: item.realValidEndDate,
         realProductTime: item.realProductTime,
@@ -242,10 +242,10 @@ class PslistCheck extends PureComponent{
     });
     let isNull = includeChildren.every(item => {
       if(
-        item.realReceiveQuantity !== 0 && 
-        !item.realReceiveQuantity
+        item.realNum !== 0 &&
+        !item.realNum
       ){
-        console.log(item.realReceiveQuantity);
+        console.log(item.realNum);
         
         message.error('实到数量不能为空');
         return false;
@@ -342,9 +342,9 @@ class PslistCheck extends PureComponent{
     if(data.length) {
       data = data.map(item => {
         if(item.isUsual === 0) {
-          item.realReceiveQuantity = item.realDeliveryQuantiry;
+          item.realNum = item.realReceiveQuantiry;
         }else {
-          item.realReceiveQuantity = 0;
+          item.realNum = 0;
         };
         return item;
       });
@@ -449,12 +449,12 @@ class PslistCheck extends PureComponent{
       },
       {
         title: '配送数量',
-        dataIndex: 'realDeliveryQuantiry',
+        dataIndex: 'realReceiveQuantiry',
         width: 112
       },
       {
         title: '实到数量',
-        dataIndex: 'realReceiveQuantity',
+        dataIndex: 'realNum',
         render: (text, record, index)=>{
           return record.isUsual === 0 ? 
                   <InputNumber
@@ -475,28 +475,28 @@ class PslistCheck extends PureComponent{
                         pIndex = index;
                       };
                       //得到主单据配送数量
-                      let countRealDeliveryQuantiry = unVerfiyList[pIndex].realDeliveryQuantiry;
+                      let countRealDeliveryQuantiry = unVerfiyList[pIndex].realReceiveQuantiry;
                       //得到主单据下的所有分单据
                       let branchBills = unVerfiyList[pIndex].children || [];
                       //得到主单据的实到数量
-                      let allRealDeliveryQuantiry = unVerfiyList[pIndex].realReceiveQuantity ? unVerfiyList[pIndex].realReceiveQuantity : 0;
+                      let allRealDeliveryQuantiry = unVerfiyList[pIndex].realNum ? unVerfiyList[pIndex].realNum : 0;
                       branchBills.forEach((item) => {//加上所有分单据的实到数量
-                        if(item.realReceiveQuantity === "" || item.realReceiveQuantity === undefined) {
-                          item.realReceiveQuantity = 0
+                        if(item.realNum === "" || item.realNum === undefined) {
+                          item.realNum = 0
                         };
-                        allRealDeliveryQuantiry += item.realReceiveQuantity;
+                        allRealDeliveryQuantiry += item.realNum;
                       });
                       //得到当前单据上一次的实到数量
-                      let lastRealReceiveQuantity = record.realReceiveQuantity ? record.realReceiveQuantity : 0;
+                      let lastRealReceiveQuantity = record.realNum ? record.realNum : 0;
                       //减去当前单据的上一次实到数量
                       allRealDeliveryQuantiry = allRealDeliveryQuantiry - lastRealReceiveQuantity;
                       //判断所有单据实到数量相加和配送数量的大小
                       if(value + allRealDeliveryQuantiry > countRealDeliveryQuantiry){
                         message.warning('请注意：实到数量比配送数量多');
                       };
-                      record.realReceiveQuantity = value;
+                      record.realNum = value;
                       unVerfiyList = [...unVerfiyList];
-                      this.setSelectRow(record, value, 'realReceiveQuantity');
+                      this.setSelectRow(record, value, 'realNum');
                       this.setState({
                         unVerfiyList
                       });
@@ -510,8 +510,8 @@ class PslistCheck extends PureComponent{
         dataIndex: 'balanceAmount',
         render: (text,record,index)=>{
           let balanceAmount;
-          if(record.realReceiveQuantity || record.realReceiveQuantity === 0) {
-            balanceAmount = record.realDeliveryQuantiry - record.realReceiveQuantity;
+          if(record.realNum || record.realNum === 0) {
+            balanceAmount = record.realReceiveQuantiry - record.realNum;
           }else {
             balanceAmount = 0;
           };
@@ -662,12 +662,12 @@ class PslistCheck extends PureComponent{
       },
       {
         title: '配送数量',
-        dataIndex: 'realDeliveryQuantiry',
+        dataIndex: 'realReceiveQuantiry',
         width: 112,
       },  
       {
         title: '实到数量',
-        dataIndex: 'realReceiveQuantiry',
+        dataIndex: 'realNum',
         width: 112,
       },
       {

@@ -64,7 +64,7 @@ const columns = [
     dataIndex: 'kcsl',
     render: (text,record)=> '210'
   },
-  {
+  /*{
     title: '价格',
     width: 150,
     dataIndex: 'price',
@@ -75,7 +75,7 @@ const columns = [
     width: 150,
     dataIndex: 'TotalPrice',
     render: (text,record)=> '1200'
-  },
+  },*/
   {
     title: '库存上限',
     dataIndex: 'uLimit',

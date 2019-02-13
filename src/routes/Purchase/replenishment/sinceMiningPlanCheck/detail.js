@@ -55,7 +55,7 @@ const columns = [
     dataIndex: 'demandQuantity',
     width: 112,
   },
-  {
+  /*{
     title: '价格',
     dataIndex: 'drugPrice',
     width: 112,
@@ -67,7 +67,7 @@ const columns = [
     title: '金额',
     dataIndex: 'totalPrice',
     width: 148,
-  },
+  },*/
   {
     title: '生产厂家',
     width: 200,

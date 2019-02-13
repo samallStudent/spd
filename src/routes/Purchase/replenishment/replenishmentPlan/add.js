@@ -370,7 +370,7 @@ class NewAdd extends PureComponent {
         title: '库存下限',
         dataIndex: 'downQuantity',
         width: 112
-      }, {
+      }, /*{
         title: '参考价格',
         dataIndex: 'drugPrice',
         width: 112
@@ -378,7 +378,7 @@ class NewAdd extends PureComponent {
         title: '金额',
         dataIndex: 'totalPrice',
         width: 168
-      },  {
+      }, */ {
         title: '批准文号',
         dataIndex: 'approvalNo',
         width: 200,
