@@ -480,7 +480,41 @@ export const getNavData = app => [
       path: '/drugStorage/outStorage/recallAndLocked',
       component: dynamicWrapper(app, ['drugStorage/outStorage'], () => import('../routes/DrugStorage/outStorage/recallAndLocked')),
     },
-    {
+
+
+      //药库－供应商资质管理－企业资质
+      {
+          name: "企业资质",
+          icon: 'setting',
+          path: '/drugStorage/supplierFactor/supplier',
+          component: dynamicWrapper(app, ['drugStorage/supplierFactor'], () => import('../routes/DrugStorage/supplierFactor/supplier')),
+      },
+
+
+      //药库－供应商资质管理－药品资质
+      {
+          name: "药品资质",
+          icon: 'setting',
+          path: '/drugStorage/supplierFactor/drug',
+          component: dynamicWrapper(app, ['drugStorage/supplierFactor'], () => import('../routes/DrugStorage/supplierFactor/drug')),
+      },
+
+    //药剂科－供应商资质查询-企业资质查询
+      {
+          name: "企业资质查询",
+          icon: 'setting',
+          path: '/purchase/factorSearch/supplier',
+          component: dynamicWrapper(app, [], () => import('../routes/Purchase/factorSearch/supplier')),
+      },
+//药剂科－供应商资质查询-药品资质查询
+      {
+          name: "药品资质查询",
+          icon: 'setting',
+          path: '/purchase/factorSearch/drug',
+          component: dynamicWrapper(app, [], () => import('../routes/Purchase/factorSearch/drug')),
+      },
+
+      {
       name: "召回及锁定详情",
       icon: 'setting',
       path: '/drugStorage/outStorage/recallAndLocked/details/:recallNo/:recallStatus',
@@ -605,6 +639,8 @@ export const getNavData = app => [
       path: '/drugStorage/stockMgt/stockInquiry',
       component: dynamicWrapper(app, ['drugStorage/stockInquiry'], () => import('../routes/DrugStorage/stockMgt/stockInquiry'))
     },
+
+
     //药库 - 库存查询 - 详情
     {
       name: '详情',
@@ -619,6 +655,12 @@ export const getNavData = app => [
       path: '/drugStorage/stockMgt/settlementAnalysis',
       component: dynamicWrapper(app, ['purchase/statistics'], () => import('../routes/DrugStorage/stockMgt/settlementAnalysis')),
     },
+
+
+
+
+
+
     //查询统计 - 药品台账
     {
       name: "药品台账",

@@ -457,6 +457,24 @@ td:hover .editable-cell-icon {
   min-height: 300px;
   background:#fff url('./assets/emptyTable.jpg') no-repeat center;
 }
+.uplaodpic{
+  display:flex;align-items: center;justify-content: space-around;
+}
+.uplaodpic .ant-upload-list-picture-card .ant-upload-list-item{
+  width: 200px;
+  height:210px;
+}
+.uplaodpic .ant-upload.ant-upload-select-picture-card{height: auto;margin: 0 auto 6px auto;}
+.preview-list .ant-carousel .slick-dots li button{
+  background: #333333!important;
+}
+.typecolor{color: #f2a11c;}
+
+.factor-content td{
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
 
 
 /* @media screen and (min-width:1440px){
