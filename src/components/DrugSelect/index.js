@@ -29,13 +29,13 @@ class FetchSelect extends React.Component {
   getValues = (value,option) => {
       let { data } = this.state;
     this.setState({
-        value,
-        ctmmManufacturerName:[option.props.ctmmManufacturerName]?[option.props.approvalNos]:'',
-        approvalNos:[option.props.approvalNos]?[option.props.approvalNos]:'',
+        value
     });
     console.log(value)
       const {getVal}=this.props;
-      getVal(option.props)
+      if(option){
+          getVal(option.props)
+      }
       data = data.find(item => item.id === value)
       let {cb} = this.props;
       if(cb && typeof cb === 'function') {
