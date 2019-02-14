@@ -1,59 +1,9 @@
 import React from 'react';
 import {Select, Spin, message,Row , Col} from 'antd';
-// import querystring from 'querystring';
+
 import request from '../../utils/request';
 import {debounce} from 'lodash';
 const Option = Select.Option;
-// let timeout;
-// let currentValue;
-
-// function fake(value, callback, url, query, parmas) {
-  
-//   if (timeout) {
-//     clearTimeout(timeout);
-//     timeout = null;
-//   }
-//   currentValue = value;
-//    fetch(url + '?searchName=' + value + '&' + querystring.stringify(query), {
-//         method: 'get',
-//         mode:'cors',
-//         credentials: 'include',
-//         headers: {
-//           'Content-Type': 'application/x-www-form-urlencoded'
-//         },
-//     })
-//     .then(response => {
-//       return response.json();
-//     })
-//     .then(d => {
-//         if (currentValue === value) {
-//           let result = d;
-//           const data = [];
-//           if(parmas){
-//             result.forEach((r) => {
-//               data.push({
-//                 value: r.value.toString(),
-//                 text: r.text,
-//                 [parmas]: r[parmas]
-//               });
-//             });
-//           }else{
-//             result.forEach((r) => {
-//               data.push({
-//                 value: r.value.toString(),
-//                 text: r.text
-//               });
-//             });
-//           }
-//           callback(data);   
-//         }
-//     })
-//     .catch(e => console.log("Oops, error", e))
-
-// }
-
-
-
 
 class FetchSelect extends React.Component {
   constructor(props) {
@@ -77,57 +27,67 @@ class FetchSelect extends React.Component {
     };
   }
   getValues = (value,option) => {
+      let { data } = this.state;
     this.setState({
         value,
-        ctmmManufacturerName:[option.props.ctmmManufacturerName],
+        ctmmManufacturerName:[option.props.ctmmManufacturerName]?[option.props.approvalNos]:'',
         approvalNos:[option.props.approvalNos]?[option.props.approvalNos]:'',
-
     });
     console.log(value)
       const {getVal}=this.props;
       getVal(option.props)
-    let {cb} = this.props;
-    if(typeof cb === 'function') {
-      cb && cb(value,option);
-    }
-
-  }
-
-  handleChange = (value) => {
-    if(value === '') {return};
-    // fake(value, data => this.setState({ data }), this.props.url, this.props.query,this.props.parmas);
-    this.setState({ data: [], fetching: true ,ctmmManufacturerName:'',approvalNos:''});
-    let body;
-    if(this.props.queryKey) {
-      body = {
-        [this.props.queryKey]: value
+      data = data.find(item => item.id === value)
+      let {cb} = this.props;
+      if(cb && typeof cb === 'function') {
+          cb(value, data);
       };
-    }else {
-      body = {
-       pageSize: 10,
-       ctmmDesc: value,
-       ctmmDosageFormDesc:'',
-          ctmmStatusCode:'',
-          medDrugType:'',
-          pageNo: 1
-      }
-    } 
-    request(this.props.url, {
-      method: this.props.method || 'POST',
-      type: this.props.type || 'formData',
-      body
-    })
-    .then((data)=>{
-      if(data.code === 200 && data.msg === 'success') {
-        this.setState({
-          data: data.data.list,
-          fetching: false
-        });
-      }else {
-        message.error(data.msg);
-      }
-    })
+
   }
+
+    handleChange = (value) => {
+        if(value === '') return;
+        let queryKey = this.props.queryKey;
+        // fake(value, data => this.setState({ data }), this.props.url, this.props.query,this.props.parmas);
+        this.setState({ data: [], fetching: true  ,ctmmManufacturerName:''});
+        let body;
+        if(queryKey) {
+            if(typeof queryKey === 'string') {
+                body = {
+                    [this.props.queryKey]: value
+                };
+            };
+            if(typeof queryKey === 'object') {
+                queryKey = {...queryKey};
+                body = {
+                    ...queryKey,
+                    [queryKey.valueKey] : value
+                };
+                delete body.valueKey;
+                console.log(body);
+
+            };
+        }else {
+            body = {
+                paramName: value,
+                queryType: 3
+            }
+        }
+        request(this.props.url, {
+            method: this.props.method || 'POST',
+            type: this.props.type || 'formData',
+            body
+        })
+            .then((data)=>{
+                if(data.code === 200 && data.msg === 'success') {
+                    this.setState({
+                        data: data.data,
+                        fetching: false
+                    });
+                }else {
+                    message.error(data.msg);
+                }
+            })
+    }
   listRender = () => {
     let {data} = this.state;
     let {valueAndLabel,drglist} = this.props;
@@ -138,9 +98,9 @@ class FetchSelect extends React.Component {
       })
     }else {
 
-      return data.map((item,index)=>{
-        return <Option  key={item.bigDrugCode} value={item.bigDrugCode} ctmmManufacturerName={item.ctmmManufacturerName} approvalNos={item.approvalNo}>{item.ctmmAnotherName}</Option>
-      })
+        return data.map((item,index)=>{
+            return <Option  key={item.bigDrugCode} value={item.bigDrugCode} ctmmManufacturerName={item.ctmmManufacturerName} approvalNos={item.approvalNo}>{item.ctmmParam}</Option>
+        })
     }
   }
 

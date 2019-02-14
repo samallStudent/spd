@@ -12,5 +12,5 @@ export const supplierFactor = {
     // 药品资质列表
     DRUG_LIST: `${_local}/lic/depotdruglicinfo/list`,
     // 药品资质上传证照查询药品列表
-    SEARCHDRUG_LIST: `${_local}/lic/depotdruglicinfo/getDruglist`,
+    SEARCHDRUG_LIST: `${_local}/a/common/queryDrugByList`,
 }
