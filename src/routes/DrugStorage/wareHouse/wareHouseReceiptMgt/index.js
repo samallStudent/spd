@@ -4,7 +4,7 @@
 * @Last Modified time: 2018-08-06 15:31:15 
  */
 import React, { PureComponent } from 'react';
-import { DatePicker, Form, Input , Row, Col, Button, Icon, Select, Tooltip } from 'antd';
+import { DatePicker, Form, Input , Row, Col, Button, Icon, Select, Tooltip ,Badge} from 'antd';
 import { formItemLayout } from '../../../../utils/commonStyles';
 import { Link } from 'react-router-dom';
 import RemoteTable from '../../../../components/TableGrid';
@@ -40,7 +40,9 @@ class Putaway extends PureComponent{
        dataIndex: 'inStoreCode',
        render: (text,record) =>{
         return <span>
+          <Badge count={record.instorDetailsItemsCount} overflowCount={999} style={{right:'-27px',zIndex:'0'}}>
            <Link to={{pathname: `/drugStorage/wareHouse/wareHouseReceiptMgt/detail/${record.inStoreCode}`}}>{text}</Link>
+           </Badge>
          </span>
         }
       },

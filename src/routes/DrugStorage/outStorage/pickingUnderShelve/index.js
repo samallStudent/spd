@@ -5,7 +5,7 @@
  */
 
 import React, { PureComponent } from 'react';
-import { Form, Row, Col, Button, Icon , message, Select , Input , DatePicker ,} from 'antd';
+import { Form, Row, Col, Button, Icon , message, Select , Input , DatePicker ,Badge} from 'antd';
 import { Link } from 'react-router-dom'
 import { formItemLayout } from '../../../../utils/commonStyles';
 import RemoteTable from '../../../../components/TableGrid';
@@ -221,9 +221,10 @@ class PickSoldOut extends PureComponent{
       {
         title: '拣货单',
         dataIndex: 'pickingOrderNo',
-        width: 168,
+        width: 258,
         render:(text,record)=>(
           <span>
+            <Badge count={record.applydetailsItemsCount} overflowCount={999} style={{right:'-27px',zIndex:'0'}}></Badge>
             <Link to={{pathname: `/drugStorage/outStorage/pickingUnderShelve/details/${text}/${record.pickingType}/${record.pickingType}`}}>{text}</Link>
           </span> 
         )

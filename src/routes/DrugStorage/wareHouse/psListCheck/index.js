@@ -8,7 +8,7 @@
  * @file 药库 - 入库--配送单验收--列表
  */
 import React, { PureComponent } from 'react';
-import { Form, Input, Row, message, Col, Select, Button, Tooltip, Icon } from 'antd';
+import { Form, Input, Row, message, Col, Select, Button, Tooltip, Icon ,Badge} from 'antd';
 import { Link } from 'react-router-dom';
 import wareHouse from '../../../../api/drugStorage/wareHouse';
 import RemoteTable from '../../../../components/TableGrid';
@@ -35,6 +35,7 @@ const columns = [
    width: 154,
    render: (text,record) =>{
      return <span>
+        <Badge count={record.checkAcceptDetailsItemsCount} overflowCount={999} style={{right:'-27px',zIndex:'0'}}>
        {
          record.type === 100 || 
          record.type === 102 || 
@@ -43,6 +44,7 @@ const columns = [
          :
          <Link to={{pathname: `/drugStorage/wareHouse/psListCheck/outDetail/id=${record.distributeCode}&state=${record.auditStatus}`}}>{text}</Link>
        }
+       </Badge>
       </span>
    }
   },
@@ -323,6 +325,7 @@ class DistributionCheck extends PureComponent{
           <Button type='primary' onClick={()=>this.props.history.push({ pathname: `${match.path}/add` })}>新建验收</Button>
         </div>
         <RemoteTable
+     
           isJson={true}
           query={query}
           ref="tab"

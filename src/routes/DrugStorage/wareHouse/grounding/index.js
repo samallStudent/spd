@@ -5,7 +5,7 @@
  */
 
 import React, { PureComponent } from 'react';
-import {DatePicker, Form, Input, Row, Col, Button, Icon, Select } from 'antd';
+import {DatePicker, Form, Input, Row, Col, Button, Icon, Select ,Badge} from 'antd';
 import {Link} from 'react-router-dom';
 import RemoteTable from '../../../../components/TableGrid';
 import {wareHouse} from '../../../../api/pharmacy/wareHouse';
@@ -38,10 +38,12 @@ class Putaway extends PureComponent{
        dataIndex: 'distributeCode',
        render: (text, record) => 
        <span>
+         <Badge count={record.checkAcceptDetailsItemsCount} overflowCount={999} style={{right:'-27px',zIndex:'0'}}>
         <Link 
           to={{ pathname: `/drugStorage/wareHouse/grounding/detail/${record.distributeCode}`}}>
           {text}
         </Link>
+        </Badge>
        </span>
       },
       {

@@ -5,7 +5,7 @@
  */
 
 import React, { PureComponent } from 'react';
-import {Form, Row, Col, Button, Icon, Select, Input, DatePicker, Modal, message} from 'antd';
+import {Form, Row, Col, Button, Icon, Select, Input, DatePicker, Modal, message,Badge} from 'antd';
 import { Link } from 'react-router-dom';
 import { formItemLayout } from '../../../../utils/commonStyles';
 import RemoteTable from '../../../../components/TableGrid/index';
@@ -19,10 +19,12 @@ const columns = [
   {
    title: '出库单',
    dataIndex: 'backNo',
-   width: 158,
+   width: 258,
    render:(text, record)=>
    <span>
+     <Badge count={record.applydetailsItemsCount} overflowCount={999} style={{right:'-27px',zIndex:'0'}}>
       <Link to={{pathname: `/drugStorage/outStorage/withdraw/details/id=${record.backNo}&state=${record.outStoreStatus}`}}>{text}</Link>
+      </Badge>
     </span>
   },
   {

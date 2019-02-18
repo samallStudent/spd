@@ -5,7 +5,7 @@
  */
 
 import React, { PureComponent } from 'react';
-import { Form, Row, Col, Button, Icon, Select , Input , DatePicker} from 'antd';
+import { Form, Row, Col, Button, Icon, Select , Input , DatePicker,Badge} from 'antd';
 import { Link } from 'react-router-dom'
 import { formItemLayout } from '../../../../utils/commonStyles';
 import RemoteTable from '../../../../components/TableGrid';
@@ -21,7 +21,9 @@ const columns = [
     width: 168,
     render:(text,record)=>
     <span>
+      <Badge count={record.applydetailsItemsCount} overflowCount={999} style={{right:'-27px',zIndex:'0'}}>
       <Link to={{pathname: `/drugStorage/outStorage/acceptDistribution/details/${record.applyCode}`}}>{text}</Link>
+      </Badge>
     </span>  
   },
   {

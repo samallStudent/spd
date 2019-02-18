@@ -205,7 +205,7 @@ class ReplenishmentPlan extends PureComponent {
         width: 220,
         render: (text, record) => {
           return <span>
-            <Badge count={record.planType} overflowCount={999} style={{right:'-27px',zIndex:'0'}}>
+            <Badge count={record.depotPlanDetailItemsCount} overflowCount={999} style={{right:'-27px',zIndex:'0'}}>
             <Link to={{ pathname: `/purchase/replenishment/replenishmentPlan/detail/${record.planCode}` }}>{text}</Link>
             </Badge>
           </span>
