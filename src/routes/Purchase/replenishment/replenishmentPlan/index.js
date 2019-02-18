@@ -9,7 +9,7 @@
  * @file 采购计划 - 补货管理--补货计划
  */
 import React, { PureComponent } from 'react';
-import { Form, Row, Col, Button, Input, DatePicker, Select, Icon, message, Tooltip } from 'antd';
+import { Form, Row, Col, Button, Input, DatePicker, Select, Icon, message, Tooltip, Badge} from 'antd';
 import { Link } from 'react-router-dom';
 import RemoteTable from '../../../../components/TableGrid';
 import { replenishmentPlan } from '../../../../api/replenishment/replenishmentPlan';
@@ -202,10 +202,12 @@ class ReplenishmentPlan extends PureComponent {
       {
         title: '计划单号',
         dataIndex: 'planCode',
-        width: 168,
+        width: 220,
         render: (text, record) => {
           return <span>
+            <Badge count={record.planType} overflowCount={999} style={{right:'-27px',zIndex:'0'}}>
             <Link to={{ pathname: `/purchase/replenishment/replenishmentPlan/detail/${record.planCode}` }}>{text}</Link>
+            </Badge>
           </span>
         }
       }, {
@@ -261,7 +263,6 @@ class ReplenishmentPlan extends PureComponent {
           query={query}
           columns={columns}
           scroll={{x: '100%'}}
-          isDetail={true}
           style={{marginTop: 20}}
           ref='table'
           rowKey={'id'}
