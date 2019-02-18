@@ -232,9 +232,10 @@ class NearlyEffective extends PureComponent {
         width: 168,
         render: (text) => {
           let color = '#f2a11c';
-          let fontSize = '20px'
+          let fontSize = '24px'
           if(text <= 30) {
-            color = '#a8071a'
+            color = '#a8071a';
+            fontSize = '24px'
           };
           if(text > 30 && text <= 60) {
             color = '#f5222d';
