@@ -241,10 +241,10 @@ class AddOutput extends PureComponent{
             max={record.usableQuantity}
             precision={0}
             onChange={(value)=>{
-              let {dataSource} = this.state;
-              dataSource = JSON.parse(JSON.stringify(dataSource));
-              dataSource[i].outStoreNum = value;
-              this.setState({dataSource});
+              //let {dataSource} = this.state;
+              //dataSource = JSON.parse(JSON.stringify(dataSource));
+                record.outStoreNum = value;
+              //this.setState({dataSource});
             }}
           />
         )

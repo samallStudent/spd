@@ -42,15 +42,7 @@ class AddRefund extends PureComponent{
             psgoodsName:'',
             defaultKey:'',
             arr:['','1','2','3','4','5','6'],
-            tabArr:'',
-            tabArrnum:[
-                {key:'1',title:'药品注册证'},
-                {key:'2',title:'药品质检报告'},
-                {key:'3',title:'药品说明书'},
-                {key:'4',title:'进口药品通关单'},
-                {key:'5',title:'再注册受理通知书'},
-                {key:'6',title:'再注册批件'}
-                ]
+            types:[]
         }
     }
 
@@ -74,7 +66,6 @@ class AddRefund extends PureComponent{
             visible:false
         });
         this.props.form.resetFields();
-        this.state.druglist=''
     }
 
     componentDidMount=()=>{
@@ -97,18 +88,13 @@ class AddRefund extends PureComponent{
     this.setState({
         psgoodsName:goodsName
     })
+        if(this.state.tabKey!=this.state.defaultKey){
+            this.setForms()
+            console.log(this.state.tabKey)
+        }
 
 }
-    showModal=e=>{
-        if(e){
-            e.stopPropagation()
-        }
-        this.setState({
-            visible:true,
-            tabArr:this.props.record
-        })
-        console.log(this.state.tabArr)
-    }
+
 
     okHandler=e=>{
         if(e){
@@ -118,7 +104,6 @@ class AddRefund extends PureComponent{
         const {druglist}=this.state;
         console.log(druglist)
         this.props.form.validateFields((err,values)=>{
-            values.goodsName=druglist.children;
             if(!err){
                 const productTime = values.productTime === undefined ? '' : values.productTime;
                 const validEndDate = values.validEndDate === undefined ? '' : values.validEndDate;
@@ -158,11 +143,25 @@ class AddRefund extends PureComponent{
         })
     }
     getkey=e=>{
-        this.props.form.resetFields();
+
         this.setState({
             tabKey:this.state.arr[e]
         });
-
+        if(e!=this.state.defaultKey){
+            this.props.form.setFieldsValue({//文本框输入值的设置
+                productTime: '',
+                validEndDate:'',
+                producerName:'',
+                licCode:'',
+                registKey:'',
+                lot:'',
+                inStoreCode:'',
+                inStoreDate:'',
+                goodsName:'',
+                deliveryCode:''
+            });
+        };
+        this.props.form.resetFields();
     }
 
     getVal=(values)=>{
@@ -170,14 +169,14 @@ class AddRefund extends PureComponent{
         console.log(this.state.druglist)
     }
     render(){
-        let { visible, display,druglist,tabArr,tabKey,defaultKey} = this.state;
+        let { visible, display,druglist,psgoodsName,tabKey,defaultKey} = this.state;
         const { getFieldDecorator } = this.props.form;
         const expand = display === 'block';
         const {children,supplierList,type}=this.props;
         let {
             supplierCode,productTime,validEndDate,producerName,licCode
             ,registKey,lot,inStoreCode,inStoreDate,goodsName,deliveryCode
-        }=tabArr;
+        }=this.props.record;
         let productTimes='';
         let validEndDates='';
         let inStoreDates='';
@@ -189,11 +188,8 @@ class AddRefund extends PureComponent{
             inStoreDates=moment(inStoreDate).format('YYYY-MM-DD');
         }
 
-
-
-
         return (
-            <span onClick={this.showModal} >
+            <span onClick={()=>{this.setState({visible:true});}} >
                 {children}
                 <Modal
                     destroyOnClose
@@ -210,6 +206,7 @@ class AddRefund extends PureComponent{
                             <Row gutter={30}>
                                 <Col span={8}>
                                     <FormItem label={'供应商'} {...formItemLayout}>
+
 
                                         {getFieldDecorator('supplierCode', {
                                             initialValue: supplierCode,
@@ -238,21 +235,15 @@ class AddRefund extends PureComponent{
                                 <Col span={8}>
                                     <FormItem label={`药品名称`} {...formItemLayout}>
                                         {getFieldDecorator('goodsName',{
-                                            initialValue:druglist.children,
-                                            rules:[
-                                                {required:true,message:'请输入药品名称'}
-                                            ]
+                                            initialValue:druglist.children
                                         })(
-                                           <div>
-                                               <Input placeholder='证件编号' value={druglist.children} type="hidden" />
-                                               <FetchSelect
-                                                   allowClear={true}
-                                                   placeholder='请输入药品名称'
-                                                   url={supplierFactor.SEARCHDRUG_LIST}
-                                                   getVal={this.getVal}
-                                                   psgoodsName={this.state.psgoodsName}
-                                               />
-                                           </div>
+                                            <FetchSelect
+                                                allowClear={true}
+                                                placeholder='请输入药品名称'
+                                                url={supplierFactor.SEARCHDRUG_LIST}
+                                                getVal={this.getVal}
+                                                psgoodsName={this.state.psgoodsName}
+                                            />
                                         )}
                                     </FormItem>
                                 </Col>
@@ -287,17 +278,27 @@ class AddRefund extends PureComponent{
                                     </FormItem>
                                 </Col>
                             </Row>
-                            <Tabs  onChange={this.getkey} defaultActiveKey={defaultKey}>
-                                 <TabPane tab="药品注册证" key="1">
+                            <Tabs onChange={this.getkey} defaultActiveKey={this.state.defaultKey}>
+                                <TabPane tab="药品注册证" key="1">
                                     {this.state.tabKey==1?
-                                        <div  className='uplaodpic'>
-                                            <div style={{width:'440px'}}>
-                                                <Row gutter={30}>
-                                                    <Col span={20}>
+                                    <div  className='uplaodpic'>
+                                        <div style={{width:'440px'}}>
+                                            <Row gutter={30}>
+                                                <Col span={20}>
+                                                    {productTimes?
                                                         <FormItem  label={'发证日期'} {...formItemLayout}>
                                                             {getFieldDecorator('productTime',{
 
-                                                                initialValue: productTimes&&defaultKey==tabKey? moment(productTimes, 'YYYY-MM-DD'):null,
+                                                                initialValue: moment(productTimes, 'YYYY-MM-DD'),
+                                                                rules:[
+                                                                    {required:true,message:'发证日期不能为空'}
+                                                                ]
+                                                            })(
+                                                                <DatePicker format={'YYYY-MM-DD'}/>
+                                                            )}
+                                                        </FormItem>:
+                                                        <FormItem  label={'发证日期'} {...formItemLayout}>
+                                                            {getFieldDecorator('productTime',{
                                                                 rules:[
                                                                     {required:true,message:'发证日期不能为空'}
                                                                 ]
@@ -305,14 +306,26 @@ class AddRefund extends PureComponent{
                                                                 <DatePicker format={'YYYY-MM-DD'}/>
                                                             )}
                                                         </FormItem>
-                                                    </Col>
-                                                </Row>
-                                                <Row gutter={30}>
-                                                    <Col span={20}>
+                                                    }
+                                                </Col>
+                                            </Row>
+                                            <Row gutter={30}>
+                                                <Col span={20}>
+                                                    {validEndDate?
+
                                                         <FormItem  label={'有效期至'} {...formItemLayout}>
                                                             {getFieldDecorator('validEndDate',{
+                                                                initialValue: moment(validEndDates, 'YYYY-MM-DD'),
+                                                                rules:[
 
-                                                                initialValue:validEndDates&&defaultKey==tabKey? moment(validEndDates, 'YYYY-MM-DD'):null,
+                                                                    {required:true,message:'有效期不能为空'}
+                                                                ]
+                                                            })(
+                                                                <DatePicker format={'YYYY-MM-DD'}/>
+                                                            )}
+                                                        </FormItem>:
+                                                        <FormItem  label={'有效期至'} {...formItemLayout}>
+                                                            {getFieldDecorator('validEndDate',{
                                                                 rules:[
 
                                                                     {required:true,message:'有效期不能为空'}
@@ -321,54 +334,65 @@ class AddRefund extends PureComponent{
                                                                 <DatePicker format={'YYYY-MM-DD'}/>
                                                             )}
                                                         </FormItem>
-                                                    </Col>
-                                                </Row>
-                                                <Row gutter={30}>
-                                                    <Col span={20}>
-                                                        <FormItem label={`证件编号`} {...formItemLayout}>
-                                                            {getFieldDecorator('licCode',{
-                                                                initialValue:defaultKey==tabKey?licCode:'',
-                                                                rules:[
-                                                                    {required:true,message:'证件编号不能为空'}
-                                                                ]
-                                                            })(
-                                                                <Input placeholder='证件编号'/>
-                                                            )}
-                                                        </FormItem>
-                                                    </Col>
-                                                </Row>
-                                            </div>
-                                            <FormItem>
-                                                {getFieldDecorator('pictcontents',{
-                                                    initialValue: ''
-                                                })(
-                                                    <UploadPic  length={3}/>
-                                                )}
-                                            </FormItem>
-                                        </div>:''}
+                                                    }
+                                                </Col>
+                                            </Row>
+                                            <Row gutter={30}>
+                                                <Col span={20}>
+                                                    <FormItem label={`证件编号`} {...formItemLayout}>
+                                                        {getFieldDecorator('licCode',{
+                                                            initialValue:licCode,
+                                                            rules:[
+                                                                {required:true,message:'证件编号不能为空'}
+                                                            ]
+                                                        })(
+                                                            <Input placeholder='证件编号'/>
+                                                        )}
+                                                    </FormItem>
+                                                </Col>
+                                            </Row>
+                                        </div>
+                                        <FormItem>
+                                            {getFieldDecorator('pictcontents',{
+                                                initialValue: ''
+                                            })(
+                                                <UploadPic  length={3}/>
+                                            )}
+                                        </FormItem>
+                                    </div>:''}
                                 </TabPane>
 
                                 <TabPane tab="药品质检报告" key="2">
                                     {this.state.tabKey==2?
-                                        <div className='uplaodpic'>
-                                            <div style={{width:'440px'}}>
-                                                <Row gutter={30}>
-                                                    <Col span={20}>
-                                                        <FormItem label={`批号：`} {...formItemLayout}>
-                                                            {getFieldDecorator('lot',{
-                                                                initialValue: lot
-                                                            })(
-                                                                <Input placeholder='请输入批号'/>
-                                                            )}
-                                                        </FormItem>
-                                                    </Col>
-                                                </Row>
-                                                <Row gutter={30}>
-                                                    <Col span={20}>
+                                    <div className='uplaodpic'>
+                                        <div style={{width:'440px'}}>
+                                            <Row gutter={30}>
+                                                <Col span={20}>
+                                                    <FormItem label={`批号：`} {...formItemLayout}>
+                                                        {getFieldDecorator('lot',{
+                                                            initialValue: lot
+                                                        })(
+                                                            <Input placeholder='请输入批号'/>
+                                                        )}
+                                                    </FormItem>
+                                                </Col>
+                                            </Row>
+                                            <Row gutter={30}>
+                                                <Col span={20}>
+                                                    {productTimes?
                                                         <FormItem  label={'发证日期'} {...formItemLayout}>
                                                             {getFieldDecorator('productTime',{
 
-                                                                initialValue: productTimes&&defaultKey==tabKey? moment(productTimes, 'YYYY-MM-DD'):null,
+                                                                initialValue: moment(productTimes, 'YYYY-MM-DD'),
+                                                                rules:[
+                                                                    {required:true,message:'发证日期不能为空'}
+                                                                ]
+                                                            })(
+                                                                <DatePicker format={'YYYY-MM-DD'}/>
+                                                            )}
+                                                        </FormItem>:
+                                                        <FormItem  label={'发证日期'} {...formItemLayout}>
+                                                            {getFieldDecorator('productTime',{
                                                                 rules:[
                                                                     {required:true,message:'发证日期不能为空'}
                                                                 ]
@@ -376,14 +400,26 @@ class AddRefund extends PureComponent{
                                                                 <DatePicker format={'YYYY-MM-DD'}/>
                                                             )}
                                                         </FormItem>
-                                                    </Col>
-                                                </Row>
-                                                <Row gutter={30}>
-                                                    <Col span={20}>
+                                                    }
+                                                </Col>
+                                            </Row>
+                                            <Row gutter={30}>
+                                                <Col span={20}>
+                                                    {validEndDate?
+
                                                         <FormItem  label={'有效期至'} {...formItemLayout}>
                                                             {getFieldDecorator('validEndDate',{
+                                                                initialValue: moment(validEndDates, 'YYYY-MM-DD'),
+                                                                rules:[
 
-                                                                initialValue:validEndDates&&defaultKey==tabKey? moment(validEndDates, 'YYYY-MM-DD'):null,
+                                                                    {required:true,message:'有效期不能为空'}
+                                                                ]
+                                                            })(
+                                                                <DatePicker format={'YYYY-MM-DD'}/>
+                                                            )}
+                                                        </FormItem>:
+                                                        <FormItem  label={'有效期至'} {...formItemLayout}>
+                                                            {getFieldDecorator('validEndDate',{
                                                                 rules:[
 
                                                                     {required:true,message:'有效期不能为空'}
@@ -392,25 +428,28 @@ class AddRefund extends PureComponent{
                                                                 <DatePicker format={'YYYY-MM-DD'}/>
                                                             )}
                                                         </FormItem>
-                                                    </Col>
-                                                </Row>
-                                                <Row gutter={30}>
-                                                    <Col span={20}>
-                                                        <FormItem label={`入库单`} {...formItemLayout}>
-                                                            {getFieldDecorator('inStoreCode',{
-                                                                initialValue: inStoreCode,
+                                                    }
+                                                </Col>
+                                            </Row>
+                                            <Row gutter={30}>
+                                                <Col span={20}>
+                                                    <FormItem label={`入库单`} {...formItemLayout}>
+                                                        {getFieldDecorator('inStoreCode',{
+                                                            initialValue: inStoreCode,
 
-                                                            })(
-                                                                <Input placeholder='入库单'/>
-                                                            )}
-                                                        </FormItem>
-                                                    </Col>
-                                                </Row>
-                                                <Row gutter={30}>
-                                                    <Col span={20}>
+                                                        })(
+                                                            <Input placeholder='入库单'/>
+                                                        )}
+                                                    </FormItem>
+                                                </Col>
+                                            </Row>
+                                            <Row gutter={30}>
+                                                <Col span={20}>
+                                                    {inStoreDate?
+
                                                         <FormItem  label={'入库日期'} {...formItemLayout}>
                                                             {getFieldDecorator('inStoreDate',{
-                                                                initialValue:inStoreDates&&defaultKey==tabKey? moment(inStoreDates, 'YYYY-MM-DD'):null,
+                                                                initialValue: moment(inStoreDates, 'YYYY-MM-DD'),
                                                                 rules:[
 
                                                                     {required:true,message:'入库日期不能为空'}
@@ -418,18 +457,29 @@ class AddRefund extends PureComponent{
                                                             })(
                                                                 <DatePicker format={'YYYY-MM-DD'}/>
                                                             )}
+                                                        </FormItem>:
+                                                        <FormItem  label={'有效期至'} {...formItemLayout}>
+                                                            {getFieldDecorator('inStoreDate',{
+                                                                rules:[
+
+                                                                    {required:true,message:'有效期不能为空'}
+                                                                ]
+                                                            })(
+                                                                <DatePicker format={'YYYY-MM-DD'}/>
+                                                            )}
                                                         </FormItem>
-                                                    </Col>
-                                                </Row>
-                                            </div>
-                                            <FormItem>
-                                                {getFieldDecorator('pictcontents',{
-                                                    initialValue: ''
-                                                })(
-                                                    <UploadPic  length={3}/>
-                                                )}
-                                            </FormItem>
-                                        </div>:''}
+                                                    }
+                                                </Col>
+                                            </Row>
+                                        </div>
+                                        <FormItem>
+                                            {getFieldDecorator('pictcontents',{
+                                                initialValue: ''
+                                            })(
+                                                <UploadPic  length={3}/>
+                                            )}
+                                        </FormItem>
+                                    </div>:''}
                                 </TabPane>
 
                                 <TabPane tab="药品说明书" key="3">
@@ -438,33 +488,56 @@ class AddRefund extends PureComponent{
                                             <div style={{width:'440px'}}>
                                                 <Row gutter={30}>
                                                     <Col span={20}>
-                                                        <FormItem  label={'核准日期'} {...formItemLayout}>
-                                                            {getFieldDecorator('productTime',{
+                                                        {productTimes?
+                                                            <FormItem  label={'核准日期'} {...formItemLayout}>
+                                                                {getFieldDecorator('productTime',{
 
-                                                                initialValue: productTimes&&defaultKey==tabKey? moment(productTimes, 'YYYY-MM-DD'):null,
-                                                                rules:[
-                                                                    {required:true,message:'核准日期不能为空'}
-                                                                ]
-                                                            })(
-                                                                <DatePicker format={'YYYY-MM-DD'}/>
-                                                            )}
-                                                        </FormItem>
+                                                                    initialValue: moment(productTimes, 'YYYY-MM-DD'),
+                                                                    rules:[
+                                                                        {required:true,message:'核准日期不能为空'}
+                                                                    ]
+                                                                })(
+                                                                    <DatePicker format={'YYYY-MM-DD'}/>
+                                                                )}
+                                                            </FormItem>:
+                                                            <FormItem  label={'核准日期'} {...formItemLayout}>
+                                                                {getFieldDecorator('productTime',{
+                                                                    rules:[
+                                                                        {required:true,message:'核准日期不能为空'}
+                                                                    ]
+                                                                })(
+                                                                    <DatePicker format={'YYYY-MM-DD'}/>
+                                                                )}
+                                                            </FormItem>
+                                                        }
                                                     </Col>
                                                 </Row>
                                                 <Row gutter={30}>
                                                     <Col span={20}>
-                                                        <FormItem  label={'修订日期'} {...formItemLayout}>
-                                                            {getFieldDecorator('validEndDate',{
+                                                        {validEndDate?
 
-                                                                initialValue:validEndDates&&defaultKey==tabKey? moment(validEndDates, 'YYYY-MM-DD'):null,
-                                                                rules:[
+                                                            <FormItem  label={'修订日期'} {...formItemLayout}>
+                                                                {getFieldDecorator('validEndDate',{
+                                                                    initialValue: moment(validEndDates, 'YYYY-MM-DD'),
+                                                                    rules:[
 
-                                                                    {required:true,message:'修订日期不能为空'}
-                                                                ]
-                                                            })(
-                                                                <DatePicker format={'YYYY-MM-DD'}/>
-                                                            )}
-                                                        </FormItem>
+                                                                        {required:true,message:'修订日期'}
+                                                                    ]
+                                                                })(
+                                                                    <DatePicker format={'YYYY-MM-DD'}/>
+                                                                )}
+                                                            </FormItem>:
+                                                            <FormItem  label={'有效期至'} {...formItemLayout}>
+                                                                {getFieldDecorator('validEndDate',{
+                                                                    rules:[
+
+                                                                        {required:true,message:'有效期不能为空'}
+                                                                    ]
+                                                                })(
+                                                                    <DatePicker format={'YYYY-MM-DD'}/>
+                                                                )}
+                                                            </FormItem>
+                                                        }
                                                     </Col>
                                                 </Row>
                                             </div>
@@ -486,12 +559,12 @@ class AddRefund extends PureComponent{
                                                     <Col span={20}>
                                                         <FormItem  label={'提运单号'} {...formItemLayout}>
                                                             {getFieldDecorator('deliveryCode',{
-                                                                initialValue:deliveryCode&&defaultKey==tabKey?deliveryCode:'',
+                                                                initialValue:deliveryCode,
                                                                 rules:[
                                                                     {required:true,message:'提运单号不能为空'}
                                                                 ]
                                                             })(
-                                                                <Input placeholder='提运单号'/>
+                                                                <Input placeholder='证件编号'/>
                                                             )}
                                                         </FormItem>
                                                     </Col>
@@ -500,7 +573,7 @@ class AddRefund extends PureComponent{
                                                     <Col span={20}>
                                                         <FormItem  label={'批件号'} {...formItemLayout}>
                                                             {getFieldDecorator('lot',{
-                                                                initialValue:lot&&defaultKey==tabKey?lot:'',
+                                                                initialValue:lot,
                                                                 rules:[
                                                                     {required:true,message:'批件号不能为空'}
                                                                 ]
@@ -510,7 +583,6 @@ class AddRefund extends PureComponent{
                                                         </FormItem>
                                                     </Col>
                                                 </Row>
-
                                             </div>
                                             <FormItem>
                                                 {getFieldDecorator('pictcontents',{
@@ -528,40 +600,63 @@ class AddRefund extends PureComponent{
                                             <div style={{width:'440px'}}>
                                                 <Row gutter={30}>
                                                     <Col span={20}>
-                                                        <FormItem  label={'发证日期'} {...formItemLayout}>
-                                                            {getFieldDecorator('productTime',{
+                                                        {productTimes?
+                                                            <FormItem  label={'发证日期'} {...formItemLayout}>
+                                                                {getFieldDecorator('productTime',{
 
-                                                                initialValue: productTimes&&defaultKey==tabKey? moment(productTimes, 'YYYY-MM-DD'):null,
-                                                                rules:[
-                                                                    {required:true,message:'发证日期不能为空'}
-                                                                ]
-                                                            })(
-                                                                <DatePicker format={'YYYY-MM-DD'}/>
-                                                            )}
-                                                        </FormItem>
+                                                                    initialValue: moment(productTimes, 'YYYY-MM-DD'),
+                                                                    rules:[
+                                                                        {required:true,message:'发证日期不能为空'}
+                                                                    ]
+                                                                })(
+                                                                    <DatePicker format={'YYYY-MM-DD'}/>
+                                                                )}
+                                                            </FormItem>:
+                                                            <FormItem  label={'发证日期'} {...formItemLayout}>
+                                                                {getFieldDecorator('productTime',{
+                                                                    rules:[
+                                                                        {required:true,message:'发证日期不能为空'}
+                                                                    ]
+                                                                })(
+                                                                    <DatePicker format={'YYYY-MM-DD'}/>
+                                                                )}
+                                                            </FormItem>
+                                                        }
                                                     </Col>
                                                 </Row>
                                                 <Row gutter={30}>
                                                     <Col span={20}>
-                                                        <FormItem  label={'有效期至'} {...formItemLayout}>
-                                                            {getFieldDecorator('validEndDate',{
+                                                        {validEndDate?
 
-                                                                initialValue:validEndDates&&defaultKey==tabKey? moment(validEndDates, 'YYYY-MM-DD'):null,
-                                                                rules:[
+                                                            <FormItem  label={'有效期至'} {...formItemLayout}>
+                                                                {getFieldDecorator('validEndDate',{
+                                                                    initialValue: moment(validEndDates, 'YYYY-MM-DD'),
+                                                                    rules:[
 
-                                                                    {required:true,message:'有效期不能为空'}
-                                                                ]
-                                                            })(
-                                                                <DatePicker format={'YYYY-MM-DD'}/>
-                                                            )}
-                                                        </FormItem>
+                                                                        {required:true,message:'有效期不能为空'}
+                                                                    ]
+                                                                })(
+                                                                    <DatePicker format={'YYYY-MM-DD'}/>
+                                                                )}
+                                                            </FormItem>:
+                                                            <FormItem  label={'有效期至'} {...formItemLayout}>
+                                                                {getFieldDecorator('validEndDate',{
+                                                                    rules:[
+
+                                                                        {required:true,message:'有效期不能为空'}
+                                                                    ]
+                                                                })(
+                                                                    <DatePicker format={'YYYY-MM-DD'}/>
+                                                                )}
+                                                            </FormItem>
+                                                        }
                                                     </Col>
                                                 </Row>
                                                 <Row gutter={30}>
                                                     <Col span={20}>
                                                         <FormItem label={`证件编号`} {...formItemLayout}>
                                                             {getFieldDecorator('licCode',{
-                                                                initialValue:defaultKey==tabKey?licCode:'',
+                                                                initialValue:licCode,
                                                                 rules:[
                                                                     {required:true,message:'证件编号不能为空'}
                                                                 ]
@@ -588,40 +683,63 @@ class AddRefund extends PureComponent{
                                             <div style={{width:'440px'}}>
                                                 <Row gutter={30}>
                                                     <Col span={20}>
-                                                        <FormItem  label={'发证日期'} {...formItemLayout}>
-                                                            {getFieldDecorator('productTime',{
+                                                        {productTimes?
+                                                            <FormItem  label={'发证日期'} {...formItemLayout}>
+                                                                {getFieldDecorator('productTime',{
 
-                                                                initialValue: productTimes&&defaultKey==tabKey? moment(productTimes, 'YYYY-MM-DD'):null,
-                                                                rules:[
-                                                                    {required:true,message:'发证日期不能为空'}
-                                                                ]
-                                                            })(
-                                                                <DatePicker format={'YYYY-MM-DD'}/>
-                                                            )}
-                                                        </FormItem>
+                                                                    initialValue: moment(productTimes, 'YYYY-MM-DD'),
+                                                                    rules:[
+                                                                        {required:true,message:'发证日期不能为空'}
+                                                                    ]
+                                                                })(
+                                                                    <DatePicker format={'YYYY-MM-DD'}/>
+                                                                )}
+                                                            </FormItem>:
+                                                            <FormItem  label={'发证日期'} {...formItemLayout}>
+                                                                {getFieldDecorator('productTime',{
+                                                                    rules:[
+                                                                        {required:true,message:'发证日期不能为空'}
+                                                                    ]
+                                                                })(
+                                                                    <DatePicker format={'YYYY-MM-DD'}/>
+                                                                )}
+                                                            </FormItem>
+                                                        }
                                                     </Col>
                                                 </Row>
                                                 <Row gutter={30}>
                                                     <Col span={20}>
-                                                        <FormItem  label={'有效期至'} {...formItemLayout}>
-                                                            {getFieldDecorator('validEndDate',{
+                                                        {validEndDate?
 
-                                                                initialValue:validEndDates&&defaultKey==tabKey? moment(validEndDates, 'YYYY-MM-DD'):null,
-                                                                rules:[
+                                                            <FormItem  label={'有效期至'} {...formItemLayout}>
+                                                                {getFieldDecorator('validEndDate',{
+                                                                    initialValue: moment(validEndDates, 'YYYY-MM-DD'),
+                                                                    rules:[
 
-                                                                    {required:true,message:'有效期不能为空'}
-                                                                ]
-                                                            })(
-                                                                <DatePicker format={'YYYY-MM-DD'}/>
-                                                            )}
-                                                        </FormItem>
+                                                                        {required:true,message:'有效期不能为空'}
+                                                                    ]
+                                                                })(
+                                                                    <DatePicker format={'YYYY-MM-DD'}/>
+                                                                )}
+                                                            </FormItem>:
+                                                            <FormItem  label={'有效期至'} {...formItemLayout}>
+                                                                {getFieldDecorator('validEndDate',{
+                                                                    rules:[
+
+                                                                        {required:true,message:'有效期不能为空'}
+                                                                    ]
+                                                                })(
+                                                                    <DatePicker format={'YYYY-MM-DD'}/>
+                                                                )}
+                                                            </FormItem>
+                                                        }
                                                     </Col>
                                                 </Row>
                                                 <Row gutter={30}>
                                                     <Col span={20}>
                                                         <FormItem label={`证件编号`} {...formItemLayout}>
                                                             {getFieldDecorator('licCode',{
-                                                                initialValue:defaultKey==tabKey?licCode:'',
+                                                                initialValue:licCode,
                                                                 rules:[
                                                                     {required:true,message:'证件编号不能为空'}
                                                                 ]
@@ -641,7 +759,6 @@ class AddRefund extends PureComponent{
                                             </FormItem>
                                         </div>:''}
                                 </TabPane>
-
                             </Tabs>
                         </Form>
 

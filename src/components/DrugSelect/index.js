@@ -48,7 +48,7 @@ class FetchSelect extends React.Component {
         if(value === '') return;
         let queryKey = this.props.queryKey;
         // fake(value, data => this.setState({ data }), this.props.url, this.props.query,this.props.parmas);
-        this.setState({ data: [], fetching: true  ,ctmmManufacturerName:''});
+        this.setState({ data: [], fetching: true  ,});
         let body;
         if(queryKey) {
             if(typeof queryKey === 'string') {

@@ -1964,6 +1964,125 @@ export const getNavData = app => [
     component: dynamicWrapper(app, ['pharmacy/outStorage'], () => import('../routes/Pharmacy/outStorage/review/details')),
     },
     /*--创世新增2018-12-14-E--*/
+
+      /*19-1-18*/
+      {
+          name: "患者追溯",
+          icon: 'setting',
+          path: '/purchase/statisticAnalysis/patientTracing',
+          component: dynamicWrapper(app, [], () => import('../routes/Purchase/statisticAnalysis/patientTracing')),
+      },
+      //查询统计 - 批号追溯 - 详情
+      {
+          name: "患者追溯 - 详情",
+          icon: 'setting',
+          path: '/purchase/statisticAnalysis/patientTracing/details/:bigDrugCode/:drugCode/:hisDrugCode/:lot',
+          component: dynamicWrapper(app, ['purchase/patientTracing'], () => import('../routes/Purchase/statisticAnalysis/patientTracing/details')),
+      },{
+          name: "同比环比统计",
+          icon: 'setting',
+          path: '/purchase/statisticAnalysis/statisticsTraceability',
+          component: dynamicWrapper(app, [], () => import('../routes/Purchase/statisticAnalysis/statisticsTraceability')),
+      },
+      {
+          name: "人员工作统计及追溯",
+          icon: 'setting',
+          path: '/purchase/statisticAnalysis/statisticsTraceability/detailsList/:ctdid/:deptid',
+          component: dynamicWrapper(app, [], () => import('../routes/Purchase/statisticAnalysis/statisticsTraceability/detailsList')),
+      },
+      {
+          name: "人员单据追溯明细",
+          icon: 'setting',
+          path: '/purchase/statisticAnalysis/statisticsTraceability/details/:bigDrugCode/:drugCode/:hisDrugCode/:lot',
+          component: dynamicWrapper(app, ['purchase/patientTracing'], () => import('../routes/Purchase/statisticAnalysis/statisticsTraceability/details')),
+      },
+      /*人员工作统计	*/
+      {
+          name: "人员工作统计",
+          icon: 'setting',
+          path: '/purchase/statisticAnalysis/personWorkStatistics/',
+          component: dynamicWrapper(app, ['purchase/reportform'], () => import('../routes/Purchase/statisticAnalysis/personWorkStatistics')),
+      },
+      /*人员工作统计	补货单*/
+      {
+          name: "人员工作统计-补货单",
+          icon: 'setting',
+          path: '/purchase/statisticAnalysis/personWorkStatistics/tracing/:guid/:userno/:username',
+          component: dynamicWrapper(app, ['purchase/reportform'], () => import('../routes/Purchase/statisticAnalysis/personWorkStatistics/tracing')),
+      },
+      //人员工作统计 - 补货单详情
+      {
+          name: "人员工作统计 - 补货单",
+          icon: 'setting',
+          path: '/purchase/statisticAnalysis/personWorkStatistics/details/:ordercode',
+          component: dynamicWrapper(app, ['purchase/patientTracing'], () => import('../routes/Purchase/statisticAnalysis/personWorkStatistics/details')),
+      },
+      {
+          name: "人员验收单",
+          icon: 'setting',
+          path: '/purchase/statisticAnalysis/personWorkStatistics/tracingCheck/:guid/:userno/:username',
+          component: dynamicWrapper(app, ['purchase/statistics'], () => import('../routes/Purchase/statisticAnalysis/personWorkStatistics/tracingCheck')),
+      },
+      //人员单据追溯明细 - 详情
+      {
+          name: "人员验收单 - 详情",
+          icon: 'setting',
+          path: '/purchase/statisticAnalysis/personWorkStatistics/detailsCheck/:distributecode/:checktype/:lousernamet/:receptiontime',
+          component: dynamicWrapper(app, ['purchase/patientTracing'], () => import('../routes/Purchase/statisticAnalysis/personWorkStatistics/detailsCheck')),
+      },
+      //补货明细
+      {
+          name: "补货单明细",
+          icon: 'setting',
+          path: '/purchase/statisticAnalysis/personWorkStatistics/tracingTotalList/:userid',
+          component: dynamicWrapper(app, ['purchase/patientTracing'], () => import('../routes/Purchase/statisticAnalysis/personWorkStatistics/tracingTotalList')),
+      },
+      //验收单明细
+      {
+          name: "验收单明细",
+          icon: 'setting',
+          path: '/purchase/statisticAnalysis/personWorkStatistics/acceptanceTotalList/:userid',
+          component: dynamicWrapper(app, ['purchase/patientTracing'], () => import('../routes/Purchase/statisticAnalysis/personWorkStatistics/acceptanceTotalList')),
+      },
+      //下架
+      {
+          name: "下架",
+          icon: 'setting',
+          path: '/purchase/statisticAnalysis/personWorkStatistics/lowerShelf/:bigDrugCode/:userno/:username',
+          component: dynamicWrapper(app, ['purchase/patientTracing'], () => import('../routes/Purchase/statisticAnalysis/personWorkStatistics/lowerShelf')),
+      },
+      //出库复核
+      {
+          name: "出库复核",
+          icon: 'setting',
+          path: '/purchase/statisticAnalysis/personWorkStatistics/outgoingReview/:userid/:userno/:username',
+          component: dynamicWrapper(app, ['purchase/patientTracing'], () => import('../routes/Purchase/statisticAnalysis/personWorkStatistics/outgoingReview')),
+      },
+      //盘点
+      {
+          name: "盘点",
+          icon: 'setting',
+          path: '/purchase/statisticAnalysis/personWorkStatistics/inventory/:userid/:userno/:username',
+          component: dynamicWrapper(app, ['purchase/patientTracing'], () => import('../routes/Purchase/statisticAnalysis/personWorkStatistics/inventory')),
+      },
+      //调剂
+      {
+          name: "调剂",
+          icon: 'setting',
+          path: '/purchase/statisticAnalysis/personWorkStatistics/dispensing/:userid/:userno/:username',
+          component: dynamicWrapper(app, ['purchase/patientTracing'], () => import('../routes/Purchase/statisticAnalysis/personWorkStatistics/dispensing')),
+      },
+      //发药复核
+      {
+          name: "发药复核",
+          icon: 'setting',
+          path: '/purchase/statisticAnalysis/personWorkStatistics/drugRechecking/:userid/:userno/:username',
+          component: dynamicWrapper(app, [], () => import('../routes/Purchase/statisticAnalysis/personWorkStatistics/drugRechecking')),
+      },
+
+
+
+
   ]
 }]
 

@@ -49,7 +49,7 @@ const columns = [
     render:(text, record)=>(
       <Tooltip placement="topLeft" title={text}>
         <Link to={{pathname: `/pharmacy/stockMgt/stockInquiry/details/dCode=${record.drugCode}&bCode=${record.hisDrugCode}
-        &locCode=${record.goodsCode?record.goodsCode:""}`}}>{text}</Link>        
+        &locCode=${record.goodsCode?record.goodsCode:""}&lot=${record.lot}`}}>{text}</Link>
       </Tooltip>
     )
   }, /*{
