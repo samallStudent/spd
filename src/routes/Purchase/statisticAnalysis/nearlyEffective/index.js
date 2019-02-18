@@ -53,9 +53,9 @@ class SearchForm extends PureComponent{
             };
           });
           this.props.form.setFieldsValue({
-            diffDay: id
+            diffDay: 180
           });
-          this.props._handlQuery({diffDay: id});
+          this.props._handlQuery({diffDay: id = 180});
         }
       }
     });
@@ -108,6 +108,26 @@ class SearchForm extends PureComponent{
     return (
       <Form className="ant-advanced-search-form" onSubmit={this.handleSearch}>
         <Row gutter={30}>
+        <Col span={8}>
+            <FormItem {...formItemLayout} label={`临效期选择`}>
+              {
+                getFieldDecorator(`diffDay`)(
+                  <Select 
+                    placeholder="请选择"
+                    style={{
+                      width: '100%'
+                    }}
+                  >
+                    {
+                      timeList.map(item => (
+                        <Option key={item.id} value={item.id}>{item.desc}</Option>
+                      ))
+                    }
+                  </Select>
+                )
+              }
+            </FormItem>
+          </Col>
           <Col span={8}>
             <FormItem {...formItemLayout} label={`供应商`}>
               {
@@ -129,7 +149,7 @@ class SearchForm extends PureComponent{
               }
             </FormItem>
           </Col>
-          <Col span={8}>
+          <Col span={8} style={{ display: display }}>
             <FormItem {...formItemLayout} label={'药品名称'}>
               {
                 getFieldDecorator(`hisDrugCodeList`)(
@@ -139,26 +159,6 @@ class SearchForm extends PureComponent{
                     query={{queryType: 3}}
                     url={common.QUERY_DRUG_BY_LIST}
                   />
-                )
-              }
-            </FormItem>
-          </Col>
-          <Col span={8} style={{ display: display }}>
-            <FormItem {...formItemLayout} label={`临效期选择`}>
-              {
-                getFieldDecorator(`diffDay`)(
-                  <Select 
-                    placeholder="请选择"
-                    style={{
-                      width: '100%'
-                    }}
-                  >
-                    {
-                      timeList.map(item => (
-                        <Option key={item.id} value={item.id}>{item.desc}</Option>
-                      ))
-                    }
-                  </Select>
                 )
               }
             </FormItem>
@@ -231,7 +231,7 @@ class NearlyEffective extends PureComponent {
         dataIndex: 'diffDay',
         width: 168,
         render: (text) => {
-          let color = '#ffd666';
+          let color = '#f2a11c';
           if(text <= 30) {
             color = '#a8071a'
           };
@@ -239,7 +239,7 @@ class NearlyEffective extends PureComponent {
             color = '#f5222d';
           };
           if(text > 60 && text <= 90) {
-            color = '#FFA39E';
+            color = '#ff0000';
           }
           return <span style={{color}}>{text}</span>;
         }
