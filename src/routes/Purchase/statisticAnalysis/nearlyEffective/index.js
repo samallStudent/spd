@@ -48,7 +48,7 @@ class SearchForm extends PureComponent{
           });
           let id;
           data.forEach(item => {
-            if(item.desc === 30) {
+            if(item.desc === 180) {
               id = item.id;
             };
           });
@@ -232,16 +232,19 @@ class NearlyEffective extends PureComponent {
         width: 168,
         render: (text) => {
           let color = '#f2a11c';
+          let fontSize = '20px'
           if(text <= 30) {
             color = '#a8071a'
           };
           if(text > 30 && text <= 60) {
             color = '#f5222d';
+            fontSize = '24px'
           };
           if(text > 60 && text <= 90) {
             color = '#ff0000';
+            fontSize = '24px'
           }
-          return <span style={{color}}>{text}</span>;
+          return <span style={{color,fontSize}}>{text}</span>;
         }
       }, {
         title: '货位',

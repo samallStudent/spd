@@ -8,7 +8,7 @@
  * @file 药库 - 补货管理--补货计划--新建计划
  */
 import React, { PureComponent } from 'react';
-import { Row, Col, Button, Table, Modal, Icon, Tooltip, message, Select, Spin, InputNumber } from 'antd';
+import { Row, Col, Button, Table, Modal, Icon, Tooltip, message, Select, Spin, InputNumber,Upload } from 'antd';
 import {replenishmentPlan} from '../../../../api/replenishment/replenishmentPlan';
 import RemoteTable from '../../../../components/TableGrid';
 import FetchSelect from '../../../../components/FetchSelect/index';
@@ -469,7 +469,7 @@ class NewAdd extends PureComponent {
               </Col>
             </Row>
             <Row style={{marginTop: '10px'}}>
-              <Button type='primary' icon='plus' onClick={this.showModal}>添加产品</Button>
+              <Button type='primary' icon='plus' onClick={this.showModal}>添加产品1</Button>
               <Button type='default'  onClick={this.autoShowModal} style={{ margin: '0 8px' }}>一键添加低库存产品</Button>
               <Button onClick={this.delete} type='default'>删除</Button>
             </Row>

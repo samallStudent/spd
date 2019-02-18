@@ -8,7 +8,7 @@
  * @file 药库 - 补货管理--补货计划--新建计划
  */
 import React, { PureComponent } from 'react';
-import { Form, Row, Col, Button, Input, Table, Modal, Icon,Tooltip  } from 'antd';
+import { Form, Row, Col, Button, Input, Table, Modal, Icon,Tooltip } from 'antd';
 import { formItemLayout } from '../../../../utils/commonStyles'
 import { createData } from '../../../../common/data';
 const FormItem = Form.Item;
