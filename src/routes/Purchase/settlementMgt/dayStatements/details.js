@@ -178,7 +178,7 @@ class Details extends PureComponent {
         <div className='fullCol-fullChild'>
           <Row>
             <Col span={12}>
-              <h2>对账单: <span>KP00221180700001CW</span></h2>
+              <h2>对账单: <span>{info.balanceCode}</span></h2>
             </Col>
             <Col span={12} style={{textAlign: 'right'}}>
               <Button onClick={this.print}>打印</Button>

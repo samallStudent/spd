@@ -9,7 +9,7 @@
  * @file 药库 - 补货管理--补货计划
  */
 import React, { PureComponent } from 'react';
-import { Form, Button, message, Tooltip, DatePicker, Select, Row, Col, Input,Icon  } from 'antd';
+import { Form, Button, message, Tooltip, DatePicker, Select, Row, Col, Input,Icon ,Badge } from 'antd';
 import { Link } from 'react-router-dom';
 import RemoteTable from '../../../../components/TableGrid';
 import { replenishmentPlan } from '../../../../api/replenishment/replenishmentPlan';
@@ -217,10 +217,12 @@ class PlanCheck extends PureComponent{
       {
         title: '计划单号',
         dataIndex: 'planCode',
-        width: 168,
+        width: 258,
         render: (text,record) =>{
           return <span>
+             <Badge count={record.depotPlanDetailItemsCount} overflowCount={999} style={{right:'-27px',zIndex:'0'}}>
             <Link to={{pathname: `/purchase/replenishment/planCheck/detail/${record.planCode}/${record.auditStatus}`}}>{text}</Link>
+            </Badge>
           </span>  
         }
       },{
