@@ -103,7 +103,6 @@ class RemoteTable extends Component {
         },
       }
       if(!this.props.method ||this.props.method ==='post'||  this.props.method ==='POST'){
-        
          bodyProps={
           body:body,
           headers: {

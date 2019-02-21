@@ -19,22 +19,26 @@ import {connect} from 'dva';
 const { Option } = Select;
 
 const props = {
-  name: 'file',
-  action: '//jsonplaceholder.typicode.com/posts/',
-  headers: {
-    authorization: 'authorization-text',
-  },
+  name:'file',
+  action: "http://localhost:3000/medicinal-web/a/depot/depotplan/importXG",
   onChange(info) {
     if (info.file.status !== 'uploading') {
-      console.log(info.file, info.fileList);
+      console.log('123123',info.file);
     }
     if (info.file.status === 'done') {
-      message.success(`${info.file.name} file uploaded successfully`);
+      const { dispatch } = this.data;
+      dispatch({
+        type: 'base/addDrug',
+        payload: { deptType : '3' },
+        callback: (data) =>{
+          this.setState({ deptModules: data })
+        }
+      });
     } else if (info.file.status === 'error') {
-      message.error(`${info.file.name} file upload failed.`);
+      message.error(`${info.file.name} file upload failed.`)
     }
   },
-};
+}
 
 class NewAdd extends PureComponent {
   state = {
@@ -149,6 +153,14 @@ class NewAdd extends PureComponent {
   autoShowModal = () => {
     this.showModalLogic(2);
   }
+  ExcelShowModal = (e) => {
+    let {query} = this.state;
+    if(!query.deptCode) {
+      message.warning('请选择部门');
+      e.stopPropagation();
+      return;
+    };
+  }
   showModalLogic = (addDrugType) => {
     let {query, dataSource} = this.state;
     if(!query.deptCode) {
@@ -163,6 +175,7 @@ class NewAdd extends PureComponent {
       modalSelectedRows: [],
       query: {
         ...query,
+        id:1,
         existDrugCodeList,
         hisDrugCodeList: [],
         filterThreeMonthFlag: false
@@ -514,7 +527,12 @@ class NewAdd extends PureComponent {
               <Button type='primary' icon='plus' onClick={this.showModal}>添加产品</Button>
               <Button type='default' onClick={this.autoShowModal} style={{ margin: '0 8px' }}>一键添加低库存产品</Button>
               <Button onClick={this.delete} type='default'>删除</Button>
-              <Upload style={{ marginLeft: '8px' }}><Button>一键导入excel表格</Button></Upload>
+              <Upload 
+              {...props}
+              style={{ marginLeft: '8px' }}
+              >
+                <Button onClick={this.ExcelShowModal}>一键导入excel表格</Button>
+              </Upload>
             </Row>
           </div>
           <Modal

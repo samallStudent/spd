@@ -17,15 +17,6 @@ import {Link} from 'react-router-dom';
 
 
 const columns = [
-  /*{
-    title: '通用名',
-    width: 224,
-    dataIndex: 'ctmmGenericName',
-    className: 'ellipsis',
-    render:(text)=>(
-      <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
-    )
-  },*/
   {
     title: '药品名称',
     width:350,
@@ -35,12 +26,6 @@ const columns = [
       <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
     )
   },
-
-  /*{
-    title: '规格',
-    width: 168,
-    dataIndex: 'ctmmSpecification',
-  },*/
   {
     title: '剂型',
     width: 90,
@@ -101,62 +86,6 @@ const columns = [
         width: 200,
     },
 ];
-const modalColumns = [
-  /* {
-     title: '通用名称',
-     dataIndex: 'ctmmGenericName',
-     width: 224,
-     className: 'ellipsis',
-     render:(text)=>(
-       <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
-     )
-   },*/ {
-     title: '药品名称',
-     dataIndex: 'ctmmTradeName',
-     width: 350,
-     className: 'ellipsis',
-     render:(text)=>(
-       <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
-     )
-   } /*{
-     title: '规格',
-     dataIndex: 'ctmmSpecification',
-     width: 168
-   }*/, {
-     title: '总库存',
-     dataIndex: 'totalStoreNum',
-     width: 100,
-   }, {
-     title: '当前库存',
-     dataIndex: 'usableQuantity',
-     width: 100,
-   }, {
-     title: '剂型',
-     dataIndex: 'ctmmDosageFormDesc',
-     width: 90
-   }, {
-     title: '包装规格',
-     dataIndex: 'packageSpecification',
-     width: 168
-   }, {
-     title: '生产厂家',
-     dataIndex: 'ctmmManufacturerName',
-     width: 200,
-     className: 'ellipsis',
-     render: (text) => (
-       <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
-     )
-   }, {
-     title: '批准文号',
-     dataIndex: 'approvalNo',
-     width: 200,
-   },
-     {
-         title: '药品编码',
-         dataIndex: 'hisDrugCode',
-         width: 200,
-     },
- ];
 class ReplenishmentDetail extends PureComponent{
   state = {
     detailsData: {},
@@ -165,7 +94,9 @@ class ReplenishmentDetail extends PureComponent{
     dataSource: [],
     query: {
       medDrugType: '1',
-      purchaseType: 1
+      purchaseType: 1,
+      planCode:"PA190220000003",
+      deptCode:"24C69445D19C4625960DA3F1E58A6A1F"
     },
     deptModules: [],// 补货部门
     visible: false,
@@ -173,7 +104,7 @@ class ReplenishmentDetail extends PureComponent{
   }
   componentWillMount = () =>{
     const { dispatch } = this.props;
-    console.log('123',this.props)
+    console.log('123',this.props.match.params)
     dispatch({
       type: 'base/getModule',
       payload: { deptType : '3' },
@@ -184,7 +115,6 @@ class ReplenishmentDetail extends PureComponent{
   };
   componentDidMount = () => {
     this.getDetail();
-    console.log(1)
     if(this.props.match.path === "/purchase/replenishment/replenishmentPlan/edit/:planCode") {
       let { planCode } = this.props.match.params;
       this.setState({loading: true})
@@ -223,6 +153,28 @@ class ReplenishmentDetail extends PureComponent{
     }else {
       this.setState({spinLoading: false})
     }
+  }
+  showModalLogic = (addDrugType) => {
+    let {query, dataSource} = this.state;
+    if(!query.deptCode) {
+      message.warning('请选择部门');
+      return;
+    };
+    let existDrugCodeList = dataSource.map((item) => item.drugCode);
+    this.setState({ 
+      visible: true,
+      addDrugType: 1,
+      modalSelected: [],
+      modalSelectedRows: [],
+      query: {
+        ...query,
+        id:1,
+        existDrugCodeList,
+        hisDrugCodeList: [],
+        filterThreeMonthFlag: false
+      },
+      value: undefined
+    });
   }
   //详情
   getDetail = () => {
@@ -288,22 +240,10 @@ class ReplenishmentDetail extends PureComponent{
     window.open(`${replenishmentPlan.PLAN_DETAIL_PRINT}?planCode=${planCode}`, '_blank');
   }
   render(){
-    const { detailsData,
-      
-        visible, 
-        deptModules, 
-        query,  
-        isEdit, 
-        dataSource, 
-        loading, 
-        modalLoading,
-        spinLoading,
-        btnLoading,
-        saveLoading,
-        value,
-        submitLoading,
-        modalSelected,
-        modalSelectedRows
+    const { 
+      detailsData,
+      query,  
+      modalLoading
     } = this.state;
     let {path} = this.props.match;
     path = path.split('/');
@@ -418,7 +358,7 @@ class ReplenishmentDetail extends PureComponent{
             </Col>
           </Row>
         </div>
-        {/* <Row style={{display: 'flex', alignItems: 'center'}}>
+        <Row style={{display: 'flex', alignItems: 'center'}}>
               <Col span={12} style={{ marginLeft: 4 }}>
                 <FetchSelect
                   allowClear
@@ -439,50 +379,28 @@ class ReplenishmentDetail extends PureComponent{
                   }}
                 />
               </Col>
-            </Row> */}
-            {/* <div className='detailCard'>
+            </Row>
+            <div className='detailCard'>
               <RemoteTable
+                title={()=>'产品信息'}
+                scroll={{x: '100%'}}
                 query={query}
+                // url={'/medicinal-web/a/depot/depotplan/detail?planCode='+this.props.match.params.planCode}
                 url={replenishmentPlan.QUERYDRUGBYDEPT}
                 isJson={true}
                 ref="table"
                 modalLoading={modalLoading}
-                columns={modalColumns}
+                columns={columns}
                 scroll={{ x: '100%' }}
                 rowKey='drugCode'
-                rowSelection={{
-                  selectedRowKeys: this.state.modalSelected,
-                  onChange: (selectedRowKeys, selectedRows) => {
-                    if(selectedRowKeys.length > modalSelected.length) {
-                      this.setState({ 
-                        modalSelected: selectedRowKeys, 
-                        modalSelectedRows: [...new Set([...modalSelectedRows, ...selectedRows])] 
-                      });
-                    }else {
-                      selectedRows = modalSelectedRows.filter(item => {
-                        for (let i = 0; i < selectedRowKeys.length; i++) {
-                          if(item.drugCode === selectedRowKeys[i]) {
-                            return true;
-                          };
-                        };
-                        return false;
-                      });
-                      this.setState({ 
-                        modalSelected: selectedRowKeys, 
-                        modalSelectedRows: selectedRows
-                      });
-                    };
-                  }
-                }}
                 pagination={false}
               />
-            </div> */}
+            </div>
         <div className='detailCard'>
           <Table
             title={()=>'产品信息'}
             scroll={{x: '100%'}}
             columns={columns}
-            // rowKey={'drugCode'}
             bordered
             dataSource={detailsData ? detailsData.list : []}
             pagination={false}

@@ -1532,9 +1532,10 @@ export const getNavData = app => [
     {
       name: "采购结算-补货管理--补货计划--详情",
       icon: 'setting',
-      path: '/purchase/replenishment/replenishmentPlan/detail/:planCode',
+      path: '/purchase/replenishment/replenishmentPlan/detail/:planCode/:deptCode',
       component: dynamicWrapper(app, [], () => import('../routes/Purchase/replenishment/replenishmentPlan/detail')),
     },
+
     {
       name: "自采管理-自采管理--采购计划",
       icon: 'setting',
