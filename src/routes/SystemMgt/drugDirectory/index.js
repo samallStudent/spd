@@ -6,14 +6,16 @@
  */
 
 import React , {PureComponent} from 'react';
-import { Form, Row, Col, Button, Input, Select, Icon, Tooltip, Modal,Badge  } from 'antd';
+import { Form, Row, Col, Button, Input, Select, Icon, Tooltip, Modal,Badge  ,DatePicker} from 'antd';
 import RemoteTable from '../../../components/TableGrid';
 import { systemMgt } from '../../../api/systemMgt';
 import { Link } from 'react-router-dom';
 import { connect } from 'dva';
+import moment from 'moment';
 const FormItem = Form.Item;
 const { Option } = Select;
-
+const { RangePicker } = DatePicker;
+const monthFormat = 'YYYY-MM-DD';
 const formItemLayout = {
   labelCol: {
     md: { span: 10 },
@@ -58,6 +60,15 @@ class SearchForm extends PureComponent{
   handleSearch = (e) => {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
+        let {updateDate} = values;
+        if(updateDate && updateDate.length > 0) {
+            values.startTime = updateDate[0].format('YYYY-MM-DD');
+            values.endTime = updateDate[1].format('YYYY-MM-DD');
+        }else {
+            values.startTime = '';
+            values.endTime = '';
+        };
+        delete values.updateDate;
       this.props.formProps.dispatch({
         type:'base/updateConditions',
         payload: values
@@ -140,6 +151,13 @@ class SearchForm extends PureComponent{
               }
             </FormItem>
           </Col>
+            <Col span={8}>
+                <FormItem label={`更新时间`} {...formItemLayout}>
+                    {getFieldDecorator('updateDate')(
+                        <RangePicker/>
+                    )}
+                </FormItem>
+            </Col>
           <Col span={8} style={{float: 'right', textAlign: 'right', marginTop: 4}} >
            <Button type="primary" htmlType="submit">查询</Button>
            <Button type='default' style={{marginLeft: 8}} onClick={this.handleReset}>重置</Button>
@@ -277,6 +295,11 @@ class DrugDirectory extends PureComponent{
           <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
         )
       },
+        {
+            title: '更新时间',
+            dataIndex: 'updateDate',
+            width: 192,
+        },
       {
         title: '是否报告药',
         dataIndex: 'drugTypeName',

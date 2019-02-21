@@ -456,7 +456,7 @@ class PslistCheck extends PureComponent{
         title: '实到数量',
         dataIndex: 'realNum',
         render: (text, record, index)=>{
-          return record.isUsual === 0 ? 
+          return record.type == 103|| record.type == 104?
                   <InputNumber
                     min={0}
                     value={text}
@@ -523,7 +523,7 @@ class PslistCheck extends PureComponent{
         title: '生产批号',
         dataIndex: 'productBatchNo',
         render: (text,record,index)=>{
-          return record.isUsual === 0 ? 
+          return record.productBatchNo =='' ?
                   <Input 
                     onChange={(e)=>{
                       this.setSelectRow(record, e.target.value, 'productBatchNo');
@@ -538,7 +538,7 @@ class PslistCheck extends PureComponent{
         title: '生产日期',
         dataIndex: 'realProductTime',
         render: (text,record,index)=> {
-          return record.isUsual === 0 ? 
+          return record.type == 103|| record.type == 104 ?
                 <DatePicker
                   disabledDate={(current) => current && current > moment(record.realValidEndDate)}
                   onChange={(dates, moment) => {
@@ -554,7 +554,7 @@ class PslistCheck extends PureComponent{
         title: '有效期至',
         dataIndex: 'realValidEndDate',
         render: (text,record,index)=> {
-          return record.isUsual === 0 ? 
+          return record.type == 103|| record.type == 104 ?
                 <DatePicker
                   disabledDate={(current) => current && current < moment(record.realProductTime)}
                   onChange={(dates, moment) => {
