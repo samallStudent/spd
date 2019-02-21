@@ -126,7 +126,6 @@ class DetailsPutaway extends PureComponent{
       loading: false
     });
   }
-
   render(){
     let {
       defaultActive, 
@@ -263,7 +262,7 @@ class DetailsPutaway extends PureComponent{
     const hasColumns = [
       {
         title: '指示货位',
-        width: 112,
+        width: 224,
         dataIndex: 'actualStore',
       },
       {

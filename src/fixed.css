@@ -476,7 +476,19 @@ td:hover .editable-cell-icon {
   text-overflow: ellipsis;
 }
 
-
+.preview-list-side{
+  position: relative;
+}
+.preview-list-side .anticon{
+position: absolute;top:20%;cursor: pointer;
+}
+.preview-list-side .anticon-left{
+  left: 0;
+}
+.preview-list-side .anticon-right{
+  right: 0;
+}
+.preview-list-side .ant-carousel{margin: 0 30px;}
 /* @media screen and (min-width:1440px){
   .ant-table-empty .ant-table-placeholder:after{
     content:"";

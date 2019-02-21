@@ -4,7 +4,7 @@
  * @Description: 证照预览
  */
 import React, { PureComponent } from 'react';
-import {  Button,  Modal,Carousel} from 'antd';
+import {  Button,  Modal,Carousel,Icon} from 'antd';
 import { Link } from 'react-router-dom';
 
 import { connect } from 'dva';
@@ -34,7 +34,12 @@ class AddRefund extends PureComponent{
         })
     }
 
-
+    handlePrev = ()=>{
+        this.refs.img.prev(); //ref = img
+    }
+    handleNext = ()=>{
+        this.refs.img.next();
+    }
 
     render(){
         let { visible} = this.state;
@@ -47,7 +52,7 @@ class AddRefund extends PureComponent{
                 imgArr.push(JSON.parse(value.pictcontent))
             });
         }
-        console.log(imgArr)
+        //console.log(imgArr)
         return (
             <span  onClick={()=>{this.setState({visible:true});}}>
         {children}
@@ -63,14 +68,18 @@ class AddRefund extends PureComponent{
         <div className='preview-list'>
             {
                 pic?
-                    <Carousel >
+                    <div className='preview-list-side'>
+                        <Icon type="left" theme="outlined" style={{ fontSize: '30px'}} onClick={this.handlePrev}/>
+                        <Carousel  ref='img'>
 
 
-                        {
-                            imgArr.map((item,index)=><div><img  width='500' height='560' key={index} src={`${item.original.path}${item.original.name}`} alt=""/></div> )
-                        }
+                            {
+                                imgArr.map((item,index)=><div><img  width='500' height='560' key={index} src={`${item.original.path}${item.original.name}`} alt=""/></div> )
+                            }
 
-                    </Carousel>:'暂未上传资质图片'
+                        </Carousel>
+                        <Icon type="right" theme="outlined"  style={{ fontSize: '30px'}} onClick={this.handleNext}/>
+                    </div>:'暂未上传资质图片'
             }
 
         </div>
