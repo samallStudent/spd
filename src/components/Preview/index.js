@@ -69,16 +69,18 @@ class AddRefund extends PureComponent{
             {
                 pic?
                     <div className='preview-list-side'>
-                        <Icon type="left" theme="outlined" style={{ fontSize: '30px'}} onClick={this.handlePrev}/>
+                        {imgArr.length>1?
+                        <Icon type="left" theme="outlined" style={{ fontSize: '30px'}} onClick={this.handlePrev}/>:''}
                         <Carousel  ref='img'>
 
 
                             {
-                                imgArr.map((item,index)=><div><img  width='500' height='560' key={index} src={`${item.original.path}${item.original.name}`} alt=""/></div> )
+                                imgArr.map((item,index)=><div><img  width='100%' key={index} src={`${item.original.path}${item.original.name}`} alt=""/></div> )
                             }
 
                         </Carousel>
-                        <Icon type="right" theme="outlined"  style={{ fontSize: '30px'}} onClick={this.handleNext}/>
+                        {imgArr.length>1?
+                            <Icon type="right" theme="outlined" style={{ fontSize: '30px'}} onClick={this.handleNext}/>:''}
                     </div>:'暂未上传资质图片'
             }
 

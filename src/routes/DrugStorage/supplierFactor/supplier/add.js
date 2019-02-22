@@ -114,7 +114,7 @@ class AddRefund extends PureComponent{
     let { visible,display,factorList,} = this.state;
     const { getFieldDecorator } = this.props.form;
     const expand = display === 'block';
-      let {supplierCode,type,productTime,validEndDate,licCode}=this.props.record;
+      let {supplierCode,licType,productTime,validEndDate,licCode}=this.props.record;
       let productTimes=''
       let validEndDates=''
       if(productTime&&validEndDate){
@@ -172,8 +172,8 @@ class AddRefund extends PureComponent{
                         <Row gutter={30}>
                             <Col span={20}>
                                 <FormItem label={'资质类型'} {...formItemLayout}>
-                                    {getFieldDecorator('type', {
-                                        initialValue: type,
+                                    {getFieldDecorator('licType', {
+                                        initialValue: licType,
                                         rules:[
                                             {required:true,message:'请选择资质类型'}
                                         ]

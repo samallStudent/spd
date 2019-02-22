@@ -104,7 +104,7 @@ class SearchForm extends PureComponent {
                     <Col span={8}>
                         <FormItem label={'临效期'} {...formItemLayout}>
                             {getFieldDecorator('expiryDate', {
-                                initialValue: '30'
+                                initialValue: ''
                             })(
                                 <Select
                                     showSearch
@@ -112,6 +112,7 @@ class SearchForm extends PureComponent {
                                     optionFilterProp="children"
                                     filterOption={(input, option) => option.props.children.indexOf(input) >= 0}
                                 >
+                                    <Option key={''} value={''}>全部</Option>
                                     {
                                         periodList.map((item,index)=> <Option key={index} value={item.value}>{item.label}</Option>)
                                     }
@@ -256,13 +257,13 @@ class RecallAndLocked extends PureComponent {
                 title: '预览',
                 width: 90,
                 dataIndex: 'pictcontents',
-                render: (text, record) =>(
-                    <Preview record={record.pictcontents}>
+                render: (text, record) =>{
+                    return record.pictcontents? <Preview record={record.pictcontents}>
                         <Icon type="picture" />
-                    </Preview>
-                    )
+                    </Preview>:'暂未上传'
+                }
 
-            },
+            }
         ];
 
 
