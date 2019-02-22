@@ -173,7 +173,7 @@ class AddRefund extends PureComponent{
         let { visible, display,druglist,tabArr,tabKey,defaultKey} = this.state;
         const { getFieldDecorator } = this.props.form;
         const expand = display === 'block';
-        const {children,supplierList,type}=this.props;
+        const {children,supplierList,licType}=this.props;
         let {
             supplierCode,productTime,validEndDate,producerName,licCode
             ,registKey,lot,inStoreCode,inStoreDate,goodsName,deliveryCode

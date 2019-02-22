@@ -214,13 +214,13 @@ class RecallAndLocked extends PureComponent {
                 title: '预览',
                 width: 90,
                 dataIndex: 'pictcontents',
-                render: (text, record) =>(
-                    <Preview record={record.pictcontents}>
+                render: (text, record) =>{
+                    return record.pictcontents? <Preview record={record.pictcontents}>
                         <Icon type="picture" />
-                    </Preview>
-                )
+                    </Preview>:'暂未上传'
+                }
 
-            },
+            }
         ];
 
 

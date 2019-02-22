@@ -1510,6 +1510,17 @@ export const getNavData = app => [
       path: '/sys/menu/dictMgt',
       component: dynamicWrapper(app, ['ysy/dict'], () => import('../routes/SystemMgt/setting/itemsData')),
     },
+      /**
+       * @author QER
+       * @date 19/2/22
+       * @Description: 接口监控
+      */
+      {
+          name: "接口监控",
+          icon: 'setting',
+          path: '/sys/menu/interfacelog',
+          component: dynamicWrapper(app, ['drugStorage/supplierFactor'], () => import('../routes/SystemMgt/interfacelog')),
+      },
      /* ********************   采购结算 子系统    ******************************* */
     {
       name: "全院管理-药品调价--调价确认",

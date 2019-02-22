@@ -1,15 +1,11 @@
 import React, { PureComponent } from 'react';
 import { Form, Row, Col, DatePicker, Input, Select, Button, Icon, message, Tooltip,Modal } from 'antd';
 import { Link } from 'react-router-dom';
-import moment from 'moment';
-import { formItemLayout } from '../../../../utils/commonStyles';
-import RemoteTable from '../../../../components/TableGrid';
-import { outStorage } from '../../../../api/drugStorage/outStorage';
+import { formItemLayout } from '../../../utils/commonStyles';
+import RemoteTable from '../../../components/TableGrid';
+import { supplierFactor } from '../../../api/drugStorage/supplierFactor';
 import { connect } from 'dva';
-import Preview from "../../../../components/Preview";//预览
-import {supplierFactor} from "../../../../api/drugStorage/supplierFactor";
-import AddFactor from "../../../DrugStorage/supplierFactor/drug/add";
-//预览
+import moment from 'moment';
 const FormItem = Form.Item;
 const { Option } = Select;
 
@@ -34,20 +30,7 @@ class SearchForm extends PureComponent {
             type:'base/setShowHide'
         });
     }
-    componentDidMount = () =>{
-        const { dispatch } = this.props.formProps;
-        dispatch({
-            type: 'base/genSupplierList',
-            callback: ({data, code, msg}) => {
-                if(code === 200) {
-                    this.setState({
-                        supplierList: data
-                    });
-                }
-            }
-        });
 
-    }
     handleSearch = e => {
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
@@ -69,8 +52,8 @@ class SearchForm extends PureComponent {
     render() {
         const { getFieldDecorator } = this.props.form;
         const {display} = this.props.formProps.base;
-        const { factorList,periodList,supplierList } = this.state;
-
+        const {supplierList}=this.props
+        const {factorList,periodList } = this.state;
         return (
             <Form onSubmit={this.handleSearch}>
                 <Row gutter={30}>
@@ -118,8 +101,8 @@ class SearchForm extends PureComponent {
                     </Col>
                     <Col span={8}>
                         <FormItem label={'临效期'} {...formItemLayout}>
-                            {getFieldDecorator('ExpiryDate', {
-                                initialValue: '30'
+                            {getFieldDecorator('expiryDate', {
+                                initialValue: ''
                             })(
                                 <Select
                                     showSearch
@@ -127,31 +110,12 @@ class SearchForm extends PureComponent {
                                     optionFilterProp="children"
                                     filterOption={(input, option) => option.props.children.indexOf(input) >= 0}
                                 >
+                                    <Option key={''} value={''}>全部</Option>
                                     {
                                         periodList.map((item,index)=> <Option key={index} value={item.value}>{item.label}</Option>)
                                     }
                                 </Select>
                             )}
-                        </FormItem>
-                    </Col>
-
-                    <Col span={8} style={{display:'block'}}>
-                        <FormItem {...formItemLayout} label={'药品名称'}>
-                            {
-                                getFieldDecorator(`paramsName`)(
-                                    <Input placeholder='请输入药品名称' />
-                                )
-                            }
-                        </FormItem>
-                    </Col>
-
-                    <Col span={8}>
-                        <FormItem {...formItemLayout} label={'生产厂家'}>
-                            {
-                                getFieldDecorator(`productCompany`)(
-                                    <Input placeholder='请输入生产厂家' />
-                                )
-                            }
                         </FormItem>
                     </Col>
                     <Col span={8} style={{float: 'right', textAlign: 'right', marginTop: 4 }}>
@@ -174,27 +138,69 @@ class RecallAndLocked extends PureComponent {
         selectedRows: [],
         display: 'none',
         query: {},
+        supplierList:[]
     }
+    getList=(data)=>{
+        this.setState({data:data})
+        console.log(data)
+    }
+    //供应商list
+    componentDidMount = () =>{
+        this.props.dispatch({
+            type: 'base/genSupplierList',
+            callback: ({data, code, msg}) => {
+                if(code === 200) {
+                    this.setState({
+                        supplierList: data
+                    });
+                }
+            }
+        });
+    }
+
     handlQuery = (query) => {
         this.setState({query});
     }
 
+    delete = () =>{
+        let { selectedRows, query } = this.state;
+        if (selectedRows.length === 0) {
+            return message.warn('请选择一条数据');
+        };
+        selectedRows = selectedRows.map(item => item.id);
+        this.setState({ loading: true });
+        this.props.dispatch({
+            type: 'supplierFactor/deleteSupplierFactor',
+            payload: { ids: selectedRows },
+            callback: () =>{
+                message.success('删除成功');
+                this.setState({ loading: false });
+                this.refs.table.fetch(query);
+            }
+        })
+
+    }
     _tableChange = values => {
         this.props.dispatch({
             type:'base/setQueryConditions',
             payload: values
         });
     }
-
-    export = () => {
-        console.log(this.props.base.queryConditons)
-        return;
+    saveFactior=values=>{
+        this.setState({ loading: true });
+        let { query } = this.state;
+        this.setState({ loading: true });
         this.props.dispatch({
-            type: 'statistics/medicineStandingExport',
-            payload: {
-                ...this.state.query
+            type:'supplierFactor/saveSupplierFactor',
+            payload: values,
+            callback: ({data, code, msg}) => {
+                if(data === 1) {
+                    message.success('保存成功');
+                    this.setState({ loading: false });
+                    this.refs.table.fetch(query);
+                }
             }
-        });
+        })
     }
 
 
@@ -208,31 +214,10 @@ class RecallAndLocked extends PureComponent {
                 width: 200
             },
             {
-                title: '药品名称',
-                width:350,
-                dataIndex: 'goodsName',
-            },
-            {
-                title: '生产厂家',
-                width: 200,
-                dataIndex: 'producerName',
-            },
-            {
-                title: '批准文号',
-                width: 120,
-                dataIndex: 'registKey',
-                className: 'ellipsis',
-                render:(text)=>(
-                    <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
-                )
-            },
-            {
                 title: '资质类型',
-                width:140,
+                width:126,
                 dataIndex: 'type',
                 className:'typecolor',
-                render: (text, record) =>
-                    <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
             },
             {
                 title: '发证日期',
@@ -245,7 +230,7 @@ class RecallAndLocked extends PureComponent {
             },
             {
                 title: '有效期至',
-                width: 118,
+                width: 100,
                 dataIndex: 'validEndDate',
                 render: (text) =>
                     <Tooltip>
@@ -253,16 +238,22 @@ class RecallAndLocked extends PureComponent {
                     </Tooltip>
             },
             {
+                title: '证照编号',
+                width: 120,
+                dataIndex: 'licCode',
+            },
+            {
+                title: '维护日期',
+                width: 188,
+                dataIndex: 'createDate'
+            },
+            {
                 title: '预览',
                 width: 90,
                 dataIndex: 'pictcontents',
-                render: (text, record) =>{
-                    return record.pictcontents? <Preview record={record.pictcontents}>
-                        <Icon type="picture" />
-                    </Preview>:'暂未上传'
-                }
 
-            }
+
+            },
         ];
 
 
@@ -270,18 +261,30 @@ class RecallAndLocked extends PureComponent {
         return (
             <div className='ysynet-main-content factor-content'>
                 <SearchFormWarp
-                    formProps={{...this.props}} _handlQuery={this.handlQuery}
+                    formProps={{...this.props}} _handlQuery={this.handlQuery} supplierList={this.state.supplierList}
                 />
+                <div>
+
+                    <Button style={{ margin:'0  8px'}} onClick={this.delete} loading={loading}>移除</Button>
+
+                </div>
                 <RemoteTable
                     onChange={this._tableChange}
                     ref='table'
                     query={query}
                     bordered
-                    url={supplierFactor.DRUG_LIST}
+                    url={supplierFactor.SUPPLIER_LIST}
                     columns={columns}
                     rowKey={'id'}
                     scroll={{ x: '100%' }}
                     style={{marginTop: 20}}
+                    rowSelection={{
+                        selectedRowKeys: this.state.selected,
+                        onChange: (selectedRowKeys, selectedRows) => {
+                            this.setState({selected: selectedRowKeys, selectedRows: selectedRows})
+                        }
+
+                    }}
                 />
 
             </div>
