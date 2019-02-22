@@ -146,6 +146,20 @@ class SearchFormWrapper extends PureComponent {
                 )}
             </FormItem>
           </Col>
+          {/* <Col span={8}>
+            <FormItem label={`发药时间`} {...formItemLayout}>
+                {getFieldDecorator('parameter', {})(
+                  <Input placeholder="输入发药时间"/>
+                )}
+            </FormItem>
+          </Col>
+          <Col span={8}>
+            <FormItem label={`药品名称`} {...formItemLayout}>
+                {getFieldDecorator('parameter', {})(
+                  <Input placeholder="输入药品名称"/>
+                )}
+            </FormItem>
+          </Col> */}
           <Col span={8} style={{float:'right', textAlign: 'right', marginTop: 4}} >
             <Button type="primary" htmlType="submit">查询</Button>
             <Button style={{marginLeft: 8}} onClick={this.handleReset}>重置</Button>

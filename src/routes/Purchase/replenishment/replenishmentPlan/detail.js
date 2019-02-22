@@ -104,7 +104,7 @@ class ReplenishmentDetail extends PureComponent{
   }
   componentWillMount = () =>{
     const { dispatch } = this.props;
-    console.log('123',this.props.match.params)
+    console.log('123',this.props)
     dispatch({
       type: 'base/getModule',
       payload: { deptType : '3' },
@@ -365,12 +365,13 @@ class ReplenishmentDetail extends PureComponent{
                   value={this.state.value}
                   style={{ width: '100%' }}
                   placeholder='药品名称'
+                  //url={replenishmentPlan.QUERY_DRUG_BY_LISTXG+'?'+'depotplanID='+this.props.match.params.planCode+'&'+'drugCommonName='+this.state.value}
                   url={replenishmentPlan.QUERY_DRUG_BY_LIST}
                   cb={(value, option) => {
                     let {query} = this.state;
                     query = {
                       ...query,
-                      hisDrugCodeList: value ? [value] : []
+                      hisDrugCodeList: value ? [value] : [],
                     };
                     this.setState({
                       query,
@@ -382,10 +383,10 @@ class ReplenishmentDetail extends PureComponent{
             </Row>
             <div className='detailCard'>
               <RemoteTable
-                title={()=>'产品信息'}
+                title={()=>'查询产品信息'}
                 scroll={{x: '100%'}}
                 query={query}
-                // url={'/medicinal-web/a/depot/depotplan/detail?planCode='+this.props.match.params.planCode}
+                //url={'/medicinal-web/a/depot/depotplan/detailXG?planCode='+this.props.match.params.planCode}
                 url={replenishmentPlan.QUERYDRUGBYDEPT}
                 isJson={true}
                 ref="table"

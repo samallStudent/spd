@@ -8,21 +8,103 @@
   @file  药库 - 入库--配送单验收-详情
 */
 import React, { PureComponent } from 'react';
-import {Row, Col, Tooltip, Input, InputNumber, DatePicker, Button, Tabs, message} from 'antd';
+import {Row, Col, Tooltip, Input, InputNumber, DatePicker, Button, Tabs, message,} from 'antd';
 import {connect} from 'dva';
 import moment from 'moment';
-import wareHouse from '../../../../api/drugStorage/wareHouse';
+import { replenishmentPlan } from '../../../../api/replenishment/replenishmentPlan';
 import RemoteTable from '../../../../components/TableGrid';
+import FetchSelect from '../../../../components/FetchSelect/index';
+import wareHouse from '../../../../api/drugStorage/wareHouse';
 import querystring from 'querystring';
 import {difference} from 'lodash';
 
 const TabPane = Tabs.TabPane;
+
+const columns = [
+  {
+    title: '药品名称',
+    width:350,
+    dataIndex: 'ctmmTradeName',
+    className: 'ellipsis',
+    render:(text)=>(
+      <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+    )
+  },
+  {
+    title: '剂型',
+    width: 90,
+    dataIndex: 'ctmmDosageFormDesc'
+  },
+  {
+    title: '包装规格',
+    width: 148,
+    dataIndex: 'packageSpecification'
+  },
+  {
+    title: '单位',
+    width: 90,
+    dataIndex: 'replanUnit'
+  },
+  {
+    title: '需求数量',
+    dataIndex: 'demandQuantity',
+    width: 90
+  },
+  {
+    title: '生产厂家',
+    width: 200,
+    dataIndex: 'ctmmManufacturerName',
+    className:'ellipsis',
+    render:(text)=>(
+      <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+    )
+  },
+  {
+    title: '供应商',
+    width: 200,
+    dataIndex: 'supplierName',
+    className: 'ellipsis',
+    render:(text)=>(
+        <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+    )
+  },
+  {
+    title: '价格',
+    dataIndex: 'price',
+    width: 100
+  },
+  {
+    title: '金额',
+    dataIndex: 'amount',
+    width: 100,
+    render: (text, record) => (record.price * record.demandQuantity).toFixed(4)
+  },
+  {
+    title: '批准文号',
+    width: 200,
+    dataIndex: 'approvalNo'
+  },
+    {
+        title: '药品编码',
+        dataIndex: 'hisDrugCode',
+        width: 200,
+    },
+];
 
 class PslistCheck extends PureComponent{
   constructor(props) {
     super(props);
     let info = querystring.parse(this.props.match.params.id);
     this.state = {
+      query: {
+        medDrugType: '1',
+        purchaseType: 1,
+        planCode:"PA190220000003",
+        deptCode:"24C69445D19C4625960DA3F1E58A6A1F"
+      },
+      deptModules: [],// 补货部门
+      visible: false,
+      loading: false,
       selected: [],
       selectedRows: [],
       expandedRowKeys: [],
@@ -44,6 +126,66 @@ class PslistCheck extends PureComponent{
   }
   componentDidMount = () => {
     this.queryDetail();
+    if(this.props.match.path === "/purchase/replenishment/replenishmentPlan/edit/:planCode") {
+      let { planCode } = this.props.match.params;
+      this.setState({loading: true})
+      this.props.dispatch({
+        type:'base/ReplenishDetails',
+        payload: { planCode },
+        callback:({data, code, msg})=>{
+          if(code === 200) {
+            let deptCode;
+            let {deptModules, query} = this.state;
+            deptModules.map(item=>{
+              if(data.deptCode === item.id) {
+                deptCode = item.id
+              };
+              return item;
+            });
+            console.log(2)
+            let existDrugCodeList = data.list.map(item => item.drugCode);
+            this.setState({ 
+              info: data, 
+              isEdit: true, 
+              dataSource: data.list,
+              loading: false,
+              query: {
+                ...query,
+                deptCode,
+                existDrugCodeList
+              },
+              spinLoading: false
+            });
+          }else {
+            message.error(msg);
+          };
+        }
+      });
+    }else {
+      this.setState({spinLoading: false})
+    }
+  }
+  showModalLogic = (addDrugType) => {
+    let {query, dataSource} = this.state;
+    if(!query.deptCode) {
+      message.warning('请选择部门');
+      return;
+    };
+    let existDrugCodeList = dataSource.map((item) => item.drugCode);
+    this.setState({ 
+      visible: true,
+      addDrugType: 1,
+      modalSelected: [],
+      modalSelectedRows: [],
+      query: {
+        ...query,
+        id:1,
+        existDrugCodeList,
+        hisDrugCodeList: [],
+        filterThreeMonthFlag: false
+      },
+      value: undefined
+    });
   }
   //增加批号
   addBatch = (record, i) => {
@@ -400,6 +542,10 @@ class PslistCheck extends PureComponent{
   }
   render(){
     let {
+      detailsData, 
+      submitLoading,
+      query,  
+      modalLoading,
       loading, 
       defaultActiveKey, 
       expandedRowKeys, 
@@ -827,6 +973,44 @@ class PslistCheck extends PureComponent{
             </Col>
           </Row>
         </div>
+        <Row style={{display: 'flex', alignItems: 'center'}}>
+              <Col span={12} style={{ marginLeft: 4 }}>
+                <FetchSelect
+                  allowClear
+                  value={this.state.value}
+                  style={{ width: '100%' }}
+                  placeholder='药品名称'
+                  url={replenishmentPlan.QUERY_DRUG_BY_LIST}
+                  cb={(value, option) => {
+                    let {query} = this.state;
+                    query = {
+                      ...query,
+                      hisDrugCodeList: value ? [value] : []
+                    };
+                    this.setState({
+                      query,
+                      value
+                    });
+                  }}
+                />
+              </Col>
+            </Row>
+            <div className='detailCard'>
+              <RemoteTable
+                title={()=>'查询产品信息'}
+                scroll={{x: '100%'}}
+                query={query}
+                //url={'/medicinal-web/a/depot/depotplan/detailXG?planCode='+this.props.match.params.planCode}
+                url={replenishmentPlan.QUERYDRUGBYDEPT}
+                isJson={true}
+                ref="table"
+                modalLoading={modalLoading}
+                columns={columns}
+                scroll={{ x: '100%' }}
+                rowKey='drugCode'
+                pagination={false}
+              />
+            </div>
         <div className='detailCard'>
           <Tabs 
             activeKey={defaultActiveKey} 
