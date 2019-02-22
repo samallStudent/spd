@@ -19,25 +19,25 @@ import {connect} from 'dva';
 const { Option } = Select;
 
 const props = {
-  name:'file',
+  data:{
+    file:'123',
+    addDrugType:'456',
+    deptCode:'999'
+  },
   action: "http://localhost:3000/medicinal-web/a/depot/depotplan/importXG",
+  headers: {
+    authorization: 'authorization-text',
+  },
   onChange(info) {
     if (info.file.status !== 'uploading') {
-      console.log('123123',info.file);
+      console.log('1111',info.file, info.fileList);
     }
     if (info.file.status === 'done') {
-      const { dispatch } = this.data;
-      dispatch({
-        type: 'base/addDrug',
-        payload: { deptType : '3' },
-        callback: (data) =>{
-          this.setState({ deptModules: data })
-        }
-      });
+      message.success(`${info.file.name} file uploaded successfully`);
     } else if (info.file.status === 'error') {
-      message.error(`${info.file.name} file upload failed.`)
+      message.error(`${info.file.name} file upload failed.`);
     }
-  },
+  }
 }
 
 class NewAdd extends PureComponent {
@@ -147,14 +147,18 @@ class NewAdd extends PureComponent {
       }
     })
   }
+  
   showModal = () => {
     this.showModalLogic(1);
   }
   autoShowModal = () => {
     this.showModalLogic(2);
   }
+  
   ExcelShowModal = (e) => {
+    
     let {query} = this.state;
+    console.log('8888',this.state.query.deptCode)
     if(!query.deptCode) {
       message.warning('请选择部门');
       e.stopPropagation();

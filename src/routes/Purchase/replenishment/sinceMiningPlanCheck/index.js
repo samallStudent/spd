@@ -220,7 +220,7 @@ class PlanCheck extends PureComponent{
         width: 258,
         render: (text,record) =>{
           return <span>
-             <Badge count={record.depotPlanDetailItemsCount} overflowCount={999} style={{right:'-27px',zIndex:'0'}}>
+             <Badge count={record.depotPlanDetailItemsCount} overflowCount={999} style={{right:'-27px',zIndex:'0'}} showZero>
             <Link to={{pathname: `/purchase/replenishment/sinceMiningPlanCheck/detail/${record.planCode}/${record.auditStatus}`}}>{text}</Link>
             </Badge>
           </span>  

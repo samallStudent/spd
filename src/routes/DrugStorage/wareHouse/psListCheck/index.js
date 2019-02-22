@@ -35,7 +35,7 @@ const columns = [
    width: 154,
    render: (text,record) =>{
      return <span>
-        <Badge count={record.checkAcceptDetailsItemsCount} overflowCount={999} style={{right:'-27px',zIndex:'0'}}>
+        <Badge count={record.checkAcceptDetailsItemsCount} overflowCount={999} style={{right:'-27px',zIndex:'0'}} showZero>
        {
          record.type === 100 || 
          record.type === 102 || 

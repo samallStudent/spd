@@ -5,12 +5,13 @@
  */
 
 import React, { PureComponent } from 'react';
-import { Form, Row, Col, Button, Input } from 'antd';
+import { Form, Row, Col, Button, Input,DatePicker } from 'antd';
 import RetomeTable from '../../../../components/TableGrid';
 import outStorage from '../../../../api/pharmacy/outStorage';
 import { Link } from 'react-router-dom';
 import { formItemLayout } from '../../../../utils/commonStyles';
 import {connect} from 'dva';
+const RangePicker = DatePicker.RangePicker;
 const FormItem = Form.Item;
 const columns = [
   {
@@ -108,6 +109,14 @@ class SearchFormWrapper extends PureComponent {
   handleSearch = (e) => {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
+      let time = values.time ? values.time : '';
+      if(time.length > 0) {
+        values.startTime = time[0].format('YYYY-MM-DD');
+        values.endTime = time[1].format('YYYY-MM-DD');
+      }else {
+        values.startTime = '';
+        values.endTime = '';
+      };
       this.props.formProps.dispatch({
         type:'base/updateConditions',
         payload: values
@@ -146,20 +155,13 @@ class SearchFormWrapper extends PureComponent {
                 )}
             </FormItem>
           </Col>
-          {/* <Col span={8}>
-            <FormItem label={`发药时间`} {...formItemLayout}>
-                {getFieldDecorator('parameter', {})(
-                  <Input placeholder="输入发药时间"/>
-                )}
+          <Col span={8}>
+            <FormItem label={`出库时间`} {...formItemLayout}>
+              {getFieldDecorator('time', {})(
+                <RangePicker/>
+              )}
             </FormItem>
           </Col>
-          <Col span={8}>
-            <FormItem label={`药品名称`} {...formItemLayout}>
-                {getFieldDecorator('parameter', {})(
-                  <Input placeholder="输入药品名称"/>
-                )}
-            </FormItem>
-          </Col> */}
           <Col span={8} style={{float:'right', textAlign: 'right', marginTop: 4}} >
             <Button type="primary" htmlType="submit">查询</Button>
             <Button style={{marginLeft: 8}} onClick={this.handleReset}>重置</Button>
