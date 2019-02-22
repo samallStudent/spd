@@ -399,7 +399,7 @@ class ReplenishmentDetail extends PureComponent{
                 pagination={false}
               />
             </div>
-        <div className='detailCard'>
+        <div className='detailCard' style={{display:'none'}}>
           <Table
             title={()=>'产品信息'}
             scroll={{x: '100%'}}

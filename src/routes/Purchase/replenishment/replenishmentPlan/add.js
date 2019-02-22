@@ -20,9 +20,9 @@ const { Option } = Select;
 
 const props = {
   data:{
-    file:'123',
-    addDrugType:'456',
-    deptCode:'999'
+    file:'补货计划',
+    addDrugType:'1',
+    deptCode:'24C69445D19C4625960DA3F1E58A6A1F'
   },
   action: "http://localhost:3000/medicinal-web/a/depot/depotplan/importXG",
   headers: {
@@ -34,6 +34,9 @@ const props = {
     }
     if (info.file.status === 'done') {
       message.success(`${info.file.name} file uploaded successfully`);
+      let dataSource = info.file.response.data;
+      console.log('000',dataSource)
+
     } else if (info.file.status === 'error') {
       message.error(`${info.file.name} file upload failed.`);
     }
@@ -156,14 +159,12 @@ class NewAdd extends PureComponent {
   }
   
   ExcelShowModal = (e) => {
-    
-    let {query} = this.state;
-    console.log('8888',this.state.query.deptCode)
+    let {query,dataSource, addDrugType} = this.state;
     if(!query.deptCode) {
       message.warning('请选择部门');
       e.stopPropagation();
       return;
-    };
+    };  
   }
   showModalLogic = (addDrugType) => {
     let {query, dataSource} = this.state;
