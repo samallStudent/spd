@@ -1519,7 +1519,7 @@ export const getNavData = app => [
           name: "接口监控",
           icon: 'setting',
           path: '/sys/menu/interfacelog',
-          component: dynamicWrapper(app, ['drugStorage/supplierFactor'], () => import('../routes/SystemMgt/interfacelog')),
+          component: dynamicWrapper(app, ['systemMgt/interfacelog'], () => import('../routes/SystemMgt/interfacelog')),
       },
      /* ********************   采购结算 子系统    ******************************* */
     {

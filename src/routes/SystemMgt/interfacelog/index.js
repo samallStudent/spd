@@ -1,30 +1,90 @@
+/**
+ * @author QER
+ * @date 19/2/22
+ * @Description: 接口监控
+*/
 import React, { PureComponent } from 'react';
-import { Form, Row, Col, DatePicker, Input, Select, Button, Icon, message, Tooltip,Modal } from 'antd';
+import { Form, Row, Col, DatePicker, Input, Select, Button, Icon, message, Tooltip,Modal,Card,Tag} from 'antd';
 import { Link } from 'react-router-dom';
 import { formItemLayout } from '../../../utils/commonStyles';
 import RemoteTable from '../../../components/TableGrid';
 import { supplierFactor } from '../../../api/drugStorage/supplierFactor';
+
 import { connect } from 'dva';
 import moment from 'moment';
 const FormItem = Form.Item;
+const {RangePicker} = DatePicker;
 const { Option } = Select;
 
 class SearchForm extends PureComponent {
     state = {
-        supplierList: [],
+        methodType: [],
+        methodList: [],
         factorList: [
             {value: "", label: "全部"},
             {value: "1", label: "营业执照"},
             {value: "2", label: "药品经营许可证"},
             {value: "3", label: "业务员授权书"}
         ],
-        periodList:[
-            {value: "30", label: "30天"},
-            {value: "60", label: "60天"},
-            {value: "90", label: "90天"},
-            {value: "180", label: "180天"}
-        ]
+        resultCode:[
+            {value: "", label: "全部"},
+            {value: "0", label: "成功"},
+            {value: "1", label: "失败"}
+        ],
+        cities:'',
+        secondCity:''
     }
+
+    handleProvinceChange = (value) => {
+        console.log(value)
+        this.setState({
+            cities: this.state.methodList[value].logTypeExplain,
+            secondCity:this.state.methodList[value][0].logTypeExplain,
+        });
+    }
+
+    onSecondCityChange = (value) => {
+        this.setState({
+            secondCity: value,
+        });
+    }
+
+    componentDidMount = () =>{
+        const {methodType,methodList}=this.state
+        //分类list
+        this.props.formProps.dispatch({
+            type: 'interfacelog/getAllMethodType',
+            callback: ({data, code, msg}) => {
+                if(code === 200) {
+                    this.setState({
+                        methodType: data
+                    });
+                }
+            }
+        });
+        //接口list
+        this.props.formProps.dispatch({
+            type: 'interfacelog/getRequestMethods',
+            callback: ({data, code, msg}) => {
+                if(code === 200) {
+                    this.setState({
+                        methodList: data
+                    });
+                }
+                if (methodType&&methodList){
+                    this.setState({
+                        cities: methodList[methodList[0].logTypeExplain],
+                        secondCity: methodList[methodList[0]][0].logTypeExplain,
+                    });
+                }
+            }
+        });
+
+
+
+
+    }
+
     toggle = () => {
         this.props.formProps.dispatch({
             type:'base/setShowHide'
@@ -35,6 +95,14 @@ class SearchForm extends PureComponent {
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
             if (!err) {
+                const closeDate = values.closeDate === undefined ? '' : values.closeDate;
+                if (closeDate.length > 0) {
+                    values.startTime = closeDate[0].format('YYYY-MM-DD');
+                    values.endTime = closeDate[1].format('YYYY-MM-DD');
+                }else {
+                    values.startTime = '';
+                    values.endTime = '';
+                };
                 this.props.formProps.dispatch({
                     type:'base/updateConditions',
                     payload: values
@@ -53,18 +121,19 @@ class SearchForm extends PureComponent {
         const { getFieldDecorator } = this.props.form;
         const {display} = this.props.formProps.base;
         const {supplierList}=this.props
-        const {factorList,periodList } = this.state;
+        const {methodList,resultCode ,methodType} = this.state;
         return (
             <Form onSubmit={this.handleSearch}>
                 <Row gutter={30}>
                     <Col span={8}>
-                        <FormItem label={'供应商'} {...formItemLayout}>
+                        <FormItem label={'分类'} {...formItemLayout}>
 
 
                             {getFieldDecorator('supplierCode', {
                                 initialValue: ''
                             })(
                                 <Select
+                                    onChange={this.handleProvinceChange}
                                     showSearch
                                     placeholder="请选择"
                                     optionFilterProp="children"
@@ -72,8 +141,8 @@ class SearchForm extends PureComponent {
                                 >
                                     <Option key={''} value={''}>全部</Option>
                                     {
-                                        supplierList.map(item => (
-                                            <Option key={item.ctmaSupplierCode} value={item.ctmaSupplierCode}>{item.ctmaSupplierName}</Option>
+                                        methodType.map(item => (
+                                            <Option key={item.logType}>{item.logTypeExplain}</Option>
                                         ))
                                     }
                                 </Select>
@@ -82,26 +151,28 @@ class SearchForm extends PureComponent {
                         </FormItem>
                     </Col>
                     <Col span={8}>
-                        <FormItem label={'资质类型'} {...formItemLayout}>
+                        <FormItem label={'接口'} {...formItemLayout}>
                             {getFieldDecorator('licType', {
                                 initialValue: ''
                             })(
                                 <Select
+                                    value={this.state.secondCity}
+                                    onChange={this.onSecondCityChange}
                                     showSearch
                                     placeholder={'请选择'}
                                     optionFilterProp="children"
                                     filterOption={(input, option) => option.props.children.indexOf(input) >= 0}
                                 >
                                     {
-                                        factorList.map((item,index)=> <Option key={index} value={item.value}>{item.label}</Option>)
+                                        this.state.cities?this.state.cities.map(city => <Option key={city}>{city}</Option>):''
                                     }
                                 </Select>
                             )}
                         </FormItem>
                     </Col>
                     <Col span={8}>
-                        <FormItem label={'临效期'} {...formItemLayout}>
-                            {getFieldDecorator('expiryDate', {
+                        <FormItem label={'状态'} {...formItemLayout}>
+                            {getFieldDecorator('resultCode', {
                                 initialValue: ''
                             })(
                                 <Select
@@ -110,14 +181,31 @@ class SearchForm extends PureComponent {
                                     optionFilterProp="children"
                                     filterOption={(input, option) => option.props.children.indexOf(input) >= 0}
                                 >
-                                    <Option key={''} value={''}>全部</Option>
                                     {
-                                        periodList.map((item,index)=> <Option key={index} value={item.value}>{item.label}</Option>)
+                                        resultCode.map((item,index)=> <Option key={index} value={item.value}>{item.label}</Option>)
                                     }
                                 </Select>
                             )}
                         </FormItem>
                     </Col>
+                    <Col span={8}>
+                        <FormItem label={'时间'} {...formItemLayout}>
+                            {
+                                getFieldDecorator(`closeDate`)(
+                                    <RangePicker/>
+                                )
+                            }
+                        </FormItem>
+                    </Col>
+                    <Col span={8}>
+                        <FormItem {...formItemLayout} label={`关键字`}>
+                            {
+                                getFieldDecorator(`requestParam`)(
+                                    <Input placeholder='请输入关键字' />
+                                )
+                            }
+                        </FormItem>
+                </Col>
                     <Col span={8} style={{float: 'right', textAlign: 'right', marginTop: 4 }}>
                         <Button type="primary" htmlType="submit">查询</Button>
                         <Button style={{ marginLeft: 8 }} onClick={this.handleReset}>重置</Button>
@@ -134,8 +222,6 @@ class RecallAndLocked extends PureComponent {
     state = {
         loading: false,
         visible: false,
-        selected: [],
-        selectedRows: [],
         display: 'none',
         query: {},
         supplierList:[]
@@ -144,19 +230,7 @@ class RecallAndLocked extends PureComponent {
         this.setState({data:data})
         console.log(data)
     }
-    //供应商list
-    componentDidMount = () =>{
-        this.props.dispatch({
-            type: 'base/genSupplierList',
-            callback: ({data, code, msg}) => {
-                if(code === 200) {
-                    this.setState({
-                        supplierList: data
-                    });
-                }
-            }
-        });
-    }
+
 
     handlQuery = (query) => {
         this.setState({query});
@@ -207,20 +281,25 @@ class RecallAndLocked extends PureComponent {
     render() {
         const { loading,query } = this.state;
 
+        const gridStyle = {
+            width: '20%',
+
+
+        };
+
         const columns = [
             {
-                title: '供应商',
+                title: '接口名称',
                 dataIndex: 'ctmaSupplierName',
                 width: 200
             },
             {
-                title: '资质类型',
-                width:126,
-                dataIndex: 'type',
-                className:'typecolor',
+                title: '状态',
+                width:90,
+                dataIndex: 'resultCode'
             },
             {
-                title: '发证日期',
+                title: '是否处理',
                 width: 118,
                 dataIndex: 'productTime',
                 render: (text) =>
@@ -229,45 +308,43 @@ class RecallAndLocked extends PureComponent {
                     </Tooltip>
             },
             {
-                title: '有效期至',
+                title: '请求时间',
                 width: 100,
-                dataIndex: 'validEndDate',
+                dataIndex: 'requestTime',
                 render: (text) =>
                     <Tooltip>
                         {moment(text).format('YYYY-MM-DD')}
                     </Tooltip>
             },
             {
-                title: '证照编号',
+                title: '参数',
                 width: 120,
-                dataIndex: 'licCode',
+                dataIndex: 'requestParam',
             },
             {
-                title: '维护日期',
+                title: '返回结果',
                 width: 188,
                 dataIndex: 'createDate'
             },
             {
-                title: '预览',
-                width: 90,
-                dataIndex: 'pictcontents',
-
-
+                title: '返回结果',
+                width: 188,
+                dataIndex: 'oo'
             },
         ];
-
-
 
         return (
             <div className='ysynet-main-content factor-content'>
                 <SearchFormWarp
-                    formProps={{...this.props}} _handlQuery={this.handlQuery} supplierList={this.state.supplierList}
+                    formProps={{...this.props}} _handlQuery={this.handlQuery}
                 />
-                <div>
+                <Card title="今日调用汇总">
+                    <Card.Grid style={gridStyle}>
+                        <label className='inter-label'>HIS接口：</label><Tag color="orange">0次</Tag><br/>
+                        <label className='inter-label'>失败：</label><Tag color="red" style={{marginTop:'8px'}}>10次</Tag>
+                    </Card.Grid>
 
-                    <Button style={{ margin:'0  8px'}} onClick={this.delete} loading={loading}>移除</Button>
-
-                </div>
+                </Card>
                 <RemoteTable
                     onChange={this._tableChange}
                     ref='table'
@@ -278,13 +355,7 @@ class RecallAndLocked extends PureComponent {
                     rowKey={'id'}
                     scroll={{ x: '100%' }}
                     style={{marginTop: 20}}
-                    rowSelection={{
-                        selectedRowKeys: this.state.selected,
-                        onChange: (selectedRowKeys, selectedRows) => {
-                            this.setState({selected: selectedRowKeys, selectedRows: selectedRows})
-                        }
 
-                    }}
                 />
 
             </div>
