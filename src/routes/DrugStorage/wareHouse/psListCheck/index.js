@@ -32,7 +32,7 @@ const columns = [
   {
    title: '配送单/验收单',
    dataIndex: 'distributeCode',
-   width: 154,
+   width: 248,
    render: (text,record) =>{
      return <span>
         <Badge count={record.checkAcceptDetailsItemsCount} overflowCount={999} style={{right:'-27px',zIndex:'0'}} showZero>

@@ -34,8 +34,9 @@ const props = {
     }
     if (info.file.status === 'done') {
       message.success(`${info.file.name} file uploaded successfully`);
-      let dataSource = info.file.response.data;
-      console.log('000',dataSource)
+
+      let data = info.file.response.data;
+      console.log('000',data)
 
     } else if (info.file.status === 'error') {
       message.error(`${info.file.name} file upload failed.`);
@@ -107,6 +108,7 @@ class NewAdd extends PureComponent {
               },
               spinLoading: false
             });
+            console.log('选中药品',this.data)
           }else {
             message.error(msg);
           };

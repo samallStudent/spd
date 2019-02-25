@@ -386,7 +386,6 @@ class ReplenishmentDetail extends PureComponent{
                 title={()=>'查询产品信息'}
                 scroll={{x: '100%'}}
                 query={query}
-                //url={'/medicinal-web/a/depot/depotplan/detailXG?planCode='+this.props.match.params.planCode}
                 url={replenishmentPlan.QUERYDRUGBYDEPT}
                 isJson={true}
                 ref="table"

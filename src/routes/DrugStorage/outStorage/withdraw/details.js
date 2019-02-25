@@ -7,6 +7,9 @@ import React, { PureComponent } from 'react';
 import { Table, Row, Col, Button, Tooltip, message} from 'antd';
 import {connect} from 'dva';
 import querystring from 'querystring';
+import RemoteTable from '../../../../components/TableGrid';
+import FetchSelect from '../../../../components/FetchSelect/index';
+import { replenishmentPlan } from '../../../../api/replenishment/replenishmentPlan';
 const columns = [
  /* {
     title: '通用名',
@@ -108,11 +111,79 @@ class DetailsOutput extends PureComponent{
       id: info.id,
       status: null,
       successLoading: false,
-      failLoading: false
+      failLoading: false,
+      query: {
+        medDrugType: '1',
+        purchaseType: 1,
+        planCode:"PA190220000003",
+        deptCode:"24C69445D19C4625960DA3F1E58A6A1F"
+      },
+      deptModules: [],// 补货部门
+      visible: false,
     }
   }
   componentDidMount() {
     this.getDatail();
+    if(this.props.match.path === "/purchase/replenishment/replenishmentPlan/edit/:planCode") {
+      let { planCode } = this.props.match.params;
+      this.setState({loading: true})
+      this.props.dispatch({
+        type:'base/ReplenishDetails',
+        payload: { planCode },
+        callback:({data, code, msg})=>{
+          if(code === 200) {
+            let deptCode;
+            let {deptModules, query} = this.state;
+            deptModules.map(item=>{
+              if(data.deptCode === item.id) {
+                deptCode = item.id
+              };
+              return item;
+            });
+            console.log(2)
+            let existDrugCodeList = data.list.map(item => item.drugCode);
+            this.setState({ 
+              info: data, 
+              isEdit: true, 
+              dataSource: data.list,
+              loading: false,
+              query: {
+                ...query,
+                deptCode,
+                existDrugCodeList
+              },
+              spinLoading: false
+            });
+          }else {
+            message.error(msg);
+          };
+        }
+      });
+    }else {
+      this.setState({spinLoading: false})
+    }
+  }
+  showModalLogic = (addDrugType) => {
+    let {query, dataSource} = this.state;
+    if(!query.deptCode) {
+      message.warning('请选择部门');
+      return;
+    };
+    let existDrugCodeList = dataSource.map((item) => item.drugCode);
+    this.setState({ 
+      visible: true,
+      addDrugType: 1,
+      modalSelected: [],
+      modalSelectedRows: [],
+      query: {
+        ...query,
+        id:1,
+        existDrugCodeList,
+        hisDrugCodeList: [],
+        filterThreeMonthFlag: false
+      },
+      value: undefined
+    });
   }
   //不通过
   onBan = () =>{
@@ -189,7 +260,7 @@ class DetailsOutput extends PureComponent{
   }
 
   render(){
-    let {info, loading, status, successLoading, failLoading} = this.state;
+    let {info, loading, status, successLoading, failLoading,query,modalLoading} = this.state;
     let {detailVo} = info;
     return (
       <div className='fullCol fadeIn'>
@@ -296,7 +367,45 @@ class DetailsOutput extends PureComponent{
             </Col>
           </Row>
         </div>
-        <div className="detailCard">
+        <Row style={{display: 'flex', alignItems: 'center'}}>
+              <Col span={12} style={{ marginLeft: 4 }}>
+                <FetchSelect
+                  allowClear
+                  value={this.state.value}
+                  style={{ width: '100%' }}
+                  placeholder='药品名称'
+                  //url={replenishmentPlan.QUERY_DRUG_BY_LISTXG+'?'+'depotplanID='+this.props.match.params.planCode+'&'+'drugCommonName='+this.state.value}
+                  url={replenishmentPlan.QUERY_DRUG_BY_LIST}
+                  cb={(value, option) => {
+                    let {query} = this.state;
+                    query = {
+                      ...query,
+                      hisDrugCodeList: value ? [value] : [],
+                    };
+                    this.setState({
+                      query,
+                      value
+                    });
+                  }}
+                />
+              </Col>
+            </Row>
+            <div className='detailCard'>
+              <RemoteTable
+                title={()=>'查询产品信息'}
+                scroll={{x: '100%'}}
+                query={query}
+                url={replenishmentPlan.QUERYDRUGBYDEPT}
+                isJson={true}
+                ref="table"
+                modalLoading={modalLoading}
+                columns={columns}
+                scroll={{ x: '100%' }}
+                rowKey='drugCode'
+                pagination={false}
+              />
+            </div>
+        <div className="detailCard" style={{display:'none'}}>
           <Table
             bordered
             loading={loading}
