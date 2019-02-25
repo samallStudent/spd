@@ -8,7 +8,7 @@ import { Form, Row, Col, DatePicker, Input, Select, Button, Icon, message, Toolt
 import { Link } from 'react-router-dom';
 import { formItemLayout } from '../../../utils/commonStyles';
 import RemoteTable from '../../../components/TableGrid';
-import { supplierFactor } from '../../../api/drugStorage/supplierFactor';
+import { systemMgt } from '../../../api/systemMgt';
 
 import { connect } from 'dva';
 import moment from 'moment';
@@ -29,7 +29,7 @@ class SearchForm extends PureComponent {
         resultCode:[
             {value: "", label: "全部"},
             {value: "0", label: "成功"},
-            {value: "1", label: "失败"}
+            {value: "-1", label: "失败"}
         ],
         cities:'',
         secondCity:''
@@ -37,10 +37,18 @@ class SearchForm extends PureComponent {
 
     handleProvinceChange = (value) => {
         console.log(value)
-        this.setState({
-            cities: this.state.methodList[value].logTypeExplain,
-            secondCity:this.state.methodList[value][0].logTypeExplain,
+        this.props.formProps.dispatch({
+            type: 'interfacelog/getRequestMethods',
+            payload: {logType:value},
+            callback: ({data, code, msg}) => {
+                if(code === 200) {
+                    this.setState({
+                        methodList: data
+                    });
+                }
+            }
         });
+
     }
 
     onSecondCityChange = (value) => {
@@ -69,12 +77,6 @@ class SearchForm extends PureComponent {
                 if(code === 200) {
                     this.setState({
                         methodList: data
-                    });
-                }
-                if (methodType&&methodList){
-                    this.setState({
-                        cities: methodList[methodList[0].logTypeExplain],
-                        secondCity: methodList[methodList[0]][0].logTypeExplain,
                     });
                 }
             }
@@ -129,7 +131,7 @@ class SearchForm extends PureComponent {
                         <FormItem label={'分类'} {...formItemLayout}>
 
 
-                            {getFieldDecorator('supplierCode', {
+                            {getFieldDecorator('requestType', {
                                 initialValue: ''
                             })(
                                 <Select
@@ -142,7 +144,7 @@ class SearchForm extends PureComponent {
                                     <Option key={''} value={''}>全部</Option>
                                     {
                                         methodType.map(item => (
-                                            <Option key={item.logType}>{item.logTypeExplain}</Option>
+                                            <Option key={item.logType}  value={item.logType}>{item.logTypeExplain}</Option>
                                         ))
                                     }
                                 </Select>
@@ -150,9 +152,9 @@ class SearchForm extends PureComponent {
 
                         </FormItem>
                     </Col>
-                    <Col span={8}>
+                    <Col span={10}>
                         <FormItem label={'接口'} {...formItemLayout}>
-                            {getFieldDecorator('licType', {
+                            {getFieldDecorator('requestMethod', {
                                 initialValue: ''
                             })(
                                 <Select
@@ -163,14 +165,17 @@ class SearchForm extends PureComponent {
                                     optionFilterProp="children"
                                     filterOption={(input, option) => option.props.children.indexOf(input) >= 0}
                                 >
+                                    <Option key={''} value={''}>全部</Option>
                                     {
-                                        this.state.cities?this.state.cities.map(city => <Option key={city}>{city}</Option>):''
+                                        methodList.map(item => (
+                                            <Option key={item.logMethod}  value={item.logMethod}>{item.logMethodExplain}</Option>
+                                        ))
                                     }
                                 </Select>
                             )}
                         </FormItem>
                     </Col>
-                    <Col span={8}>
+                    <Col span={6}>
                         <FormItem label={'状态'} {...formItemLayout}>
                             {getFieldDecorator('resultCode', {
                                 initialValue: ''
@@ -197,7 +202,7 @@ class SearchForm extends PureComponent {
                             }
                         </FormItem>
                     </Col>
-                    <Col span={8}>
+                    <Col span={10}>
                         <FormItem {...formItemLayout} label={`关键字`}>
                             {
                                 getFieldDecorator(`requestParam`)(
@@ -206,7 +211,7 @@ class SearchForm extends PureComponent {
                             }
                         </FormItem>
                 </Col>
-                    <Col span={8} style={{float: 'right', textAlign: 'right', marginTop: 4 }}>
+                    <Col span={6} style={{float: 'right', textAlign: 'right', marginTop: 4 }}>
                         <Button type="primary" htmlType="submit">查询</Button>
                         <Button style={{ marginLeft: 8 }} onClick={this.handleReset}>重置</Button>
 
@@ -290,31 +295,28 @@ class RecallAndLocked extends PureComponent {
         const columns = [
             {
                 title: '接口名称',
-                dataIndex: 'ctmaSupplierName',
+                dataIndex: 'requestMethod',
                 width: 200
             },
             {
                 title: '状态',
                 width:90,
-                dataIndex: 'resultCode'
+                dataIndex: 'resultCodeName'
             },
             {
                 title: '是否处理',
-                width: 118,
-                dataIndex: 'productTime',
-                render: (text) =>
-                    <Tooltip>
-                        {moment(text).format('YYYY-MM-DD')}
-                    </Tooltip>
+                width: 100,
+                dataIndex: 'isHandle',
+                render: (text,record) =>{
+                    return record.isHandle==0?'已处理':'未处理'
+                }
+
             },
             {
                 title: '请求时间',
-                width: 100,
+                width: 178,
                 dataIndex: 'requestTime',
-                render: (text) =>
-                    <Tooltip>
-                        {moment(text).format('YYYY-MM-DD')}
-                    </Tooltip>
+
             },
             {
                 title: '参数',
@@ -324,13 +326,9 @@ class RecallAndLocked extends PureComponent {
             {
                 title: '返回结果',
                 width: 188,
-                dataIndex: 'createDate'
+                dataIndex: 'resultContent'
             },
-            {
-                title: '返回结果',
-                width: 188,
-                dataIndex: 'oo'
-            },
+
         ];
 
         return (
@@ -346,11 +344,10 @@ class RecallAndLocked extends PureComponent {
 
                 </Card>
                 <RemoteTable
-                    onChange={this._tableChange}
                     ref='table'
                     query={query}
                     bordered
-                    url={supplierFactor.SUPPLIER_LIST}
+                    url={systemMgt.INTERFACELOG_LIST}
                     columns={columns}
                     rowKey={'id'}
                     scroll={{ x: '100%' }}

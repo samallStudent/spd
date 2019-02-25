@@ -22,4 +22,6 @@ import {_local} from '../local';
 
   // 药品目录
   MEDICINEMATERIAL_LIST:`${_local}/a/his/hisctmedicinematerial/list`,  //药品目录基本信息列表
+  //接口监控
+  INTERFACELOG_LIST:`${_local}/a/interfacelog/list`,
  }

@@ -9,7 +9,7 @@ import { _local } from '../../../api/local';
 export function getAllMethodType(options){
     return request(`${_local}/a/interfacelog/getAllMethodType`,{
         method: 'GET',
-        type: 'type',
+        type: 'formData',
         body: options
     })
 }
@@ -17,7 +17,7 @@ export function getAllMethodType(options){
 export function getRequestMethods(options){
     return request(`${_local}/a/interfacelog/getRequestMethods`,{
         method: 'GET',
-        type: 'type',
+        type: 'formData',
         body: options
     })
 }
