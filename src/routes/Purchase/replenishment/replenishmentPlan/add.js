@@ -18,55 +18,34 @@ import {connect} from 'dva';
 
 const { Option } = Select;
 
-const props = {
-  data:{
-    file:'补货计划',
-    addDrugType:'1',
-    deptCode:'24C69445D19C4625960DA3F1E58A6A1F'
-  },
-  action: "http://localhost:3000/medicinal-web/a/depot/depotplan/importXG",
-  headers: {
-    authorization: 'authorization-text',
-  },
-  onChange(info) {
-    if (info.file.status !== 'uploading') {
-      console.log('1111',info.file, info.fileList);
-    }
-    if (info.file.status === 'done') {
-      message.success(`${info.file.name} file uploaded successfully`);
 
-      let data = info.file.response.data;
-      console.log('000',data)
-
-    } else if (info.file.status === 'error') {
-      message.error(`${info.file.name} file upload failed.`);
-    }
-  }
-}
 
 class NewAdd extends PureComponent {
-  state = {
-    modalLoading: false,
-    spinLoading: true,
-    isShow: false,
-    visible: false,
-    loading: false,
-    deptModules: [],// 补货部门
-    query: {
-      medDrugType: '1',
-      purchaseType: 1
-    },
-    selected: [],
-    selectedRows: [],
-    modalSelected: [],
-    modalSelectedRows: [],
-    info: {},
-    isEdit: false,
-    dataSource: [],
-    btnLoading: false,
-    saveLoading: false,
-    addDrugType: 1,    //添加库存方式
-    value: undefined
+  constructor (props) {
+    super(props);
+    this.state = {
+      modalLoading: false,
+      spinLoading: true,
+      isShow: false,
+      visible: false,
+      loading: false,
+      deptModules: [],// 补货部门
+      query: {
+        medDrugType: '1',
+        purchaseType: 1
+      },
+      selected: [],
+      selectedRows: [],
+      modalSelected: [],
+      modalSelectedRows: [],
+      info: {},
+      isEdit: false,
+      dataSource: [],
+      btnLoading: false,
+      saveLoading: false,
+      addDrugType: 1,    //添加库存方式
+      value: undefined
+    }
   }
   componentWillMount = () =>{
     const { dispatch } = this.props;
@@ -108,7 +87,7 @@ class NewAdd extends PureComponent {
               },
               spinLoading: false
             });
-            console.log('选中药品',this.data)
+             console.log('选中药品',this.data)
           }else {
             message.error(msg);
           };
@@ -302,6 +281,33 @@ class NewAdd extends PureComponent {
       modalSelected,
       modalSelectedRows
     } = this.state;
+    const props = {
+      data:{
+        file:'补货计划',
+        addDrugType:'1',
+        deptCode:'24C69445D19C4625960DA3F1E58A6A1F'
+      },
+      action: "http://localhost:3000/medicinal-web/a/depot/depotplan/importXG",
+      headers: {
+        authorization: 'authorization-text',
+      },
+      onChange:(info) =>{
+        var that = this;
+        if (info.file.status !== 'uploading') {
+          console.log(info.file, info.fileList);
+        }
+        if (info.file.status === 'done') {
+          message.success(`${info.file.name} file uploaded successfully`);
+          let data = info.file.response.data;
+          this.setState({
+            dataSource:data
+          })
+        } else if (info.file.status === 'error') {
+          message.error(`${info.file.name} file upload failed.`);
+        }
+      }
+    }
+    console.log(3,dataSource);
     const columns = [
      /* {
         title: '通用名称',
@@ -539,6 +545,7 @@ class NewAdd extends PureComponent {
               style={{ marginLeft: '8px' }}
               >
                 <Button onClick={this.ExcelShowModal}>一键导入excel表格</Button>
+      
               </Upload>
             </Row>
           </div>
