@@ -22,7 +22,7 @@ const columns = [
    width: 258,
    render:(text, record)=>
    <span>
-     <Badge count={record.applydetailsItemsCount} overflowCount={999} style={{right:'-27px',zIndex:'0'}}>
+     <Badge count={record.outstoreDetailItemsCount} showZero overflowCount={999} style={{right:'-27px',zIndex:'0'}}>
       <Link to={{pathname: `/drugStorage/outStorage/withdraw/details/id=${record.backNo}&state=${record.outStoreStatus}`}}>{text}</Link>
       </Badge>
     </span>
