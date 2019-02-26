@@ -21,3 +21,11 @@ export function getRequestMethods(options){
         body: options
     })
 }
+//今日调用汇总
+export function getLogCountByDate(options){
+    return request(`${_local}/a/interfacelog/getLogCountByDate`,{
+        method: 'POST',
+        type: 'formData',
+        body: options
+    })
+}

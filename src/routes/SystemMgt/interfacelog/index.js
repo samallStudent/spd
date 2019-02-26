@@ -20,6 +20,7 @@ class SearchForm extends PureComponent {
     state = {
         methodType: [],
         methodList: [],
+        methodLists: [],
         factorList: [
             {value: "", label: "全部"},
             {value: "1", label: "营业执照"},
@@ -31,12 +32,12 @@ class SearchForm extends PureComponent {
             {value: "0", label: "成功"},
             {value: "-1", label: "失败"}
         ],
-        cities:'',
-        secondCity:''
+        showNow:false
     }
 
     handleProvinceChange = (value) => {
         console.log(value)
+
         this.props.formProps.dispatch({
             type: 'interfacelog/getRequestMethods',
             payload: {logType:value},
@@ -45,20 +46,18 @@ class SearchForm extends PureComponent {
                     this.setState({
                         methodList: data
                     });
+
                 }
             }
         });
-
-    }
-
-    onSecondCityChange = (value) => {
         this.setState({
-            secondCity: value,
-        });
+            showNow:value
+        })
+        console.log(this.state.showNow)
     }
+
 
     componentDidMount = () =>{
-        const {methodType,methodList}=this.state
         //分类list
         this.props.formProps.dispatch({
             type: 'interfacelog/getAllMethodType',
@@ -121,9 +120,8 @@ class SearchForm extends PureComponent {
     }
     render() {
         const { getFieldDecorator } = this.props.form;
-        const {display} = this.props.formProps.base;
-        const {supplierList}=this.props
-        const {methodList,resultCode ,methodType} = this.state;
+        const {methodList,resultCode ,methodType,showNow} = this.state;
+
         return (
             <Form onSubmit={this.handleSearch}>
                 <Row gutter={30}>
@@ -155,23 +153,34 @@ class SearchForm extends PureComponent {
                     <Col span={10}>
                         <FormItem label={'接口'} {...formItemLayout}>
                             {getFieldDecorator('requestMethod', {
-                                initialValue: ''
+                                initialValue: showNow&&methodList?methodList[0].logMethod:''
                             })(
-                                <Select
-                                    value={this.state.secondCity}
-                                    onChange={this.onSecondCityChange}
-                                    showSearch
-                                    placeholder={'请选择'}
-                                    optionFilterProp="children"
-                                    filterOption={(input, option) => option.props.children.indexOf(input) >= 0}
-                                >
-                                    <Option key={''} value={''}>全部</Option>
-                                    {
-                                        methodList.map(item => (
-                                            <Option key={item.logMethod}  value={item.logMethod}>{item.logMethodExplain}</Option>
-                                        ))
-                                    }
-                                </Select>
+                               showNow? <Select
+
+                                   showSearch
+                                   placeholder={'请选择'}
+                                   optionFilterProp="children"
+                                   filterOption={(input, option) => option.props.children.indexOf(input) >= 0}
+                               >
+                                   {
+                                       methodList.map(item => (
+                                           <Option key={item.logMethod}  value={item.logMethod}>{item.logMethodExplain}</Option>
+                                       ))
+                                   }
+                               </Select>: <Select
+                                   onChange={this.onSecondCityChange}
+                                   showSearch
+                                   placeholder={'请选择'}
+                                   optionFilterProp="children"
+                                   filterOption={(input, option) => option.props.children.indexOf(input) >= 0}
+                               >
+                                   <Option key={''} value={''}>全部</Option>
+                                   {
+                                       methodList.map(item => (
+                                           <Option key={item.logMethod}  value={item.logMethod}>{item.logMethodExplain}</Option>
+                                       ))
+                                   }
+                               </Select>
                             )}
                         </FormItem>
                     </Col>
@@ -229,16 +238,26 @@ class RecallAndLocked extends PureComponent {
         visible: false,
         display: 'none',
         query: {},
-        supplierList:[]
+        countList:[]
     }
-    getList=(data)=>{
-        this.setState({data:data})
-        console.log(data)
-    }
-
-
     handlQuery = (query) => {
         this.setState({query});
+    }
+
+
+    componentDidMount = () =>{
+        //汇总list
+        this.props.dispatch({
+            type: 'interfacelog/getLogCountByDate',
+            callback: ({data, code, msg}) => {
+                if(code === 200) {
+                    this.setState({
+                        countList: data
+                    });
+                }
+            }
+        });
+
     }
 
     delete = () =>{
@@ -284,8 +303,13 @@ class RecallAndLocked extends PureComponent {
 
 
     render() {
-        const { loading,query } = this.state;
-
+        const { loading,countList} = this.state;
+        let query = this.props.base.queryConditons;
+        query = {
+            ...query,
+            ...this.state.query
+        }
+        delete query.closeDate;
         const gridStyle = {
             width: '20%',
 
@@ -337,13 +361,17 @@ class RecallAndLocked extends PureComponent {
                     formProps={{...this.props}} _handlQuery={this.handlQuery}
                 />
                 <Card title="今日调用汇总">
-                    <Card.Grid style={gridStyle}>
-                        <label className='inter-label'>HIS接口：</label><Tag color="orange">0次</Tag><br/>
-                        <label className='inter-label'>失败：</label><Tag color="red" style={{marginTop:'8px'}}>10次</Tag>
-                    </Card.Grid>
+                    {
+                        countList.map((item,index)=> <Card.Grid style={gridStyle} key={index}>
+                        <label className='inter-label'>{item.logTypeExplain}：</label><Tag color="orange">{item.totalCount}次</Tag><br/>
+                        <label className='inter-label'>失败：</label><Tag color="red" style={{marginTop:'8px'}}>{item.failCount}次</Tag>
+                        </Card.Grid>)
+                    }
+
 
                 </Card>
                 <RemoteTable
+                    onChange={this._tableChange}
                     ref='table'
                     query={query}
                     bordered

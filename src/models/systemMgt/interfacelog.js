@@ -13,18 +13,29 @@ export default {
     reducers: {
     },
     effects:{
+        // 接口分类
         *getAllMethodType({ payload, callback },{ put, call }){
             const data = yield call(interfacelogService.getAllMethodType, payload);
             if(callback && typeof callback === 'function'){
                 callback(data);
             }
         },
+        // 接口
         *getRequestMethods({ payload, callback },{ put, call }){
             const data = yield call(interfacelogService.getRequestMethods, payload);
             if(callback && typeof callback === 'function'){
                 callback(data);
             }
-        }
+        },
+        //今日调用汇总
+        *getLogCountByDate({ payload, callback },{ put, call }){
+            const data = yield call(interfacelogService.getLogCountByDate, payload);
+            if(callback && typeof callback === 'function'){
+                callback(data);
+            }
+        },
     },
+
+
     subscriptions: {}
 }
