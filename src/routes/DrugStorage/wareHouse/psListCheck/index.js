@@ -8,11 +8,12 @@
  * @file 药库 - 入库--配送单验收--列表
  */
 import React, { PureComponent } from 'react';
-import { Form, Input, Row, message, Col, Select, Button, Tooltip, Icon ,Badge} from 'antd';
+import { Form, Input, Row, message, Col, Select, Button, Tooltip, Icon ,Badge,DatePicker} from 'antd';
 import { Link } from 'react-router-dom';
 import wareHouse from '../../../../api/drugStorage/wareHouse';
 import RemoteTable from '../../../../components/TableGrid';
 import {connect} from 'dva';
+const { RangePicker } = DatePicker;
 
 const FormItem = Form.Item;
 const { Option } = Select;
@@ -168,6 +169,17 @@ class SearchForm extends PureComponent{
           payload: values
         });
       };
+      if(values.shelfTime && values.shelfTime.length) {
+        values.receptionStartTime = values.shelfTime[0].format('YYYY-MM-DD');
+        values.receptionEndTime = values.shelfTime[1].format('YYYY-MM-DD');
+      }else {
+        values.receptionStartTime = "";
+        values.receptionEndTime = "";
+      };
+      this.props.formProps.dispatch({
+        type:'base/updateConditions',
+        payload: values
+      });
     });
   }
   toggle = () => {
@@ -283,6 +295,13 @@ class SearchForm extends PureComponent{
                 }
             </FormItem>
           </Col>
+          <Col span={8} style={{display: display}}>
+            <FormItem label={`验收时间`} {...formItemLayout}>
+              {getFieldDecorator('shelfTime', {})(
+                <RangePicker/>
+              )}
+            </FormItem>
+          </Col>
           <Col style={{float:'right', textAlign: 'right', marginTop: 4}} >
            <Button type="primary" htmlType="submit">查询</Button>
            <Button type='default' style={{marginLeft: 8}} onClick={this.handleReset}>重置</Button>
@@ -325,7 +344,6 @@ class DistributionCheck extends PureComponent{
           <Button type='primary' onClick={()=>this.props.history.push({ pathname: `${match.path}/add` })}>新建验收</Button>
         </div>
         <RemoteTable
-     
           isJson={true}
           query={query}
           ref="tab"
