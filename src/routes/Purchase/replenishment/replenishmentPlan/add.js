@@ -147,10 +147,7 @@ class NewAdd extends PureComponent {
       return;
     };  
   }
-  //excel导出功能
-  ExcelOut = (e) => {
 
-  }
   showModalLogic = (addDrugType) => {
     let {query, dataSource} = this.state;
     if(!query.deptCode) {
@@ -187,6 +184,13 @@ class NewAdd extends PureComponent {
       }
     });
   }
+    //excel导出功能
+    ExcelOut = (e) => {
+      const { dispatch } = this.props;
+      dispatch({
+      type: 'base/excelOut',
+      });
+    }
   submit = (auditStatus) => {   //提交  保存
     let {isEdit, info, dataSource, submitLoading, saveLoading} = this.state;
     if(submitLoading || saveLoading) return;

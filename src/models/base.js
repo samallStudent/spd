@@ -185,6 +185,15 @@ export default {
         message.error(data.msg);
       }
     },
+    //excelOut导出摸板
+    *excelOut({payload, callback}, {put, call}) { 
+      const data = yield call(replenishment.excelOut);
+      if(data.code === 200 && data.msg === 'success') {
+        callback && callback(data.data);
+      }else {
+        message.error(data.msg);
+      }
+    },
     //补货计划 - 新建(编辑) - 提交(保存)
     *submit({payload, callback}, {put, call}) {
       const data = yield call(replenishment.submit, payload);
@@ -192,6 +201,13 @@ export default {
       if(callback && typeof callback === 'function') {
         callback(data);
       };
+    },
+    //入库验收--excel导出
+    *outFile({payload, callback}, {put, call}) {
+      const data = yield call(replenishment.outFile, payload);
+      if(data.code === 200 && data.msg === 'success') {
+        callback && callback(data.data);
+      }
     },
     //出库单管理 - 新建 - 申领部门
     *findAllDeptsAndType({callback}, {call}) {
