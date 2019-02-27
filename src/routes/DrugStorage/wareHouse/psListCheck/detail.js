@@ -481,10 +481,13 @@ class PslistCheck extends PureComponent{
   }
     //导出excel
     ExcelOut = () => {
-      alert('导出excel')
-     //const {distributeCode} = this.state.detailInfo;//printDetail
-      //const {defaultActiveKey} = this.state;
-      //window.open(`${wareHouse.PRINT_DETAIL}?distributeCode=${distributeCode}&status=${defaultActiveKey}`, '_blank');
+      this.props.dispatch({
+        type: 'base/outFile',
+        payload: {
+          distributeCode:this.state.detailInfo.distributeCode,
+          status:this.state.defaultActiveKey
+        },
+      })
     }
   //未验收Table回调
   unVerfiyTableCallBack = (data) => {

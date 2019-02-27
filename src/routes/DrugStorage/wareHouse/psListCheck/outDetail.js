@@ -122,7 +122,7 @@ class PslistCheck extends PureComponent{
         type: 'base/outFile',
         payload: {
           distributeCode:this.state.detailInfo.distributeCode,
-          status:this.state.acceptedQuery.status
+          status:this.state.defaultActiveKey
         },
       })
     }
@@ -257,7 +257,7 @@ class PslistCheck extends PureComponent{
             </Col>
             <Col span={12} style={{textAlign: 'right'}}>
               <Button onClick={this.print}>打印</Button>
-              <Button onClick={this.outFile} style={{marginLeft:'12px'}}>导出</Button>
+              <Button onClick={this.outFile} style={{marginLeft:'12px'}}>导出excel</Button>
             </Col>
           </Row>
           <Row>
