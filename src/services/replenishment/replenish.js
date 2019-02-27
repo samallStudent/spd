@@ -111,3 +111,22 @@ export function planOrderDetail(options) {
     body: options
   })
 }
+// 导出模板
+export function excelOut(options) {
+  return request(`${_local}/a/depot/depotplan/exportForModel`, {
+    method: 'GET',
+    type: 'formData',
+    export: true,
+    body: options
+  })
+}
+
+// 入库导出
+export function outFile(options) {
+  return request(`${_local}/a/deliver/print/exportAsPrint`, {
+  method: 'GET',
+  type: 'formData',
+  export: true,
+  body: options
+  })
+  }

@@ -140,13 +140,14 @@ class NewAdd extends PureComponent {
   }
   
   ExcelShowModal = (e) => {
-    let {query,dataSource, addDrugType} = this.state;
+    let {query} = this.state;
     if(!query.deptCode) {
       message.warning('请选择部门');
       e.stopPropagation();
       return;
     };  
   }
+
   showModalLogic = (addDrugType) => {
     let {query, dataSource} = this.state;
     if(!query.deptCode) {
@@ -183,6 +184,13 @@ class NewAdd extends PureComponent {
       }
     });
   }
+    //excel导出功能
+    ExcelOut = (e) => {
+      const { dispatch } = this.props;
+      dispatch({
+      type: 'base/excelOut',
+      });
+    }
   submit = (auditStatus) => {   //提交  保存
     let {isEdit, info, dataSource, submitLoading, saveLoading} = this.state;
     if(submitLoading || saveLoading) return;
@@ -540,13 +548,14 @@ class NewAdd extends PureComponent {
               <Button type='primary' icon='plus' onClick={this.showModal}>添加产品</Button>
               <Button type='default' onClick={this.autoShowModal} style={{ margin: '0 8px' }}>一键添加低库存产品</Button>
               <Button onClick={this.delete} type='default'>删除</Button>
+              <Button onClick={this.ExcelOut} style={{marginLeft: '8px' }}>导出excel表格模板</Button>    
               <Upload 
               {...props}
               style={{ marginLeft: '8px' }}
               >
                 <Button onClick={this.ExcelShowModal}>一键导入excel表格</Button>
-      
               </Upload>
+              
             </Row>
           </div>
           <Modal

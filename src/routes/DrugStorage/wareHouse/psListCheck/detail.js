@@ -479,6 +479,16 @@ class PslistCheck extends PureComponent{
     const {defaultActiveKey} = this.state;
     window.open(`${wareHouse.PRINT_DETAIL}?distributeCode=${distributeCode}&status=${defaultActiveKey}`, '_blank');
   }
+    //导出excel
+    ExcelOut = () => {
+      this.props.dispatch({
+        type: 'base/outFile',
+        payload: {
+          distributeCode:this.state.detailInfo.distributeCode,
+          status:this.state.defaultActiveKey
+        },
+      })
+    }
   //未验收Table回调
   unVerfiyTableCallBack = (data) => {
     if(data.length) {
@@ -899,7 +909,8 @@ class PslistCheck extends PureComponent{
               <h3>单据信息</h3>
             </Col>
             <Col span={12} style={{textAlign: 'right'}}>
-              <Button onClick={this.print}>打印</Button>
+              <Button onClick={this.ExcelOut}>导出execl</Button>
+              <Button style={{marginLeft:'12px'}} onClick={this.print}>打印</Button>
             </Col>
           </Row>
           <Row>
