@@ -295,7 +295,7 @@ class NewAdd extends PureComponent {
         addDrugType:'1',
         deptCode:'24C69445D19C4625960DA3F1E58A6A1F'
       },
-      action: "http://localhost:3000/medicinal-web/a/depot/depotplan/importXG",
+      action: "/medicinal-web/a/depot/depotplan/importXG",
       headers: {
         authorization: 'authorization-text',
       },
