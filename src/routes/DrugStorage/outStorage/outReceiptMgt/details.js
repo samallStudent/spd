@@ -104,7 +104,8 @@ class DetailsOutput extends PureComponent{
       rejectLoading: false,
         selected: [],
         selectedRows: [],
-        tabsData:[]
+        tabsData:[],
+        defaultKey:'0'
     }
   }
   componentDidMount = () =>{
@@ -135,6 +136,14 @@ class DetailsOutput extends PureComponent{
       }
     })
   }
+
+    tableOnChange = () => {
+        this.setState({
+            selected: [],
+            selectedRows: [],
+        });
+    }
+
   getDatail = () => {
     this.setState({loading: true});
     this.props.dispatch({
@@ -179,8 +188,13 @@ class DetailsOutput extends PureComponent{
             callback: ({data, code, msg}) => {
                 if(code === 200) {
                     message.success('复核成功');
-                    this.getData(0)
-                    this.getDetail();
+                    this.getDatail();
+                    this.getData(1)
+                    this.setState({
+                        defaultKey: '1'
+                    });
+                    console.log(this.state.defaultKey)
+                    this.tableOnChange();
                 }else {
                     message.error(msg);
                 };
@@ -228,11 +242,17 @@ class DetailsOutput extends PureComponent{
               </h2>
             </Col>
               <Col style={{textAlign:'right', float: 'right'}} span={6}>
+                  {/*{
+                      status === 1 ? (
+                          [<Button type='primary' key="1" loading={checkLoading} className='button-gap' onClick={()=>this.onSubmit()}>复核通过</Button>,
+                              <Button style={{margin: '0 8px'}} key="2" onClick={()=>this.onBan()} loading={rejectLoading}>不通过</Button>]
+                      ) : null
+                  }*/}
+                  {
+                      status === 1 ||status === 2? <Button type='primary' key="1" loading={checkLoading} className='button-gap' onClick={()=>this.onSubmit()}>复核通过</Button>:''
+                  }
                 {
-                  status === 1 ? (
-                    [<Button type='primary' key="1" loading={checkLoading} className='button-gap' onClick={()=>this.onSubmit()}>复核通过</Button>,
-                    <Button style={{margin: '0 8px'}} key="2" onClick={()=>this.onBan()} loading={rejectLoading}>不通过</Button>]
-                  ) : null
+                  status === 1 ? <Button style={{margin: '0 8px'}} key="2" onClick={()=>this.onBan()} loading={rejectLoading}>不通过</Button>:''
                 }
                 {
                   status === 2 ? (
@@ -321,9 +341,10 @@ class DetailsOutput extends PureComponent{
           </Row>
         </div>
         <div className="detailCard detailCards">
-            <Tabs onChange={this.getData}>
+            <Tabs onChange={this.getData} defaultActiveKey={this.state.defaultKey}>
                 <TabPane tab="未复核" key="0">
                     <Table
+
                         bordered
                         loading={loading}
                         dataSource={tabsData}
@@ -331,6 +352,7 @@ class DetailsOutput extends PureComponent{
                         columns={columns}
                         rowKey={'batchNo'}
                         pagination={true}
+                        ref='table'
                         rowSelection={{
                             selectedRowKeys: this.state.selected,
                             onChange: (selectedRowKeys, selectedRows) => {
