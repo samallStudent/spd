@@ -95,7 +95,7 @@ export function finishPicking(options) { // 确认拣货
 /*出库单管理*/
 //出库单详情
 export function outStoreDetailInfo(options) {
-  return request(`${_local}/a/common/outstoredetail/outStoreDetailInfo`, {
+  return request(`${_local}/a/common/outstoredetail/detailInfo`, {
     method: 'GET',
     type: 'formData',
     body: options
@@ -110,7 +110,14 @@ export function deleteOutStore(options) {
     body: options
   })
 }
-
+//出库单详情通过与未通过
+export function outStoreDetailList(options) {
+    return request(`${_local}/a/common/outstoredetail/outStoreDetailList`, {
+        method: 'POST',
+        type: 'json',
+        body: options
+    })
+};
 //出库单复核通过
 export function checkOutStore(options) {
   return request(`${_local}/a/common/outstoredetail/checkOutStore`, {

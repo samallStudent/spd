@@ -34,6 +34,20 @@ export default {
                 callback(data);
             }
         },
+        //重发接口
+        *reSend({ payload, callback },{ put, call }){
+            const data = yield call(interfacelogService.reSend, payload);
+            if(callback && typeof callback === 'function'){
+                callback(data);
+            }
+        },
+        //处理完毕接口
+        *handleLog({ payload, callback },{ put, call }){
+            const data = yield call(interfacelogService.handleLog, payload);
+            if(callback && typeof callback === 'function'){
+                callback(data);
+            }
+        },
     },
 
 

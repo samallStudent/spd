@@ -29,3 +29,19 @@ export function getLogCountByDate(options){
         body: options
     })
 }
+//重发接口
+export function reSend(options){
+    return request(`${_local}/a/interfacelog/reSend`,{
+        method: 'POST',
+        type: 'formData',
+        body: options
+    })
+}
+//处理完毕接口
+export function handleLog(options){
+    return request(`${_local}/a/interfacelog/handleLog`,{
+        method: 'POST',
+        type: 'formData',
+        body: options
+    })
+}

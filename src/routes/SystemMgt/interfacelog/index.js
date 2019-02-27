@@ -9,9 +9,11 @@ import { Link } from 'react-router-dom';
 import { formItemLayout } from '../../../utils/commonStyles';
 import RemoteTable from '../../../components/TableGrid';
 import { systemMgt } from '../../../api/systemMgt';
-
+import * as convert from 'xml-js'
 import { connect } from 'dva';
-import moment from 'moment';
+import ReadMore from './readMore'
+import AddFactor from "../../DrugStorage/supplierFactor/drug/add";
+const Conform = Modal.confirm;
 const FormItem = Form.Item;
 const {RangePicker} = DatePicker;
 const { Option } = Select;
@@ -21,23 +23,17 @@ class SearchForm extends PureComponent {
         methodType: [],
         methodList: [],
         methodLists: [],
-        factorList: [
-            {value: "", label: "全部"},
-            {value: "1", label: "营业执照"},
-            {value: "2", label: "药品经营许可证"},
-            {value: "3", label: "业务员授权书"}
-        ],
         resultCode:[
             {value: "", label: "全部"},
             {value: "0", label: "成功"},
             {value: "-1", label: "失败"}
         ],
-        showNow:false
+        showNow:false,
     }
 
     handleProvinceChange = (value) => {
         console.log(value)
-
+        this.props.form.resetFields();
         this.props.formProps.dispatch({
             type: 'interfacelog/getRequestMethods',
             payload: {logType:value},
@@ -46,14 +42,13 @@ class SearchForm extends PureComponent {
                     this.setState({
                         methodList: data
                     });
-
+                    this.setState({
+                        showNow:value,
+                    })
                 }
             }
         });
-        this.setState({
-            showNow:value
-        })
-        console.log(this.state.showNow)
+
     }
 
 
@@ -155,32 +150,18 @@ class SearchForm extends PureComponent {
                             {getFieldDecorator('requestMethod', {
                                 initialValue: showNow&&methodList?methodList[0].logMethod:''
                             })(
-                               showNow? <Select
-
-                                   showSearch
-                                   placeholder={'请选择'}
-                                   optionFilterProp="children"
-                                   filterOption={(input, option) => option.props.children.indexOf(input) >= 0}
-                               >
-                                   {
-                                       methodList.map(item => (
-                                           <Option key={item.logMethod}  value={item.logMethod}>{item.logMethodExplain}</Option>
-                                       ))
-                                   }
-                               </Select>: <Select
-                                   onChange={this.onSecondCityChange}
-                                   showSearch
-                                   placeholder={'请选择'}
-                                   optionFilterProp="children"
-                                   filterOption={(input, option) => option.props.children.indexOf(input) >= 0}
-                               >
-                                   <Option key={''} value={''}>全部</Option>
-                                   {
-                                       methodList.map(item => (
-                                           <Option key={item.logMethod}  value={item.logMethod}>{item.logMethodExplain}</Option>
-                                       ))
-                                   }
-                               </Select>
+                                <Select
+                                    showSearch
+                                    placeholder={'请选择'}
+                                    optionFilterProp="children"
+                                >
+                                    {showNow&&methodList?null:<Option key={''} value={''}>全部</Option>}
+                                    {
+                                        methodList.map(item => (
+                                            <Option key={item.logMethod}  value={item.logMethod}>{item.logMethodExplain}</Option>
+                                        ))
+                                    }
+                                </Select>
                             )}
                         </FormItem>
                     </Col>
@@ -259,46 +240,70 @@ class RecallAndLocked extends PureComponent {
         });
 
     }
-
-    delete = () =>{
-        let { selectedRows, query } = this.state;
-        if (selectedRows.length === 0) {
-            return message.warn('请选择一条数据');
-        };
-        selectedRows = selectedRows.map(item => item.id);
+    //重新发送接口
+    sendMenthod=({id})=>{
+        let {query } = this.state;
         this.setState({ loading: true });
-        this.props.dispatch({
-            type: 'supplierFactor/deleteSupplierFactor',
-            payload: { ids: selectedRows },
-            callback: () =>{
-                message.success('删除成功');
-                this.setState({ loading: false });
-                this.refs.table.fetch(query);
-            }
+
+        Conform({
+            content:"您确定要执行此操作？",
+            onOk:()=>{
+                const { dispatch } = this.props;
+               dispatch({
+                    type: 'interfacelog/reSend',
+                    payload: {logId:id},
+                    callback: ({data, code, msg}) =>{
+                       if(code==200){
+                           message.success('接口重新发送成功');
+                           this.setState({ loading: false });
+                           this.refs.table.fetch(query);
+                       }else {
+                           message.success(msg);
+                           this.refs.table.fetch(query);
+                           this.setState({ loading: false });
+                       }
+                    }
+                })
+            },
+            onCancel:()=>{}
         })
 
     }
+    //处理完毕
+    handleLog=({id})=>{
+        let {query } = this.state;
+        this.setState({ loading: true });
+        Conform({
+            content:"您确定要执行此操作？",
+            onOk:()=>{
+                const { dispatch } = this.props;
+                dispatch({
+                    type: 'interfacelog/handleLog',
+                    payload: {logId:id},
+                    callback: ({data, code, msg}) =>{
+                        if(code==200){
+                            message.success('接口处理完毕');
+                            this.setState({ loading: false });
+                            this.refs.table.fetch(query);
+                        }else {
+                            message.success(msg);
+                            this.refs.table.fetch(query);
+                            this.setState({ loading: false });
+                        }
+                    }
+                })
+            },
+            onCancel:()=>{}
+        })
+
+    }
+
+
     _tableChange = values => {
         this.props.dispatch({
             type:'base/setQueryConditions',
             payload: values
         });
-    }
-    saveFactior=values=>{
-        this.setState({ loading: true });
-        let { query } = this.state;
-        this.setState({ loading: true });
-        this.props.dispatch({
-            type:'supplierFactor/saveSupplierFactor',
-            payload: values,
-            callback: ({data, code, msg}) => {
-                if(data === 1) {
-                    message.success('保存成功');
-                    this.setState({ loading: false });
-                    this.refs.table.fetch(query);
-                }
-            }
-        })
     }
 
 
@@ -346,13 +351,40 @@ class RecallAndLocked extends PureComponent {
                 title: '参数',
                 width: 120,
                 dataIndex: 'requestParam',
+                render:(text)=>(
+                    <div>
+                        {convert.xml2json(text, {compact: true, spaces: 4})}
+                        <ReadMore  record={text}>
+                            <div className='typecolor'>
+                                查看详情
+                                <Icon type="plus-circle" />
+                            </div>
+                        </ReadMore>
+                    </div>
+                ),
+
             },
             {
                 title: '返回结果',
                 width: 188,
                 dataIndex: 'resultContent'
             },
+            {
+                title:'操作',
+                width:100,
+                dataIndex: 'action',
+                fixed: 'right',
+                render:(text,record)=>(
+                    <div>
 
+                        {record.isSupportSend==0?
+                            <Button loading={loading} type="primary" onClick={this.sendMenthod.bind(null,{id:record.id})} style={{ margin:'0  8px'}} >重发</Button>
+                            :<Button type="dashed" disabled style={{ margin:'0  8px'}} >重发</Button>
+                        }
+                        {record.isHandle==1?<Button loading={loading} type="primary" onClick={this.handleLog.bind(null,{id:record.id})}>处理完毕</Button>:<Button type="dashed" disabled>处理完毕</Button>}
+                    </div>
+                )
+            }
         ];
 
         return (

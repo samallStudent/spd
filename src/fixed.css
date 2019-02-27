@@ -499,6 +499,9 @@ position: absolute;top:20%;cursor: pointer;
   padding: 18px;
 }
 .factor-content .inter-label{width: 70px;text-align:right;display: inline-block;}
+.detailCards .ant-empty-normal,.detailCards .ant-empty{
+ margin: 0;
+}
 
 /* @media screen and (min-width:1440px){
   .ant-table-empty .ant-table-placeholder:after{
