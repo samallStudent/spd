@@ -381,7 +381,7 @@ class ReplenishmentDetail extends PureComponent{
                 />
               </Col>
             </Row>
-            <div className='detailCard'>
+            <div className='detailCard' style={{display:'none'}}>
               <RemoteTable
                 title={()=>'查询产品信息'}
                 scroll={{x: '100%'}}
