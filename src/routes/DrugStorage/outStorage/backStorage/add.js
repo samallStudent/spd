@@ -271,9 +271,7 @@ class AddRefund extends PureComponent{
   //提交该出库单
   backStroage = () => {
     const { dataSource } = this.state;
-    this.setState({
-      okLoading: true
-    })
+
     this.refs.remarksForm.validateFields((err, values) => {
       if(!err) {
         const { dispatch, history } = this.props;
@@ -290,7 +288,9 @@ class AddRefund extends PureComponent{
         if(values.backcauseOther) {
           postData.backcauseOther = values.backcauseOther
         }
-        console.log(postData,'postData')
+          this.setState({
+              okLoading: true
+          })
         dispatch({
           type: 'base/submitBackStorage',
           payload: { ...postData },

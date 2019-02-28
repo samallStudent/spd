@@ -293,27 +293,34 @@ class NewAdd extends PureComponent {
       data:{
         file:'补货计划',
         addDrugType:'1',
-        deptCode:'24C69445D19C4625960DA3F1E58A6A1F'
+        deptCode:query.deptCode
       },
-      action: "/medicinal-web/a/depot/depotplan/importXG",
+      action:replenishmentPlan.IMPORTEXCEL,
       headers: {
         authorization: 'authorization-text',
       },
-      onChange:(info) =>{
-        var that = this;
-        if (info.file.status !== 'uploading') {
-          console.log(info.file, info.fileList);
+        onChange:(info) =>{
+            var that = this;
+            if (info.file.status !== 'uploading') {
+                console.log(info.file, info.fileList);
+            }
+            if (info.file.status === 'done') {
+                let data = info.file.response.data;
+                if(!data) {
+                    message.warning('所选部门与导入药品不一致！');
+                    return;
+                }else{
+                    message.success(`${info.file.name} file uploaded successfully`);
+                    this.setState({
+                        dataSource:data
+                    })
+
+                }
+
+            } else if (info.file.status === 'error') {
+                message.error(`${info.file.name} file upload failed.`);
+            }
         }
-        if (info.file.status === 'done') {
-          message.success(`${info.file.name} file uploaded successfully`);
-          let data = info.file.response.data;
-          this.setState({
-            dataSource:data
-          })
-        } else if (info.file.status === 'error') {
-          message.error(`${info.file.name} file upload failed.`);
-        }
-      }
     }
     console.log(3,dataSource);
     const columns = [

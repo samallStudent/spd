@@ -11,4 +11,5 @@ export  const replenishmentPlan = {
     QUERY_DRUG_BY_LISTXG: `${_local}/a/depot/depotplan/detailbydrugname`,  //添加产品 - 下拉框
     PRINT_DETAIL: `${_local}/a/orderdetail/print/printDetail`,      //订单管理打印
     PLAN_DETAIL_PRINT: `${_local}/a/plandetail/print/printDetail`,      //补货计划打印
+    IMPORTEXCEL:`${_local}/a/depot/depotplan/importXG`, //补货计划excel导入
 }

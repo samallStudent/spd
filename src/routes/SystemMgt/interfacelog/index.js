@@ -12,7 +12,6 @@ import { systemMgt } from '../../../api/systemMgt';
 import * as convert from 'xml-js'
 import { connect } from 'dva';
 import ReadMore from './readMore'
-import AddFactor from "../../DrugStorage/supplierFactor/drug/add";
 const Conform = Modal.confirm;
 const FormItem = Form.Item;
 const {RangePicker} = DatePicker;
@@ -367,7 +366,10 @@ class RecallAndLocked extends PureComponent {
             {
                 title: '返回结果',
                 width: 188,
-                dataIndex: 'resultContent'
+                dataIndex: 'resultContent',
+                render:(text)=>{
+                    <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+                }
             },
             {
                 title:'操作',
@@ -388,7 +390,7 @@ class RecallAndLocked extends PureComponent {
         ];
 
         return (
-            <div className='ysynet-main-content factor-content'>
+            <div className='ysynet-main-content factor-content detailCards'>
                 <SearchFormWarp
                     formProps={{...this.props}} _handlQuery={this.handlQuery}
                 />

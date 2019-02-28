@@ -231,7 +231,7 @@ class DetailsPickSoldOut extends PureComponent{
           </Col>
           <Col span={12} style={{textAlign: 'right'}}>
             {
-              detailsData && detailsData.status === 2 ? 
+              detailsData && detailsData.status === 2||detailsData.status === 3||detailsData.status === 4 ?
               <Link to={{pathname: `/drugStorage/outStorage/outReceiptMgt/details/id=${detailsData.backNo}`}}>
                 <Button style={{marginRight: 8}} type="primary">下一步: 复核</Button>
               </Link> : null
