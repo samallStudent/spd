@@ -1,30 +1,86 @@
+/**
+ * @author QER
+ * @date 19/2/22
+ * @Description: 接口监控
+*/
 import React, { PureComponent } from 'react';
-import { Form, Row, Col, DatePicker, Input, Select, Button, Icon, message, Tooltip,Modal } from 'antd';
+import { Form, Row, Col, DatePicker, Input, Select, Button, Icon, message, Tooltip,Modal,Card,Tag} from 'antd';
 import { Link } from 'react-router-dom';
 import { formItemLayout } from '../../../utils/commonStyles';
 import RemoteTable from '../../../components/TableGrid';
-import { supplierFactor } from '../../../api/drugStorage/supplierFactor';
+import { systemMgt } from '../../../api/systemMgt';
+import * as convert from 'xml-js'
 import { connect } from 'dva';
-import moment from 'moment';
+import ReadMore from './readMore'
+import AddFactor from "../../DrugStorage/supplierFactor/drug/add";
+const Conform = Modal.confirm;
 const FormItem = Form.Item;
+const {RangePicker} = DatePicker;
 const { Option } = Select;
 
 class SearchForm extends PureComponent {
     state = {
-        supplierList: [],
-        factorList: [
+        methodType: [],
+        methodList: [],
+        methodLists: [],
+        resultCode:[
             {value: "", label: "全部"},
-            {value: "1", label: "营业执照"},
-            {value: "2", label: "药品经营许可证"},
-            {value: "3", label: "业务员授权书"}
+            {value: "0", label: "成功"},
+            {value: "-1", label: "失败"}
         ],
-        periodList:[
-            {value: "30", label: "30天"},
-            {value: "60", label: "60天"},
-            {value: "90", label: "90天"},
-            {value: "180", label: "180天"}
-        ]
+        showNow:false,
     }
+
+    handleProvinceChange = (value) => {
+        console.log(value)
+        this.props.form.resetFields();
+        this.props.formProps.dispatch({
+            type: 'interfacelog/getRequestMethods',
+            payload: {logType:value},
+            callback: ({data, code, msg}) => {
+                if(code === 200) {
+                    this.setState({
+                        methodList: data
+                    });
+                    this.setState({
+                        showNow:value,
+                    })
+                }
+            }
+        });
+
+    }
+
+
+    componentDidMount = () =>{
+        //分类list
+        this.props.formProps.dispatch({
+            type: 'interfacelog/getAllMethodType',
+            callback: ({data, code, msg}) => {
+                if(code === 200) {
+                    this.setState({
+                        methodType: data
+                    });
+                }
+            }
+        });
+        //接口list
+        this.props.formProps.dispatch({
+            type: 'interfacelog/getRequestMethods',
+            callback: ({data, code, msg}) => {
+                if(code === 200) {
+                    this.setState({
+                        methodList: data
+                    });
+                }
+            }
+        });
+
+
+
+
+    }
+
     toggle = () => {
         this.props.formProps.dispatch({
             type:'base/setShowHide'
@@ -35,6 +91,14 @@ class SearchForm extends PureComponent {
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
             if (!err) {
+                const closeDate = values.closeDate === undefined ? '' : values.closeDate;
+                if (closeDate.length > 0) {
+                    values.startTime = closeDate[0].format('YYYY-MM-DD');
+                    values.endTime = closeDate[1].format('YYYY-MM-DD');
+                }else {
+                    values.startTime = '';
+                    values.endTime = '';
+                };
                 this.props.formProps.dispatch({
                     type:'base/updateConditions',
                     payload: values
@@ -51,20 +115,20 @@ class SearchForm extends PureComponent {
     }
     render() {
         const { getFieldDecorator } = this.props.form;
-        const {display} = this.props.formProps.base;
-        const {supplierList}=this.props
-        const {factorList,periodList } = this.state;
+        const {methodList,resultCode ,methodType,showNow} = this.state;
+
         return (
             <Form onSubmit={this.handleSearch}>
                 <Row gutter={30}>
                     <Col span={8}>
-                        <FormItem label={'供应商'} {...formItemLayout}>
+                        <FormItem label={'分类'} {...formItemLayout}>
 
 
-                            {getFieldDecorator('supplierCode', {
+                            {getFieldDecorator('requestType', {
                                 initialValue: ''
                             })(
                                 <Select
+                                    onChange={this.handleProvinceChange}
                                     showSearch
                                     placeholder="请选择"
                                     optionFilterProp="children"
@@ -72,8 +136,8 @@ class SearchForm extends PureComponent {
                                 >
                                     <Option key={''} value={''}>全部</Option>
                                     {
-                                        supplierList.map(item => (
-                                            <Option key={item.ctmaSupplierCode} value={item.ctmaSupplierCode}>{item.ctmaSupplierName}</Option>
+                                        methodType.map(item => (
+                                            <Option key={item.logType}  value={item.logType}>{item.logTypeExplain}</Option>
                                         ))
                                     }
                                 </Select>
@@ -81,9 +145,29 @@ class SearchForm extends PureComponent {
 
                         </FormItem>
                     </Col>
-                    <Col span={8}>
-                        <FormItem label={'资质类型'} {...formItemLayout}>
-                            {getFieldDecorator('licType', {
+                    <Col span={10}>
+                        <FormItem label={'接口'} {...formItemLayout}>
+                            {getFieldDecorator('requestMethod', {
+                                initialValue: showNow&&methodList?methodList[0].logMethod:''
+                            })(
+                                <Select
+                                    showSearch
+                                    placeholder={'请选择'}
+                                    optionFilterProp="children"
+                                >
+                                    {showNow&&methodList?null:<Option key={''} value={''}>全部</Option>}
+                                    {
+                                        methodList.map(item => (
+                                            <Option key={item.logMethod}  value={item.logMethod}>{item.logMethodExplain}</Option>
+                                        ))
+                                    }
+                                </Select>
+                            )}
+                        </FormItem>
+                    </Col>
+                    <Col span={6}>
+                        <FormItem label={'状态'} {...formItemLayout}>
+                            {getFieldDecorator('resultCode', {
                                 initialValue: ''
                             })(
                                 <Select
@@ -93,32 +177,31 @@ class SearchForm extends PureComponent {
                                     filterOption={(input, option) => option.props.children.indexOf(input) >= 0}
                                 >
                                     {
-                                        factorList.map((item,index)=> <Option key={index} value={item.value}>{item.label}</Option>)
+                                        resultCode.map((item,index)=> <Option key={index} value={item.value}>{item.label}</Option>)
                                     }
                                 </Select>
                             )}
                         </FormItem>
                     </Col>
                     <Col span={8}>
-                        <FormItem label={'临效期'} {...formItemLayout}>
-                            {getFieldDecorator('expiryDate', {
-                                initialValue: ''
-                            })(
-                                <Select
-                                    showSearch
-                                    placeholder={'请选择'}
-                                    optionFilterProp="children"
-                                    filterOption={(input, option) => option.props.children.indexOf(input) >= 0}
-                                >
-                                    <Option key={''} value={''}>全部</Option>
-                                    {
-                                        periodList.map((item,index)=> <Option key={index} value={item.value}>{item.label}</Option>)
-                                    }
-                                </Select>
-                            )}
+                        <FormItem label={'时间'} {...formItemLayout}>
+                            {
+                                getFieldDecorator(`closeDate`)(
+                                    <RangePicker/>
+                                )
+                            }
                         </FormItem>
                     </Col>
-                    <Col span={8} style={{float: 'right', textAlign: 'right', marginTop: 4 }}>
+                    <Col span={10}>
+                        <FormItem {...formItemLayout} label={`关键字`}>
+                            {
+                                getFieldDecorator(`requestParam`)(
+                                    <Input placeholder='请输入关键字' />
+                                )
+                            }
+                        </FormItem>
+                </Col>
+                    <Col span={6} style={{float: 'right', textAlign: 'right', marginTop: 4 }}>
                         <Button type="primary" htmlType="submit">查询</Button>
                         <Button style={{ marginLeft: 8 }} onClick={this.handleReset}>重置</Button>
 
@@ -134,157 +217,202 @@ class RecallAndLocked extends PureComponent {
     state = {
         loading: false,
         visible: false,
-        selected: [],
-        selectedRows: [],
         display: 'none',
         query: {},
-        supplierList:[]
+        countList:[]
     }
-    getList=(data)=>{
-        this.setState({data:data})
-        console.log(data)
-    }
-    //供应商list
-    componentDidMount = () =>{
-        this.props.dispatch({
-            type: 'base/genSupplierList',
-            callback: ({data, code, msg}) => {
-                if(code === 200) {
-                    this.setState({
-                        supplierList: data
-                    });
-                }
-            }
-        });
-    }
-
     handlQuery = (query) => {
         this.setState({query});
     }
 
-    delete = () =>{
-        let { selectedRows, query } = this.state;
-        if (selectedRows.length === 0) {
-            return message.warn('请选择一条数据');
-        };
-        selectedRows = selectedRows.map(item => item.id);
-        this.setState({ loading: true });
+
+    componentDidMount = () =>{
+        //汇总list
         this.props.dispatch({
-            type: 'supplierFactor/deleteSupplierFactor',
-            payload: { ids: selectedRows },
-            callback: () =>{
-                message.success('删除成功');
-                this.setState({ loading: false });
-                this.refs.table.fetch(query);
+            type: 'interfacelog/getLogCountByDate',
+            callback: ({data, code, msg}) => {
+                if(code === 200) {
+                    this.setState({
+                        countList: data
+                    });
+                }
             }
+        });
+
+    }
+    //重新发送接口
+    sendMenthod=({id})=>{
+        let {query } = this.state;
+        this.setState({ loading: true });
+
+        Conform({
+            content:"您确定要执行此操作？",
+            onOk:()=>{
+                const { dispatch } = this.props;
+               dispatch({
+                    type: 'interfacelog/reSend',
+                    payload: {logId:id},
+                    callback: ({data, code, msg}) =>{
+                       if(code==200){
+                           message.success('接口重新发送成功');
+                           this.setState({ loading: false });
+                           this.refs.table.fetch(query);
+                       }else {
+                           message.success(msg);
+                           this.refs.table.fetch(query);
+                           this.setState({ loading: false });
+                       }
+                    }
+                })
+            },
+            onCancel:()=>{}
         })
 
     }
+    //处理完毕
+    handleLog=({id})=>{
+        let {query } = this.state;
+        this.setState({ loading: true });
+        Conform({
+            content:"您确定要执行此操作？",
+            onOk:()=>{
+                const { dispatch } = this.props;
+                dispatch({
+                    type: 'interfacelog/handleLog',
+                    payload: {logId:id},
+                    callback: ({data, code, msg}) =>{
+                        if(code==200){
+                            message.success('接口处理完毕');
+                            this.setState({ loading: false });
+                            this.refs.table.fetch(query);
+                        }else {
+                            message.success(msg);
+                            this.refs.table.fetch(query);
+                            this.setState({ loading: false });
+                        }
+                    }
+                })
+            },
+            onCancel:()=>{}
+        })
+
+    }
+
+
     _tableChange = values => {
         this.props.dispatch({
             type:'base/setQueryConditions',
             payload: values
         });
     }
-    saveFactior=values=>{
-        this.setState({ loading: true });
-        let { query } = this.state;
-        this.setState({ loading: true });
-        this.props.dispatch({
-            type:'supplierFactor/saveSupplierFactor',
-            payload: values,
-            callback: ({data, code, msg}) => {
-                if(data === 1) {
-                    message.success('保存成功');
-                    this.setState({ loading: false });
-                    this.refs.table.fetch(query);
-                }
-            }
-        })
-    }
 
 
     render() {
-        const { loading,query } = this.state;
+        const { loading,countList} = this.state;
+        let query = this.props.base.queryConditons;
+        query = {
+            ...query,
+            ...this.state.query
+        }
+        delete query.closeDate;
+        const gridStyle = {
+            width: '20%',
+
+
+        };
 
         const columns = [
             {
-                title: '供应商',
-                dataIndex: 'ctmaSupplierName',
+                title: '接口名称',
+                dataIndex: 'requestMethod',
                 width: 200
             },
             {
-                title: '资质类型',
-                width:126,
-                dataIndex: 'type',
-                className:'typecolor',
+                title: '状态',
+                width:90,
+                dataIndex: 'resultCodeName'
             },
             {
-                title: '发证日期',
-                width: 118,
-                dataIndex: 'productTime',
-                render: (text) =>
-                    <Tooltip>
-                        {moment(text).format('YYYY-MM-DD')}
-                    </Tooltip>
-            },
-            {
-                title: '有效期至',
+                title: '是否处理',
                 width: 100,
-                dataIndex: 'validEndDate',
-                render: (text) =>
-                    <Tooltip>
-                        {moment(text).format('YYYY-MM-DD')}
-                    </Tooltip>
+                dataIndex: 'isHandle',
+                render: (text,record) =>{
+                    return record.isHandle==0?'已处理':'未处理'
+                }
+
             },
             {
-                title: '证照编号',
+                title: '请求时间',
+                width: 178,
+                dataIndex: 'requestTime',
+
+            },
+            {
+                title: '参数',
                 width: 120,
-                dataIndex: 'licCode',
+                dataIndex: 'requestParam',
+                render:(text)=>(
+                    <div>
+                        {convert.xml2json(text, {compact: true, spaces: 4})}
+                        <ReadMore  record={text}>
+                            <div className='typecolor'>
+                                查看详情
+                                <Icon type="plus-circle" />
+                            </div>
+                        </ReadMore>
+                    </div>
+                ),
+
             },
             {
-                title: '维护日期',
+                title: '返回结果',
                 width: 188,
-                dataIndex: 'createDate'
+                dataIndex: 'resultContent'
             },
             {
-                title: '预览',
-                width: 90,
-                dataIndex: 'pictcontents',
+                title:'操作',
+                width:100,
+                dataIndex: 'action',
+                fixed: 'right',
+                render:(text,record)=>(
+                    <div>
 
-
-            },
+                        {record.isSupportSend==0?
+                            <Button loading={loading} type="primary" onClick={this.sendMenthod.bind(null,{id:record.id})} style={{ margin:'0  8px'}} >重发</Button>
+                            :<Button type="dashed" disabled style={{ margin:'0  8px'}} >重发</Button>
+                        }
+                        {record.isHandle==1?<Button loading={loading} type="primary" onClick={this.handleLog.bind(null,{id:record.id})}>处理完毕</Button>:<Button type="dashed" disabled>处理完毕</Button>}
+                    </div>
+                )
+            }
         ];
-
-
 
         return (
             <div className='ysynet-main-content factor-content'>
                 <SearchFormWarp
-                    formProps={{...this.props}} _handlQuery={this.handlQuery} supplierList={this.state.supplierList}
+                    formProps={{...this.props}} _handlQuery={this.handlQuery}
                 />
-                <div>
+                <Card title="今日调用汇总">
+                    {
+                        countList.map((item,index)=> <Card.Grid style={gridStyle} key={index}>
+                        <label className='inter-label'>{item.logTypeExplain}：</label><Tag color="orange">{item.totalCount}次</Tag><br/>
+                        <label className='inter-label'>失败：</label><Tag color="red" style={{marginTop:'8px'}}>{item.failCount}次</Tag>
+                        </Card.Grid>)
+                    }
 
-                    <Button style={{ margin:'0  8px'}} onClick={this.delete} loading={loading}>移除</Button>
 
-                </div>
+                </Card>
                 <RemoteTable
                     onChange={this._tableChange}
                     ref='table'
                     query={query}
                     bordered
-                    url={supplierFactor.SUPPLIER_LIST}
+                    url={systemMgt.INTERFACELOG_LIST}
                     columns={columns}
                     rowKey={'id'}
                     scroll={{ x: '100%' }}
                     style={{marginTop: 20}}
-                    rowSelection={{
-                        selectedRowKeys: this.state.selected,
-                        onChange: (selectedRowKeys, selectedRows) => {
-                            this.setState({selected: selectedRowKeys, selectedRows: selectedRows})
-                        }
 
-                    }}
                 />
 
             </div>

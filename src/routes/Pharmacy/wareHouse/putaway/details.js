@@ -397,7 +397,7 @@ class DetailsPutaway extends PureComponent{
           onChange={this.changeTabs} 
           activeKey={defaultActive} 
           tabBarExtraContent={
-            defaultActive === "1" && info.auditStatus === 2 ? 
+            defaultActive === "1" && info.auditStatus === 2 ||info.auditStatus === 3?
             <Button loading={saveLoading} onClick={this.onSubmit} type="primary">确认上架</Button> 
             : null
           }

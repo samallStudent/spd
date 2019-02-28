@@ -25,6 +25,14 @@ export default {
         callback(data)
       };
     },
+      //出库单详情通过与未通过
+      *outStoreDetailList({payload, callback}, {call}) {
+          const data = yield call(outStorageService.outStoreDetailList, payload);
+          if(callback && typeof callback === 'function') {
+              callback(data)
+          };
+      },
+
     //出库单管理详情
     *outStoreDetailInfo({payload, callback}, {call}) {
       const data = yield call(outStorageService.outStoreDetailInfo, payload);

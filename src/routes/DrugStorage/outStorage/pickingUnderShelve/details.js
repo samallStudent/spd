@@ -297,7 +297,7 @@ class DetailsPickSoldOut extends PureComponent{
           activeKey={activeKey}
           onChange={this.changeTabs}
           tabBarExtraContent={ 
-            activeKey  === '1' && detailsData.status === 1 ? 
+            activeKey  === '1' && detailsData.status === 1||detailsData.status === 2 ?
             <Button type='primary' loading={checkLoading} onClick={()=>this.onSubmit()}>确认拣货</Button> 
             : null
           }>
