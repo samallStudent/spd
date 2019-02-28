@@ -105,15 +105,19 @@ class DetailsOutput extends PureComponent{
         selected: [],
         selectedRows: [],
         tabsData:[],
-        defaultKey:'0'
+        tabKey:'0',
     }
   }
   componentDidMount = () =>{
     this.getDatail();
-    this.getData(0)
+    this.getData('0')
   }
   //不通过
   onBan = () =>{
+      let { selectedRows } = this.state;
+      if (selectedRows.length === 0) {
+          return message.warn('请选择一条数据');
+      };
     this.setState({
       rejectLoading: true
     })
@@ -126,7 +130,7 @@ class DetailsOutput extends PureComponent{
         if(code === 200) {
           message.success('操作成功');
           this.getDatail();
-
+            this.tableOnChange();
         }else {
           message.error(msg);
         };
@@ -191,9 +195,9 @@ class DetailsOutput extends PureComponent{
                     this.getDatail();
                     this.getData(1)
                     this.setState({
-                        defaultKey: '1'
+                        defaultKey: '1',
+                        tabKey:'1'
                     });
-                    console.log(this.state.defaultKey)
                     this.tableOnChange();
                 }else {
                     message.error(msg);
@@ -211,6 +215,9 @@ class DetailsOutput extends PureComponent{
   }
     //复核与未复核list
     getData=key=>{
+        this.setState({
+            tabKey:key
+        })
         this.props.dispatch({
             type: 'outStorage/outStoreDetailList',
             payload: {
@@ -220,7 +227,7 @@ class DetailsOutput extends PureComponent{
             callback: (data) => {
                 if(data.code === 200 && data.msg === 'success') {
                     this.setState({
-                        tabsData: data.data.list,
+                        tabsData: data.data.list
                     })
                 }else {
                     message.error(data.msg);
@@ -230,7 +237,7 @@ class DetailsOutput extends PureComponent{
         })
     }
   render(){
-    let {info, loading, status, checkLoading,rejectLoading,tabsData} = this.state;
+    let {info, loading, status, checkLoading,rejectLoading,tabsData,tabKey} = this.state;
     let {detailVo} = info;
     return (
       <div className='fullCol fadeIn'>
@@ -341,9 +348,10 @@ class DetailsOutput extends PureComponent{
           </Row>
         </div>
         <div className="detailCard detailCards">
-            <Tabs onChange={this.getData} defaultActiveKey={this.state.defaultKey}>
+            <Tabs onChange={this.getData} activeKey={this.state.tabKey}>
                 <TabPane tab="未复核" key="0">
-                    <Table
+                    {
+                        tabKey==0?<Table
 
                         bordered
                         loading={loading}
@@ -354,23 +362,26 @@ class DetailsOutput extends PureComponent{
                         pagination={true}
                         ref='table'
                         rowSelection={{
-                            selectedRowKeys: this.state.selected,
-                            onChange: (selectedRowKeys, selectedRows) => {
-                                this.setState({selected: selectedRowKeys, selectedRows: selectedRows})
-                            }
-                        }}
-                    />
+                        selectedRowKeys: this.state.selected,
+                        onChange: (selectedRowKeys, selectedRows) => {
+                        this.setState({selected: selectedRowKeys, selectedRows: selectedRows})
+                    }
+                    }}
+                        />:null
+                    }
                 </TabPane>
                 <TabPane tab="已复核" key="1">
-                    <Table
-                        bordered
-                        loading={loading}
-                        dataSource={tabsData}
-                        scroll={{x: '100%'}}
-                        columns={columns}
-                        rowKey={'batchNo'}
-                        pagination={true}
-                    />
+                    {
+                        tabKey==1? <Table
+                            bordered
+                            loading={loading}
+                            dataSource={tabsData}
+                            scroll={{x: '100%'}}
+                            columns={columns}
+                            rowKey={'batchNo'}
+                            pagination={true}
+                        />:null
+                    }
                 </TabPane>
             </Tabs>
         </div>

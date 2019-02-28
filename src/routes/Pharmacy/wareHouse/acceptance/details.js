@@ -225,7 +225,7 @@ class DetailsNewLibrary extends PureComponent{
             unacceptedQuery,
             acceptedQuery
         } = this.state;
-        let {auditStatus} = info;
+        let {checkDetailStatus} = info;
         return (
             <div className='fullCol'>
                 <div className='fullCol-fullChild'>
@@ -313,7 +313,7 @@ class DetailsNewLibrary extends PureComponent{
                         activeKey={defaultActiveKey}
                         onChange={this.tabsChange}
                         tabBarExtraContent={
-                            auditStatus === 1 && defaultActiveKey === "1" ?
+                            checkDetailStatus === 1||checkDetailStatus === 0&& defaultActiveKey === "1" ?
                                 <Button loading={checkLoading} type='primary' onClick={this.saveCheck}>确认验收</Button>
                                 : null
                         }

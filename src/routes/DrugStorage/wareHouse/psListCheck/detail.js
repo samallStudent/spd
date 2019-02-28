@@ -832,7 +832,7 @@ class PslistCheck extends PureComponent{
             activeKey={defaultActiveKey} 
             onChange={this.tabsChange} 
             tabBarExtraContent={ 
-              defaultActiveKey === '1' && detailInfo.auditStatus === 1 ? 
+              defaultActiveKey === '1' && detailInfo.checkDetailStatus === 1 ||detailInfo.checkDetailStatus === 0?
               <Button loading={checkLoading} type='primary' onClick={this.saveCheck}>确认验收</Button> 
               : null
             }
