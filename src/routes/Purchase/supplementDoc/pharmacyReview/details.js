@@ -4,10 +4,11 @@
 * @Last Modified time: 2018-07-24 13:13:55 
  */
 import React, { PureComponent } from 'react';
-import { Table, Row, Col, Button, Tooltip, message} from 'antd';
+import { Table, Row, Col, Button, Tooltip, message,Tabs} from 'antd';
 import {connect} from 'dva';
 import {outStorage} from '../../../../api/drugStorage/outStorage';
 import querystring from 'querystring';
+const {TabPane} = Tabs;
 const columns = [
   /*{
     title: '通用名',
@@ -115,11 +116,16 @@ class DetailsOutput extends PureComponent{
       loading: false,
       id: info.id,
       banLoading: false,
-      checkLoading: false
+      checkLoading: false,
+        selected: [],
+        selectedRows: [],
+        tabsData:[],
+        tabKey:'0'
     }
   }
   componentDidMount() {
     this.getDetail();
+    this.getData('0')
   }
   getDetail = () => {
     this.setState({loading: true});
@@ -138,6 +144,10 @@ class DetailsOutput extends PureComponent{
   }
   //不通过
   onBan = () =>{
+      let { selectedRows } = this.state;
+      if (selectedRows.length === 0) {
+          return message.warn('请选择一条数据');
+      };
     this.setState({
       banLoading: true
     });
@@ -150,6 +160,7 @@ class DetailsOutput extends PureComponent{
         if(data.code === 200 && data.msg === 'success') {
           message.success('操作成功');
           this.getDetail();
+            this.tableOnChange();
         }else {
           message.error(data.msg);
         }
@@ -159,15 +170,19 @@ class DetailsOutput extends PureComponent{
   }
   //确认
   onSubmit = () => {
-    let {info} = this.state
-    let {backNo, deptCode, detailVo} = info;
-    let outStoreDetail = detailVo.map(item => {
-      return {
-        backSumNum: item.backNum,
-        batchNo: item.batchNo,
-        drugCode: item.drugCode
-      }
-    });
+      let { selectedRows, query } = this.state;
+      if (selectedRows.length === 0) {
+          return message.warn('请选择一条数据');
+      };
+      let {info} = this.state
+      let {backNo, deptCode} = info;
+      let outStoreDetail = selectedRows.map(item => {
+          return {
+              backSumNum: item.backNum,
+              batchNo: item.batchNo,
+              drugCode: item.drugCode
+          }
+      });
     this.setState({
       checkLoading: true
     });
@@ -178,17 +193,23 @@ class DetailsOutput extends PureComponent{
         deptCode,
         outStoreDetail
       },
-      callback: ({data, code, msg}) => {
-        if(code === 200) {
-          message.success('复核成功');
-          this.getDetail();
-        }else {
-          message.error(msg);
-        };
-        this.setState({
-          checkLoading: false
-        });
-      }
+        callback: ({data, code, msg}) => {
+            if(code === 200) {
+                message.success('复核成功');
+                this.getDatail();
+                this.getData(1)
+                this.setState({
+                    defaultKey: '1',
+                    tabKey:'1'
+                });
+                this.tableOnChange();
+            }else {
+                message.error(msg);
+            };
+            this.setState({
+                checkLoading: false
+            });
+        }
     })
   }
 
@@ -197,9 +218,31 @@ class DetailsOutput extends PureComponent{
     const {id} = this.state;
     window.open(`${outStorage.PRINT_DETAIL}?backNo=${id}`, '_blank');
   }
-
+//复核与未复核list
+    getData=key=>{
+        this.setState({
+            tabKey:key
+        })
+        this.props.dispatch({
+            type: 'outStorage/outStoreDetailList',
+            payload: {
+                backNo: this.state.id,
+                checkStatus:key
+            },
+            callback: (data) => {
+                if(data.code === 200 && data.msg === 'success') {
+                    this.setState({
+                        tabsData: data.data.list
+                    })
+                }else {
+                    message.error(data.msg);
+                }
+                this.setState({ banLoading: false });
+            }
+        })
+    }
   render(){
-    let {info, loading, banLoading, checkLoading} = this.state;
+    let {info, loading, banLoading, checkLoading,tabKey,tabsData} = this.state;
     let {detailVo} = info;
     return (
       <div className='fullCol fadeIn'>
@@ -211,17 +254,18 @@ class DetailsOutput extends PureComponent{
               </h2>
             </Col>
               <Col style={{textAlign:'right', float: 'right'}} span={6}>
-                {
-                  info.status && info.status === 1? (
-                      [<Button loading={checkLoading}  type='primary' key="1" className='button-gap' style={{marginRight: 8}} onClick={()=>this.onSubmit()}>复核通过</Button>,
-                      <Button loading={banLoading} key="2" onClick={()=>this.onBan()}>不通过</Button>]
-                  ) : null
-                }
-                {
-                  info.status && info.status === 2? (
-                      <Button icon='printer' onClick={this.print} >打印</Button>
-                  ) : null
-                }
+                  {
+                      info.status && info.status === 1||info.status === 2 ?
+                          <Button loading={checkLoading} type='primary' key="1" className='button-gap' style={{marginRight: 8}} onClick={()=>this.onSubmit()}>复核通过</Button>:null
+                  }
+                  {
+                      info.status && info.status === 1 ?<Button loading={banLoading} key="2" onClick={()=>this.onBan()} >不通过</Button>: null
+                  }
+                  {
+                      info.status && info.status === 2? (
+                          <Button icon='printer' onClick={this.print} >打印</Button>
+                      ) : null
+                  }
               </Col>
           </Row>
           <Row>
@@ -304,15 +348,42 @@ class DetailsOutput extends PureComponent{
           </Row>
         </div>
         <div className="detailCard">
-          <Table
-            bordered
-            loading={loading}
-            dataSource={detailVo || []}
-            scroll={{x: '100%'}}
-            columns={columns}
-            rowKey={'batchNo'}
-            pagination={false}
-          />
+            <Tabs onChange={this.getData} activeKey={this.state.tabKey}>
+                <TabPane tab="未复核" key="0">
+                    {
+                        tabKey==0?<Table
+
+                            bordered
+                            loading={loading}
+                            dataSource={tabsData}
+                            scroll={{x: '100%'}}
+                            columns={columns}
+                            rowKey={'batchNo'}
+                            pagination={true}
+                            ref='table'
+                            rowSelection={{
+                                selectedRowKeys: this.state.selected,
+                                onChange: (selectedRowKeys, selectedRows) => {
+                                    this.setState({selected: selectedRowKeys, selectedRows: selectedRows})
+                                }
+                            }}
+                        />:null
+                    }
+                </TabPane>
+                <TabPane tab="已复核" key="1">
+                    {
+                        tabKey==1? <Table
+                            bordered
+                            loading={loading}
+                            dataSource={tabsData}
+                            scroll={{x: '100%'}}
+                            columns={columns}
+                            rowKey={'batchNo'}
+                            pagination={true}
+                        />:null
+                    }
+                </TabPane>
+            </Tabs>
         </div>
       </div>
     )

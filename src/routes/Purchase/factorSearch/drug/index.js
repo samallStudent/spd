@@ -119,7 +119,7 @@ class SearchForm extends PureComponent {
                     <Col span={8}>
                         <FormItem label={'临效期'} {...formItemLayout}>
                             {getFieldDecorator('ExpiryDate', {
-                                initialValue: '30'
+                                initialValue: 180
                             })(
                                 <Select
                                     showSearch

@@ -4,10 +4,11 @@
 * @Last Modified time: 2018-07-24 13:13:55 
  */
 import React, { PureComponent } from 'react';
-import { Table, Row, Col, Button, Tooltip, message} from 'antd';
+import { Table, Row, Col, Button, Tooltip, message,Tabs} from 'antd';
 import {connect} from 'dva';
 import {outStorage} from '../../../../api/drugStorage/outStorage';
 import querystring from 'querystring';
+const {TabPane} = Tabs;
 const columns = [
   /*{
     title: '通用名',
@@ -100,14 +101,23 @@ class DetailsOutput extends PureComponent{
       id: info.id,
       status: null,
       checkLoading: false,
-      rejectLoading: false
+      rejectLoading: false,
+        selected: [],
+        selectedRows: [],
+        tabsData:[],
+        tabKey:'0',
     }
   }
-  componentDidMount() {
+  componentDidMount = () =>{
     this.getDatail();
+    this.getData('0')
   }
   //不通过
   onBan = () =>{
+      let { selectedRows } = this.state;
+      if (selectedRows.length === 0) {
+          return message.warn('请选择一条数据');
+      };
     this.setState({
       rejectLoading: true
     })
@@ -120,6 +130,7 @@ class DetailsOutput extends PureComponent{
         if(code === 200) {
           message.success('操作成功');
           this.getDatail();
+            this.tableOnChange();
         }else {
           message.error(msg);
         };
@@ -129,6 +140,14 @@ class DetailsOutput extends PureComponent{
       }
     })
   }
+
+    tableOnChange = () => {
+        this.setState({
+            selected: [],
+            selectedRows: [],
+        });
+    }
+
   getDatail = () => {
     this.setState({loading: true});
     this.props.dispatch({
@@ -146,47 +165,79 @@ class DetailsOutput extends PureComponent{
     })
   }
   //确认
-  onSubmit = () =>{
-    let {info} = this.state
-    let {backNo, deptCode, detailVo} = info;
-    let outStoreDetail = detailVo.map(item => {
-      return {
-        backSumNum: item.backNum,
-        batchNo: item.batchNo,
-        drugCode: item.drugCode
-      }
-    });
-    this.setState({
-      checkLoading: true
-    });
-    this.props.dispatch({
-      type: 'outStorage/checkOutStore',
-      payload: {
-        backNo,
-        deptCode,
-        outStoreDetail
-      },
-      callback: ({data, code, msg}) => {
-        if(code === 200) {
-          message.success('操作成功');
-          this.getDatail();
-        }else {
-          message.error(msg);
+    onSubmit = () => {
+        let { selectedRows, query } = this.state;
+        if (selectedRows.length === 0) {
+            return message.warn('请选择一条数据');
         };
-        this.setState({
-          checkLoading: false
+        let {info} = this.state
+        let {backNo, deptCode, detailVo} = info;
+        let outStoreDetail = selectedRows.map(item => {
+            return {
+                backSumNum: item.backNum,
+                batchNo: item.batchNo,
+                drugCode: item.drugCode
+            }
         });
-      }
-    })
-  }
+        this.setState({
+            checkLoading: true
+        })
+        this.props.dispatch({
+            type: 'outStorage/checkOutStore',
+            payload: {
+                backNo,
+                deptCode,
+                outStoreDetail
+            },
+            callback: ({data, code, msg}) => {
+                if(code === 200) {
+                    message.success('复核成功');
+                    this.getDatail();
+                    this.getData(1)
+                    this.setState({
+                        defaultKey: '1',
+                        tabKey:'1'
+                    });
+                    this.tableOnChange();
+                }else {
+                    message.error(msg);
+                };
+                this.setState({
+                    checkLoading: false
+                });
+            }
+        })
+    }
   //打印
   print = () => {
     const {id} = this.state;
     window.open(`${outStorage.PRINT_DETAIL}?backNo=${id}`, '_blank');
   }
-
+    //复核与未复核list
+    getData=key=>{
+        this.setState({
+            tabKey:key
+        })
+        this.props.dispatch({
+            type: 'outStorage/outStoreDetailList',
+            payload: {
+                backNo: this.state.id,
+                checkStatus:key
+            },
+            callback: (data) => {
+                if(data.code === 200 && data.msg === 'success') {
+                    this.setState({
+                        tabsData: data.data.list
+                    })
+                }else {
+                    message.error(data.msg);
+                }
+                this.setState({ banLoading: false });
+            }
+        })
+    }
   render(){
-    let {info, loading, status, checkLoading,rejectLoading} = this.state;
+    let {info, loading, status, checkLoading,rejectLoading,tabsData,tabKey} = this.state;
     let {detailVo} = info;
     return (
       <div className='fullCol fadeIn'>
@@ -198,11 +249,17 @@ class DetailsOutput extends PureComponent{
               </h2>
             </Col>
               <Col style={{textAlign:'right', float: 'right'}} span={6}>
+                  {/*{
+                      status === 1 ? (
+                          [<Button type='primary' key="1" loading={checkLoading} className='button-gap' onClick={()=>this.onSubmit()}>复核通过</Button>,
+                              <Button style={{margin: '0 8px'}} key="2" onClick={()=>this.onBan()} loading={rejectLoading}>不通过</Button>]
+                      ) : null
+                  }*/}
+                  {
+                      status === 1 ||status === 2? <Button type='primary' key="1" loading={checkLoading} className='button-gap' onClick={()=>this.onSubmit()}>复核通过</Button>:''
+                  }
                 {
-                  status === 1 ? (
-                    [<Button type='primary' key="1" loading={checkLoading} className='button-gap' onClick={()=>this.onSubmit()}>复核通过</Button>,
-                    <Button style={{margin: '0 8px'}} key="2" onClick={()=>this.onBan()} loading={rejectLoading}>不通过</Button>]
-                  ) : null
+                  status === 1 ? <Button style={{margin: '0 8px'}} key="2" onClick={()=>this.onBan()} loading={rejectLoading}>不通过</Button>:''
                 }
                 {
                   status === 2 ? (
@@ -290,16 +347,43 @@ class DetailsOutput extends PureComponent{
             </Col>
           </Row>
         </div>
-        <div className="detailCard">
-          <Table
-            bordered
-            loading={loading}
-            dataSource={detailVo || []}
-            scroll={{x: '100%'}}
-            columns={columns}
-            rowKey={'batchNo'}
-            pagination={false}
-          />
+        <div className="detailCard detailCards">
+            <Tabs onChange={this.getData} activeKey={this.state.tabKey}>
+                <TabPane tab="未复核" key="0">
+                    {
+                        tabKey==0?<Table
+
+                        bordered
+                        loading={loading}
+                        dataSource={tabsData}
+                        scroll={{x: '100%'}}
+                        columns={columns}
+                        rowKey={'batchNo'}
+                        pagination={true}
+                        ref='table'
+                        rowSelection={{
+                        selectedRowKeys: this.state.selected,
+                        onChange: (selectedRowKeys, selectedRows) => {
+                        this.setState({selected: selectedRowKeys, selectedRows: selectedRows})
+                    }
+                    }}
+                        />:null
+                    }
+                </TabPane>
+                <TabPane tab="已复核" key="1">
+                    {
+                        tabKey==1? <Table
+                            bordered
+                            loading={loading}
+                            dataSource={tabsData}
+                            scroll={{x: '100%'}}
+                            columns={columns}
+                            rowKey={'batchNo'}
+                            pagination={true}
+                        />:null
+                    }
+                </TabPane>
+            </Tabs>
         </div>
       </div>
     )
