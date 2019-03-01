@@ -426,7 +426,7 @@ class ReplenishmentDetail extends PureComponent{
                 scroll={{x: '100%'}}
                 query={query}
                 //url={'/medicinal-web/a/depot/depotplan/detailXG?planCode='+this.props.match.params.planCode}
-                url={'/medicinal-web/a/depot/depotplan/detailbydrugname?depotplanID='+this.props.match.params.planCode+'&drugCommonName=lu'}
+                url={'/medicinal-web/a/depot/depotplan/detailbydrugname?depotplanID='+this.props.match.params.planCode+'&drugCommonName='+this.state.drugCommonName}
                 isJson={true}
                 ref="table"
                 modalLoading={modalLoading}
