@@ -62,6 +62,7 @@ class FetchSelect extends React.Component {
       data: [],
       fetching: false,
       value: undefined,
+      name:'',
       isPropsValue: false,  //判断是否用propsValue
     };
     this.handleChange = debounce(this.handleChange, 800);
@@ -85,6 +86,10 @@ class FetchSelect extends React.Component {
     };
   }
   handleChange = (value) => {
+    localStorage.setItem('drugCommonName',decodeURI(value));
+    this.setState({
+      name:value
+    })
     if(value === '') return;
     let queryKey = this.props.queryKey;
     // fake(value, data => this.setState({ data }), this.props.url, this.props.query,this.props.parmas);
@@ -143,14 +148,16 @@ class FetchSelect extends React.Component {
     }
   }
   render() {
-    let {fetching, value, isPropsValue} = this.state;
+    let {fetching, value, isPropsValue,name} = this.state;
     let realValue = isPropsValue ? this.props.value : value;
     return (
+
       <Select
         showSearch
         defaultValue={this.props.defaultValue}
         onSearch={this.handleChange}
         value={realValue}
+        name={this.state.name}
         onChange={this.props.onChange || this.getValues}
         notFoundContent={fetching ? <Spin size="small" /> : "暂无搜索结果"}
         style={this.props.style}
