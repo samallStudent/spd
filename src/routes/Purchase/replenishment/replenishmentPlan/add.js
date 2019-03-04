@@ -310,7 +310,7 @@ class NewAdd extends PureComponent {
                     message.warning('所选部门与导入药品不一致！');
                     return;
                 }else{
-                    message.success(`${info.file.name} file uploaded successfully`);
+                    message.success('导入成功');
                     this.setState({
                         dataSource:data
                     })
@@ -318,7 +318,7 @@ class NewAdd extends PureComponent {
                 }
 
             } else if (info.file.status === 'error') {
-                message.error(`${info.file.name} file upload failed.`);
+                message.error('导入失败');
             }
         }
     }

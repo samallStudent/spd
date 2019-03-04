@@ -27,7 +27,8 @@ class SearchForm extends PureComponent {
             {value: "0", label: "成功"},
             {value: "-1", label: "失败"}
         ],
-        showNow:false,
+        showNow:false
+
     }
 
     handleProvinceChange = (value) => {
@@ -115,7 +116,6 @@ class SearchForm extends PureComponent {
     render() {
         const { getFieldDecorator } = this.props.form;
         const {methodList,resultCode ,methodType,showNow} = this.state;
-
         return (
             <Form onSubmit={this.handleSearch}>
                 <Row gutter={30}>
@@ -201,6 +201,7 @@ class SearchForm extends PureComponent {
                         </FormItem>
                 </Col>
                     <Col span={6} style={{float: 'right', textAlign: 'right', marginTop: 4 }}>
+
                         <Button type="primary" htmlType="submit">查询</Button>
                         <Button style={{ marginLeft: 8 }} onClick={this.handleReset}>重置</Button>
 
@@ -218,7 +219,8 @@ class RecallAndLocked extends PureComponent {
         visible: false,
         display: 'none',
         query: {},
-        countList:[]
+        countList:[],
+        jsonArr: ''
     }
     handlQuery = (query) => {
         this.setState({query});
@@ -304,8 +306,13 @@ class RecallAndLocked extends PureComponent {
             payload: values
         });
     }
-
-
+    requesFun=({text})=>{
+        let jsonText=convert.xml2json(text, {compact: true, spaces: 4})
+        let jsonTexts=JSON.parse(jsonText)
+        this.setState({
+            jsonArr:jsonTexts
+        })
+    }
     render() {
         const { loading,countList} = this.state;
         let query = this.props.base.queryConditons;
@@ -324,7 +331,7 @@ class RecallAndLocked extends PureComponent {
             {
                 title: '接口名称',
                 dataIndex: 'requestMethod',
-                width: 200
+                width: 140
             },
             {
                 title: '状态',
@@ -350,11 +357,13 @@ class RecallAndLocked extends PureComponent {
                 title: '参数',
                 width: 120,
                 dataIndex: 'requestParam',
-                render:(text)=>(
+                render:(text,record)=>(
                     <div>
-                        {convert.xml2json(text, {compact: true, spaces: 4})}
-                        <ReadMore  record={text}>
-                            <div className='typecolor'>
+                        <span className='requests'>{convert.xml2json(text, {compact: true, spaces: 4})}</span>
+                        <ReadMore  record={this.state.jsonArr}>
+                            <div className='typecolor' onClick={this.requesFun.bind(null,{
+                                text:text
+                            })} style={{cursor: 'pointer'}}>
                                 查看详情
                                 <Icon type="plus-circle" />
                             </div>
@@ -365,11 +374,11 @@ class RecallAndLocked extends PureComponent {
             },
             {
                 title: '返回结果',
-                width: 188,
+                width: 220,
                 dataIndex: 'resultContent',
-                render:(text)=>{
-                    <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
-                }
+                render:(text)=>(
+                    <Tooltip placement="topLeft" title={text} className='requests'>{text}</Tooltip>
+                )
             },
             {
                 title:'操作',
@@ -383,7 +392,7 @@ class RecallAndLocked extends PureComponent {
                             <Button loading={loading} type="primary" onClick={this.sendMenthod.bind(null,{id:record.id})} style={{ margin:'0  8px'}} >重发</Button>
                             :<Button type="dashed" disabled style={{ margin:'0  8px'}} >重发</Button>
                         }
-                        {record.isHandle==1?<Button loading={loading} type="primary" onClick={this.handleLog.bind(null,{id:record.id})}>处理完毕</Button>:<Button type="dashed" disabled>处理完毕</Button>}
+                        {record.isHandle==1&&record.resultCode!=0?<Button loading={loading} type="primary" onClick={this.handleLog.bind(null,{id:record.id})}>处理完毕</Button>:<Button type="dashed" disabled>处理完毕</Button>}
                     </div>
                 )
             }

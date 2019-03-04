@@ -168,7 +168,7 @@ class UserMgt extends PureComponent{
       {
         title: '操作',
         dataIndex: 'action',
-        width: 60,
+        width: 80,
         render: (text,record,index)=>{
           return <span>
             <a onClick={this.modify.bind(null,record,index)} style={{ marginLeft: 8 }}>编辑</a>

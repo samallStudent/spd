@@ -8,7 +8,7 @@ import { Table , Col, Button, Icon, Modal , message, Input , Row , Tooltip, Spin
 import { Link } from 'react-router-dom';
 import { connect } from 'dva';
 import * as convert from 'xml-js'
-
+import ReactJson from 'react-json-view'
 
 
 class AddRefund extends PureComponent{
@@ -17,6 +17,7 @@ class AddRefund extends PureComponent{
         this.state={
             visible: false,
             tabArr:'',
+            jsonArr:''
 
         }
     }
@@ -39,36 +40,34 @@ class AddRefund extends PureComponent{
 
 }
     showModal=e=>{
+        let { tabArr} = this.state;
+
         if(e){
             e.stopPropagation()
         }
         this.setState({
-            visible:true,
-            tabArr:this.props.record
+            visible:true
         })
-        console.log(this.state.tabArr)
+
     }
 
     render(){
-        let { visible, display,druglist,tabArr,tabKey,defaultKey} = this.state;
-
-
-
+        let { visible,tabArr} = this.state;
         return (
             <span onClick={this.showModal} >
-
+                {this.props.children}
                 <Modal
                     destroyOnClose
                     bordered
-                    title={'详情'}
-                    width={1200}
-                    style={{ top: 50 }}
+                    title={'参数详情'}
+                    width={770}
+                    style={{ top:'50%' ,marginTop:'-260px'}}
                     visible={visible}
-                    okText={'确定'}
-                    onOk={this.cancel}
+                    onCancel={this.cancel}
+                    footer={null}
                 >
-                    <div>
-
+                    <div style={{height:'400px',overflow:'auto'}}>
+                    <ReactJson src={this.props.record} />
                     </div>
 
                 </Modal>

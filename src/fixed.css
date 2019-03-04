@@ -502,6 +502,14 @@ position: absolute;top:20%;cursor: pointer;
 .detailCards .ant-empty-normal,.detailCards .ant-empty{
  margin: 0;
 }
+.requests{
+  overflow: hidden;
+  white-space: nowrap;
+  -o-text-overflow: ellipsis;
+  text-overflow: ellipsis;
+  width:100%;
+  display: block;
+}
 
 /* @media screen and (min-width:1440px){
   .ant-table-empty .ant-table-placeholder:after{
