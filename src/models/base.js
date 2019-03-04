@@ -20,7 +20,7 @@ export default {
     // 查询条件
     queryConditons: {},
     //搜索栏显示隐藏
-    display: 'none'    
+    display: 'none'      
   },
   effects:{
     //药房药库基数药 - 药品目录 - 导出
@@ -30,6 +30,7 @@ export default {
         callback && callback(data);
       }
     },
+ 
     //基数药 - 验收 - 新增验收 - 搜索
     *getCheckDetail({payload, callback}, {call}) {
       const data = yield call(baseDrug.getCheckDetail, payload);
@@ -114,6 +115,13 @@ export default {
         message.error(data.msg);
       }
     },
+
+    //药房药库基数药 - 药品目录 - 导出
+    *detailXG({payload, callback}, {call}) {
+      const data = yield call(replenishment.detailXG, payload);
+      if(callback) callback(data.data)
+    },
+
     // 采购部门
     *getModule({ payload,callback },{ call }){
       const data = yield call(replenishment.getModule, payload);

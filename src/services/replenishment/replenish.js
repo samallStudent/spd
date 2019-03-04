@@ -48,6 +48,16 @@ export function typelist(options) {
   })
 } 
 
+// 补货计划 - 详情
+export function detailXG(options) {
+  return request(`${_local}/a/depot/depotplan/detailXG`, {
+    method: 'POST',
+    type: 'formData',
+    body: options
+  })
+}
+
+
 // 目录外采购新建计划-- 采购部门
 export function getModule(options) {
   return request(`${_local}/a/sys/sysdept/getByModule`, {

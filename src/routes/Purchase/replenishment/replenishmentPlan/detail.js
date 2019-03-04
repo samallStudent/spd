@@ -8,13 +8,14 @@
   @file 补货计划 详情
 */
 import React, { PureComponent } from 'react';
-import { Table ,Row, Col,Tooltip, Button, message } from 'antd';
+import { Table ,Row, Col,Tooltip, Button, message, Select} from 'antd';
 import { connect } from 'dva';
 import { replenishmentPlan } from '../../../../api/replenishment/replenishmentPlan';
 import RemoteTable from '../../../../components/TableGrid';
 import FetchSelect from '../../../../components/FetchSelect/index';
 import {Link} from 'react-router-dom';
 
+const Option = Select.Option;
 
 const columns = [
   {
@@ -88,10 +89,14 @@ const columns = [
 ];
 class ReplenishmentDetail extends PureComponent{
   state = {
+    options:[],
     detailsData: {},
+    drugCommonName:undefined,
     value: undefined,
     submitLoading: false,
     dataSource: [],
+    show:'none',
+    show2:'block',
     query: {
       medDrugType: '1',
       purchaseType: 1,
@@ -112,7 +117,10 @@ class ReplenishmentDetail extends PureComponent{
         this.setState({ deptModules: data })
       }
     });
+
+
   };
+  
   componentDidMount = () => {
     this.getDetail();
     if(this.props.match.path === "/purchase/replenishment/replenishmentPlan/edit/:planCode") {
@@ -131,8 +139,8 @@ class ReplenishmentDetail extends PureComponent{
               };
               return item;
             });
-            console.log(2)
             let existDrugCodeList = data.list.map(item => item.drugCode);
+
             this.setState({ 
               info: data, 
               isEdit: true, 
@@ -154,6 +162,32 @@ class ReplenishmentDetail extends PureComponent{
       this.setState({spinLoading: false})
     }
   }
+
+  handleChange = (value) => {
+    let options;
+    if (!value || value.indexOf('@') >= 0) {
+      options = [];
+    } else {
+      options = ['gmail.com', '163.com', 'qq.com'].map((domain) => {
+        const email = `${value}@${domain}`;
+        return <Option key={email}>{email}</Option>;
+      });
+    }
+    this.setState({ options });
+    const { dispatch } = this.props;
+    let {query, dataSource} = this.state;
+    dispatch({
+      type: 'base/detailXG',
+      payload: {
+        ...query
+      },
+      callback: (data) =>{
+        
+      }
+    });
+    //this.setState({ options });
+  }
+
   showModalLogic = (addDrugType) => {
     let {query, dataSource} = this.state;
     if(!query.deptCode) {
@@ -361,32 +395,38 @@ class ReplenishmentDetail extends PureComponent{
         <Row style={{display: 'flex', alignItems: 'center'}}>
               <Col span={12} style={{ marginLeft: 4 }}>
                 <FetchSelect
-                  allowClear
                   value={this.state.value}
+                  name={this.state.name}
                   style={{ width: '100%' }}
                   placeholder='药品名称'
                   //url={replenishmentPlan.QUERY_DRUG_BY_LISTXG+'?'+'depotplanID='+this.props.match.params.planCode+'&'+'drugCommonName='+this.state.value}
                   url={replenishmentPlan.QUERY_DRUG_BY_LIST}
                   cb={(value, option) => {
-                    let {query} = this.state;
+                    console.log(value);
+                    let name = localStorage.getItem('drugCommonName');
+                    let {query,dataSource} = this.state;
                     query = {
                       ...query,
                       hisDrugCodeList: value ? [value] : [],
                     };
                     this.setState({
                       query,
-                      value
+                      value,
+                      drugCommonName:name,
+                      show:'block',
+                      show2:'none'
                     });
                   }}
                 />
               </Col>
             </Row>
-            <div className='detailCard' style={{display:'none'}}>
+            <div className='detailCard' style={{display:this.state.show}}>
               <RemoteTable
-                title={()=>'查询产品信息'}
+                title={()=>'产品信息'}
                 scroll={{x: '100%'}}
                 query={query}
-                url={replenishmentPlan.QUERYDRUGBYDEPT}
+                //url={'/medicinal-web/a/depot/depotplan/detailXG?planCode='+this.props.match.params.planCode}
+                url={'/medicinal-web/a/depot/depotplan/detailbydrugname?depotplanID='+this.props.match.params.planCode+'&drugCommonName='+this.state.drugCommonName}
                 isJson={true}
                 ref="table"
                 modalLoading={modalLoading}
@@ -396,16 +436,18 @@ class ReplenishmentDetail extends PureComponent{
                 pagination={false}
               />
             </div>
-        <div className='detailCard'>
+        {<div className='detailCard'>
           <Table
+            style={{display:this.state.show2}}
             title={()=>'产品信息'}
             scroll={{x: '100%'}}
+            query={query}
             columns={columns}
             bordered
             dataSource={detailsData ? detailsData.list : []}
             pagination={false}
           />
-        </div>
+        </div> }
       </div>
     )
   }
